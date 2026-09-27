@@ -37,7 +37,7 @@ npm run lint    # eslint
 npm run check:locales # locale 키·문구 검사
 ```
 
-UI catalog 생성기는 검토된 `i18n/manual-translations/{locale}.json`, 기존 번역, 같은 문구의 named message를 순서대로 재사용합니다. `--extract-only`는 한국어 원문 catalog만 갱신하고, `--reuse-named-only`는 외부 번역 서비스 호출 없이 재사용 가능한 번역만 정리합니다. 인자 없는 일반 생성은 그래도 남은 한국어 UI 문구를 Google Translate endpoint로 보내므로 외부 전송이 승인된 경우에만 사용합니다. 수동 검토 번역은 재생성 후에도 유지되도록 가장 높은 우선순위를 가집니다.
+화면 문구는 `messages/{locale}.json`의 의미 기반 `next-intl` 메시지로 서버와 클라이언트에서 직접 렌더링합니다. `npm run check:locales`는 10개 언어의 키와 ICU 변수 일치 여부를 확인합니다. mock 데이터의 상태·분류 값은 안정적인 ID로 보관하고 화면에서 번역하며, 사람 이름·작성된 메일·파일 이름은 예시 콘텐츠로 유지합니다.
 
 ## 사용자 설정 시스템
 

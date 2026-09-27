@@ -28,17 +28,15 @@ export type ThemePresetId =
 export interface ThemePreset {
   id: ThemePresetId;
   label: string;
-  description: string;
   settings: Partial<ThemeSettings>;
 }
 
 export interface ColorOption {
-  label: string;
+  id: string;
   value: string;
 }
 
 export interface FontOption {
-  label: string;
   value: FontChoice;
   stack: string;
 }

@@ -43,7 +43,7 @@ function applyThemeToDocument(theme: ThemeSettings) {
   root.style.setProperty("--color-accent", theme.accentColor);
   root.style.setProperty("--font-app", font?.stack ?? FONT_OPTIONS[0].stack);
   root.style.setProperty("--radius-app", RADIUS_MAP[theme.radius]);
-  root.style.setProperty("--density-scale", DENSITY_MAP[theme.density]);
+  root.style.setProperty("--density-preference-scale", DENSITY_MAP[theme.density]);
 
   const prefersDark =
     typeof window !== "undefined" &&

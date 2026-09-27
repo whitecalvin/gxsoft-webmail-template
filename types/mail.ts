@@ -10,14 +10,14 @@ export type FolderId =
 
 export interface Folder {
   id: FolderId;
-  label: string;
 }
 
 export type RsvpChoice = "accept" | "tentative" | "decline";
+export type AttendeeResponse = RsvpChoice | "noResponse";
 
 export interface MeetingInvite {
-  dateLabel: { month: string; day: string; weekday: string };
-  when: string;
+  startsAt: string;
+  endsAt: string;
   where: string;
   organizer: string;
   recurrence?: string;
@@ -25,7 +25,7 @@ export interface MeetingInvite {
   attendees: {
     name: string;
     team: string;
-    state: "참석" | "미정" | "불참" | "응답 없음";
+    state: AttendeeResponse;
     isHost?: boolean;
   }[];
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { Mail, Plus } from "lucide-react";
 import { AI_DETECTED_EVENT } from "@/lib/mock-calendar";
 import { toDateKey } from "@/lib/date-utils";
@@ -7,8 +8,6 @@ import type { CalendarEvent } from "@/types/calendar";
 
 // Mobile calendar layout: a day-strip picker plus a single day's agenda list,
 // in place of the desktop's grid views.
-const DOW_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
-
 function formatHour(h: number) {
   const hour = Math.floor(h);
   const min = h % 1 === 0 ? "00" : "30";
@@ -38,6 +37,12 @@ export function CalendarMobileView({
   onAddAiEvent: () => void;
   onAddEvent: () => void;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("calendarGrid");
+  const dayFormatter = new Intl.DateTimeFormat(locale, { month: "long", day: "numeric", weekday: "short", timeZone: "UTC" });
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" });
+  const formatDay = (date: Date) => dayFormatter.format(new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12)));
+  const formatWeekday = (date: Date) => weekdayFormatter.format(new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12)));
   const selectedISO = toDateKey(selectedDate);
   const todayISO = toDateKey(today);
   const dayEvents = events
@@ -48,23 +53,22 @@ export function CalendarMobileView({
   const weekCount = allEvents.filter((e) => weekISOs.has(e.date)).length;
 
   return (
-    <section aria-label="모바일 캘린더" className="flex h-full flex-col">
+    <section aria-label={t("mobileView")} className="flex h-full flex-col">
       <header className="flex shrink-0 items-center gap-3 border-b border-(--border-app) px-5 pb-3 pt-2">
         <div>
-          <p className="text-xl font-bold tracking-tight">
-            {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일{" "}
-            {DOW_LABELS[selectedDate.getDay() === 0 ? 6 : selectedDate.getDay() - 1]}
-          </p>
+          <h1 className="text-xl font-bold tracking-tight">
+            {formatDay(selectedDate)}
+          </h1>
           <p className="mt-0.5 text-[11.5px] text-(--text-muted)">
-            오늘 {todayCount}건 · 이번 주 {weekCount}건
+            {t("todaySummary", { todayCount, weekCount })}
           </p>
         </div>
         <button
           type="button"
           onClick={onAddEvent}
           className="ml-auto flex h-9 w-9 items-center justify-center rounded-[9px] text-white transition hover:brightness-110"
-          style={{ backgroundColor: "var(--color-primary)" }}
-          aria-label="일정 만들기"
+          style={{ backgroundColor: "var(--color-primary-solid)" }}
+          aria-label={t("createEvent")}
         >
           <Plus size={18} />
         </button>
@@ -77,36 +81,37 @@ export function CalendarMobileView({
           const isToday = iso === todayISO;
           const hasEvents = allEvents.some((e) => e.date === iso);
           const dow = day.getDay();
-          const dowIndex = dow === 0 ? 6 : dow - 1;
           return (
             <button
               key={iso}
               type="button"
               onClick={() => onSelectDate(day)}
-              className="flex flex-1 flex-col items-center gap-1 rounded-[11px] py-2"
+              aria-label={formatDay(day)}
+              aria-pressed={isSelected}
+              className="flex flex-1 flex-col items-center gap-1 rounded-(--radius-app) py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring)"
               style={{
-                backgroundColor: isSelected ? "#17181B" : "transparent",
+                backgroundColor: isSelected ? "var(--text-app)" : "transparent",
               }}
             >
               <span
                 className="text-[10px] font-semibold"
                 style={{
                   color: isSelected
-                    ? "rgba(255,255,255,.6)"
+                    ? "color-mix(in srgb, var(--surface-app) 70%, var(--text-app))"
                     : dow === 0 || dow === 6
                       ? "var(--status-danger)"
                       : "var(--text-muted)",
                 }}
               >
-                {DOW_LABELS[dowIndex]}
+                {formatWeekday(day)}
               </span>
               <span
                 className="text-sm font-bold"
                 style={{
                   color: isSelected
-                    ? "#fff"
+                    ? "var(--surface-app)"
                     : isToday
-                      ? "var(--color-primary)"
+                      ? "var(--color-primary-ink)"
                       : "var(--text-app)",
                 }}
               >
@@ -117,7 +122,7 @@ export function CalendarMobileView({
                 style={{
                   backgroundColor: hasEvents
                     ? isSelected
-                      ? "#fff"
+                      ? "var(--surface-app)"
                       : "var(--color-primary)"
                     : "transparent",
                 }}
@@ -136,32 +141,31 @@ export function CalendarMobileView({
                 style={{
                   backgroundColor:
                     "color-mix(in srgb, var(--color-primary) 15%, transparent)",
-                  color: "var(--color-primary)",
+                  color: "var(--color-primary-ink)",
                 }}
               >
                 <Mail size={11} />
               </span>
-              <span className="text-xs font-bold">메일에서 감지된 일정</span>
+              <span className="text-xs font-bold">{t("detectedEvent")}</span>
             </div>
             <p className="mt-2 text-xs leading-relaxed text-(--text-muted)">
-              &apos;{AI_DETECTED_EVENT.title}&apos; — {AI_DETECTED_EVENT.personName}님
-              메일에서 일정을 찾았습니다.
+              {t("detectedDescription", { title: AI_DETECTED_EVENT.title, personName: AI_DETECTED_EVENT.personName })}
             </p>
             <div className="mt-3 flex gap-2">
               <button
                 type="button"
                 onClick={onAddAiEvent}
-                className="h-8 flex-1 rounded-lg text-xs font-semibold text-white transition hover:brightness-110"
-                style={{ backgroundColor: "var(--color-primary)" }}
+                className="min-h-11 flex-1 rounded-lg text-xs font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring)"
+                style={{ backgroundColor: "var(--color-primary-solid)" }}
               >
-                캘린더에 추가
+                {t("addToCalendar")}
               </button>
               <button
                 type="button"
                 onClick={onDismissAiBanner}
-                className="h-8 rounded-lg border border-(--border-app) px-3 text-xs text-(--text-muted)"
+                className="min-h-11 rounded-lg border border-(--border-app) px-3 text-xs text-(--text-muted) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring)"
               >
-                무시
+                {t("dismiss")}
               </button>
             </div>
           </div>
@@ -169,7 +173,7 @@ export function CalendarMobileView({
 
         {dayEvents.length === 0 ? (
           <p className="mt-10 text-center text-sm text-(--text-muted)">
-            이 날짜에는 일정이 없습니다.
+            {t("noEvents")}
           </p>
         ) : (
           <div className="flex flex-col gap-2.5">

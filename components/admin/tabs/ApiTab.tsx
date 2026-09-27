@@ -3,6 +3,7 @@
 // Admin Console > API & Webhooks tab: API key management, webhook delivery
 // status, usage graph, and OAuth-connected third-party apps.
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { API_KEYS, API_USAGE, CONNECTED_APPS, WEBHOOKS } from "@/lib/mock-admin";
 import { AdminCard, Pill, Sparkline } from "../primitives";
 import { useToast } from "@/context/toast-context";
@@ -11,47 +12,54 @@ import type { Tone } from "@/types/admin";
 const API_BARS = Array.from({ length: 30 }, (_, i) => 30 + Math.round(Math.abs(Math.sin(i / 3)) * 60));
 
 interface ApiKeyRow {
-  name: string;
+  nameId: string;
   owner: string;
   key: string;
   scopes: string[];
-  used: string;
-  state: string;
+  usedId: string;
+  usedCount: number;
+  stateId: string;
   tone: Tone;
   stale?: boolean;
 }
 
 export function ApiTab() {
+  const t = useTranslations("adminApi");
+  const locale = useLocale();
   const toast = useToast();
   const [keys, setKeys] = useState<ApiKeyRow[]>(API_KEYS);
   const [apps, setApps] = useState(CONNECTED_APPS);
+  const numberFormatter = new Intl.NumberFormat(locale);
+  const compactFormatter = new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 });
+  const percentFormatter = new Intl.NumberFormat(locale, { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const usageValue = (id: string, value: number) => id === "calls" ? compactFormatter.format(value) : id === "errorRate" ? percentFormatter.format(value) : t("milliseconds", { count: numberFormatter.format(value) });
 
   const issueKey = () => {
     const suffix = Math.random().toString(16).slice(2, 6);
     setKeys((prev) => [
-      { name: "새 API 키", owner: "나", key: `mw_live_${suffix}…${suffix}`, scopes: ["mail.read"], used: "-", state: "활성", tone: "success" },
+      { nameId: "newKey", owner: "self", key: `mw_live_${suffix}…${suffix}`, scopes: ["mail.read"], usedId: "never", usedCount: 0, stateId: "active", tone: "success" },
       ...prev,
     ]);
-    toast.success("API 키를 발급했습니다", { sub: `mw_live_${suffix}…${suffix}` });
+    toast.success(t("keyIssued"), { sub: `mw_live_${suffix}…${suffix}` });
   };
 
   const rotateStaleKey = () => {
     setKeys((prev) =>
-      prev.map((k) => (k.stale ? { ...k, used: "방금 전", state: "활성", tone: "success", stale: false } : k))
+      prev.map((k) => (k.stale ? { ...k, usedId: "justNow", usedCount: 0, stateId: "active", tone: "success", stale: false } : k))
     );
-    toast.success("키를 회전했습니다", { sub: "레거시 ERP 연동" });
+    toast.success(t("keyRotated"), { sub: t("keyNames.legacyErp") });
   };
 
   const disconnectApp = (name: string) => {
     setApps((prev) => prev.filter((a) => a.name !== name));
-    toast.success("연동을 해제했습니다", { sub: name });
+    toast.success(t("appDisconnected"), { sub: name });
   };
 
   return (
     <div className="grid flex-1 grid-cols-[1.3fr_1fr] gap-4 overflow-y-auto p-7">
       <div className="flex flex-col gap-4">
         <AdminCard
-          title="API 키"
+          title={t("keysTitle")}
           action={
             <button
               type="button"
@@ -59,23 +67,23 @@ export function ApiTab() {
               className="text-[11px] font-semibold"
               style={{ color: "var(--color-primary)" }}
             >
-              키 발급
+              {t("issueKey")}
             </button>
           }
         >
           <div className="flex flex-col gap-2">
             <div className="grid grid-cols-[1fr_1fr_1fr_70px_54px] gap-2 text-[10px] font-bold uppercase text-(--text-muted)">
-              <span>이름</span>
-              <span>키</span>
-              <span>권한</span>
-              <span>마지막 사용</span>
-              <span>상태</span>
+              <span>{t("columns.name")}</span>
+              <span>{t("columns.key")}</span>
+              <span>{t("columns.scopes")}</span>
+              <span>{t("columns.lastUsed")}</span>
+              <span>{t("columns.status")}</span>
             </div>
             {keys.map((k) => (
-              <div key={k.name} className="grid grid-cols-[1fr_1fr_1fr_70px_54px] items-center gap-2 border-t border-(--border-app) pt-2 text-[11px]">
+              <div key={k.key} className="grid grid-cols-[1fr_1fr_1fr_70px_54px] items-center gap-2 border-t border-(--border-app) pt-2 text-[11px]">
                 <div className="min-w-0">
-                  <p className="truncate font-semibold">{k.name}</p>
-                  <p className="truncate text-[10px] text-(--text-muted)">{k.owner}</p>
+                  <p className="truncate font-semibold">{t(`keyNames.${k.nameId}`)}</p>
+                  <p className="truncate text-[10px] text-(--text-muted)">{k.owner === "self" ? t("self") : k.owner}</p>
                 </div>
                 <span className="truncate font-mono text-[10.5px] text-(--text-muted)">{k.key}</span>
                 <div className="flex flex-wrap gap-1">
@@ -85,23 +93,23 @@ export function ApiTab() {
                     </span>
                   ))}
                 </div>
-                <span className="text-(--text-muted)">{k.used}</span>
-                <Pill label={k.state} tone={k.tone} />
+                <span className="text-(--text-muted)">{t(`lastUsed.${k.usedId}`, { count: k.usedCount })}</span>
+                <Pill label={t(`keyStates.${k.stateId}`)} tone={k.tone} />
               </div>
             ))}
           </div>
 
           {keys.some((k) => k.stale) && (
             <div className="mt-3 rounded-lg border border-[#F0DAD6] bg-[#FFFBFA] px-3 py-2 text-[11px] text-[#8E3B33]">
-              &apos;레거시 ERP 연동&apos; 키가 90일 이상 회전되지 않았습니다.{" "}
+              {t("staleKeyWarning", { name: t("keyNames.legacyErp"), days: 90 })}{" "}
               <button type="button" onClick={rotateStaleKey} className="font-bold underline">
-                지금 회전
+                {t("rotateNow")}
               </button>
             </div>
           )}
         </AdminCard>
 
-        <AdminCard title="웹훅">
+        <AdminCard title={t("webhooksTitle")}>
           <div className="flex flex-col gap-2">
             {WEBHOOKS.map((w) => (
               <div key={w.url} className="flex items-center gap-2 border-t border-(--border-app) pt-2 text-xs first:border-t-0 first:pt-0">
@@ -109,8 +117,8 @@ export function ApiTab() {
                   <p className="truncate font-mono text-[11px]">{w.url}</p>
                   <p className="text-[10.5px] text-(--text-muted)">{w.event}</p>
                 </div>
-                <span className="shrink-0 text-[11px] text-(--text-muted)">{w.rate}</span>
-                <Pill label={w.state} tone={w.tone} />
+                <span className="shrink-0 text-[11px] text-(--text-muted)">{percentFormatter.format(w.rate)}</span>
+                <Pill label={t(`webhookStates.${w.stateId}`)} tone={w.tone} />
               </div>
             ))}
           </div>
@@ -118,22 +126,22 @@ export function ApiTab() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <AdminCard title="사용량 (30일)">
+        <AdminCard title={t("usageTitle")}>
           <div className="mb-3 grid grid-cols-3 gap-2 text-center">
             {API_USAGE.map((u) => (
-              <div key={u.label}>
-                <p className="text-sm font-bold">{u.value}</p>
-                <p className="text-[10px] text-(--text-muted)">{u.label}</p>
+              <div key={u.id}>
+                <p className="text-sm font-bold">{usageValue(u.id, u.value)}</p>
+                <p className="text-[10px] text-(--text-muted)">{t(`usage.${u.id}`)}</p>
               </div>
             ))}
           </div>
           <Sparkline bars={API_BARS} height={50} />
-          <p className="mt-2 text-[10.5px] text-(--text-muted)">한도 500만 호출 / 월 · 초과 시 429 응답</p>
+          <p className="mt-2 text-[10.5px] text-(--text-muted)">{t("rateLimit", { count: compactFormatter.format(5000000) })}</p>
         </AdminCard>
 
-        <AdminCard title="승인된 앱">
+        <AdminCard title={t("approvedAppsTitle")}>
           {apps.length === 0 ? (
-            <p className="text-xs text-(--text-muted)">연동된 앱이 없습니다.</p>
+            <p className="text-xs text-(--text-muted)">{t("noApps")}</p>
           ) : (
             <div className="grid grid-cols-2 gap-2.5">
               {apps.map((a) => (
@@ -146,13 +154,13 @@ export function ApiTab() {
                   </span>
                   <p className="mt-1.5 text-xs font-semibold">{a.name}</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-[10.5px] text-(--text-muted)">{a.users}명</p>
+                    <p className="text-[10.5px] text-(--text-muted)">{t("appUsers", { count: numberFormatter.format(a.users) })}</p>
                     <button
                       type="button"
                       onClick={() => disconnectApp(a.name)}
                       className="text-[10.5px] font-semibold text-[#C0433B]"
                     >
-                      해제
+                      {t("disconnect")}
                     </button>
                   </div>
                 </div>

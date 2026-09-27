@@ -7,7 +7,6 @@ import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const messagesDir = join(__dirname, "..", "messages");
-const uiMessagesDir = join(__dirname, "..", "i18n", "ui-messages");
 
 function flattenKeys(obj, prefix = "") {
   return Object.entries(obj).flatMap(([key, value]) => {
@@ -78,42 +77,6 @@ for (const file of files) {
     ([key, value]) => values.get(key) === value
   ).length;
   console.log(`[${locale}] ✓ ${sourceKeys.size} keys · ${identicalCount} values identical to English`);
-}
-
-const uiSource = JSON.parse(readFileSync(join(uiMessagesDir, "ko.json"), "utf8"));
-const uiSourceKeys = Object.keys(uiSource);
-for (const file of files) {
-  const locale = file.replace(/\.json$/, "");
-  const path = join(uiMessagesDir, file);
-  let data;
-  try {
-    data = JSON.parse(readFileSync(path, "utf8"));
-  } catch {
-    hasError = true;
-    console.error(`\n[${locale}] missing or invalid UI message catalog: ${path}`);
-    continue;
-  }
-
-  const missing = uiSourceKeys.filter((key) => !(key in data));
-  const extra = Object.keys(data).filter((key) => !(key in uiSource));
-  const koreanValues = locale === "ko"
-    ? []
-    : Object.entries(data).filter(([, value]) => /[가-힣]/.test(String(value)));
-  const emptyValues = Object.entries(data).filter(([, value]) => !String(value).trim());
-  const placeholderMismatches = locale === "ko"
-    ? []
-    : Object.entries(data).filter(([key, value]) => key in uiSource && placeholders(key).join(",") !== placeholders(String(value)).join(","));
-  if (missing.length || extra.length || koreanValues.length || emptyValues.length || placeholderMismatches.length) {
-    hasError = true;
-    console.error(`\n[${locale}] UI catalog mismatch:`);
-    if (missing.length) console.error(`  missing keys: ${missing.length}`);
-    if (extra.length) console.error(`  extra keys: ${extra.length}`);
-    if (koreanValues.length) console.error(`  Korean values: ${koreanValues.length}`);
-    if (emptyValues.length) console.error(`  empty values: ${emptyValues.length}`);
-    if (placeholderMismatches.length) console.error(`  ICU placeholder mismatches: ${placeholderMismatches.length}`);
-  } else {
-    console.log(`[${locale}] ✓ ${uiSourceKeys.length} UI strings`);
-  }
 }
 
 if (hasError) {

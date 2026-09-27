@@ -50,22 +50,9 @@ Requests without a locale prefix are handled by `next-intl` middleware and resol
 
 ### Internationalization architecture
 
-The current localization layer has two complementary catalogs:
+`messages/{locale}.json` is the semantic `next-intl` catalog for interface labels, actions, statuses, and feedback across the workspace, settings, and administrator screens. Components render those messages directly on the server and client; there is no post-render text replacement. `npm run check:locales` checks key and ICU-placeholder parity across all ten catalogs.
 
-1. `messages/{locale}.json` contains stable, named `next-intl` messages for metadata, shared navigation, the mail shell, common actions, language settings, and explicitly migrated screens.
-2. `i18n/ui-messages/{locale}.json` maps bundled Korean prototype strings to localized UI and mock-data text while the remaining detailed screens are migrated to named messages.
-
-Static interface copy should use named messages. Data-shaped mock content should be translated at render time with `useUiText()`. `UiTextLocalizer` remains as a compatibility bridge for prototype content that has not yet been converted.
-
-Current explicit localization coverage includes:
-
-- Shared navigation and application shell
-- Mail shell and common actions
-- Language selection and locale-aware metadata
-- Administrator navigation
-- Administrator system mail, print, and error-page screen
-
-Detailed feature screens and some mock datasets still rely on the UI catalog compatibility layer. Their translations should be reviewed by native speakers before production use.
+Mock people, organization names, authored email subjects and bodies, calendar event descriptions, and file names remain sample content rather than translated interface labels. Review locale copy and sample content with native speakers before production use.
 
 ## Main routes
 
@@ -154,7 +141,7 @@ npm run build
 npm run start
 ```
 
-The build pre-renders every application screen for all ten supported locales.
+The build includes every application screen for all ten supported locales; request-dependent pages are server-rendered.
 
 ## Available scripts
 
@@ -164,8 +151,7 @@ The build pre-renders every application screen for all ten supported locales.
 | `npm run build` | Create an optimized production build |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint across the project |
-| `npm run check:locales` | Validate locale key parity, ICU placeholders, UI catalogs, and untranslated Korean values |
-| `npm run generate:ui-translations` | Regenerate UI catalogs, reusing reviewed manual/named translations before translating remaining strings |
+| `npm run check:locales` | Validate semantic locale key and ICU-placeholder parity |
 
 Run the following checks before committing UI or translation changes:
 
@@ -188,7 +174,6 @@ components/
   compose/                  Compose modal and rich/plain editor
   contacts/                 Contacts and organization views
   customizer/               Live theme editor
-  i18n/                     Render-time translation helpers and compatibility bridge
   layout/                   Application shell, rails, top bar, and sidebars
   mail/                     Mail list, reading pane, and invitation cards
   notifications/            Notification popover
@@ -198,10 +183,10 @@ components/
   tour/                     First-run product tour
   ui/                       Shared Checkbox, Dropdown, and Switch controls
 context/                    Mail, settings, sidebar, theme, and toast state providers
-i18n/                       Locale routing, request configuration, and UI catalogs
+i18n/                       Locale routing and request configuration
 lib/                        Mock feature data and utilities
 messages/                   Named next-intl messages for each locale
-scripts/                    Translation generation and validation scripts
+scripts/                    Locale validation script
 types/                      Shared TypeScript feature types
 proxy.ts                    Locale middleware configuration
 ```
@@ -211,13 +196,11 @@ proxy.ts                    Locale middleware configuration
 1. Add every stable interface message to the same namespace in all `messages/*.json` files.
 2. Keep ICU variables and placeholders identical across locales.
 3. Use `useTranslations("namespace")` for static interface copy.
-4. Use `useUiText()` for values originating from bundled mock-data objects.
-5. Keep `i18n/routing.ts`, named catalogs, and UI catalogs aligned when adding a locale.
+4. Represent translatable mock-data labels and statuses with stable IDs and translate them when rendering; preserve authored names, messages, and file names as content.
+5. Keep `i18n/routing.ts` and all semantic catalogs aligned when adding a locale.
 6. Run `npm run check:locales` before linting and building.
 
-The generator supports two offline-safe maintenance modes. `--extract-only` refreshes only the Korean source catalog, while `--reuse-named-only` rebuilds target catalogs from existing entries, reviewed files in `i18n/manual-translations/`, and matching named messages without calling a translation service. A normal generation run sends only the still-missing Korean UI strings to the configured Google Translate endpoint; use it only when that external transmission is approved. Manual translations take precedence and are intended for reviewed corrections that must survive regeneration.
-
-Do not place runtime user-generated text into the static UI catalog. The compatibility localizer only translates text that exactly matches a bundled catalog entry.
+Do not place runtime user-generated text into the static message catalog.
 
 ## Design-system conventions
 

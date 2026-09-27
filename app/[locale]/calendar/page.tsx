@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
 import { CalendarSidebar } from "@/components/calendar/CalendarSidebar";
 import { CalendarTimeGrid } from "@/components/calendar/CalendarTimeGrid";
@@ -40,6 +41,12 @@ const formatHour = (h: number) =>
   `${String(Math.floor(h)).padStart(2, "0")}:${h % 1 === 0 ? "00" : "30"}`;
 
 export default function CalendarPage() {
+  const locale = useLocale();
+  const t = useTranslations("calendarPage");
+  const gridT = useTranslations("calendarGrid");
+  const formatCalendarDate = (dateKey: string) =>
+    new Intl.DateTimeFormat(locale, { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })
+      .format(new Date(`${dateKey}T12:00:00Z`));
   const toast = useToast();
   const today = useMemo(() => new Date(), []);
   const [anchor, setAnchor] = useState(today);
@@ -107,7 +114,7 @@ export default function CalendarPage() {
     [mobileAllEvents, visibleCategories]
   );
 
-  const dayLabel = `${anchor.getFullYear()}년 ${anchor.getMonth() + 1}월`;
+  const dayLabel = new Intl.DateTimeFormat(locale, { year: "numeric", month: "long", timeZone: "UTC" }).format(new Date(Date.UTC(anchor.getFullYear(), anchor.getMonth(), 1)));
 
   const toggleCategory = (key: CalendarCategory) => {
     setVisibleCategories((prev) => {
@@ -167,13 +174,13 @@ export default function CalendarPage() {
         startHour: newStart,
         endHour,
         title,
-        meta: meta?.name ?? "",
+        meta: t(`categories.${newCategory}`),
         color: meta?.color ?? "var(--color-primary)",
         category: newCategory,
       },
     ]);
     setCreatingEvent(false);
-    toast.success("일정을 만들었습니다", { sub: `${title} · ${newDate} ${formatHour(newStart)}` });
+    toast.success(t("eventCreated"), { sub: `${title} · ${formatCalendarDate(newDate)} ${formatHour(newStart)}` });
   };
 
   return (
@@ -186,7 +193,7 @@ export default function CalendarPage() {
               type="button"
               onClick={() => shiftAnchor(-1)}
               className="flex h-7 w-7 items-center justify-center rounded-[7px] transition hover:bg-black/5 active:translate-y-px dark:hover:bg-white/10"
-              aria-label="이전"
+              aria-label={t("previous")}
             >
               <ChevronLeft size={16} />
             </button>
@@ -194,7 +201,7 @@ export default function CalendarPage() {
               type="button"
               onClick={() => shiftAnchor(1)}
               className="flex h-7 w-7 items-center justify-center rounded-[7px] transition hover:bg-black/5 active:translate-y-px dark:hover:bg-white/10"
-              aria-label="다음"
+              aria-label={t("next")}
             >
               <ChevronRight size={16} />
             </button>
@@ -204,21 +211,21 @@ export default function CalendarPage() {
             onClick={() => setAnchor(today)}
             className="h-7.5 rounded-lg border border-(--border-app) px-3 text-xs font-semibold transition hover:bg-black/5 active:translate-y-px dark:hover:bg-white/10"
           >
-            오늘
+            {t("today")}
           </button>
           <div className="ml-auto flex items-center gap-1 rounded-[9px] bg-black/4 p-0.75 dark:bg-white/6">
-            {([{ key: "day", label: "일" }, { key: "week", label: "주" }, { key: "month", label: "월" }] as const).map((option) => (
+            {(["day", "week", "month"] as const).map((option) => (
               <button
-                key={option.key}
+                key={option}
                 type="button"
-                onClick={() => setView(option.key)}
+                onClick={() => setView(option)}
                 className={`h-6 rounded-[7px] px-3 text-[11.5px] font-semibold transition active:translate-y-px ${
-                  view === option.key
+                  view === option
                     ? "bg-background shadow-[0_1px_2px_rgba(0,0,0,.08)]"
                     : "text-(--text-muted) hover:text-foreground"
                 }`}
               >
-                {option.label}
+                {t(`views.${option}`)}
               </button>
             ))}
           </div>
@@ -226,15 +233,15 @@ export default function CalendarPage() {
             type="button"
             onClick={() => openCreateEvent()}
             className="flex h-8 shrink-0 items-center gap-1.5 rounded-[9px] px-3.5 text-xs font-semibold text-white transition hover:brightness-110 active:translate-y-px"
-            style={{ backgroundColor: "var(--color-primary)" }}
+            style={{ backgroundColor: "var(--color-primary-solid)" }}
           >
             <Plus size={14} />
-            <span>일정 만들기</span>
+            <span>{gridT("createEvent")}</span>
           </button>
         </>
       }
       showGlobalSearch={false}
-      showMobilePageContext={false}
+      showMobilePageContext="tablet"
       className="flex flex-col lg:flex-row"
     >
       <div className="min-h-0 flex-1 bg-background lg:hidden">
@@ -251,7 +258,7 @@ export default function CalendarPage() {
           onAddEvent={() => openCreateEvent(mobileSelectedDate)}
         />
       </div>
-      <section aria-label="캘린더 일정" className="hidden min-w-0 flex-1 flex-col border-r border-(--border-app) bg-background lg:flex">
+      <section aria-label={t("schedule")} className="hidden min-w-0 flex-1 flex-col border-r border-(--border-app) bg-background lg:flex">
         {view === "month" ? (
           <CalendarMonthGrid
             anchor={anchor}
@@ -284,7 +291,7 @@ export default function CalendarPage() {
 
       {selectedEvent && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4"
+          className="fixed inset-0 z-(--layer-modal) flex items-center justify-center bg-black/30 p-4"
           onClick={() => setSelectedEvent(null)}
         >
           <section
@@ -298,7 +305,7 @@ export default function CalendarPage() {
               className="inline-block rounded-full px-2.5 py-1 text-xs font-bold text-white"
               style={{ backgroundColor: selectedEvent.color }}
             >
-              {selectedEvent.date}
+              {formatCalendarDate(selectedEvent.date)}
             </span>
             <h3 id="event-details-heading" className="mt-3 text-lg font-bold">{selectedEvent.title}</h3>
             <p className="mt-1 text-sm text-(--text-muted)">
@@ -313,93 +320,96 @@ export default function CalendarPage() {
               onClick={() => setSelectedEvent(null)}
               className="mt-4 h-9 w-full rounded-lg border border-(--border-app) text-sm font-semibold hover:bg-black/5 dark:hover:bg-white/10"
             >
-              닫기
+              {t("close")}
             </button>
           </section>
         </div>
       )}
 
       {creatingEvent && (
-        <Modal onClose={() => setCreatingEvent(false)} maxWidth={380}>
+        <Modal onClose={() => setCreatingEvent(false)} maxWidth={380} labelledBy="create-event-heading" overflowVisible>
           <div className="flex items-center gap-2.5 border-b border-(--border-app) px-4 py-3.5">
-            <p className="flex-1 text-sm font-bold">일정 만들기</p>
+            <h2 id="create-event-heading" className="flex-1 text-sm font-bold">{gridT("createEvent")}</h2>
             <button
               type="button"
               onClick={() => setCreatingEvent(false)}
-              className="flex h-6.5 w-6.5 items-center justify-center rounded-lg text-[13px] text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10"
-              aria-label="닫기"
+              className="flex size-11 items-center justify-center rounded-lg text-(--text-muted) hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) md:[@media(pointer:fine)]:size-6.5 dark:hover:bg-white/10"
+              aria-label={t("close")}
             >
-              ✕
+              <X size={16} aria-hidden="true" />
             </button>
           </div>
           <div className="flex flex-col gap-3 px-4 py-3.5">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[11px] font-semibold text-(--text-muted)">제목</span>
+              <span className="text-[11px] font-semibold text-(--text-muted)">{t("title")}</span>
               <input
                 type="text"
-                autoFocus
+                data-modal-autofocus
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="예: 파트너사 킥오프 미팅"
-                className="h-9 rounded-[9px] border border-(--border-app) px-3 text-[13px] outline-none focus:border-(--color-primary)"
+                placeholder={t("titlePlaceholder")}
+                className="min-h-11 rounded-[9px] border border-(--border-app) px-3 text-base outline-none focus:border-(--color-primary-ink) focus:ring-2 focus:ring-(--focus-ring) md:[@media(pointer:fine)]:h-9 md:[@media(pointer:fine)]:min-h-0 md:text-[13px]"
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[11px] font-semibold text-(--text-muted)">날짜</span>
+              <span className="text-[11px] font-semibold text-(--text-muted)">{t("date")}</span>
               <input
                 type="date"
                 value={newDate}
                 onChange={(e) => setNewDate(e.target.value)}
-                className="h-9 rounded-[9px] border border-(--border-app) px-3 text-[13px] outline-none focus:border-(--color-primary)"
+                className="min-h-11 rounded-[9px] border border-(--border-app) px-3 text-base outline-none focus:border-(--color-primary-ink) focus:ring-2 focus:ring-(--focus-ring) md:[@media(pointer:fine)]:h-9 md:[@media(pointer:fine)]:min-h-0 md:text-[13px]"
               />
             </label>
             <div className="grid grid-cols-2 gap-2.5">
-              <label className="flex flex-col gap-1.5">
-                <span className="text-[11px] font-semibold text-(--text-muted)">시작</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-(--text-muted)">{t("start")}</span>
                 <Dropdown variant="form"
+                  label={t("start")}
                   value={String(newStart)}
                   options={FORM_HOURS.map((h) => ({ value: String(h), label: formatHour(h) }))}
                   onChange={(v) => setNewStart(Number(v))}
                 />
-              </label>
-              <label className="flex flex-col gap-1.5">
-                <span className="text-[11px] font-semibold text-(--text-muted)">종료</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[11px] font-semibold text-(--text-muted)">{t("end")}</span>
                 <Dropdown variant="form"
+                  label={t("end")}
                   value={String(newEnd)}
                   options={FORM_HOURS.map((h) => ({ value: String(h), label: formatHour(h) }))}
                   onChange={(v) => setNewEnd(Number(v))}
                 />
-              </label>
+              </div>
             </div>
-            <label className="flex flex-col gap-1.5">
-              <span className="text-[11px] font-semibold text-(--text-muted)">캘린더</span>
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] font-semibold text-(--text-muted)">{t("calendar")}</span>
               <Dropdown
                 variant="form"
+                label={t("calendar")}
                 value={newCategory}
                 options={CREATABLE_CATEGORIES.map((key) => ({
                   value: key,
-                  label: CALENDAR_LIST.find((c) => c.key === key)?.name ?? key,
+                  label: t(`categories.${key}`),
                 }))}
                 onChange={(v) => setNewCategory(v as CalendarCategory)}
               />
-            </label>
+            </div>
           </div>
-          <div className="flex items-center justify-end gap-2 border-t border-(--border-app) bg-(--surface-muted) px-4 py-3">
+          <div className="flex items-center justify-end gap-2 rounded-b-(--radius-app) border-t border-(--border-app) bg-(--surface-muted) px-4 py-3">
             <button
               type="button"
               onClick={() => setCreatingEvent(false)}
-              className="h-8.5 rounded-[9px] border border-(--border-app) px-3.5 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/10"
+              className="min-h-11 rounded-[9px] border border-(--border-app) px-3.5 text-xs font-semibold hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) md:[@media(pointer:fine)]:min-h-8.5 dark:hover:bg-white/10"
             >
-              취소
+              {t("cancel")}
             </button>
             <button
               type="button"
               onClick={submitCreateEvent}
               disabled={!newTitle.trim() || !newDate}
-              className="h-8.5 rounded-[9px] px-3.5 text-xs font-semibold text-white transition disabled:opacity-40"
-              style={{ backgroundColor: "var(--color-primary)" }}
+              className="min-h-11 rounded-[9px] px-3.5 text-xs font-semibold text-white transition disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) md:[@media(pointer:fine)]:min-h-8.5"
+              style={{ backgroundColor: "var(--color-primary-solid)" }}
             >
-              만들기
+              {t("create")}
             </button>
           </div>
         </Modal>

@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, Check, Info, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { BannerTone } from "@/types/overlay";
 
 // Card/section-scoped callout (warnings, security notices, tips) with an
@@ -34,6 +35,7 @@ export function InlineBanner({
   onAction?: () => void;
   onDismiss?: () => void;
 }) {
+  const t = useTranslations("common");
   const s = TONE_STYLE[tone];
   const Icon = ICON[tone];
   return (
@@ -62,7 +64,7 @@ export function InlineBanner({
           type="button"
           onClick={onDismiss}
           className="shrink-0 text-[#9A9EA5] hover:text-foreground"
-          aria-label="닫기"
+          aria-label={t("close")}
         >
           <X size={13} />
         </button>

@@ -15,7 +15,7 @@ export function SessionExpiryPopover({
 }) {
   const t = useTranslations("appShell");
   return (
-    <div className="fixed bottom-4 right-4 z-75 w-70 rounded-xl border border-(--border-app) bg-background p-3.5 text-foreground shadow-[0_10px_24px_-16px_rgba(20,22,30,.3)]">
+    <div className="fixed bottom-4 right-4 z-(--layer-popover) w-70 rounded-xl border border-(--border-app) bg-background p-3.5 text-foreground shadow-[0_10px_24px_-16px_rgba(20,22,30,.3)]">
       <p className="text-[12.5px] font-bold">{t("sessionExpiry", { minutes: minutesLeft })}</p>
       <p className="mt-1 text-[12px] leading-[1.55] text-(--text-muted)">
         {t("sessionExpiryBody")}
@@ -32,7 +32,7 @@ export function SessionExpiryPopover({
           type="button"
           onClick={onExtend}
           className="h-8 flex-1 rounded-[9px] text-xs font-semibold text-white"
-          style={{ backgroundColor: "var(--color-primary)" }}
+          style={{ backgroundColor: "var(--color-primary-solid)" }}
         >
           {t("sessionExtend")}
         </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { CALENDAR_HOURS } from "@/lib/mock-calendar";
 import { toDateKey } from "@/lib/date-utils";
 import type { CalendarEvent } from "@/types/calendar";
@@ -9,8 +10,6 @@ import type { CalendarEvent } from "@/types/calendar";
 // the caller just passes a `days` array of length 1 or 7.
 const ROW_HEIGHT = 62;
 const GRID_START_HOUR = 9;
-
-const DOW_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
 
 export function CalendarTimeGrid({
   days,
@@ -23,11 +22,14 @@ export function CalendarTimeGrid({
   today: Date;
   onSelectEvent?: (event: CalendarEvent) => void;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("calendarGrid");
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" });
   const todayISO = toDateKey(today);
   const gutterWidth = 60;
 
   return (
-    <section aria-label="시간대별 일정" className="flex min-h-0 flex-1 flex-col">
+    <section aria-label={t("timeView")} className="flex min-h-0 flex-1 flex-col">
       <div
         className="grid shrink-0 border-b border-(--border-app)"
         style={{
@@ -39,20 +41,19 @@ export function CalendarTimeGrid({
           const dow = day.getDay();
           const isWeekend = dow === 0 || dow === 6;
           const isToday = toDateKey(day) === todayISO;
-          const dowIndex = dow === 0 ? 6 : dow - 1;
           return (
             <div key={day.toISOString()} className="flex flex-col items-center gap-1 py-2.5">
               <span
                 className="text-[11px] font-semibold"
                 style={{ color: isWeekend ? "var(--status-danger)" : "var(--text-muted)" }}
               >
-                {DOW_LABELS[dowIndex]}
+                {weekdayFormatter.format(new Date(Date.UTC(day.getFullYear(), day.getMonth(), day.getDate(), 12)))}
               </span>
               <span
                 className="flex h-7 w-7 items-center justify-center rounded-full text-[17px] font-bold tracking-tight"
                 style={{
                   color: isToday ? "#fff" : isWeekend ? "var(--status-danger)" : "var(--text-app)",
-                  backgroundColor: isToday ? "var(--color-primary)" : "transparent",
+                  backgroundColor: isToday ? "var(--color-primary-solid)" : "transparent",
                 }}
               >
                 {day.getDate()}
@@ -122,7 +123,7 @@ export function CalendarTimeGrid({
                         {event.title}
                       </span>
                       {!isCompact ? (
-                        <span className="truncate text-[10px] leading-tight opacity-75">
+                        <span className="truncate text-[10px] font-medium leading-tight">
                           {event.meta}
                         </span>
                       ) : null}

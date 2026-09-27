@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "開啟選單",
     "searchPlaceholder": "搜尋郵件",
+    "closeSearch": "關閉搜尋",
     "clearSearch": "清除搜尋",
     "tour": "開始導覽",
     "notifications": "通知"
@@ -41,6 +42,8 @@
     "trash": "垃圾桶"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "跳至內容",
     "navigation": "工作區導覽",
     "mailboxGroup": "信箱",
     "collaborationGroup": "協作",
@@ -75,6 +78,8 @@
     "sessionExtend": "保持登入"
   },
   "mailList": {
+    "noSubject": "（無主旨）",
+    "yesterday": "昨天",
     "searchResultsFor": "「{query}」的搜尋結果",
     "countUnit": "{count}封",
     "noSearchResults": "找不到結果。",
@@ -119,11 +124,13 @@
     "delete": "刪除",
     "edit": "編輯",
     "close": "關閉",
+    "undo": "撤銷",
     "back": "返回",
     "deleteForever": "永久刪除",
     "sendAnyway": "仍要寄送"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "回郵件",
     "title": "共用信箱",
     "summary": "管理信箱 {mailboxes} 個 · 排程 {scheduled} 個 · 範本 {templates} 個",
@@ -185,5 +192,3157 @@
     "runAction": "執行",
     "expiryPrefix": "此連結將在",
     "expirySuffix": "。"
+  },
+  "settingsSystem": {
+    "title": "設定",
+    "navigationLabel": "設定菜單",
+    "groups": {
+      "general": "一般",
+      "mail": "郵件",
+      "management": "郵件管理",
+      "account": "帳戶"
+    },
+    "nav": {
+      "locale": "語言與地區",
+      "theme": "主題與外觀",
+      "accessibility": "可及性",
+      "signature": "撰寫與簽名",
+      "inbox-display": "收件匣與閱讀",
+      "sending": "傳送與回覆",
+      "away": "外出自動回覆",
+      "notifications": "通知",
+      "labels": "標籤",
+      "filters": "篩選與自動分類",
+      "blocked-senders": "已屏蔽的寄件者",
+      "account": "帳戶與發件地址",
+      "security": "安全與登入",
+      "integrations": "集成服務",
+      "shortcuts": "快速鍵"
+    },
+    "unsaved": {
+      "title": "存在未儲存的更改",
+      "description": "離開此頁面將丟失更改。",
+      "leave": "放棄更改",
+      "stay": "繼續編輯"
+    },
+    "common": {
+      "save": "儲存",
+      "cancel": "取消",
+      "reset": "恢復預設值",
+      "saved": "已儲存",
+      "unsaved": "未儲存的更改",
+      "savedToast": "設定已儲存",
+      "all": "全部",
+      "edit": "編輯",
+      "delete": "刪除",
+      "preview": "預覽",
+      "done": "完成",
+      "settings": "設定",
+      "current": "目前設備",
+      "connected": "已連接",
+      "disconnected": "未連線",
+      "syncFailed": "同步失敗",
+      "neverSynced": "無同步記錄",
+      "lastSync": "上次同步：{value}",
+      "lastActive": "上次活動：{value}",
+      "passwordChanged": "上次更改：{value}",
+      "messageCount": "{count} 封郵件",
+      "remainingCount": "剩余 {count} 個"
+    },
+    "empty": {
+      "items": "沒有可顯示的項目"
+    },
+    "descriptions": {
+      "locale": "管理郵件中顯示的語言、日期和時區格式。",
+      "theme": "設定工作介面的設計主題和布局。",
+      "accessibility": "調整可讀性、鍵盤和輔助技術偏好。",
+      "signature": "管理寄件者資訊、郵件簽名和撰寫預設值。",
+      "signatureList": "選擇用于新郵件和回覆的簽名。",
+      "inbox": "設定郵件清單和閱讀介面的顯示方式。",
+      "sending": "設定回覆、引用、自動儲存和傳送的預設值。",
+      "away": "設定在指定期間傳送的自動回覆。",
+      "notifications": "按郵件類型和管道設定通知方式。",
+      "labels": "建立用于整理郵件的標簽并管理其順序。",
+      "filters": "自動分類并處理符合條件的郵件。",
+      "blockedSenders": "管理要屏蔽的電子郵件信箱地址和域名。",
+      "account": "管理顯示名稱、回覆地址和寄件者別名。",
+      "security": "管理雙重驗證和已登入的設備。",
+      "twoFactor": "登入時通過額外驗證步驟保護帳戶。",
+      "integrations": "管理日歷、審批和外部服務連線。",
+      "shortcuts": "啟用鍵盤快速鍵并自定義按鍵。"
+    },
+    "sections": {
+      "languageRegion": "語言與區域格式",
+      "themePreset": "設計主題",
+      "appearance": "外觀",
+      "readability": "閱讀與導航",
+      "senderDefaults": "傳出預設值",
+      "signatures": "簽名",
+      "inboxLayout": "清單與閱讀介面",
+      "replyDefaults": "撰寫與回覆預設值",
+      "awaySchedule": "自動回覆時間與訊息",
+      "notificationChannels": "通知管道",
+      "notificationRules": "按郵件類型設定通知",
+      "quietHours": "免打擾時段",
+      "labels": "標簽清單",
+      "filters": "篩選規則",
+      "blockedSenders": "屏蔽清單",
+      "accountIdentity": "帳戶資訊",
+      "aliases": "寄件者別名",
+      "authentication": "認證",
+      "sessions": "已登入裝置",
+      "recentActivity": "最近登入活動",
+      "integrations": "集成清單",
+      "shortcuts": "快速鍵清單"
+    },
+    "fields": {
+      "displayLanguage": "顯示語言",
+      "timezone": "時區",
+      "dateFormat": "日期格式",
+      "timeFormat": "時間格式",
+      "weekStart": "週開始日期",
+      "colorScheme": "螢幕模式",
+      "density": "列表密度",
+      "radius": "圓角樣式",
+      "sidebarPosition": "側邊欄位置",
+      "sidebarCollapsed": "啟動時折疊側邊欄",
+      "fontScale": "文字大小",
+      "highContrast": "高對比度模式",
+      "reduceMotion": "減少動態效果",
+      "enhancedFocus": "增強焦點指示",
+      "screenReaderDetails": "螢幕閱讀器詳細說明",
+      "keyboardNavigation": "鍵盤導航輔助",
+      "senderName": "發送姓名",
+      "senderAddress": "預設發送地址",
+      "defaultFont": "預設字體",
+      "undoSend": "撤銷傳送時限",
+      "defaultSignature": "預設簽名",
+      "signatureOnNew": "在新郵件中使用簽名",
+      "signatureOnReply": "在回覆和轉發中使用簽名",
+      "signatureName": "簽名名稱",
+      "signatureContent": "簽名內容",
+      "previewPane": "預覽窗格",
+      "conversationView": "會話檢視",
+      "markRead": "標為已讀的時機",
+      "remoteImages": "外部圖片",
+      "pageSize": "每頁郵件數",
+      "mailDateFormat": "郵件日期顯示",
+      "unreadStyle": "未讀郵件突出方式",
+      "defaultReply": "預設回覆方式",
+      "quoteStyle": "原文引用方式",
+      "requestReceipt": "請求已讀回執",
+      "scheduleDefault": "定時傳送預設值",
+      "autosaveSeconds": "自動儲存間隔",
+      "composeMode": "撰寫格式",
+      "defaultCc": "預設抄送",
+      "defaultBcc": "預設密送",
+      "awayEnabled": "啟用外出自動回覆",
+      "startDate": "開始日期",
+      "endDate": "結束日期",
+      "subject": "標題",
+      "internalMessage": "內部使用者訊息",
+      "externalMessage": "外部使用者訊息",
+      "contactsOnly": "僅向聯系人傳送外部回覆",
+      "browserNotifications": "瀏覽器通知",
+      "emailNotifications": "郵件摘要通知",
+      "notificationSound": "通知聲音",
+      "quietStart": "開始時間",
+      "quietEnd": "結束時間",
+      "weekendNotifications": "周末也通知",
+      "labelVisible": "在郵件清單中顯示",
+      "labelName": "標籤名稱",
+      "labelColor": "標簽顏色",
+      "filterEnabled": "啟用篩選器",
+      "filterName": "篩選器名稱",
+      "condition": "條件",
+      "conditionValue": "條件值",
+      "action": "行動",
+      "actionValue": "操作值",
+      "senderOrDomain": "電子郵件信箱地址或域名",
+      "displayName": "顯示名稱",
+      "primaryEmail": "主要電子郵件信箱",
+      "replyTo": "回覆地址",
+      "newAlias": "新寄件者別名",
+      "twoFactor": "兩步驟驗證",
+      "backupCodes": "備用代碼",
+      "password": "密碼",
+      "currentPassword": "當前密碼",
+      "newPassword": "新密碼",
+      "confirmPassword": "確認新密碼",
+      "autoSync": "自動同步",
+      "shortcutsEnabled": "啟用鍵盤快速鍵"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "首爾（GMT+9）",
+        "Asia_Tokyo": "東京（GMT+9）",
+        "Asia_Shanghai": "上海（GMT+8）",
+        "Europe_London": "倫敦",
+        "America_New_York": "紐約",
+        "America_Los_Angeles": "洛杉磯"
+      },
+      "dateFormat": {
+        "locale": "區域格式",
+        "iso": "年-月-日",
+        "long": "完整日期"
+      },
+      "timeFormat": {
+        "12": "12 小時制",
+        "24": "24 小時制"
+      },
+      "weekStart": {
+        "sunday": "星期日",
+        "monday": "星期一"
+      },
+      "colorScheme": {
+        "light": "光",
+        "dark": "黑暗",
+        "system": "系統"
+      },
+      "density": {
+        "comfortable": "悠閒地",
+        "compact": "壓縮"
+      },
+      "radius": {
+        "sharp": "直角",
+        "rounded": "圓形",
+        "pill": "藥丸類型"
+      },
+      "sidebarPosition": {
+        "left": "左",
+        "right": "對"
+      },
+      "font": {
+        "sans": "無襯線字體",
+        "serif": "襯線",
+        "mono": "等寬字體"
+      },
+      "seconds": "{value} 秒",
+      "previewPane": {
+        "right": "對",
+        "bottom": "下方",
+        "off": "不啟用"
+      },
+      "markRead": {
+        "immediate": "立即",
+        "2seconds": "2 秒后",
+        "manual": "手動處理"
+      },
+      "remoteImages": {
+        "always": "始終顯示",
+        "contacts": "僅對聯系人顯示",
+        "never": "不顯示"
+      },
+      "pageSize": {
+        "25": "25 封",
+        "50": "50 封",
+        "100": "100 封"
+      },
+      "mailDateFormat": {
+        "relative": "相對日期",
+        "short": "簡短日期",
+        "full": "完整日期"
+      },
+      "unreadStyle": {
+        "bold": "大膽",
+        "highlight": "背景突出顯示",
+        "dot": "指示點"
+      },
+      "defaultReply": {
+        "reply": "回覆",
+        "replyAll": "全部回覆"
+      },
+      "quoteStyle": {
+        "inline": "行內引用",
+        "below": "原文置于回覆下方",
+        "none": "不包含原文"
+      },
+      "scheduleDefault": {
+        "off": "不啟用",
+        "nextMorning": "次日上午",
+        "custom": "保留上次設定"
+      },
+      "autosaveSeconds": {
+        "15": "15 秒",
+        "30": "30 秒",
+        "60": "1分鐘"
+      },
+      "composeMode": {
+        "html": "富文本郵件",
+        "plain": "純文字"
+      },
+      "notificationMode": {
+        "instant": "即時通知",
+        "digest": "1小時總結",
+        "off": "無通知"
+      },
+      "filterField": {
+        "from": "寄件者",
+        "to": "收件者",
+        "subject": "標題",
+        "body": "正文",
+        "attachment": "附件",
+        "size": "郵件大小"
+      },
+      "filterAction": {
+        "move": "移至資料夾",
+        "label": "應用標簽",
+        "star": "重要標誌",
+        "read": "標為已讀",
+        "forward": "傳遞",
+        "delete": "刪除"
+      },
+      "senderType": {
+        "email": "電子郵件",
+        "domain": "領域"
+      }
+    },
+    "notificationTypes": {
+      "important": "重要郵件",
+      "general": "普通郵件",
+      "approval": "審批請求",
+      "mention": "提及",
+      "shared": "共用信箱"
+    },
+    "actions": {
+      "addSignature": "添加簽名",
+      "editSignature": "編輯簽名",
+      "addLabel": "新增標簽",
+      "editLabel": "編輯標簽",
+      "moveUp": "上移",
+      "moveDown": "下移",
+      "addFilter": "新增篩選器",
+      "editFilter": "編輯篩選器",
+      "test": "測試",
+      "search": "搜尋",
+      "block": "區塊",
+      "unblock": "取消屏蔽",
+      "add": "新增",
+      "regenerate": "重新發行",
+      "changePassword": "更改密碼",
+      "logoutOthers": "退出其他所有設備",
+      "logout": "註銷",
+      "sync": "同步",
+      "connect": "連接",
+      "disconnect": "斷開連線",
+      "testNotification": "測試通知",
+      "viewShortcutReference": "查看全部快速鍵"
+    },
+    "errors": {
+      "dateRange": "結束日期必須晚于開始日期。",
+      "duplicateLabel": "已存在同名標簽。",
+      "invalidSender": "請輸入有效的電子郵件信箱地址或域名。",
+      "duplicateSender": "此地址已被屏蔽。",
+      "invalidEmail": "請輸入有效的電子郵件信箱地址。",
+      "requiredName": "請輸入顯示名稱。",
+      "duplicateAlias": "此發件地址已注冊。",
+      "shortcutConflict": "與“{action}”快速鍵沖突。",
+      "passwordRequired": "請輸入當前密碼。",
+      "passwordLength": "新密碼必須至少包含 8 個字符。",
+      "passwordMismatch": "兩次輸入的新密碼不一致。"
+    },
+    "preview": {
+      "unreadSubject": "未讀郵件主題",
+      "unreadBody": "可在此預覽清單顯示設定。",
+      "conversationCount": "會話中有 {count} 封郵件"
+    },
+    "confirm": {
+      "deleteSignature": "要刪除此簽名嗎？",
+      "deleteLabel": "要刪除此標簽嗎？",
+      "deleteFilter": "要刪除此篩選器嗎？",
+      "deleteAlias": "要刪除此寄件者別名嗎？",
+      "unblockSender": "要取消屏蔽嗎？",
+      "disconnect": "要斷開此服務嗎？",
+      "codes": "要重新生成備用代碼嗎？",
+      "all": "退出所有其他設備？",
+      "session": "要從此設備登出嗎？"
+    },
+    "toast": {
+      "labelDeleted": "標簽已刪除",
+      "filterDeleted": "篩選器已刪除",
+      "filterMatched": "測試郵件符合篩選條件",
+      "aliasDeleted": "寄件者別名已刪除",
+      "senderBlocked": "已將寄件者加入屏蔽清單",
+      "senderUnblocked": "已取消屏蔽寄件者",
+      "codesRegenerated": "備用代碼已重新生成",
+      "sessionsRevoked": "已退出其他所有設備",
+      "sessionRevoked": "已從設備登出",
+      "passwordChanged": "密碼已更改",
+      "syncComplete": "同步已完成",
+      "integrationConnected": "服務已連線",
+      "integrationDisconnected": "服務已斷開",
+      "testNotification": "這是 GXWebMail 測試通知"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "公司日歷",
+        "approval": "電子審批",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "讀取和寫入日程",
+        "approval": "同步并處理審批請求",
+        "slack": "傳送重要郵件通知",
+        "drive": "以鏈接傳送附件"
+      }
+    },
+    "shortcutActions": {
+      "compose": "撰寫新郵件",
+      "search": "搜尋郵件",
+      "inbox": "前往您的收件匣",
+      "archive": "儲存",
+      "delete": "刪除",
+      "reply": "回覆",
+      "forward": "傳遞"
+    }
+  },
+  "adminNav": {
+    "backToMail": "回郵件",
+    "singleTenant": "該組織只有一個租戶：gxsoft.co.kr",
+    "tenant": "租戶",
+    "systemMail": "系統郵件·列印·錯誤",
+    "organizationSetup": "組織設定嚮導",
+    "systemStatus": "系統狀態",
+    "allServicesHealthy": "一切服務正常",
+    "queueStatus": "MTA 佇列延遲 0.4 秒 · 最後檢查時間為 2 分鐘前",
+    "tabs": {
+      "dash": "概述",
+      "users": "帳戶·用戶",
+      "policy": "領域·政策",
+      "security": "安全·垃圾郵件",
+      "flow": "郵件流程規則",
+      "groups": "群組/郵件列表",
+      "audit": "審計日誌",
+      "backup": "備份/存檔",
+      "reports": "報告·匯出",
+      "migration": "信箱傳輸",
+      "brand": "品牌推廣",
+      "api": "API·Webhook",
+      "billing": "費用/許可證"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "聯繫人力資源團隊",
+        "initials": "問候"
+      },
+      "recruit": {
+        "name": "招聘申請接待",
+        "initials": "招募"
+      },
+      "support": {
+        "name": "全球客戶支援",
+        "initials": "支援"
+      },
+      "press": {
+        "name": "公共關係/媒體",
+        "initials": "促銷"
+      },
+      "office": {
+        "name": "執行長秘書",
+        "initials": "秘書"
+      },
+      "invoice": {
+        "name": "稅務發票提交",
+        "initials": "稅"
+      }
+    },
+    "roles": {
+      "manager": "全面管理",
+      "reply": "閱讀·回复",
+      "readOnly": "只讀",
+      "delegate": "委託寄送"
+    },
+    "delegateNote": "Jiwoo Han（助理經理：人力資源團隊詢問）",
+    "scheduleWhen": {
+      "today": "今天 18:00",
+      "sep5": "9月5日 09:00",
+      "sep8": "9月8日 08:30",
+      "sep14": "9月14日 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "等待調整",
+      "scheduled": "保留",
+      "recurring": "每個星期一"
+    },
+    "templates": {
+      "approval": "付款退回訊息",
+      "quote": "外部報價請求",
+      "awayKorean": "缺席時自動回覆（韓文）",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "會議日程協調"
+    },
+    "templateScope": {
+      "shared": "公開的",
+      "private": "個人的"
+    },
+    "templateEdited": {
+      "aug21": "8月21日",
+      "jul30": "7月30日",
+      "sep1": "9月1日",
+      "jun12": "6月12日"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "重設密碼",
+      "accountInvite": "邀請新帳戶",
+      "twoFactor": "兩步驟驗證碼",
+      "newDevice": "新裝置登入通知",
+      "quarantineDigest": "隔離郵件摘要（每日）",
+      "storageWarning": "容量嚴重警告",
+      "approvalRequest": "付款請求通知",
+      "awayNotice": "外出自動回覆訊息",
+      "largeLinkExpiry": "大容量連結過期通知",
+      "accountSuspended": "帳戶暫停通知",
+      "migrationComplete": "遷移完成",
+      "maintenance": "服務維護通知"
+    },
+    "printMeta": {
+      "from": "來自",
+      "to": "收件者",
+      "date": "日期",
+      "thread": "執行緒"
+    },
+    "printOptions": {
+      "header": {
+        "name": "頁眉頁碼",
+        "desc": "在列印輸出的頂部顯示發送訊息"
+      },
+      "metadata": {
+        "name": "元資訊",
+        "desc": "包括寄件者、收件者和日期"
+      },
+      "quotes": {
+        "name": "展開報價",
+        "desc": "列印之前的所有回复"
+      },
+      "attachments": {
+        "name": "附表",
+        "desc": "顯示附件檔案名稱和大小"
+      },
+      "remoteImages": {
+        "name": "遠端影像",
+        "desc": "在列印中包含外部影像"
+      },
+      "confidential": {
+        "name": "機密符號",
+        "desc": "新增“公司機密”浮水印"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "未找到",
+        "title": "我找不到這封電子郵件",
+        "body": "它可能已被刪除或移至另一個郵箱。它會在回收站中保留 30 天。",
+        "action": "到您的收件匣",
+        "alt": "回收站搜索",
+        "foot": "如果問題仍然存在，請聯絡 IT 營運部門。"
+      },
+      "forbidden": {
+        "label": "沒有許可",
+        "title": "您無權訪問此螢幕",
+        "body": "管理控制台的定價和協議區域僅對組織管理員可見。如有必要請請求許可。",
+        "meta": "請求日誌ID：acl-7741-b2",
+        "action": "許可請求",
+        "alt": "返回",
+        "foot": "您的請求將轉發給兩名組織管理員。"
+      },
+      "maintenance": {
+        "label": "維護中",
+        "title": "我們正在進行定期檢查",
+        "body": "郵件接收將繼續正常進行，維護完成後所有郵件將被投遞。僅暫停網路存取。",
+        "meta": "預計完成 2026-09-05 02:00 KST",
+        "action": "狀態頁",
+        "alt": "取得通知",
+        "foot": "緊急諮詢02-2000-1000（24小時）"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "通知",
+    "markAllRead": "閱讀全部",
+    "all": "全部",
+    "approval": "簽核",
+    "mention": "提及",
+    "empty": "沒有任何通知。",
+    "openCenter": "打開通知中心",
+    "items": {
+      "n1": {
+        "avatar": "公園",
+        "title": "請求批准 · 樸瑞俊",
+        "body": "2026年上半年雲端基礎設施擴容預算回顧－輪到我了",
+        "time": "剛才"
+      },
+      "n2": {
+        "avatar": "崔",
+        "title": "提及·崔珉瑞",
+        "body": "Atlas 第三次 Sprint 評審會議紀錄中提到了您。",
+        "time": "12 分鐘前"
+      },
+      "n3": {
+        "avatar": "這個",
+        "title": "付款已批准·李素敏",
+        "body": "9月份定期研討會預算獲得批准",
+        "time": "38 分鐘前"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "3 封新電子郵件",
+        "body": "Su-min Lee、Jira 和 Min-seo Choi 收到了一封新電子郵件",
+        "time": "1 小時前"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "82% 儲存空間正在使用",
+        "body": "18.2GB / 50GB · 整理大型配件",
+        "time": "3小時前"
+      },
+      "n6": {
+        "avatar": "河",
+        "title": "提及康泰允",
+        "body": "我在品質檢查清單評論中提到了你",
+        "time": "昨天"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "日期與時間",
+      "location": "地點",
+      "organizer": "主辦人",
+      "recurrence": "重複"
+    },
+    "states": {
+      "accept": "參加",
+      "tentative": "待定",
+      "decline": "不參加",
+      "noResponse": "未回覆"
+    },
+    "rsvpQuestion": "您想參加嗎？",
+    "viewEvent": "查看時間表",
+    "viewEventNotice": "檢查日曆上的日程安排",
+    "suggestTime": "建議改個時間",
+    "suggestTimeNotice": "向主辦單位建議其他時間",
+    "leaveMemo": "留言",
+    "leaveMemoNotice": "開啟筆記創建螢幕",
+    "attendeeStatus": "出勤狀況",
+    "host": "主辦者",
+    "briefing": "人工智慧簡報",
+    "briefingBody": "上次衝刺評審中討論的GPU節點擴展的最終評審納入了本次會議的議程。",
+    "relatedMailNotice": "前往相關電子郵件搜尋結果",
+    "viewRelatedMail": "查看 3 封相關電子郵件",
+    "responseRecorded": "已記錄回覆：{choice}",
+    "attendeeSummary": "{count} 人中有 {responded} 人回覆",
+    "conflict": "此時段與<strong>{event}</strong>衝突。"
+  },
+  "auth": {
+    "common": {
+      "email": "電子郵件地址",
+      "password": "密碼",
+      "terms": "使用條款",
+      "privacy": "隱私權政策",
+      "termsNotice": "開放使用條款",
+      "privacyNotice": "開放的隱私權政策",
+      "setupWizard": "伺服器安裝精靈",
+      "noAccount": "沒有帳戶？",
+      "haveAccount": "已經有帳戶？",
+      "signIn": "登入",
+      "signUp": "註冊",
+      "procurementNotice": "© 2026 GXWebMail。註冊供公共和教育機構採購的產品。",
+      "eyebrow": "企業郵件平台"
+    },
+    "login": {
+      "title": "很高興再次見到你",
+      "description": "使用您的工作帳號登入。使用 SSO 的組織可以使用下面的按鈕直接存取。",
+      "passwordPlaceholder": "請輸入您的密碼",
+      "rememberMe": "保持登入狀態",
+      "forgotPassword": "找到你的密碼",
+      "resetNotice": "發送密碼重設電子郵件",
+      "enterEmailFirst": "請先輸入您的電子郵件",
+      "missingCredentials": "請輸入電子郵件和密碼。",
+      "submitting": "正在登入...",
+      "ssoButton": "繼續使用組織帳戶 (SAML)",
+      "ssoNotice": "前往 SAML SSO 登入畫面",
+      "ssoContact": "聯絡您的組織管理員",
+      "twoFactorHint": "該帳戶已啟用兩步驟驗證。登入後，輸入您的 6 位 OTP。",
+      "tagline": "每天穩定處理 12 萬封郵件",
+      "uptime": "正常運轉時間服務等級協議",
+      "largeAttachments": "大配件",
+      "certified": "獲得認證"
+    },
+    "signup": {
+      "title": "建立帳戶",
+      "description": "如果您使用組織電子郵件註冊，您的管理員將批准並啟動您的帳戶。",
+      "name": "姓名",
+      "namePlaceholder": "洪吉東",
+      "passwordPlaceholder": "請輸入至少8個字符",
+      "confirmPassword": "確認密碼",
+      "confirmPlaceholder": "請再次輸入您的密碼",
+      "consentLabel": "同意服務條款和隱私政策",
+      "requiredFields": "請填寫所有必填欄位。",
+      "passwordMismatch": "密碼不符。",
+      "consentRequired": "請同意使用條款和隱私權政策。",
+      "submitting": "正在建立帳戶...",
+      "submit": "註冊",
+      "productIntro": "產品介紹",
+      "tagline": "整個團隊共用一個收件匣",
+      "benefits": {
+        "brandedWorkspace": "適合組織的品牌與工作環境",
+        "integratedTools": "集成日歷、聯系人與審批",
+        "secureOperations": "符合 ISMS-P 標準的安全郵件運營"
+      },
+      "consent": "我同意<terms>服務條款</terms>和<privacy>隱私權政策</privacy>。"
+    }
+  },
+  "setup": {
+    "sidebarLabel": "安裝步驟",
+    "brand": "Mailwave郵件伺服器",
+    "title": "安裝嚮導",
+    "introduction": "伺服器安裝完成。完成七個步驟後，使用者可以立即開始撰寫電子郵件。",
+    "done": "完成",
+    "inProgress": "進展",
+    "serverInfo": "伺服器mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "開啟安裝說明文檔",
+    "guideNotice": "在新分頁中開啟安裝說明文檔",
+    "settingsLabel": "安裝設定",
+    "back": "回來",
+    "finish": "安裝完成·登入",
+    "copy": "複製",
+    "copied": "複製了值",
+    "checkAgain": "再次測試",
+    "checking": "測試...",
+    "dnsCheckAgain": "DNS 重新檢查",
+    "dnsChecking": "正在檢查...",
+    "dbRecheckNotice": "再次測試您的資料庫連接",
+    "dbRecheckSuccess": "連接測試通過",
+    "dnsRecheckNotice": "重新檢查您的 DNS 記錄",
+    "dnsRecheckSuccess": "DNS檢查完成",
+    "inviteSentNotice": "邀請電子郵件已發送",
+    "inviteSent": "出貨完成",
+    "inviteButton": "發送邀請郵件",
+    "inviteTargetHeading": "邀請函",
+    "steps": {
+      "license": {
+        "name": "授權 · 管理員帳戶",
+        "description": "註冊{seats, number}個席位及{admins, number}名管理員"
+      },
+      "database": {
+        "name": "資料庫連線",
+        "description": "PostgreSQL 16 · 42 種模式"
+      },
+      "organization": {
+        "name": "組織/域名註冊",
+        "description": "gxsoft.co.kr · 導入42個部門"
+      },
+      "dns": {
+        "name": "域名/DNS驗證",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "郵件儲存/備份",
+        "description": "儲存路徑·每天備份一次"
+      },
+      "security": {
+        "name": "安全政策",
+        "description": "垃圾郵件·DLP·兩步驟身份驗證"
+      },
+      "invitations": {
+        "name": "用戶邀請",
+        "description": "邀請郵件已發送 · 首次登入"
+      }
+    },
+    "license": {
+      "description": "輸入您的許可證密鑰並建立您的第一個管理員帳戶。",
+      "fields": {
+        "key": "許可證密鑰",
+        "adminName": "管理員姓名",
+        "adminEmail": "管理員信箱",
+        "adminPassword": "管理者密碼"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "主機",
+        "port": "港口",
+        "database": "資料庫",
+        "schema": "圖式",
+        "account": "帳戶",
+        "password": "密碼",
+        "sslMode": "SSL模式",
+        "connectionPool": "連接池"
+      },
+      "poolValue": "最多 40 · 空閒 5",
+      "testTitle": "連接測試",
+      "states": {
+        "passed": "通過",
+        "warning": "小心"
+      },
+      "checks": {
+        "connection": {
+          "name": "連接",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "版本",
+          "detail": "PostgreSQL 16.2 · 至少 14 或更高"
+        },
+        "permissions": {
+          "name": "授權",
+          "detail": "檢查創建·更改·索引"
+        },
+        "charset": {
+          "name": "字符集/排序",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "時區",
+          "detail": "亞洲/首爾 · UTC 推薦"
+        }
+      }
+    },
+    "organization": {
+      "description": "註冊您的組織資訊和主網域。",
+      "fields": {
+        "name": "組織名稱",
+        "domain": "代表域",
+        "contact": "聯絡信箱"
+      },
+      "hrImportNotice": "您可以從HR組織架構圖（Grow）自動匯入42個部門。"
+    },
+    "dns": {
+      "headers": {
+        "type": "類型",
+        "host": "主機",
+        "value": "值",
+        "status": "狀態"
+      },
+      "states": {
+        "verified": "已確認",
+        "propagating": "傳播",
+        "missing": "未設定"
+      }
+    },
+    "storage": {
+      "description": "設定郵件資料儲存路徑和備份週期。",
+      "fields": {
+        "path": "儲存路徑",
+        "frequency": "備份週期",
+        "retention": "儲存期限"
+      },
+      "frequencyValue": "每天一次 · 04:00",
+      "retentionValue": "3年"
+    },
+    "security": {
+      "description": "設定預設安全策略。您可以稍後在管理員控制台中進行調整。",
+      "policies": {
+        "spam": "自動隔離垃圾郵件和網路釣魚",
+        "dlp": "DLP 機密文檔阻止",
+        "twoFactor": "需要管理員兩步驟身份驗證",
+        "externalWarning": "外部郵件警報橫幅"
+      }
+    },
+    "invitations": {
+      "description": "向員工傳送邀請郵件。將向從CSV匯入的{count, number}人傳送首次登入說明。"
+    },
+    "firstRun": "首次執行",
+    "stepCounter": "第 {step} 步，共 {total} 步",
+    "progressLabel": "進度 {progress}%",
+    "nextStep": "下一步 · {name}",
+    "checkSummary": "剛剛完成測試 · {total}項中{passed}項通過",
+    "dnsSummary": "2分鐘前完成檢查 · {total}項中{verified}項已確認",
+    "countSummary": "{total}項中{passed}項通過",
+    "dnsCountSummary": "{total}項中{verified}項已確認",
+    "inviteTarget": "{count, number}人 · {domain}",
+    "inviteSentCount": "已傳送給{count, number}人",
+    "dbNotice": "下一步將建立42個資料庫資料表並寫入初始資料（約40秒）。如果資料庫已有資料，安裝會先詢問是否<strong>沿用現有結構</strong>。",
+    "dnsNotice": "DNS傳播最多可能需要24小時。現在可以略過DKIM和DMARC，稍後在<strong>管理 · 網域 · 政策</strong>中檢查。缺少這兩筆記錄時，外部伺服器可能將寄出的郵件判為垃圾郵件。"
+  },
+  "adminOnboarding": {
+    "title": "組織設定嚮導",
+    "dnsDelayNotice": "DNS 反射可能需要長達 48 小時。同時，現有的郵件伺服器將繼續運作。",
+    "dnsTitle": "註冊 DNS 記錄",
+    "copyAll": "全部複製",
+    "copiedNotice": "複製所有 DNS 記錄",
+    "recheck": "再次檢查",
+    "checking": "正在檢查...",
+    "recheckNotice": "重新檢查您的 DNS 記錄",
+    "recheckSuccess": "DNS驗證完成",
+    "csvTitle": "批量帳戶註冊",
+    "csvSelectNotice": "打開 CSV 檔案選擇視窗",
+    "csvSelect": "拖曳或選擇 CSV 文件",
+    "csvColumns": "姓名、電子郵件、部門和等級列必填",
+    "migrationTitle": "遷移現有郵件",
+    "migrationImap": "IMAP 其他",
+    "migrationPending": "等待",
+    "migrationNotice": "IMAP 同步將在轉換後保留 7 天，以確保不會遺漏任何內容。",
+    "continueLater": "稍後繼續",
+    "next": "下一步 · 建立帳戶",
+    "nextNotice": "前往帳戶建立步驟",
+    "headers": {
+      "type": "類型",
+      "host": "主機",
+      "value": "值",
+      "priority": "優先權",
+      "status": "狀態"
+    },
+    "dnsStates": {
+      "verified": "已確認",
+      "pending": "待生效",
+      "unregistered": "未設定"
+    },
+    "steps": {
+      "organization": {
+        "name": "組織資訊",
+        "description": "公司名稱、代表網域、負責人"
+      },
+      "domain": {
+        "name": "網域連接",
+        "description": "MX·SPF·DKIM記錄註冊"
+      },
+      "accounts": {
+        "name": "建立帳戶",
+        "description": "CSV批量登記和HR組織結構圖集成"
+      },
+      "migration": {
+        "name": "郵件遷移",
+        "description": "從現有伺服器遷移郵件"
+      },
+      "policy": {
+        "name": "申請政策",
+        "description": "安全性·保留·DLP 預設值"
+      },
+      "cutover": {
+        "name": "轉換/檢驗",
+        "description": "MX 最終轉換和運輸測試"
+      }
+    },
+    "subtitle": "{domain} · 正在進行第{step}步 · 預計{minutes}分鐘",
+    "recordCount": "{count, number}筆記錄",
+    "verifiedCount": "{total, number}筆中已確認{verified, number}筆",
+    "csvSummary": "已驗證{rows, number}列 · 自動合併{duplicates, number}筆重複記錄",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "組織範圍內的電子郵件處理狀態",
+        "cta": "出口報告"
+      },
+      "users": {
+        "sub": "管理 {count, number} 個帳戶",
+        "cta": "新增帳戶"
+      },
+      "policy": {
+        "sub": "發送網域和安全性原則",
+        "cta": "保存政策"
+      },
+      "security": {
+        "sub": "阻止/隔離日誌和檢測狀態",
+        "cta": "新增規則"
+      },
+      "flow": {
+        "sub": "適用於整個組織的自動處理規則",
+        "cta": "新增規則"
+      },
+      "groups": {
+        "sub": "通訊群組清單和共用郵箱",
+        "cta": "建立一個群組"
+      },
+      "audit": {
+        "sub": "所有管理任務的不可變記錄",
+        "cta": "CSV 匯出"
+      },
+      "backup": {
+        "sub": "快照和合法保留狀態",
+        "cta": "立即備份"
+      },
+      "reports": {
+        "sub": "建立自訂報告",
+        "cta": "新報告"
+      },
+      "migration": {
+        "sub": "從其他郵件系統的遷移進度狀態",
+        "cta": "新增批次"
+      },
+      "brand": {
+        "sub": "組織身份和登入螢幕",
+        "cta": "貼文"
+      },
+      "api": {
+        "sub": "外部整合密鑰和事件訂閱",
+        "cta": "密鑰發行"
+      },
+      "billing": {
+        "sub": "訂閱和付款管理",
+        "cta": "檢視您的帳單"
+      }
+    },
+    "ranges": {
+      "today": "今天",
+      "last7": "過去 7 天",
+      "last30": "過去 30 天",
+      "last90": "過去 90 天"
+    },
+    "rangeLabel": "日期範圍",
+    "actionNotice": "正在開啟{action}"
+  },
+  "adminMobile": {
+    "menuLabel": "管理員選單",
+    "backToMenu": "返回管理員選單",
+    "actionPreview": "此操作為預覽",
+    "executeAction": "執行{action}",
+    "screens": {
+      "dash": {
+        "navLabel": "概述",
+        "title": "主管",
+        "sub": "gxsoft.co.kr · 實時",
+        "footerText": "在桌面上查看完整報告",
+        "chips": {
+          "chip0": "今天",
+          "chip1": "7天",
+          "chip2": "30天"
+        },
+        "rows": {
+          "throughput": {
+            "name": "工作吞吐量",
+            "meta": "{count}",
+            "line3": "與前一天相比{growth}"
+          },
+          "blocked": {
+            "name": "封鎖/隔離",
+            "line3": "隔離{quarantined}例 高風險{highRisk}例"
+          },
+          "queue": {
+            "name": "調度佇列",
+            "line3": "重試 {retry} · 失敗 {failed}"
+          },
+          "deliveryDelay": {
+            "name": "平均交貨延遲",
+            "meta": "{seconds}秒",
+            "line3": "{slaSeconds} 秒內達到 SLA",
+            "tag": "正常"
+          },
+          "needsAttention": {
+            "name": "{items} 項需要確認",
+            "line3": "MTA-STS 未應用 · 容量閾值 {threshold} 例",
+            "tag": "查看"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "帳戶",
+        "title": "帳戶",
+        "sub": "{total} · 暫停 {suspended} · 不活躍 {inactive}",
+        "footerText": "滑動停止/長按重設密碼",
+        "footerBtn": "停止",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "停止",
+          "chip2": "不活躍的"
+        },
+        "action": "搜尋帳戶",
+        "rows": {
+          "jiwoo": {
+            "tag": "正常",
+            "line3": "戰略規劃團隊 · {usage}"
+          },
+          "seojun": {
+            "tag": "正常",
+            "line3": "基礎設施團隊 · {usage}"
+          },
+          "jaeho": {
+            "tag": "容量",
+            "line3": "銷售團隊 · {usage}"
+          },
+          "temporary": {
+            "tag": "停止",
+            "line3": "未指定 · {days} 天無法訪問"
+          },
+          "serin": {
+            "tag": "正常",
+            "line3": "執行長辦公室 · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "安全",
+        "title": "安全",
+        "sub": "過去 {days} 天 · {pending} 起案件待處理",
+        "footerText": "規則變更只能在桌面上進行",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "高"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "異常登入嘗試",
+            "line2": "日本大阪 · {blocked} 被封鎖",
+            "line3": "{days} 天前 · 行動完成"
+          },
+          "phishing": {
+            "name": "網路釣魚活動偵測",
+            "line2": "類似網域 gxsott.co.kr",
+            "line3": "今日 {time} · {quarantined}例隔離病例",
+            "tag": "等待"
+          },
+          "dlp": {
+            "name": "DLP 屏蔽",
+            "line2": "嘗試傳送可執行檔附件",
+            "line3": "昨天 · {cases} 例"
+          },
+          "spf": {
+            "name": "SPF失敗率飆升",
+            "line3": "昨天·聲望{score}點",
+            "tag": "等待"
+          },
+          "appPassword": {
+            "name": "使用應用程式密碼",
+            "line2": "{clients} 個 IMAP 用戶端",
+            "line3": "{days} 天前 · 評論推薦"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "檢疫審查",
+        "title": "檢疫審查",
+        "sub": "{total}例 · {highRisk}例高危險病例",
+        "footerText": "批量刪除記錄在審核日誌中",
+        "footerBtn": "大量刪除",
+        "chips": {
+          "chip0": "高",
+          "chip1": "垃圾郵件",
+          "chip2": "全部"
+        },
+        "rows": {
+          "alert": {
+            "line3": "{recipients} 位收件人 · 類似域名",
+            "tag": "刪除"
+          },
+          "invoice": {
+            "line3": "{recipients} 位收件人·可執行文件",
+            "tag": "刪除"
+          },
+          "newsletter": {
+            "line3": "{recipients} 位收件人 · SPF 失敗",
+            "tag": "保持"
+          },
+          "recruitment": {
+            "line3": "{recipients} 位收件人 · 第一個收件人",
+            "tag": "恢復"
+          },
+          "billing": {
+            "line3": "{recipients} 位收件人 · 可能正常",
+            "tag": "恢復"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "服務狀態",
+        "title": "服務狀態",
+        "sub": "一切服務正常",
+        "footerText": "維護橫幅對所有使用者可見",
+        "action": "新增公告",
+        "rows": {
+          "mail": {
+            "name": "接收和發送郵件",
+            "line3": "運轉率{availability}（{days}天）",
+            "tag": "正常"
+          },
+          "webClient": {
+            "name": "網路客戶端",
+            "line3": "p95響應{latency}ms",
+            "tag": "正常"
+          },
+          "protocols": {
+            "line3": "{connections} 個連接",
+            "tag": "正常"
+          },
+          "migration": {
+            "name": "信箱傳輸",
+            "line3": "{batches} 批次正在進行中 頻寬有限",
+            "tag": "延遲"
+          },
+          "maintenance": {
+            "name": "定期維護",
+            "line2": "{date} {start} – {end}",
+            "line3": "橫幅已張貼接待仍在繼續",
+            "tag": "貼文"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "群組",
+        "title": "群組",
+        "sub": "{total} · 郵寄 {mailing}",
+        "footerText": "若要編輯成員，請按住選擇",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "部門",
+          "chip2": "郵寄"
+        },
+        "action": "新增群組",
+        "rows": {
+          "strategy": {
+            "meta": "{count}人",
+            "line3": "策略·部門組"
+          },
+          "infrastructure": {
+            "meta": "{count}人",
+            "line3": "下屬·部門組"
+          },
+          "allStaff": {
+            "meta": "{count}人",
+            "tag": "限制",
+            "line3": "全部 · 發送限制"
+          },
+          "sales": {
+            "meta": "{count}人",
+            "line3": "銷售1·部門組"
+          },
+          "aurora": {
+            "meta": "{count}人",
+            "tag": "暫時的",
+            "line3": "極光·臨時·12月到期"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "領域·政策",
+        "title": "領域·政策",
+        "sub": "{domains} 個域，{actions} 個操作",
+        "footerText": "策略變更只能在桌面上進行",
+        "chips": {
+          "chip0": "領域",
+          "chip1": "認證"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "主域·SPF·DKIM·DMARC",
+            "tag": "正常"
+          },
+          "mailDomain": {
+            "line3": "僅限送貨 · 信譽 {score} 點",
+            "tag": "警告"
+          },
+          "aliasDomain": {
+            "line3": "別名/接收轉發",
+            "tag": "正常"
+          },
+          "dmarc": {
+            "line3": "p=隔離·每週報告一次",
+            "name": "DMARC 政策"
+          },
+          "mtaSts": {
+            "line3": "推薦 · 阻止中間人攻擊",
+            "tag": "行動",
+            "name": "MTA-STS 不適用"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "審計日誌",
+        "title": "審計日誌",
+        "sub": "過去 {hours} 小時 · {events} 例",
+        "footerText": "日誌保存7年並匯出至桌面",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "授權",
+          "chip2": "刪除"
+        },
+        "action": "搜尋日誌",
+        "rows": {
+          "grantRole": {
+            "name": "授予管理員權限",
+            "line2": "吳世琳 → 樸瑞俊",
+            "line3": "IP 10.2.14.8 · 網頁控制台"
+          },
+          "removeDelegate": {
+            "name": "禁用郵件信箱委派",
+            "line2": "共享 hr · Jiwoo Han"
+          },
+          "bulkDelete": {
+            "name": "運行批量刪除",
+            "tag": "重要的",
+            "line2": "{count} 封隔離電子郵件",
+            "line3": "樸敘俊沒有回頭路"
+          },
+          "editPolicy": {
+            "name": "修改政策",
+            "meta": "昨天",
+            "line2": "DLP 可執行檔阻止開啟",
+            "line3": "歐賽琳"
+          },
+          "issueApiKey": {
+            "name": "API金鑰發放",
+            "meta": "昨天",
+            "line3": "基礎設施團隊 · {days} 天到期"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "備份",
+        "title": "備份",
+        "sub": "每天 {frequency} 次 · 最近成功 {lastSuccess}",
+        "footerText": "從桌面控制台請求恢復",
+        "chips": {
+          "chip0": "工作",
+          "chip1": "恢復"
+        },
+        "rows": {
+          "full": {
+            "name": "完整備份",
+            "line3": "{used} TB · {minutes} 分鐘",
+            "tag": "成功"
+          },
+          "incremental": {
+            "name": "增量備份",
+            "meta": "搗碎",
+            "line3": "最近{successes}連勝",
+            "tag": "成功"
+          },
+          "restoreTest": {
+            "name": "恢復測試",
+            "meta": "{days}天前",
+            "line3": "建議每季一次 · 截止日期迫在眉睫",
+            "tag": "推薦"
+          },
+          "retention": {
+            "name": "保留政策",
+            "line3": "郵件{mailYears}年·審核日誌{auditYears}年"
+          },
+          "storage": {
+            "name": "儲存使用情況",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "費用",
+        "title": "費用",
+        "sub": "預計{month}結算 {amount}",
+        "footerText": "稅務發票將發送至您註冊的電子郵件地址。",
+        "chips": {
+          "chip0": "這個月",
+          "chip1": "上個月"
+        },
+        "rows": {
+          "seats": {
+            "name": "二手座椅",
+            "line3": "{contracted}個簽約座位，{available}個備用座位"
+          },
+          "storage": {
+            "name": "額外的儲存空間",
+            "line3": "{amount} · 每月固定費用"
+          },
+          "archive": {
+            "name": "檔案存儲",
+            "line3": "{amount} · {years} 年保留"
+          },
+          "augustInvoice": {
+            "name": "八月計費",
+            "line3": "付款完成·{date}",
+            "tag": "完成"
+          },
+          "cardExpiry": {
+            "name": "卡即將到期",
+            "line3": "公司卡 ****4821 · 11 月到期",
+            "tag": "行動"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "品牌推廣",
+        "title": "品牌推廣",
+        "sub": "標誌、顏色、簽名",
+        "footerText": "更改將在批准後應用於您的轉錄",
+        "chips": {
+          "chip0": "申請",
+          "chip1": "草案"
+        },
+        "rows": {
+          "logo": {
+            "name": "標誌",
+            "line3": "SVG · 亮色 · 暗色配準",
+            "tag": "申請"
+          },
+          "accent": {
+            "name": "強調色",
+            "line3": "體現在登入、按鈕和連結上",
+            "tag": "申請"
+          },
+          "signature": {
+            "name": "郵件簽名模板",
+            "line3": "按部門分 {types} 種 · 自動插入"
+          },
+          "loginBackground": {
+            "name": "登入後台",
+            "line3": "影像未註冊/預設使用",
+            "tag": "草案"
+          },
+          "senderName": {
+            "name": "系統郵件寄件人姓名",
+            "line3": "GXSOFT郵件·無回覆"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "{keys} 個按鍵 · {calls} 次調用/天",
+        "footerText": "鍵值在發行時僅出現一次",
+        "chips": {
+          "chip0": "鑰匙",
+          "chip1": "網路鉤子"
+        },
+        "action": "新增 API 金鑰",
+        "rows": {
+          "hrSync": {
+            "line3": "閱讀 · 帳戶 · 最後致電 {minutes} 分鐘前",
+            "tag": "活躍的"
+          },
+          "billingSync": {
+            "line3": "讀取 · 使用 · 有效期限 {days} 天",
+            "tag": "活躍的"
+          },
+          "legacyImport": {
+            "line3": "寫入 · 有效期限 {days} 天 · 建議輪換",
+            "tag": "過期"
+          },
+          "quarantineWebhook": {
+            "name": "Webhook·檢疫通知"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/分鐘",
+            "line3": "超過 429 · 建議重試",
+            "name": "速率限制"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "審批流程",
+        "title": "審批流程",
+        "sub": "等待{pending}例，平均{averageHours}小時",
+        "footerText": "在行動裝置上，只能批准和拒絕。",
+        "footerBtn": "核准",
+        "chips": {
+          "chip0": "等待",
+          "chip1": "完成"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "批准用於批量運輸",
+            "line2": "全公司公告·{people}人",
+            "line3": "請求 Jiwoo Han · {hours} 小時前",
+            "tag": "等待"
+          },
+          "externalShare": {
+            "name": "外部共享異常",
+            "line2": "允許附加partner-corp.kr",
+            "line3": "請求銷售團隊 1 · {hours} 小時前",
+            "tag": "等待"
+          },
+          "deleteAccount": {
+            "name": "刪除帳戶",
+            "line2": "temp-001 · 資料破壞",
+            "line3": "請求基礎設施團隊 · 昨天",
+            "tag": "等待"
+          },
+          "dlpException": {
+            "name": "政策例外·DLP",
+            "line2": "發送可執行檔一次",
+            "line3": "已批准 · 奧瑟林",
+            "tag": "完成"
+          },
+          "approvalTemplate": {
+            "name": "審核行模板",
+            "line3": "步驟{step}·部門負責人→資訊安全→代表"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "報告",
+        "title": "報告",
+        "sub": "每週 · {month}第{week}週",
+        "footerText": "可在桌面上匯出 PDF",
+        "chips": {
+          "chip0": "每週",
+          "chip1": "每月"
+        },
+        "rows": {
+          "traffic": {
+            "name": "傳入/傳出趨勢",
+            "line3": "接收：{received}，發送：{sent}"
+          },
+          "spamBlock": {
+            "name": "垃圾郵件攔截率",
+            "line3": "{reports} 份誤報報告",
+            "tag": "正常"
+          },
+          "userActivity": {
+            "name": "使用者活動",
+            "line3": "{people} 人每週登入時間超過 {days} 天"
+          },
+          "storageGrowth": {
+            "name": "增加儲存容量",
+            "line3": "預計 {months} 個月的每週平均值/臨界值"
+          },
+          "scheduled": {
+            "name": "預訂報告",
+            "meta": "{reports}例",
+            "line3": "{weekday} {time} · 由管理階層發送"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "遷移",
+        "title": "遷移",
+        "sub": "{batches}批次進行中 {progress}",
+        "footerText": "從桌面控制台中止並重試",
+        "chips": {
+          "chip0": "進展",
+          "chip1": "完成",
+          "chip2": "失敗"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "帳戶 {migrated}/{total} · 剩餘 {hours} 小時 {minutes} 分鐘",
+            "name": "第07批·銷售總部"
+          },
+          "researchBatch": {
+            "line3": "{migrated}/{total} 帳戶頻寬限制",
+            "name": "第 08 批·實驗室"
+          },
+          "overseasBatch": {
+            "line3": "{migrated}/{total}帳號·延時待機",
+            "name": "實習09·海外分公司"
+          },
+          "failedBatch": {
+            "line3": "超出郵箱容量/需要重試",
+            "tag": "失敗",
+            "name": "第 06 批·{failures} 次失敗"
+          },
+          "completedBatches": {
+            "line3": "審核通過·原件保存{days}天",
+            "tag": "完成",
+            "name": "第 01-05 批已完成"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "郵件吞吐量",
+    "received": "收到",
+    "sent": "傳出",
+    "blocked": "區塊",
+    "authTitle": "認證狀態",
+    "alertsTitle": "需要確認的項目",
+    "openAlerts": "打開需要確認的項目的完整列表",
+    "all": "全部",
+    "funnelTitle": "交付漏斗（今天）",
+    "averageDelay": "平均交貨延遲",
+    "reputationTitle": "域名聲譽",
+    "queueTitle": "調度佇列",
+    "live": "即時",
+    "kpis": {
+      "processed": "今天處理郵件",
+      "activeAccounts": "活躍帳戶",
+      "blockedRate": "垃圾郵件攔截率",
+      "deliveryDelay": "平均交貨延遲"
+    },
+    "authStatus": {
+      "normal": "正常",
+      "quarantine": "檢疫政策",
+      "notApplied": "未應用"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "MTA-STS 政策未應用",
+        "desc": "網域 sub.gxsoft.co.kr 沒有 TLS 強制策略。"
+      },
+      "quota": {
+        "title": "8 個容量關鍵帳戶",
+        "desc": "已向超過 90% 的帳戶發送自動通知。"
+      }
+    },
+    "funnel": {
+      "attempted": "接收嘗試",
+      "blocked": "垃圾郵件和惡意攔截",
+      "quarantined": "隔離檢疫暫停",
+      "delivered": "正常出貨",
+      "bounced": "退貨/失敗"
+    },
+    "queueStats": {
+      "pending": "等待",
+      "retrying": "重試",
+      "failed": "失敗"
+    },
+    "queueState": {
+      "sending": "運輸",
+      "completed": "完成",
+      "pending": "等待"
+    },
+    "reputationMetrics": "垃圾郵件 {spam} · 退信 {bounce}",
+    "itemCount": "{count, number} 項"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "姓名/帳戶/部門搜索",
+    "allDepartments": "整個部門",
+    "allRoles": "全權",
+    "allStatuses": "狀態滿",
+    "selectAll": "選擇全部",
+    "moreActions": "看更多",
+    "resumeAccount": "解凍",
+    "suspendAccount": "帳戶被暫停",
+    "deleteAccount": "刪除帳戶",
+    "suspendedToast": "帳戶已被暫停",
+    "resumedToast": "帳戶暫停已解除",
+    "deletedToast": "您的帳戶已被刪除",
+    "bulkSuspend": "批量停止",
+    "clearSelection": "取消選擇",
+    "columns": {
+      "user": "使用者",
+      "department": "部門/職位",
+      "role": "授權",
+      "quota": "容量",
+      "lastSeen": "最後訪問",
+      "status": "狀態"
+    },
+    "departments": {
+      "strategy": "策略規劃團隊",
+      "infrastructure": "基礎設施團隊",
+      "finance": "財務團隊",
+      "platform": "平台開發團隊",
+      "qa": "品質保證團隊",
+      "system": "系統"
+    },
+    "departmentFilter": "部門篩選",
+    "roleFilter": "權限篩選",
+    "statusFilter": "狀態篩選",
+    "positions": {
+      "deputy": "副經理",
+      "principal": "負責人",
+      "lead": "組長",
+      "senior": "資深專員",
+      "serviceAccount": "服務帳戶"
+    },
+    "roles": {
+      "superAdmin": "最高管理員",
+      "departmentAdmin": "部門管理員",
+      "auditor": "稽核員",
+      "api": "API",
+      "member": "一般使用者"
+    },
+    "statuses": {
+      "active": "啟用",
+      "overQuota": "超出配額",
+      "suspended": "已停用"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "剛剛",
+    "selectedCount": "已選擇 {count, number} 人",
+    "summary": "共 {total, number} 個帳戶 · 已停用 {suspended, number} 個",
+    "bulkSuspendedToast": "已停用 {count, number} 個帳戶",
+    "selectUser": "選擇{name}",
+    "deleteTitle": "刪除{name}的帳戶？",
+    "deleteDescription": "整個信箱和所有附件（{quota}）也將被刪除。請輸入電子郵件地址以確認。"
+  },
+  "adminPolicy": {
+    "domainsTitle": "領域",
+    "sendLimitsTitle": "運輸限制",
+    "mailPolicyTitle": "郵件政策",
+    "aiTitle": "AI功能部署範圍",
+    "aiDescription": "將摘要/寫作幫助功能逐步分配給每個組織單位。屍體僅在國內地區加工，不用於訓練。",
+    "syncStarted": "開始同步您的 HR 組織架構圖",
+    "syncCompleted": "組織結構圖同步完成",
+    "syncing": "正在同步...",
+    "syncNow": "立即同步",
+    "justNow": "剛才",
+    "domainTags": {
+      "primary": "基本的",
+      "alias": "別名",
+      "needsReview": "需要確認"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "每人每小時發送",
+        "value": "{value, number} 封"
+      },
+      "attachmentMb": {
+        "name": "一次性配件容量",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "大連結存儲",
+        "value": "{value, number} 天"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "強制外部發送網域驗證",
+        "desc": "取消訂閱 SPF/DKIM 失敗電子郵件。"
+      },
+      "ext": {
+        "name": "外部郵件警報橫幅",
+        "desc": "在來自組織外部的訊息正文頂部顯示橫幅。"
+      },
+      "dlp": {
+        "name": "阻止機密文件的外部傳輸 (DLP)",
+        "desc": "阻止外部發送標記為「機密」的附件。"
+      },
+      "retain": {
+        "name": "郵件保存3年，刪除後30天恢復",
+        "desc": "這是符合公共機構記錄管理準則的保留期限。"
+      },
+      "sandbox": {
+        "name": "附件沙箱檢查",
+        "desc": "首先在隔離環境中執行可執行檔和巨集文件。"
+      }
+    },
+    "rollout": {
+      "engineering": "技術總部",
+      "strategyFinance": "策略規劃·財務",
+      "remaining": "其他戰士"
+    },
+    "rolloutState": {
+      "deployed": "全面部署",
+      "beta": "貝塔",
+      "pending": "等待"
+    },
+    "verifiedCount": "已驗證 {count, number} 個",
+    "peopleCount": "{count, number} 人",
+    "todayAt": "今天 {time}",
+    "syncSummary": "HR 系統（Grow）每天 03:00 同步組織架構。上次同步：{lastSync} · {count, number} 人",
+    "domainMeta": {
+      "primary": "{count, number} 個帳戶 · MX 正常 · {registered} 註冊",
+      "alias": "{count, number} 個帳戶 · 僅全球寄信",
+      "review": "{count, number} 個帳戶 · 無 MTA-STS 政策"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "阻止/隔離日誌",
+    "exportStarted": "CSV 匯出開始",
+    "exportCsv": "CSV 匯出",
+    "empty": "沒有此條件的日誌。",
+    "kpis": {
+      "blocked": "已封鎖（7 天）",
+      "quarantine": "待隔離",
+      "phishing": "偵測到網路釣魚",
+      "accuracy": "檢測精度"
+    },
+    "filters": {
+      "all": "全部",
+      "spam": "垃圾郵件",
+      "phishing": "網路釣魚",
+      "malware": "惡意軟體"
+    },
+    "columns": {
+      "time": "時間",
+      "sender": "寄件人",
+      "subjectReason": "主旨 · 偵測依據",
+      "recipient": "收件者",
+      "score": "分數",
+      "action": "行動"
+    },
+    "actions": {
+      "blocked": "已封鎖",
+      "quarantined": "已隔離",
+      "released": "已放行",
+      "passed": "已通過"
+    },
+    "recipients": {
+      "allStaff": "全體員工",
+      "purchasing": "採購團隊",
+      "multiple": "多位收件者"
+    },
+    "rowCount": "{count, number} 筆",
+    "reasons": {
+      "similarDomain": "疑似網路釣魚的相似網域",
+      "executable": "偵測到執行檔",
+      "spoofedDomain": "偽造網域"
+    }
+  },
+  "adminFlow": {
+    "title": "規則",
+    "reorder": "調整順序",
+    "reorderToast": "切換到規則順序更改模式",
+    "added": "新增規則",
+    "createTitle": "建立規則",
+    "add": "新增規則",
+    "runSimulation": "運行模擬",
+    "simulationCompleted": "模擬完成",
+    "fields": {
+      "scope": "適用於",
+      "condition": "條件（如果）",
+      "action": "動作（則）"
+    },
+    "values": {
+      "allOrganization": "整個組織"
+    },
+    "rules": {
+      "executive": {
+        "name": "優先發送行政電子郵件",
+        "condition": "收件者 = 執行小組",
+        "action": "即時交付+重要標記"
+      },
+      "confidential": {
+        "name": "外部→封鎖機密標籤附件",
+        "condition": "標籤=機密，收件人外部",
+        "action": "區塊發送"
+      },
+      "largeAttachment": {
+        "name": "切換大附件鏈接",
+        "condition": "附件 > 10MB",
+        "action": "切換到雲端硬碟鏈接"
+      },
+      "recruitment": {
+        "name": "將人力資源團隊參考加入到招募電子郵件中",
+        "condition": "標題中包含【招募】",
+        "action": "新增人力資源參考"
+      },
+      "foreignIp": {
+        "name": "隔離海外IP傳輸",
+        "condition": "發送 IP 國家 ≠ KR",
+        "action": "檢疫檢測"
+      },
+      "formerEmployee": {
+        "name": "將郵件轉寄給退休人員",
+        "condition": "收件者 = 退休帳戶",
+        "action": "傳給繼任者"
+      },
+      "newsletter": {
+        "name": "時事通訊批次排序",
+        "condition": "批量傳出標頭偵測",
+        "action": "「時事通訊」標籤"
+      },
+      "new": {
+        "name": "新規則",
+        "condition": "寄件人域 = ...",
+        "action": "標籤"
+      }
+    },
+    "evaluationOrder": "由上而下評估 · {count, number} 條已啟用",
+    "hitCount": "{count, number} 次符合",
+    "ruleOrdinal": "規則 {count, number}",
+    "simulationIntro": "將新規則套用至過去 7 天的流量，預覽其影響。",
+    "simulationScope": "影響 {count, number} 項",
+    "simulationFalsePositive": "預計誤判 {count, number} 項",
+    "ifLabel": "如果"
+  },
+  "adminGroups": {
+    "created": "建立了一個群組",
+    "approved": "已核准寄送郵件",
+    "rejected": "已拒絕寄送郵件",
+    "searchPlaceholder": "群組地址/名稱搜尋",
+    "noResults": "沒有搜尋結果。",
+    "createTitle": "建立一個群組",
+    "create": "建立群組",
+    "pendingModeration": "待審核",
+    "noPending": "沒有待審核項目。",
+    "approve": "核准",
+    "reject": "拒絕",
+    "newGroupName": "新組",
+    "currentUser": "我",
+    "nameOrEmail": "姓名或電子郵件",
+    "columns": {
+      "address": "群組位址",
+      "typeOwner": "類型/所有者",
+      "members": "成員",
+      "externalSenders": "外部寄件者",
+      "moderation": "審核"
+    },
+    "fields": {
+      "address": "群組位址",
+      "type": "類型",
+      "addMembers": "新增成員",
+      "externalSenders": "外部寄件者"
+    },
+    "types": {
+      "distribution": "分發清單",
+      "security": "安全群組",
+      "shared": "共享信箱"
+    },
+    "external": {
+      "allowed": "允許",
+      "blocked": "已封鎖"
+    },
+    "moderation": {
+      "required": "需要審核",
+      "autoReply": "自動回覆",
+      "none": "無"
+    },
+    "summary": "{groups, number} 個群組 · {lists, number} 個郵件清單",
+    "queueMeta": "{mailbox} · {age} · 寄件者：{sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "管理員·目標·動作搜索",
+    "noResults": "沒有符合條件的日誌。",
+    "detailTitle": "稽核日誌詳細資料",
+    "jsonComingSoon": "JSON 檢視器正在準備中",
+    "viewJson": "查看 JSON",
+    "revert": "恢復",
+    "revertTitle": "要撤銷此變更嗎？",
+    "reverted": "變更已撤銷",
+    "filters": {
+      "admin": "管理員",
+      "action": "動作",
+      "range": "期間",
+      "all": "全部"
+    },
+    "ranges": {
+      "last7": "過去 7 天",
+      "last30": "過去 30 天",
+      "last90": "過去 90 天",
+      "all": "整個時期"
+    },
+    "columns": {
+      "time": "時間",
+      "admin": "管理員",
+      "action": "動作",
+      "targetChange": "目標/變更詳情",
+      "result": "結果"
+    },
+    "fields": {
+      "time": "時間",
+      "admin": "管理員",
+      "action": "動作",
+      "target": "目標",
+      "ip": "IP",
+      "result": "結果"
+    },
+    "actions": {
+      "policyChanged": "政策變化",
+      "accountSuspended": "帳戶被暫停",
+      "logViewed": "日誌查詢",
+      "quotaChanged": "容量變化",
+      "orgSynced": "組織結構圖同步",
+      "adminLogin": "管理員登入",
+      "domainAdded": "新增域名",
+      "accountsCreated": "建立帳戶",
+      "quarantineReleased": "解除隔離",
+      "permissionChanged": "更改權限",
+      "backupRestored": "備份恢復"
+    },
+    "results": {
+      "success": "成功",
+      "blocked": "已封鎖",
+      "failed": "失敗"
+    },
+    "summary": "{count, number} 筆紀錄 · 保留 5 年 · 不可變儲存",
+    "viewEntry": "檢視詳細資料：{action} · {target}",
+    "revertDescription": "將對 {target} 執行的{action}還原至先前狀態。",
+    "internalIp": "內部網路",
+    "adminNames": {
+      "system": "系統",
+      "unknown": "未知"
+    },
+    "targets": {
+      "mtaSts": "{name} · 已啟用 MTA-STS",
+      "suspended": "{name}（QA 團隊）",
+      "viewedAudit": "稽核日誌 · 最近 7 天",
+      "quotaChanged": "{name} 的帳戶 · 50 GB → 100 GB",
+      "orgSynced": "人資系統 → {count, number} 人",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "批次建立 {count, number} 個員工帳戶",
+      "quarantineReleased": "{count, number} 封郵件 · {name}",
+      "permissionChanged": "{name} → 已授予稽核權限",
+      "restoreFailed": "{name} 的信箱 · {date} 快照"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "保留政策",
+    "restoreTitle": "還原工作",
+    "legalHoldTitle": "法律保全",
+    "viewTargets": "檢視受影響帳戶",
+    "kpis": {
+      "lastBackup": {
+        "label": "最近的備份",
+        "value": "{value}",
+        "note": "耗時 {value} 分鐘 · 成功"
+      },
+      "storage": {
+        "label": "儲存容量",
+        "value": "{value} TB",
+        "note": "較上月增加 {value} GB"
+      },
+      "recoveryWindow": {
+        "label": "我什麼時候可以康復？",
+        "value": "{value} 天",
+        "note": "每日快照 · {value} 年"
+      },
+      "activeRestores": {
+        "label": "恢復正在進行中",
+        "value": "{value} 項",
+        "note": "預計完成 {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "組織預設保留",
+        "scope": "全體員工"
+      },
+      "executive": {
+        "name": "高階主管及簽核文件",
+        "scope": "高階主管"
+      },
+      "publicContracts": {
+        "name": "公共合約紀錄",
+        "scope": "合約相關標籤"
+      },
+      "formerEmployees": {
+        "name": "離職員工信箱",
+        "scope": "離職員工帳戶"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "自動刪除",
+      "undeletable": "無法刪除",
+      "immutable": "不可變儲存",
+      "adminAccess": "由管理員查看"
+    },
+    "mailboxKinds": {
+      "personal": "信箱",
+      "shared": "共用信箱"
+    },
+    "jobStates": {
+      "restoring": "還原中",
+      "completed": "已完成",
+      "pending": "待處理",
+      "failed": "失敗"
+    },
+    "years": "{count, number} 年",
+    "jobName": "{owner} 的{kind} · {date}",
+    "jobMeta": {
+      "restoring": "預計完成 {time}",
+      "completed": "{count, number} 分鐘前完成",
+      "pending": "佇列第 {count, number} 位",
+      "failed": "儲存空間驗證錯誤 · 需要重試"
+    },
+    "legalHoldDescription": "由於 {audits, number} 項進行中的稽核，{accounts, number} 個帳戶禁止刪除。",
+    "legalHoldToast": "開啟 {count, number} 個受法律保全的帳戶",
+    "activeAudits": "{count, number} 項進行中的稽核"
+  },
+  "adminReports": {
+    "createTitle": "建立報告",
+    "includedColumns": "要包含的列",
+    "formatLabel": "格式",
+    "schedule": "排程",
+    "export": "匯出",
+    "scheduledToast": "已排程為定期報告",
+    "exportStarted": "報告匯出已開始",
+    "exportPolicyTitle": "匯出政策",
+    "recentExportsTitle": "最近匯出",
+    "scheduledReportsTitle": "定期報告",
+    "notAvailable": "-",
+    "fields": {
+      "type": "報告類型",
+      "range": "期間",
+      "scope": "範圍",
+      "groupBy": "分組"
+    },
+    "values": {
+      "sentReport": "已寄送郵件報告",
+      "last7": "過去 7 天",
+      "allOrganization": "整個組織",
+      "daily": "每日"
+    },
+    "reportColumns": {
+      "sender": "寄件者",
+      "recipient": "收件者",
+      "subject": "主旨",
+      "time": "時間",
+      "size": "大小",
+      "attachmentCount": "附件數量",
+      "deliveryStatus": "遞送狀態",
+      "filterVerdict": "篩選結果",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "報告",
+      "requestedBy": "請求者",
+      "size": "大小",
+      "completed": "完成",
+      "status": "狀態"
+    },
+    "exportPolicy": {
+      "metadataOnly": "導出僅包含元數據，不包含正文。",
+      "auditedApproval": "所有匯出都記錄在審核日誌中，並需要管理員批准。",
+      "autoDelete": "建立的檔案將在 7 天後自動刪除。",
+      "splitLarge": "如果超過100萬行，會自動分割成多個檔案。"
+    },
+    "exportStates": {
+      "completed": "完成",
+      "generating": "產生中",
+      "expired": "已過期",
+      "failed": "失敗"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "上週",
+      "unavailable": "-"
+    },
+    "limits": "最多 {days, number} 天 · {rows, number} 列",
+    "estimate": "預估 {rows, number} 列 · 約 {size} MB",
+    "exportToastDetail": "{format} · 預估 {rows, number} 列",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient}（{count, number} 人）",
+    "cadence": {
+      "monthlyFirst": "每月 {day, number} 日 {time}",
+      "weeklyMonday": "每週{weekday} {time}",
+      "quarterlyFirst": "每季第一天 {time}",
+      "daily": "每天 {time}",
+      "monthly25": "每月 {day, number} 日"
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "分批進度",
+    "throughputTitle": "吞吐量（過去 12 小時）",
+    "errorsTitle": "失敗/跳過",
+    "retryAll": "全部重試",
+    "retryStarted": "重試失敗/跳過的項目",
+    "noErrors": "沒有等待重試的項目。",
+    "kpis": {
+      "accounts": {
+        "label": "已遷移帳戶",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "已遷移郵件",
+        "value": "{value} 封郵件",
+        "note": "+{value}（24 小時）"
+      },
+      "rate": {
+        "label": "平均速度",
+        "value": "{value} 封/分鐘",
+        "note": "SLA 至少 {value}"
+      },
+      "failed": {
+        "label": "失敗/待處理",
+        "value": "{value} 封郵件",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "批次",
+      "accounts": "帳戶",
+      "progress": "進度",
+      "remaining": "剩餘時間",
+      "status": "狀態"
+    },
+    "sources": {
+      "otherImap": "IMAP 其他",
+      "mixed": "混合的"
+    },
+    "states": {
+      "completed": "完成",
+      "inProgress": "進行中",
+      "pending": "等待",
+      "retrying": "重試中"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "郵箱超出容量",
+        "detail": "目標帳號儲存空間不足"
+      },
+      "corruptedSource": {
+        "reason": "原件損壞",
+        "detail": "無法讀取的郵件項目"
+      },
+      "unsupportedAttachment": {
+        "reason": "不支援附件",
+        "detail": "格式轉換失敗"
+      },
+      "duplicate": {
+        "reason": "重複檢測",
+        "detail": "跳過已傳輸的項目"
+      },
+      "permissionDenied": {
+        "reason": "權限被拒絕",
+        "detail": "無法存取來源伺服器"
+      }
+    },
+    "batchLimits": "同時執行 {parallel, number} 個 · 頻寬限制 {bandwidth, number} Mbps",
+    "batchName": "批次 {number, number}",
+    "minutesRemaining": "{count, number} 分鐘",
+    "throughputSummary": "平均 {average, number} 封/分鐘 · 峰值 {peak, number}",
+    "itemCount": "{count, number} 項",
+    "syncNotice": "遷移後仍與來源伺服器保持 {days, number} 天的 IMAP 同步，失敗項目可隨時重新匯入。"
+  },
+  "adminBrand": {
+    "identityTitle": "組織識別",
+    "openLogoPicker": "開啟標誌檔案選擇器",
+    "replaceLogo": "更換標誌",
+    "replace": "更換",
+    "fields": {
+      "organizationName": "組織顯示名稱",
+      "senderLabel": "郵件寄件者名稱",
+      "supportContact": "支援聯絡方式"
+    },
+    "brandColor": "品牌顏色",
+    "selectColor": "選擇品牌顏色 {color}",
+    "colorAppliesTo": "套用至登入頁面和系統郵件",
+    "signatureTitle": "全組織簽名範本",
+    "toggles": {
+      "sig": "要求所有員工使用簽名",
+      "disclaimer": "在外部郵件中加入免責聲明",
+      "logo": "在簽名中包含標誌"
+    },
+    "loginPreviewTitle": "登入頁面預覽",
+    "companyEmail": "工作電子郵件",
+    "continue": "繼續",
+    "signInWithSso": "使用工作帳戶（SSO）登入",
+    "previewCustomizationHint": "各組織可自訂背景圖片和文字。",
+    "openBackgroundPicker": "開啟背景圖片選擇器",
+    "replaceBackground": "更換背景",
+    "openCopyEditor": "開啟文字編輯器",
+    "editCopy": "編輯文字",
+    "published": "品牌變更已發布",
+    "publish": "發布"
+  },
+  "adminBilling": {
+    "currentPlan": "目前方案",
+    "enterpriseAnnual": "Enterprise 年繳",
+    "planPeriod": "{start} 至 {end} · 自動續訂",
+    "openPlanChange": "開啟方案變更頁面",
+    "changePlan": "變更方案",
+    "seatUsage": "席位使用情況",
+    "seatsUsed": "已用 {used} / {total} 個席位",
+    "seatEstimate": "剩餘 {remaining} 個席位 · 預計 {months} 個月內用完",
+    "nextBilling": "下期帳單",
+    "nextBillingDetails": "預計於 {date} 收費 · 將開立稅務發票",
+    "openPaymentMethods": "開啟付款方式管理",
+    "managePaymentMethods": "管理付款方式",
+    "licensesTitle": "授權組成",
+    "licenses": {
+      "enterpriseMail": "Enterprise 郵件 (50 GB)",
+      "aiAssistance": "AI 摘要與寫作輔助",
+      "archive": "封存與電子蒐證",
+      "largeAttachments": "大型附件 (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "基本方案",
+      "addon": "附加功能",
+      "included": "已包含"
+    },
+    "seatCount": "{count} 個席位",
+    "included": "—",
+    "pricePerMonth": "{amount}/月",
+    "contractNotice": "適用公共採購合約（第三方單價）· 合約編號 {number}",
+    "invoicesTitle": "帳單紀錄",
+    "columns": {
+      "number": "編號",
+      "date": "日期",
+      "amount": "金額",
+      "status": "狀態"
+    },
+    "invoiceStates": {
+      "scheduled": "待付款",
+      "paid": "已付款",
+      "underReview": "審核中"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "API金鑰",
+    "issueKey": "建立金鑰",
+    "columns": {
+      "name": "名稱",
+      "key": "金鑰",
+      "scopes": "權限",
+      "lastUsed": "上次使用",
+      "status": "狀態"
+    },
+    "keyNames": {
+      "legacyErp": "舊版 ERP 集成",
+      "approvalSystem": "簽核系統（Grow）",
+      "reportAutomation": "報告自動化",
+      "oldMobileApp": "舊的行動應用程式",
+      "newKey": "新的 API 金鑰"
+    },
+    "self": "我",
+    "keyStates": {
+      "reviewNeeded": "需要審查",
+      "active": "活躍的",
+      "inactive": "不活躍的"
+    },
+    "keyIssued": "API 金鑰已建立",
+    "keyRotated": "金鑰已輪換",
+    "appDisconnected": "應用程式已中斷連線",
+    "rotateNow": "立即輪換",
+    "webhooksTitle": "Webhook",
+    "webhookStates": {
+      "healthy": "正常",
+      "retrying": "重試中",
+      "frequentFailures": "頻繁失敗"
+    },
+    "usageTitle": "使用情況（30 天）",
+    "usage": {
+      "calls": "呼叫次數（30 天）",
+      "errorRate": "錯誤率",
+      "latency": "p95 延遲"
+    },
+    "approvedAppsTitle": "批准的應用程式",
+    "noApps": "沒有連結的應用程式。",
+    "disconnect": "中斷連線",
+    "lastUsed": {
+      "daysAgo": "{count} 天前",
+      "hoursAgo": "{count} 小時前",
+      "monthsAgo": "{count} 個月前",
+      "justNow": "剛剛",
+      "never": "—"
+    },
+    "staleKeyWarning": "「{name}」金鑰已超過 {days} 天未輪換。",
+    "milliseconds": "{count} 毫秒",
+    "rateLimit": "上限：每月 {count} 次呼叫 · 超出後回傳 429",
+    "appUsers": "{count} 位使用者"
+  },
+  "composeEditor": {
+    "switchingToPlain": "正在切換為純文字",
+    "formattingWillBeLost": "粗體和清單等格式將遺失",
+    "imageAddedAsAttachment": "圖片已作為附件加入",
+    "switchToRich": "切換為格式化文字",
+    "switchToPlain": "切換為純文字",
+    "plainText": "純文字",
+    "richText": "格式化文字",
+    "bold": "粗體",
+    "italic": "斜體",
+    "list": "清單",
+    "insertLink": "插入連結",
+    "insertImage": "插入圖片",
+    "emoji": "表情符號",
+    "closeEmojiMenu": "關閉表情符號選單",
+    "chooseEmoji": "選擇表情符號",
+    "messageBody": "郵件內文"
+  },
+  "composeModal": {
+    "attachmentNote": "{count} 個附件：{names}",
+    "attachmentCount": "{count} 個附件",
+    "bccCount": "包含 {count} 位密件副本收件者",
+    "rewritingTone": "正在以「{tone}」語氣改寫草稿",
+    "externalRecipientWarning": "包含 {count} 位外部收件者",
+    "uploadComplete": "{size} · 上傳完成",
+    "schedule": {
+      "today": "今天 {time}",
+      "tomorrow": "明天 {time}",
+      "nextMonday": "下週一 {time}"
+    },
+    "largeFilesBecomeLinks": "大文件自動轉換為鏈接",
+    "fileTooLarge": "無法附加大於 2GB 的文件",
+    "sent": "郵件已寄出",
+    "newMail": "新郵件",
+    "savedJustNow": "草稿已儲存 · 剛剛",
+    "collapse": "縮小",
+    "expand": "放大",
+    "close": "關閉",
+    "to": "收件者",
+    "removeRecipient": "刪除",
+    "recipientPlaceholder": "輸入姓名或電子郵件…",
+    "ccAndBcc": "副本 · 密件副本",
+    "cc": "副本",
+    "ccPlaceholder": "抄送收件者",
+    "bcc": "密件副本",
+    "bccPlaceholder": "密件副本收件人",
+    "subject": "主旨",
+    "subjectPlaceholder": "輸入主旨",
+    "toneHint": "一旦您選擇了語氣，我們就會重寫您的草稿。",
+    "tones": {
+      "polite": "禮貌",
+      "concise": "精簡",
+      "english": "英文"
+    },
+    "externalRecipientBody": "請仔細檢查內部資訊是否未傳送到外部。",
+    "reviewRecipients": "檢查收件者",
+    "bodyPlaceholder": "撰寫郵件內文",
+    "largeFileLinkSuffix": " · 大型檔案連結",
+    "removeAttachment": "刪除附件",
+    "chooseAttachments": "選擇附件",
+    "dropFiles": "拖放文件",
+    "attachmentLimits": "超過 25 MB 的檔案轉為連結 · 最大 2 GB",
+    "send": "傳送",
+    "scheduleSend": "排程寄送",
+    "closeScheduleMenu": "關閉排程寄送選單",
+    "scheduleTimes": "排程寄送時間",
+    "scheduled": "已設定排程寄送",
+    "attachFile": "附加文件",
+    "tlsEncrypted": "傳出加密 (TLS)",
+    "delete": "刪除",
+    "discardTitle": "不儲存就離開？",
+    "discardDescription": "未完成的郵件仍保留在草稿匣。",
+    "continueEditing": "繼續編輯",
+    "saveDraft": "儲存草稿",
+    "discardWithoutSaving": "不保存",
+    "draftSaved": "已儲存至草稿匣"
+  },
+  "themeCustomizer": {
+    "title": "自訂主題",
+    "close": "關閉",
+    "designThemes": "設計主題",
+    "colorsTitle": "色彩",
+    "primaryColor": "主色",
+    "accentColor": "強調色",
+    "screenMode": "顯示模式",
+    "schemes": {
+      "light": "淺色",
+      "dark": "深色",
+      "system": "跟隨系統"
+    },
+    "typography": "字體排版",
+    "fonts": {
+      "sans": "預設 (Sans)",
+      "serif": "襯線",
+      "mono": "等寬",
+      "rounded": "圓潤"
+    },
+    "layout": "版面配置",
+    "listDensity": "清單密度",
+    "densities": {
+      "comfortable": "寬鬆",
+      "compact": "緊湊"
+    },
+    "sidebarPosition": "側邊欄位置",
+    "sides": {
+      "left": "左側",
+      "right": "右側"
+    },
+    "corners": "圓角樣式",
+    "radii": {
+      "sharp": "直角",
+      "rounded": "圓角",
+      "pill": "膠囊形"
+    },
+    "defaults": "恢復預設",
+    "cancel": "取消",
+    "publish": "發布",
+    "colors": {
+      "blue": "藍色",
+      "indigo": "靛藍",
+      "teal": "青綠",
+      "green": "綠色",
+      "rose": "玫紅",
+      "purple": "紫色",
+      "orange": "橙色",
+      "yellow": "黃色",
+      "pink": "粉色",
+      "cyan": "青色",
+      "lime": "萊姆",
+      "gray": "灰色"
+    },
+    "presets": {
+      "broadsheet": "報紙排版風格的襯線字體與青色、洋紅色",
+      "classical": "古典襯線字體與優雅的古銅色調",
+      "industry": "鋼藍色的克制實用風格",
+      "modernist": "包浩斯式稜角網格與鮮明的紅橙色",
+      "nocturne": "帶藍紫色點綴的深色應用程式風格",
+      "organic": "溫暖陶土色與鼠尾草綠的柔和圓潤風格"
+    }
+  },
+  "searchPage": {
+    "results": "搜尋結果",
+    "allResults": "所有搜尋結果",
+    "resultCount": "{count} 個結果",
+    "syntaxHelp": "搜尋語法說明",
+    "syntaxHelpShortcut": "搜尋語法說明 (?)",
+    "filters": "篩選",
+    "sortBy": "排序方式",
+    "resultList": "搜尋結果清單",
+    "noResults": "找不到搜尋結果。",
+    "peopleCount": "{count} 人",
+    "itemCount": "{count} 項",
+    "searchFilters": "搜尋篩選",
+    "narrowResults": "縮小搜尋範圍",
+    "examples": "搜尋範例",
+    "groups": {
+      "mail": "郵件",
+      "file": "附件",
+      "person": "聯絡人"
+    },
+    "facets": {
+      "period": "時間範圍",
+      "folder": "資料夾",
+      "attachmentType": "附件類型",
+      "label": "標籤"
+    },
+    "facetRows": {
+      "today": "今天",
+      "lastSevenDays": "最近 7 天",
+      "lastSixMonths": "最近 6 個月",
+      "all": "全部",
+      "inbox": "收件匣",
+      "sent": "已寄出",
+      "pendingApproval": "待簽核",
+      "archive": "封存",
+      "pdf": "PDF",
+      "xls": "試算表",
+      "doc": "文件",
+      "img": "圖片",
+      "budgetFinance": "預算 · 財務",
+      "projectAtlas": "阿特拉斯專案",
+      "confidential": "機密"
+    },
+    "chips": {
+      "hasAttachment": "有附件",
+      "recentSixMonths": "最近 6 個月"
+    },
+    "sort": {
+      "relevance": "依相關性",
+      "newest": "最新優先",
+      "sender": "依寄件者"
+    },
+    "saved": {
+      "senderAttachments": "{name}的附件郵件",
+      "inboxBudget": "收件匣中的預算郵件",
+      "pdfFiles": "PDF 附件"
+    }
+  },
+  "searchSyntax": {
+    "title": "搜尋語法",
+    "description": "此範本範例資料支援的搜尋條件。",
+    "close": "關閉",
+    "people": "人員 · 範圍",
+    "content": "內容 · 狀態",
+    "rulesTitle": "組合規則",
+    "recipesTitle": "常用組合",
+    "operators": {
+      "fromSender": "{name}寄送的郵件與附件",
+      "inFolder": "收件匣中的結果",
+      "subject": "主旨中的詞語",
+      "exactPhrase": "搜尋完全相符的詞句",
+      "hasAttachment": "含附件的郵件與檔案",
+      "filename": "指定副檔名的附件"
+    },
+    "rules": {
+      "allTerms": "所有詞語與條件都必須相符。",
+      "quotedPhrase": "含空格的詞句請用雙引號括起來。",
+      "unsupportedOperator": "不支援的運算子不會傳回結果。"
+    },
+    "recipes": {
+      "senderAttachments": "{name}的附件結果",
+      "inboxBudget": "收件匣中的預算相關結果",
+      "pdfFiles": "包含 PDF 附件的結果"
+    }
+  },
+  "accessibilityReport": {
+    "title": "無障礙報告 · KWCAG 2.2",
+    "sectionLabel": "無障礙報告",
+    "passSummary": "通過 {passed} / {total}",
+    "auditNote": "公部門交付標準 · 自我檢查 {date}",
+    "checklist": "檢查項目",
+    "contrastHeading": "對比度驗證",
+    "colorPair": "{role} {foreground} / 背景 {background}",
+    "focusTouchHeading": "焦點 · 觸控目標",
+    "focusState": "焦點狀態",
+    "touchTarget": "最小 44 × 44 px · 行動按鈕、分頁與清單列（篩選標籤 34 px）",
+    "focusRing": "焦點環使用 2 px 強調色外框與 3 px 位移，僅在鍵盤操作時顯示（:focus-visible）。",
+    "assistiveTest": "輔助技術測試",
+    "mailListNote": "郵件清單以表格朗讀，未讀狀態也以文字傳達。",
+    "states": {
+      "pass": "通過",
+      "inProgress": "改善中",
+      "largeOnly": "僅大字體"
+    },
+    "colors": {
+      "body": "內文",
+      "secondary": "輔助文字",
+      "accent": "強調色",
+      "muted": "輔助文字"
+    },
+    "checks": {
+      "keyboard": "僅用鍵盤即可操作",
+      "focus": "焦點可見",
+      "contrast": "內文對比度至少 4.5:1",
+      "color": "不只透過顏色傳達資訊",
+      "altText": "替代文字",
+      "tableHeaders": "表格結構與標題",
+      "errors": "錯誤提示與復原",
+      "zoom": "文字放大至 200%",
+      "timing": "可調整時間限制"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "月曆",
+    "timeView": "按時間排列的行程",
+    "mobileView": "行動月曆",
+    "todaySummary": "今天 {todayCount} 項 · 本週 {weekCount} 項",
+    "createEvent": "建立行程",
+    "detectedEvent": "從郵件中偵測到的行程",
+    "detectedDescription": "「{title}」——在 {personName} 的郵件中找到行程。",
+    "addToCalendar": "加入月曆",
+    "dismiss": "忽略",
+    "noEvents": "這一天沒有行程。"
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "導覽",
+      "global": "全域",
+      "list": "清單",
+      "mail": "郵件操作",
+      "compose": "撰寫",
+      "reply": "回覆",
+      "search": "搜尋",
+      "admin": "管理員"
+    },
+    "actions": {
+      "inbox": "收件匣",
+      "sent": "已寄出",
+      "drafts": "草稿",
+      "pendingApprovals": "待簽核",
+      "calendar": "月曆",
+      "contacts": "通訊錄",
+      "commandSearch": "搜尋 · 命令面板",
+      "compose": "撰寫新郵件",
+      "notifications": "通知中心",
+      "shortcutHelp": "快速鍵說明",
+      "settings": "設定",
+      "collapseSidebar": "收合側邊欄",
+      "nextPrevious": "下一個 · 上一個",
+      "open": "開啟",
+      "select": "選取",
+      "selectAll": "全選",
+      "toggleRead": "已讀 · 未讀",
+      "star": "標記為重要",
+      "archive": "封存",
+      "delete": "刪除",
+      "reportSpam": "檢舉垃圾郵件",
+      "snooze": "稍後提醒",
+      "addLabel": "新增標籤",
+      "moveToFolder": "移至資料夾",
+      "send": "寄送",
+      "saveDraft": "儲存草稿",
+      "scheduleSend": "排程寄送",
+      "attachFile": "新增附件",
+      "addRecipient": "新增收件者",
+      "closeWindow": "關閉視窗",
+      "reply": "回覆",
+      "replyAll": "回覆所有人",
+      "forward": "轉寄",
+      "collapseQuote": "收合引用內容",
+      "viewOriginal": "檢視原文",
+      "openSearch": "開啟搜尋",
+      "syntaxHelp": "語法說明",
+      "searchWithinResults": "在結果中搜尋",
+      "resetFilters": "重設篩選",
+      "switchTab": "切換分頁",
+      "searchTable": "搜尋表格",
+      "exportSelected": "匯出所選項目",
+      "refresh": "重新整理"
+    },
+    "title": "鍵盤快速鍵",
+    "printEdition": "GXWebMail · 可列印完整清單 · {edition}",
+    "openWith": "在畫面中按 <key>?</key> 開啟",
+    "windowsModifier": "在 Windows 上使用 Ctrl 取代 ⌘",
+    "footerNote": "可在設定 · 無障礙中關閉快速鍵。輸入時不會觸發。"
+  },
+  "securityPage": {
+    "title": "帳戶安全",
+    "scoreSummary": "安全評分 {score} / {total} · {count} 項待改善",
+    "passwordAge": "上次變更密碼是 {days} 天前",
+    "mfaHeading": "雙重驗證",
+    "backupCodeNote": "{total} 個備用碼中有 {unused} 個未使用 · 請妥善保管",
+    "passwordSsoHeading": "密碼 · SSO",
+    "appPasswordNotice": "{count} 個應用程式密碼用於 IMAP 連線。較新的用戶端支援 OAuth。",
+    "sessionsHeading": "已登入裝置 · 工作階段",
+    "logoutAll": "全部登出",
+    "logout": "登出",
+    "recentActivity": "最近的安全活動",
+    "sessionRevoked": "工作階段已登出",
+    "openAction": "正在開啟 {method} 的{action}頁面",
+    "reissueTitle": "要重新產生備用碼嗎？",
+    "reissueDescription": "現有 {count} 個備用碼將立即失效，並產生 {count} 個新碼。",
+    "reissueSuccess": "備用碼已重新產生",
+    "reissueSuccessDetail": "{count} 個新碼 · 請妥善保管",
+    "logoutAllTitle": "要從所有其他裝置登出嗎？",
+    "logoutAllDescription": "除目前裝置外的所有工作階段都將立即結束。",
+    "logoutAllSuccess": "已從所有其他裝置登出",
+    "mfaNames": {
+      "totp": "驗證器應用程式 (TOTP)",
+      "securityKey": "安全金鑰 (FIDO2)",
+      "sms": "簡訊",
+      "emailCode": "電子郵件驗證碼"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail} · 註冊於 {date}",
+      "securityKey": "{detail} · 無需指紋即可輕觸",
+      "sms": "{detail}",
+      "emailCode": "個人電子郵件 {detail}"
+    },
+    "authNames": {
+      "password": "密碼",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "應用程式密碼"
+    },
+    "authDescriptions": {
+      "password": "{age} 天前變更 · 依政策每 {cycle} 天須變更",
+      "sso": "使用公司帳戶登入 · 自動佈建",
+      "appPassword": "由 {count} 個 IMAP 用戶端使用"
+    },
+    "badges": {
+      "primary": "預設",
+      "currentDevice": "目前裝置",
+      "appPassword": "應用程式密碼",
+      "needsReview": "需要檢查"
+    },
+    "states": {
+      "active": "使用中",
+      "backup": "備用",
+      "unused": "未使用",
+      "caution": "注意",
+      "connected": "已連線",
+      "review": "需要檢查"
+    },
+    "actions": {
+      "reset": "重設",
+      "manage": "管理",
+      "change": "變更",
+      "configure": "設定",
+      "view": "檢視",
+      "reissue": "重新產生"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "首爾 · {ip} · 公司網路",
+        "when": "使用中"
+      },
+      "iphone": {
+        "meta": "首爾 · LTE",
+        "when": "12 分鐘前"
+      },
+      "windows": {
+        "meta": "城南 · 辦公室電腦",
+        "when": "昨天 18:22"
+      },
+      "ipad": {
+        "meta": "首爾 · 家用 Wi-Fi",
+        "when": "3 天前"
+      },
+      "outlook": {
+        "meta": "首爾 · 應用程式密碼",
+        "when": "6 天前"
+      },
+      "ubuntu": {
+        "meta": "日本大阪 · 不熟悉的位置",
+        "when": "8 天前"
+      }
+    },
+    "events": {
+      "osakaLogin": "新裝置從大阪登入成功",
+      "securityKeyRegistered": "已註冊安全金鑰 (YubiKey 5C)",
+      "backupCodesUsed": "已使用 3 個備用碼"
+    },
+    "when": {
+      "eightDays": "8 天前",
+      "threeWeeks": "3 週前",
+      "oneMonth": "1 個月前"
+    }
+  },
+  "quarantinePage": {
+    "title": "隔離區",
+    "itemCount": "{count} 封",
+    "autoDelete": "{days} 天後自動刪除",
+    "listLabel": "隔離郵件清單",
+    "categoryLabel": "隔離分類",
+    "selectMail": "選取隔離郵件：{subject}",
+    "selectPrompt": "請選取郵件。",
+    "backToList": "返回隔離清單",
+    "release": "移至收件匣",
+    "requestAllowSender": "申請允許寄件者",
+    "delete": "刪除",
+    "approvalRequired": "解除隔離須經安全團隊核准",
+    "released": "已移至收件匣",
+    "allowRequested": "已提交寄件者允許申請",
+    "deleted": "郵件已永久刪除",
+    "recipients": "收件者：{team} {count} 人",
+    "hrTeam": "人資團隊",
+    "riskBadge": "{kind} · 風險 {score}",
+    "spoofedDomainTitle": "寄件網域模仿公司網域",
+    "reasonTitle": "{kind} 隔離原因：{reason}",
+    "spoofedDomainBody": "郵件來自模仿 {trustedDomain} 的 {domain}。內文連結導向外部登入頁面。建議不要開啟並刪除郵件。",
+    "riskBody": "因風險評分為 {score} 而隔離。處理前請核對寄件者與主旨。",
+    "lookupDomain": "查詢寄件網域",
+    "lookupResult": "寄件網域查詢結果",
+    "domainRisk": "{domain} · 信譽有風險",
+    "evidenceHeading": "偵測依據",
+    "riskScore": "風險評分 {score}",
+    "safePreviewHeading": "安全預覽（純文字）",
+    "blockedLinks": "已封鎖 {count} 個連結。",
+    "aiWarning": "真正的人資公告只透過內部簽核系統發送。",
+    "noPreview": "此郵件沒有內文預覽。",
+    "deleteTitle": "要永久刪除此郵件嗎？",
+    "deleteDescription": "刪除「{subject}」後無法復原。",
+    "deletePermanently": "永久刪除",
+    "kinds": {
+      "all": "全部",
+      "spam": "垃圾郵件",
+      "phishing": "網路釣魚",
+      "malware": "惡意軟體"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "仿冒網域 · 外部登入連結",
+      "bulkNoUnsubscribe": "大量寄送 · 無取消訂閱選項",
+      "executableAttachment": "偵測到可執行檔附件",
+      "spoofedDomainCredentials": "仿冒網域 · 要求憑證",
+      "bulkPattern": "大量寄送模式",
+      "spfFailure": "SPF 驗證失敗",
+      "spoofedDomainPayment": "仿冒網域 · 要求付款資訊"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "寄件網域驗證",
+        "detail": "SPF 失敗 · 無 DKIM 簽章 · DMARC 拒絕"
+      },
+      "typosquatting": {
+        "name": "仿冒網域（拼字搶註）",
+        "detail": "gxsoft-kr.net — 編輯距離 1"
+      },
+      "bodyLink": {
+        "name": "內文連結",
+        "detail": "1 個外部登入頁面 · 主機曾被檢舉"
+      },
+      "sendingPattern": {
+        "name": "寄送模式",
+        "detail": "相同內文同時寄送至 14 個帳戶"
+      },
+      "attachment": {
+        "name": "附件",
+        "detail": "無附件"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "我的日曆",
+    "roomAvailability": "會議室預訂情況 · 今天",
+    "capacity": "{count}人",
+    "previous": "上一個",
+    "next": "下一個",
+    "today": "今天",
+    "schedule": "日曆行程",
+    "close": "關閉",
+    "title": "標題",
+    "titlePlaceholder": "例如：合作夥伴啟動會議",
+    "date": "日期",
+    "start": "開始",
+    "end": "結束",
+    "calendar": "日曆",
+    "cancel": "取消",
+    "create": "建立",
+    "eventCreated": "行程已建立",
+    "views": {
+      "day": "日",
+      "week": "週",
+      "month": "月"
+    },
+    "categories": {
+      "personal": "我的行程",
+      "team": "策略規劃團隊",
+      "executive": "高管行程（唯讀）",
+      "room": "會議室預訂",
+      "holiday": "韓國國定假日"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "會議室 5B",
+        "amenity": "投影機 · 視訊",
+        "status": "可預訂"
+      },
+      "room3a": {
+        "name": "會議室 3A",
+        "amenity": "白板",
+        "status": "15:00 使用中"
+      },
+      "auditorium": {
+        "name": "大會議室",
+        "amenity": "直播設備",
+        "status": "全天預訂"
+      },
+      "focus": {
+        "name": "專注室",
+        "amenity": "單人通話",
+        "status": "可預訂"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "略過",
+    "previous": "上一步",
+    "finish": "完成",
+    "next": "下一步",
+    "getStarted": "開始使用",
+    "close": "關閉",
+    "progress": "已完成 {done} / {total}",
+    "minutes": "{count} 分鐘",
+    "steps": {
+      "compose": {
+        "title": "從撰寫郵件開始",
+        "body": "使用左上角的撰寫按鈕編寫新郵件。"
+      },
+      "search": {
+        "title": "隨時隨地搜尋",
+        "body": "在同一處尋找郵件、聯絡人和附件，也可以使用 from:alex 等條件。"
+      },
+      "theme": {
+        "title": "自由自訂佈景主題",
+        "body": "在主題自訂中調整色彩、字型和版面配置，以符合組織需求。"
+      },
+      "tools": {
+        "title": "日曆 · 聯絡人 · 簽核",
+        "body": "從側邊欄直接開啟日曆、聯絡人和簽核。"
+      },
+      "quarantine": {
+        "title": "也要檢查隔離區",
+        "body": "可疑郵件會自動隔離，可透過安全預覽檢視內容。"
+      },
+      "ready": {
+        "title": "準備就緒",
+        "body": "在設定中完成簽名、自動回覆和快速鍵設定。"
+      }
+    },
+    "checklist": {
+      "avatar": "新增個人頭像",
+      "signature": "建立簽名",
+      "twoFactor": "啟用雙重驗證",
+      "mobileApp": "安裝行動應用程式",
+      "importMail": "匯入現有郵件"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "沒有可匯入的新聯絡人",
+    "duplicateNotice": "已略過電子郵件地址相同的聯絡人。",
+    "imported": "已匯入 {count} 位聯絡人",
+    "duplicatesSkipped": "已略過 {count} 筆重複資料",
+    "failed": "無法匯入聯絡人",
+    "errors": {
+      "fileTooLarge": "請選擇不超過 2 MiB 的檔案。",
+      "unclosedQuote": "CSV 中的引號未關閉。",
+      "missingRows": "CSV 需要標頭和至少一列聯絡人。",
+      "missingNameColumn": "CSV 需要姓名欄。",
+      "tooManyContacts": "每次最多匯入 500 位聯絡人。",
+      "missingCsvName": "CSV 第 {row} 列缺少姓名。",
+      "invalidVcard": "找不到有效的 vCard 項目。",
+      "missingVcardName": "第 {row} 個 vCard 項目缺少姓名。",
+      "unsupportedFile": "只能匯入 CSV 或 vCard (.vcf) 檔案。",
+      "unknown": "請重新選擇檔案。"
+    }
+  },
+  "contactsPage": {
+    "title": "聯絡人",
+    "orgChart": "組織圖",
+    "orgSearchPlaceholder": "姓名 · 部門",
+    "orgSearchLabel": "搜尋姓名和部門",
+    "noResults": "沒有搜尋結果。",
+    "myContacts": "我的聯絡人",
+    "contactSummary": "個人聯絡人 {count} 位 · 最近自動收集 {recent} 位",
+    "importTooltip": "匯入 CSV · vCard",
+    "importing": "正在匯入…",
+    "import": "匯入",
+    "addContact": "新增聯絡人",
+    "searchPlaceholder": "姓名 · 公司 · 電子郵件",
+    "searchLabel": "搜尋姓名、公司和電子郵件",
+    "mail": "郵件",
+    "companyPosition": "公司 · 職位",
+    "group": "群組",
+    "noMatchingContacts": "沒有符合條件的聯絡人。",
+    "selectContact": "選取聯絡人：{name} · {email}",
+    "removeFavorite": "將 {name} 從最愛移除",
+    "addFavorite": "將 {name} 加入最愛",
+    "selectPrompt": "請選取聯絡人。",
+    "editContact": "編輯聯絡人",
+    "nameRequired": "請輸入姓名。",
+    "save": "儲存",
+    "cancelChanges": "捨棄變更",
+    "delete": "刪除",
+    "saved": "聯絡人已儲存",
+    "newContact": "新聯絡人",
+    "contactAdded": "已新增聯絡人",
+    "enterDetails": "請輸入詳細資料",
+    "mobileContacts": "行動版聯絡人",
+    "backToList": "返回清單",
+    "myCount": "我的聯絡人 {count} 位",
+    "importContacts": "匯入聯絡人",
+    "importingContacts": "正在匯入聯絡人",
+    "viewContact": "檢視聯絡人：{name}",
+    "groups": {
+      "all": "全部",
+      "starred": "最愛",
+      "external": "外部合作夥伴",
+      "purchasing": "採購聯絡人",
+      "advisor": "顧問",
+      "personal": "個人"
+    },
+    "fields": {
+      "name": "姓名",
+      "company": "公司",
+      "title": "職位 · 部門",
+      "email": "電子郵件",
+      "mobile": "手機",
+      "phone": "公司電話",
+      "memo": "備註"
+    },
+    "teamSummary": "{parent} › {team} · {count}人",
+    "teamCount": "{team} · {count}人",
+    "peopleCount": "{count}人",
+    "openTeamCompose": "正在開啟寄給整個團隊的郵件撰寫頁面",
+    "mailTeam": "寄信給團隊",
+    "vcardExported": "已匯出 vCard",
+    "exportVcard": "匯出 vCard",
+    "teamEmpty": "此團隊尚未登錄成員資訊。",
+    "selectMember": "請選取成員。",
+    "openCompose": "正在開啟郵件撰寫頁面",
+    "composeMail": "撰寫郵件",
+    "openSchedule": "正在開啟行程安排頁面",
+    "scheduleMeeting": "安排會議",
+    "recentMail": "最近往來郵件",
+    "noHistory": "沒有紀錄。",
+    "presence": {
+      "working": "工作中 · 辦公室",
+      "away": "暫離",
+      "offline": "離線"
+    },
+    "approvalLines": {
+      "directorCeo": "部門主管 → 執行長",
+      "leadDirector": "組長 → 部門主管"
+    },
+    "profile": {
+      "email": "電子郵件",
+      "workPhone": "公司電話",
+      "mobile": "手機",
+      "organization": "組織",
+      "joined": "到職日期",
+      "approvalLine": "簽核流程"
+    }
+  },
+  "filesPage": {
+    "title": "附件",
+    "summary": "郵件附件 {count} 個 · {used} · {links} 個大型連結有效",
+    "search": "搜尋檔名和寄件者",
+    "gridView": "格狀檢視",
+    "listView": "清單檢視",
+    "filters": "附件篩選",
+    "type": "類型",
+    "period": "期間",
+    "storage": "儲存空間 {used} / {total}",
+    "storageHint": "清理 {count} 個大型附件可釋出 {amount}。",
+    "fileType": "檔案類型",
+    "filePeriod": "檔案期間",
+    "recentAttachments": "最近附件",
+    "itemCount": "{count} 個",
+    "noResults": "沒有搜尋結果。",
+    "attachmentSummary": "附件摘要",
+    "largeLinks": "大型連結",
+    "downloads": "下載 {count} 次",
+    "cleanupTitle": "清理建議",
+    "cleanupDescription": "{count} 個超過 {threshold} 且已有 {years} 年以上的附件。保留郵件本文，只刪除附件，可釋出 {amount}。",
+    "cleanupOpen": "開啟 {count} 個待清理附件的清單",
+    "cleanupEstimate": "預計釋出 {amount}",
+    "reviewList": "檢視清單",
+    "downloading": "正在下載檔案",
+    "system": "系統",
+    "types": {
+      "all": "全部",
+      "document": "文件",
+      "spreadsheet": "試算表",
+      "presentation": "簡報",
+      "image": "圖片",
+      "archive": "壓縮檔",
+      "other": "其他"
+    },
+    "periods": {
+      "last7": "最近 7 天",
+      "last30": "最近 30 天",
+      "thisYear": "今年",
+      "all": "所有期間"
+    },
+    "sorts": {
+      "latest": "最新",
+      "size": "大小",
+      "sender": "寄件者"
+    },
+    "linkStates": {
+      "active": "有效",
+      "expiring": "即將到期",
+      "expired": "已到期"
+    },
+    "expiry": {
+      "days": "剩餘 {count} 天",
+      "tomorrow": "明天到期",
+      "expired": "已到期"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "每年 {amount}",
+    "title": "簽核",
+    "myTurnCount": "待我簽核 {count} 件",
+    "documentList": "簽核文件清單",
+    "approvalStatus": "簽核狀態",
+    "selectDocument": "選取簽核文件：{title}",
+    "emptyStatus": "此狀態下沒有簽核文件。",
+    "selectPrompt": "請選取簽核文件。",
+    "backToList": "返回簽核清單",
+    "approve": "核准",
+    "reject": "駁回",
+    "holdRequested": "已送出暫緩與徵詢意見要求",
+    "holdAndRequest": "暫緩 · 徵詢意見",
+    "documentMeta": "文件編號 {number} · 保存 {years} 年",
+    "detailedAuthor": "由 {author}（CTO）提案 · {date} · 已連結郵件討論串",
+    "briefAuthor": "由 {author} 提案 · {number} · {due}",
+    "requestedAmount": "申請金額",
+    "approvalChain": "簽核流程",
+    "approvedOn": "於 {date} 核准",
+    "requestDetails": "申請明細",
+    "aiComparison": "與 {count} 件類似提案相比，單價比平均低 {percent}%。此版本已納入財務團隊意見。",
+    "noDetailedRecord": "此文件的簽核流程與申請詳情未包含在範例資料中。",
+    "commentsHistory": "意見 · 歷程",
+    "noComments": "尚無意見。",
+    "commentPlaceholder": "留下意見…（按 Enter 送出）",
+    "approvalComment": "簽核意見",
+    "approveQuestion": "要核准這項申請嗎？",
+    "rejectQuestion": "要駁回這項申請嗎？",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · 將標記為已駁回。",
+    "approvedToast": "已核准申請",
+    "rejectedToast": "已駁回申請",
+    "automaticCheck": "自動檢查",
+    "automaticCheckBody": "附件提案與申請金額相符。預算代碼 IT-CAPEX-26H1 餘額充足。",
+    "tabs": {
+      "mine": "待我簽核",
+      "drafts": "草稿匣",
+      "inProgress": "進行中",
+      "completed": "已完成"
+    },
+    "types": {
+      "budget": "預算",
+      "contract": "合約",
+      "purchase": "採購",
+      "hr": "人事",
+      "expense": "支出",
+      "policy": "規章"
+    },
+    "due": {
+      "today": "今天截止",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "進行中",
+      "completed": "已完成",
+      "approved": "我的簽核已完成",
+      "rejected": "已駁回"
+    },
+    "roles": {
+      "drafter": "提案 · CTO",
+      "reviewer": "審查 · 組長",
+      "finance": "會簽 · 財務主管",
+      "approver": "簽核 · 我",
+      "final": "最終核准"
+    },
+    "chainDetails": {
+      "done": "已完成",
+      "pending": "等待中",
+      "upcoming": "待處理",
+      "approved": "我的簽核已完成",
+      "rejected": "已駁回"
+    }
   }
 }

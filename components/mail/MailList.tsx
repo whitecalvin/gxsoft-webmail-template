@@ -6,7 +6,7 @@ import { MoreHorizontal, Star, Trash2 } from "lucide-react";
 import { useMail } from "@/context/mail-context";
 import { useTheme } from "@/context/theme-context";
 import { useToast } from "@/context/toast-context";
-import { formatMailTimestamp } from "@/lib/format-date";
+import { useMailTimestamp } from "./useMailTimestamp";
 import { FOLDERS } from "@/lib/mock-mails";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { ActionSheet } from "@/components/overlay/ActionSheet";
@@ -68,6 +68,7 @@ function itemClass(style: LayoutStyle, isActive: boolean) {
 export function MailList() {
   const t = useTranslations("mailList");
   const tFolder = useTranslations("sidebar");
+  const formatMailTimestamp = useMailTimestamp();
   const {
     visibleEmails,
     selectedEmailId,
@@ -122,19 +123,11 @@ export function MailList() {
         )}
         {visibleEmails.map((email) => {
           const isActive = email.id === selectedEmailId;
+          const subject = email.subject || t("noSubject");
           return (
             <li key={email.id}>
               <div
-                role="button"
-                tabIndex={0}
-                onClick={() => selectEmail(email.id)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    selectEmail(email.id);
-                  }
-                }}
-                className={`group flex w-full cursor-pointer items-start gap-3 px-4 text-left ${itemClass(
+                className={`group flex w-full items-start gap-3 px-4 text-left ${itemClass(
                   style,
                   isActive
                 )}`}
@@ -142,12 +135,10 @@ export function MailList() {
               >
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleStar(email.id);
-                  }}
-                  className="mt-0.5 shrink-0 text-(--text-muted) hover:text-(--color-accent)"
-                  aria-label={t("markImportant")}
+                  onClick={() => toggleStar(email.id)}
+                  className="-my-1.5 flex size-11 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) hover:text-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) lg:size-8"
+                  aria-label={`${t("markImportant")}: ${subject}`}
+                  aria-pressed={email.starred}
                 >
                   <Star
                     size={16}
@@ -158,58 +149,52 @@ export function MailList() {
                   />
                 </button>
 
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => selectEmail(email.id)}
+                  aria-label={`${email.from.name}: ${subject}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className="flex min-w-0 flex-1 items-start gap-2 rounded-(--radius-app) text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring)"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className={`truncate text-sm ${email.unread ? "font-semibold" : "font-normal"}`}>
+                        {email.from.name}
+                      </span>
+                      <span className="shrink-0 text-xs text-(--text-muted)">
+                        {formatMailTimestamp(email.receivedAt)}
+                      </span>
+                    </span>
+                    <span className={`block truncate text-sm ${email.unread ? "font-medium" : "text-(--text-muted)"}`}>
+                      {subject}
+                    </span>
+                    <span className="block truncate text-xs text-(--text-muted)">
+                      {email.preview}
+                    </span>
+                  </span>
+                  {email.unread && (
                     <span
-                      className={`truncate text-sm ${
-                        email.unread ? "font-semibold" : "font-normal"
-                      }`}
-                    >
-                      {email.from.name}
-                    </span>
-                    <span className="shrink-0 text-xs text-(--text-muted)">
-                      {formatMailTimestamp(email.receivedAt)}
-                    </span>
-                  </div>
-                  <p
-                    className={`truncate text-sm ${
-                      email.unread ? "font-medium" : "text-(--text-muted)"
-                    }`}
-                  >
-                    {email.subject}
-                  </p>
-                  <p className="truncate text-xs text-(--text-muted)">
-                    {email.preview}
-                  </p>
-                </div>
-
-                {email.unread && (
-                  <span
-                    className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: "var(--color-primary)" }}
-                  />
-                )}
+                      aria-hidden="true"
+                      className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: "var(--color-primary)" }}
+                    />
+                  )}
+                </button>
 
                 <div className="flex shrink-0 items-center gap-0.5">
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleTrashClick(email);
-                    }}
-                    className="hidden shrink-0 rounded p-1 text-(--text-muted) opacity-0 transition hover:bg-black/5 hover:text-[#C0433B] group-hover:opacity-100 dark:hover:bg-white/10 lg:flex"
-                    aria-label={email.folder === "trash" ? t("permanentDelete") : t("delete")}
+                    onClick={() => handleTrashClick(email)}
+                    className="hidden size-8 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) opacity-0 transition hover:bg-black/5 hover:text-(--status-danger) group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) dark:hover:bg-white/10 lg:flex"
+                    aria-label={`${email.folder === "trash" ? t("permanentDelete") : t("delete")}: ${subject}`}
                   >
                     <Trash2 size={15} />
                   </button>
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActionSheetEmail(email);
-                    }}
-                    className="flex shrink-0 rounded p-1 text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10 lg:hidden"
-                    aria-label={t("more")}
+                    onClick={() => setActionSheetEmail(email)}
+                    className="flex size-11 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) dark:hover:bg-white/10 lg:hidden"
+                    aria-label={`${t("more")}: ${subject}`}
                   >
                     <MoreHorizontal size={16} />
                   </button>
@@ -222,7 +207,7 @@ export function MailList() {
 
       {actionSheetEmail && (
         <ActionSheet
-          context={actionSheetEmail.subject}
+          context={actionSheetEmail.subject || t("noSubject")}
           onClose={() => setActionSheetEmail(null)}
           items={
             actionSheetEmail.folder === "trash"

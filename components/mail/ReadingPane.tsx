@@ -13,7 +13,7 @@ import {
 import { useMail } from "@/context/mail-context";
 import { useTheme } from "@/context/theme-context";
 import { useToast } from "@/context/toast-context";
-import { formatMailTimestamp } from "@/lib/format-date";
+import { useMailTimestamp } from "./useMailTimestamp";
 import { InviteCard } from "./InviteCard";
 import { InviteAttendees } from "./InviteAttendees";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
@@ -44,6 +44,7 @@ const CONTENT_STYLE: Record<LayoutStyle, string> = {
 export function ReadingPane({ onBack }: { onBack?: () => void }) {
   const t = useTranslations("readingPane");
   const tList = useTranslations("mailList");
+  const formatMailTimestamp = useMailTimestamp();
   const { selectedEmail, toggleStar, moveToTrash, moveToFolder, permanentlyDelete, openCompose } =
     useMail();
   const { draft } = useTheme();
@@ -63,6 +64,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
   }
 
   const email = selectedEmail;
+  const subject = email.subject || tList("noSubject");
   // Reply/reply-all/forward all pre-fill the compose body with the original
   // message quoted below a blank line, Gmail-style.
   const quoted = `\n\n${t("originalMessageHeader")}\n${email.from.name} <${email.from.email}>\n${email.body.join("\n")}`;
@@ -72,7 +74,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
       to: email.from.email,
       subject: email.subject.startsWith("RE:")
         ? email.subject
-        : `RE: ${email.subject}`,
+        : `RE: ${subject}`,
       body: quoted,
     });
   };
@@ -82,7 +84,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
       to: [email.from.email, ...email.to].join(", "),
       subject: email.subject.startsWith("RE:")
         ? email.subject
-        : `RE: ${email.subject}`,
+        : `RE: ${subject}`,
       body: quoted,
     });
   };
@@ -92,7 +94,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
       to: "",
       subject: email.subject.startsWith("FWD:")
         ? email.subject
-        : `FWD: ${email.subject}`,
+        : `FWD: ${subject}`,
       body: quoted,
     });
   };
@@ -174,13 +176,13 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
       <div className="flex min-h-0 flex-1">
         <div className={`flex-1 overflow-y-auto ${CONTENT_STYLE[style]}`}>
           <h1 id="message-subject" className="mb-4 text-xl font-semibold leading-snug sm:text-2xl">
-            {email.subject}
+            {subject}
           </h1>
 
           <div className="mb-6 flex items-start gap-3">
             <span
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
-              style={{ backgroundColor: "var(--color-primary)" }}
+              style={{ backgroundColor: "var(--color-primary-solid)" }}
             >
               {email.from.name.slice(0, 1)}
             </span>

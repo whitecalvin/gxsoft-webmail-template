@@ -19,14 +19,11 @@ export interface CalendarEvent {
 
 export interface CalendarListEntry {
   key: CalendarCategory;
-  name: string;
   color: string;
 }
 
 export interface MeetingRoom {
-  name: string;
+  id: "room5b" | "room3a" | "auditorium" | "focus";
   capacity: number;
-  amenity: string;
   status: "available" | "busy" | "reserved";
-  statusLabel: string;
 }

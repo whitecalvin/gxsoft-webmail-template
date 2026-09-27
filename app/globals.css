@@ -1,8 +1,18 @@
 @import "tailwindcss";
+@import "@fontsource-variable/noto-serif-kr/wght.css";
+@import "@fontsource-variable/nunito/wght.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --color-primary: #2563eb;
   --color-accent: #f97316;
+  /* Keep white avatar initials legible even for very light custom accents. */
+  --color-accent-solid: color-mix(in srgb, var(--color-accent) 40%, black);
+  /* Preserve each preset's source hue while giving text and solid controls
+     enough contrast against the light workspace and white control labels. */
+  --color-primary-ink: color-mix(in srgb, var(--color-primary) 78%, black);
+  --color-primary-solid: var(--color-primary-ink);
   --font-app: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
     Roboto, sans-serif;
   --radius-app: 0.75rem;
@@ -11,7 +21,7 @@
   --surface-app: #ffffff;
   --surface-muted: #f1f5f9;
   --text-app: #171717;
-  --text-muted: #6b7280;
+  --text-muted: #626b78;
   --border-app: #e5e7eb;
 
   /* Semantic component tokens. Theme presets continue to own the base values
@@ -20,7 +30,7 @@
   --control-hover: color-mix(in srgb, var(--text-app) 5%, var(--surface-app));
   --control-muted: color-mix(in srgb, var(--text-muted) 22%, var(--surface-app));
   --control-border: var(--border-app);
-  --focus-ring: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --focus-ring: var(--color-primary-ink);
   --overlay-backdrop: rgb(15 23 42 / 42%);
   --shadow-panel: 0 16px 40px -18px rgb(15 23 42 / 35%);
   --shadow-dialog: 0 28px 72px -24px rgb(15 23 42 / 55%);
@@ -29,24 +39,47 @@
   --toast-muted: #a7abb2;
   --toast-action: #b9c6fa;
 
-  --status-success: #2e8b5b;
+  --status-success: #267547;
   --status-success-bg: #e9f3ec;
-  --status-warning: #a9762a;
+  --status-warning: #875a17;
   --status-warning-bg: #fdf0e4;
-  --status-danger: #c0433b;
+  --status-warning-solid: #875a17;
+  --status-danger: #aa3831;
   --status-danger-bg: #fbeae8;
   --rail-bg: #17181b;
+  --layer-banner: 30;
+  --layer-header: 40;
+  --layer-popover-backdrop: 45;
+  --layer-popover: 50;
+  --layer-sidebar-toggle: 60;
+  --layer-drawer-backdrop: 70;
+  --layer-drawer: 80;
+  --layer-modal: 90;
+  --layer-toast: 100;
+  --layer-tooltip: 110;
+}
+
+/* Density changes desktop information rhythm, not mobile touch targets. */
+@media (min-width: 768px) {
+  .workspace-density {
+    --density-scale: var(--density-preference-scale, 1);
+  }
 }
 
 html.dark {
+  --color-primary-ink: color-mix(in srgb, var(--color-primary) 72%, white);
+  --color-primary-solid: color-mix(in srgb, var(--color-primary) 60%, black);
   --surface-app: #111318;
   --surface-muted: #08090c;
   --text-app: #f3f4f6;
   --text-muted: #9ca3af;
   --border-app: #2a2d34;
 
+  --status-success: #6fd59c;
   --status-success-bg: rgba(46, 139, 91, 0.16);
+  --status-warning: #f2bb65;
   --status-warning-bg: rgba(169, 118, 42, 0.18);
+  --status-danger: #f08a83;
   --status-danger-bg: rgba(192, 67, 59, 0.18);
   --rail-bg: #0b0c0e;
   --control-hover: color-mix(in srgb, var(--text-app) 8%, var(--surface-app));
@@ -82,9 +115,20 @@ html[data-reduce-motion="true"] *,
 html[data-reduce-motion="true"] *::before,
 html[data-reduce-motion="true"] *::after {
   scroll-behavior: auto !important;
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
+  animation: none !important;
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, fill, stroke, box-shadow !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition-property: color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke, box-shadow !important;
+  }
 }
 
 ::selection {
@@ -114,8 +158,27 @@ select:not(:disabled) {
   }
 }
 
+@keyframes workspace-menu-item-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .workspace-menu-item-enter {
   animation: workspace-menu-item-in 240ms ease-out both;
+}
+
+html[data-sidebar-position="right"] .workspace-menu-item-enter {
+  animation-name: workspace-menu-item-in-from-right;
+}
+
+html[data-reduce-motion="true"] .workspace-menu-item-enter {
+  animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -6,17 +6,17 @@ export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 const VARIANT_STYLE: Record<ButtonVariant, string> = {
-  primary: "bg-(--color-primary) text-white shadow-sm hover:brightness-105 active:brightness-95",
+  primary: "bg-(--color-primary-solid) text-white shadow-sm hover:brightness-105 active:brightness-95",
   secondary: "border border-(--border-app) bg-background text-foreground hover:bg-(--surface-muted)",
   ghost: "text-foreground hover:bg-black/5 dark:hover:bg-white/8",
-  danger: "bg-(--status-danger) text-white shadow-sm hover:brightness-105 active:brightness-95",
+  danger: "bg-(--status-danger) text-white shadow-sm hover:brightness-105 active:brightness-95 dark:text-(--surface-app)",
 };
 
 const SIZE_STYLE: Record<ButtonSize, string> = {
-  sm: "min-h-8 gap-1.5 px-3 py-1.5 text-xs",
-  md: "min-h-10 gap-2 px-4 py-2 text-sm",
+  sm: "min-h-11 gap-1.5 px-3 py-1.5 text-xs md:[@media(pointer:fine)]:min-h-8",
+  md: "min-h-11 gap-2 px-4 py-2 text-sm md:[@media(pointer:fine)]:min-h-10",
   lg: "min-h-11 gap-2 px-5 py-2.5 text-sm",
-  icon: "size-10 p-0",
+  icon: "size-10 min-h-11 min-w-11 p-0 md:[@media(pointer:fine)]:min-h-10 md:[@media(pointer:fine)]:min-w-10",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -49,14 +49,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-(--radius-app) font-semibold outline-none transition-[background-color,color,border-color,box-shadow,filter,transform] focus-visible:ring-2 focus-visible:ring-(--color-primary)/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-45",
+        "inline-flex shrink-0 items-center justify-center rounded-(--radius-app) font-semibold outline-none transition-[background-color,color,border-color,box-shadow,filter,transform] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-(--focus-ring) focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-45",
         VARIANT_STYLE[variant],
         SIZE_STYLE[size],
         className,
       )}
       {...props}
     >
-      {loading ? <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> : leadingIcon}
+      {loading ? <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" aria-hidden="true" /> : leadingIcon}
       {children}
       {!loading ? trailingIcon : null}
     </button>

@@ -1,13 +1,13 @@
-import type { Contact, OrgMember, OrgNode, PersonMail } from "@/types/contacts";
+import type { Contact, ContactFilter, OrgMember, OrgNode, PersonMail } from "@/types/contacts";
 
 // Mock data and helpers for the Contacts and Org Chart pages.
 const PALETTE = [
   { bg: "#E4EAFE", fg: "#2B4BF2" },
-  { bg: "#F0EBE1", fg: "#8A7A5C" },
-  { bg: "#E9F3EC", fg: "#2E8B5B" },
-  { bg: "#FBEAE8", fg: "#C0433B" },
+  { bg: "#F0EBE1", fg: "#6F6044" },
+  { bg: "#E9F3EC", fg: "#267547" },
+  { bg: "#FBEAE8", fg: "#AA3831" },
   { bg: "#EDEBF7", fg: "#6B5CA8" },
-  { bg: "#E8F1F5", fg: "#3B7A94" },
+  { bg: "#E8F1F5", fg: "#306982" },
 ];
 
 // Cycles through PALETTE so avatar colors repeat predictably once the list is exhausted.
@@ -19,7 +19,7 @@ function initialsOf(name: string) {
   return name.slice(0, 1);
 }
 
-export const CONTACT_GROUPS = ["전체", "즐겨찾기", "외부 파트너", "구매 담당"] as const;
+export const CONTACT_GROUPS: ContactFilter[] = ["all", "starred", "external", "purchasing"];
 
 export const MY_CONTACTS: Contact[] = [
   {
@@ -31,7 +31,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "02-2345-6001",
     mobile: "010-3456-7001",
     memo: "",
-    group: "구매 담당",
+    group: "purchasing",
     starred: true,
     ...paletteAt(0),
     initials: initialsOf("서지훈"),
@@ -45,7 +45,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "+39 06 1234 5678",
     mobile: "+39 345 678 9012",
     memo: "",
-    group: "외부 파트너",
+    group: "external",
     starred: true,
     ...paletteAt(1),
     initials: initialsOf("Emma Rossi"),
@@ -59,7 +59,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "02-1234-5602",
     mobile: "010-2345-6702",
     memo: "",
-    group: "개인",
+    group: "personal",
     starred: false,
     ...paletteAt(2),
     initials: initialsOf("나윤성"),
@@ -73,7 +73,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "02-3456-7003",
     mobile: "010-4567-8003",
     memo: "",
-    group: "외부 파트너",
+    group: "external",
     starred: false,
     ...paletteAt(3),
     initials: initialsOf("장미래"),
@@ -87,7 +87,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "+81 3 1234 5678",
     mobile: "+81 90 1234 5678",
     memo: "",
-    group: "자문",
+    group: "advisor",
     starred: false,
     ...paletteAt(4),
     initials: initialsOf("Kenji Watanabe"),
@@ -101,7 +101,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "02-1234-5606",
     mobile: "010-2345-6706",
     memo: "",
-    group: "개인",
+    group: "personal",
     starred: false,
     ...paletteAt(5),
     initials: initialsOf("황도윤"),
@@ -115,7 +115,7 @@ export const MY_CONTACTS: Contact[] = [
     phone: "02-2345-6007",
     mobile: "010-3456-7007",
     memo: "",
-    group: "구매 담당",
+    group: "purchasing",
     starred: false,
     ...paletteAt(0),
     initials: initialsOf("최민서"),
@@ -143,7 +143,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5678",
     mobile: "010-2345-6789",
     joined: "2019-03-04",
-    approvalLine: "본부장 → 대표",
+    approvalLine: "directorCeo",
     presence: "working",
     ...paletteAt(0),
     initials: initialsOf("한지우"),
@@ -157,7 +157,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5679",
     mobile: "010-2345-6790",
     joined: "2022-07-11",
-    approvalLine: "팀장 → 본부장",
+    approvalLine: "leadDirector",
     presence: "away",
     ...paletteAt(1),
     initials: initialsOf("오세린"),
@@ -171,7 +171,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5680",
     mobile: "010-2345-6791",
     joined: "2024-01-08",
-    approvalLine: "팀장 → 본부장",
+    approvalLine: "leadDirector",
     presence: "working",
     ...paletteAt(2),
     initials: initialsOf("강태윤"),
@@ -185,7 +185,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5681",
     mobile: "010-2345-6792",
     joined: "2016-09-21",
-    approvalLine: "본부장 → 대표",
+    approvalLine: "directorCeo",
     presence: "offline",
     ...paletteAt(3),
     initials: initialsOf("문지호"),
@@ -199,7 +199,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5682",
     mobile: "010-2345-6793",
     joined: "2023-05-15",
-    approvalLine: "팀장 → 본부장",
+    approvalLine: "leadDirector",
     presence: "working",
     ...paletteAt(4),
     initials: initialsOf("배수아"),
@@ -213,7 +213,7 @@ export const ORG_MEMBERS: OrgMember[] = [
     phone: "02-1234-5683",
     mobile: "010-2345-6794",
     joined: "2021-11-02",
-    approvalLine: "팀장 → 본부장",
+    approvalLine: "leadDirector",
     presence: "working",
     ...paletteAt(5),
     initials: initialsOf("신유진"),
@@ -222,7 +222,7 @@ export const ORG_MEMBERS: OrgMember[] = [
 
 export const PERSON_MAILS: Record<string, PersonMail[]> = {
   m1: [
-    { subject: "9월 정기 워크샵 일정 안내", date: "9월 7일" },
-    { subject: "예산 리뷰 회의록 공유", date: "9월 3일" },
+    { subject: "9월 정기 워크샵 일정 안내", date: "2026-09-07" },
+    { subject: "예산 리뷰 회의록 공유", date: "2026-09-03" },
   ],
 };

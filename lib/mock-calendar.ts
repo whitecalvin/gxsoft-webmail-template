@@ -8,41 +8,33 @@ import { toDateKey } from "@/lib/date-utils";
 // Mock data and helpers for the Calendar page: the list of calendars a user
 // can toggle, meeting rooms, and a generator for a week's worth of events.
 export const CALENDAR_LIST: CalendarListEntry[] = [
-  { key: "personal", name: "내 일정", color: "var(--color-primary)" },
-  { key: "team", name: "전략기획팀", color: "#2e8b5b" },
-  { key: "executive", name: "임원 일정 (읽기)", color: "#6b5ca8" },
-  { key: "room", name: "회의실 예약", color: "#a9762a" },
-  { key: "holiday", name: "대한민국 공휴일", color: "#c0433b" },
+  { key: "personal", color: "var(--color-primary-solid)" },
+  { key: "team", color: "#267849" },
+  { key: "executive", color: "#6b5ca8" },
+  { key: "room", color: "#8b5d1e" },
+  { key: "holiday", color: "#c0433b" },
 ];
 
 export const MEETING_ROOMS: MeetingRoom[] = [
   {
-    name: "회의실 5B",
+    id: "room5b",
     capacity: 12,
-    amenity: "프로젝터 · 화상",
     status: "available",
-    statusLabel: "예약 가능",
   },
   {
-    name: "회의실 3A",
+    id: "room3a",
     capacity: 6,
-    amenity: "화이트보드",
     status: "busy",
-    statusLabel: "15:00 사용 중",
   },
   {
-    name: "대회의실",
+    id: "auditorium",
     capacity: 40,
-    amenity: "중계 장비",
     status: "reserved",
-    statusLabel: "종일 예약",
   },
   {
-    name: "포커스룸",
+    id: "focus",
     capacity: 2,
-    amenity: "1인 통화",
     status: "available",
-    statusLabel: "예약 가능",
   },
 ];
 
@@ -74,7 +66,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 10,
       title: "주간 팀 스탠드업",
       meta: "전략기획팀 · 회의실 3A",
-      color: "#2e8b5b",
+      color: "#267849",
       category: "team",
     },
     {
@@ -84,7 +76,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 14.5,
       title: "1:1 이수민",
       meta: "온라인 · Meet",
-      color: "var(--color-primary)",
+      color: "var(--color-primary-solid)",
       category: "personal",
     },
     {
@@ -104,7 +96,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 12,
       title: "인프라 증설 사전 검토",
       meta: "박서준 · 회의실 5B",
-      color: "#a9762a",
+      color: "#8b5d1e",
       category: "room",
     },
     {
@@ -114,7 +106,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 13.5,
       title: "점심 · 부서 회식",
       meta: "1층 로비 집결",
-      color: "var(--color-primary)",
+      color: "var(--color-primary-solid)",
       category: "personal",
     },
     {
@@ -124,7 +116,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 16,
       title: "채용 면접 (백엔드)",
       meta: "인사팀 동석 · 화상",
-      color: "#2e8b5b",
+      color: "#267849",
       category: "team",
     },
     {
@@ -134,7 +126,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 11,
       title: "파트너 미팅",
       meta: "광주 총판 · 외부",
-      color: "#a9762a",
+      color: "#8b5d1e",
       category: "room",
     },
     {
@@ -144,7 +136,7 @@ export function getMockEvents(weekStart: Date): CalendarEvent[] {
       endHour: 18,
       title: "주간 마감 정리",
       meta: "개인 시간",
-      color: "var(--color-primary)",
+      color: "var(--color-primary-solid)",
       category: "personal",
     },
   ];

@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "メニューを開く",
     "searchPlaceholder": "メールを検索",
+    "closeSearch": "検索を閉じる",
     "clearSearch": "検索をクリア",
     "tour": "ツアーを開始",
     "notifications": "通知"
@@ -41,6 +42,8 @@
     "trash": "ゴミ箱"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "本文へ移動",
     "navigation": "ワークスペースナビゲーション",
     "mailboxGroup": "メールボックス",
     "collaborationGroup": "コラボレーション",
@@ -75,6 +78,8 @@
     "sessionExtend": "ログインを維持"
   },
   "mailList": {
+    "noSubject": "(件名なし)",
+    "yesterday": "昨日",
     "searchResultsFor": "「{query}」の検索結果",
     "countUnit": "{count}件",
     "noSearchResults": "検索結果がありません。",
@@ -119,11 +124,13 @@
     "delete": "削除",
     "edit": "編集",
     "close": "閉じる",
+    "undo": "元に戻す",
     "back": "戻る",
     "deleteForever": "完全に削除",
     "sendAnyway": "そのまま送信"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "メールに戻る",
     "title": "共有メールボックス",
     "summary": "管理メールボックス {mailboxes}件・予約 {scheduled}件・テンプレート {templates}件",
@@ -185,5 +192,3157 @@
     "runAction": "実行",
     "expiryPrefix": "このリンクは",
     "expirySuffix": "になります。"
+  },
+  "settingsSystem": {
+    "title": "設定",
+    "navigationLabel": "設定メニュー",
+    "groups": {
+      "general": "一般",
+      "mail": "メール",
+      "management": "メール管理",
+      "account": "アカウント"
+    },
+    "nav": {
+      "locale": "言語と地域",
+      "theme": "テーマと外観",
+      "accessibility": "アクセシビリティ",
+      "signature": "作成と署名",
+      "inbox-display": "受信トレイと閲覧",
+      "sending": "送信と返信",
+      "away": "不在時の自動応答",
+      "notifications": "お知らせ",
+      "labels": "ラベル",
+      "filters": "フィルターと自動分類",
+      "blocked-senders": "ブロックした送信者",
+      "account": "アカウントと送信元アドレス",
+      "security": "セキュリティとログイン",
+      "integrations": "連携サービス",
+      "shortcuts": "ショートカット"
+    },
+    "unsaved": {
+      "title": "未保存の変更があります",
+      "description": "このページを離れると変更内容が失われます。",
+      "leave": "変更を破棄",
+      "stay": "編集を続ける"
+    },
+    "common": {
+      "save": "保存",
+      "cancel": "キャンセル",
+      "reset": "既定値に戻す",
+      "saved": "保存済み",
+      "unsaved": "未保存の変更",
+      "savedToast": "設定を保存しました",
+      "all": "全体",
+      "edit": "編集",
+      "delete": "削除",
+      "preview": "プレビュー",
+      "done": "完了",
+      "settings": "設定",
+      "current": "現在の端末",
+      "connected": "接続済み",
+      "disconnected": "未接続",
+      "syncFailed": "同期に失敗しました",
+      "neverSynced": "同期履歴なし",
+      "lastSync": "最終同期：{value}",
+      "lastActive": "最終アクティビティ：{value}",
+      "passwordChanged": "最終変更：{value}",
+      "messageCount": "メール {count} 件",
+      "remainingCount": "残り {count} 個"
+    },
+    "empty": {
+      "items": "表示する項目がありません"
+    },
+    "descriptions": {
+      "locale": "メールに表示する言語、日付、タイムゾーンの形式を管理します。",
+      "theme": "ワークスペースのデザインテーマとレイアウトを設定します。",
+      "accessibility": "読みやすさ、キーボード、支援技術の設定を調整します。",
+      "signature": "送信者情報、メール署名、作成時の既定値を管理します。",
+      "signatureList": "新規メールと返信で使用する署名を選択します。",
+      "inbox": "メール一覧と閲覧画面の表示方法を設定します。",
+      "sending": "返信、引用、自動保存、送信の既定値を設定します。",
+      "away": "指定した期間に送信する自動返信を設定します。",
+      "notifications": "メールの種類とチャネルごとに通知方法を設定します。",
+      "labels": "メール整理用のラベルを作成し、順序を管理します。",
+      "filters": "条件に一致するメールを自動的に分類して処理します。",
+      "blockedSenders": "受信をブロックするメールアドレスとドメインを管理します。",
+      "account": "表示名、返信先アドレス、送信元エイリアスを管理します。",
+      "security": "2段階認証とログイン中のデバイスを管理します。",
+      "twoFactor": "ログイン時に追加の認証を行い、アカウントを保護します。",
+      "integrations": "カレンダー、承認、外部サービスとの接続を管理します。",
+      "shortcuts": "キーボードショートカットを有効にし、キーをカスタマイズします。"
+    },
+    "sections": {
+      "languageRegion": "言語と地域形式",
+      "themePreset": "デザインテーマ",
+      "appearance": "外観",
+      "readability": "閲覧とナビゲーション",
+      "senderDefaults": "送信デフォルト",
+      "signatures": "署名",
+      "inboxLayout": "一覧と閲覧画面",
+      "replyDefaults": "作成と返信の既定値",
+      "awaySchedule": "自動返信の期間とメッセージ",
+      "notificationChannels": "通知チャネル",
+      "notificationRules": "メール種類別の通知",
+      "quietHours": "通知を停止する時間帯",
+      "labels": "ラベル一覧",
+      "filters": "フィルタールール",
+      "blockedSenders": "ブロックリスト",
+      "accountIdentity": "アカウント情報",
+      "aliases": "送信元エイリアス",
+      "authentication": "認証",
+      "sessions": "ログインした端末",
+      "recentActivity": "最近のログイン履歴",
+      "integrations": "連携一覧",
+      "shortcuts": "ショートカット一覧"
+    },
+    "fields": {
+      "displayLanguage": "表示言語",
+      "timezone": "タイムゾーン",
+      "dateFormat": "日付形式",
+      "timeFormat": "時刻形式",
+      "weekStart": "週の開始日",
+      "colorScheme": "画面モード",
+      "density": "リスト密度",
+      "radius": "角のスタイル",
+      "sidebarPosition": "サイドバーの位置",
+      "sidebarCollapsed": "サイドバーを折りたたんだ状態で開始",
+      "fontScale": "文字サイズ",
+      "highContrast": "ハイコントラストモード",
+      "reduceMotion": "視差効果を減らす",
+      "enhancedFocus": "フォーカス表示を強調",
+      "screenReaderDetails": "スクリーンリーダー向け詳細説明",
+      "keyboardNavigation": "キーボードナビゲーション支援",
+      "senderName": "送信名",
+      "senderAddress": "デフォルトの送信アドレス",
+      "defaultFont": "既定のフォント",
+      "undoSend": "送信取り消し時間",
+      "defaultSignature": "既定の署名",
+      "signatureOnNew": "新規メールに署名を使用",
+      "signatureOnReply": "返信と転送に署名を使用",
+      "signatureName": "署名名",
+      "signatureContent": "署名の内容",
+      "previewPane": "プレビューペイン",
+      "conversationView": "スレッド表示",
+      "markRead": "既読にするタイミング",
+      "remoteImages": "外部画像",
+      "pageSize": "1ページあたりのメール数",
+      "mailDateFormat": "メールの日付表示",
+      "unreadStyle": "未読メールの強調表示",
+      "defaultReply": "既定の返信方法",
+      "quoteStyle": "引用方法",
+      "requestReceipt": "開封確認を要求",
+      "scheduleDefault": "予約送信の既定値",
+      "autosaveSeconds": "自動保存の間隔",
+      "composeMode": "作成形式",
+      "defaultCc": "既定のCC",
+      "defaultBcc": "既定のBCC",
+      "awayEnabled": "不在時の自動返信を有効化",
+      "startDate": "開始日",
+      "endDate": "終了日",
+      "subject": "タイトル",
+      "internalMessage": "内部ユーザー向けメッセージ",
+      "externalMessage": "外部ユーザー向けメッセージ",
+      "contactsOnly": "連絡先にのみ外部返信",
+      "browserNotifications": "ブラウザー通知",
+      "emailNotifications": "メールダイジェスト通知",
+      "notificationSound": "通知音",
+      "quietStart": "開始時刻",
+      "quietEnd": "終了時刻",
+      "weekendNotifications": "週末も通知",
+      "labelVisible": "メール一覧に表示",
+      "labelName": "ラベル名",
+      "labelColor": "ラベルの色",
+      "filterEnabled": "フィルターを有効化",
+      "filterName": "フィルター名",
+      "condition": "状態",
+      "conditionValue": "条件値",
+      "action": "アクション",
+      "actionValue": "アクションの値",
+      "senderOrDomain": "メールアドレスまたはドメイン",
+      "displayName": "表示名",
+      "primaryEmail": "メインのメールアドレス",
+      "replyTo": "返信先アドレス",
+      "newAlias": "新しい送信元エイリアス",
+      "twoFactor": "2段階認証",
+      "backupCodes": "バックアップコード",
+      "password": "パスワード",
+      "currentPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "新しいパスワードを確認",
+      "autoSync": "自動同期",
+      "shortcutsEnabled": "キーボードショートカットを有効化"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "ソウル（GMT+9）",
+        "Asia_Tokyo": "東京（GMT+9）",
+        "Asia_Shanghai": "上海（GMT+8）",
+        "Europe_London": "ロンドン",
+        "America_New_York": "ニューヨーク",
+        "America_Los_Angeles": "ロサンゼルス"
+      },
+      "dateFormat": {
+        "locale": "地域形式",
+        "iso": "年-月-日",
+        "long": "完全な日付"
+      },
+      "timeFormat": {
+        "12": "12時間制",
+        "24": "24時間制"
+      },
+      "weekStart": {
+        "sunday": "日曜日",
+        "monday": "月曜日"
+      },
+      "colorScheme": {
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム"
+      },
+      "density": {
+        "comfortable": "ゆっくり",
+        "compact": "圧縮"
+      },
+      "radius": {
+        "sharp": "角型",
+        "rounded": "丸く",
+        "pill": "ピル"
+      },
+      "sidebarPosition": {
+        "left": "左",
+        "right": "右"
+      },
+      "font": {
+        "sans": "サンセリフ",
+        "serif": "セリフ",
+        "mono": "等幅"
+      },
+      "seconds": "{value}秒",
+      "previewPane": {
+        "right": "右",
+        "bottom": "下",
+        "off": "使用しない"
+      },
+      "markRead": {
+        "immediate": "すぐに",
+        "2seconds": "2秒後",
+        "manual": "手動"
+      },
+      "remoteImages": {
+        "always": "常に表示",
+        "contacts": "連絡先のみ表示",
+        "never": "表示しない"
+      },
+      "pageSize": {
+        "25": "25件",
+        "50": "50件",
+        "100": "100件"
+      },
+      "mailDateFormat": {
+        "relative": "相対日付",
+        "short": "短い日付",
+        "full": "完全な日付"
+      },
+      "unreadStyle": {
+        "bold": "太字",
+        "highlight": "背景を強調",
+        "dot": "インジケータードット"
+      },
+      "defaultReply": {
+        "reply": "返信",
+        "replyAll": "フル返信"
+      },
+      "quoteStyle": {
+        "inline": "インライン引用",
+        "below": "返信の下に元のメッセージを表示",
+        "none": "元のメッセージを含めない"
+      },
+      "scheduleDefault": {
+        "off": "使用しない",
+        "nextMorning": "翌朝",
+        "custom": "前回の設定を維持"
+      },
+      "autosaveSeconds": {
+        "15": "15秒",
+        "30": "30秒",
+        "60": "1分"
+      },
+      "composeMode": {
+        "html": "リッチテキストメール",
+        "plain": "プレーンテキスト"
+      },
+      "notificationMode": {
+        "instant": "即時通知",
+        "digest": "1時間まとめ",
+        "off": "通知なし"
+      },
+      "filterField": {
+        "from": "送信者",
+        "to": "受信者",
+        "subject": "タイトル",
+        "body": "本文",
+        "attachment": "添付ファイル",
+        "size": "メールサイズ"
+      },
+      "filterAction": {
+        "move": "フォルダーに移動",
+        "label": "ラベルを適用",
+        "star": "重要マーク",
+        "read": "既読にする",
+        "forward": "渡す",
+        "delete": "削除"
+      },
+      "senderType": {
+        "email": "Eメール",
+        "domain": "ドメイン"
+      }
+    },
+    "notificationTypes": {
+      "important": "重要メール",
+      "general": "一般メール",
+      "approval": "承認リクエスト",
+      "mention": "メンション",
+      "shared": "共有メールボックス"
+    },
+    "actions": {
+      "addSignature": "署名の追加",
+      "editSignature": "署名を編集",
+      "addLabel": "ラベルを追加",
+      "editLabel": "ラベルを編集",
+      "moveUp": "上へ移動",
+      "moveDown": "下へ移動",
+      "addFilter": "フィルターを追加",
+      "editFilter": "フィルターを編集",
+      "test": "テスト",
+      "search": "検索",
+      "block": "ブロック",
+      "unblock": "ブロック解除",
+      "add": "追加",
+      "regenerate": "再発行",
+      "changePassword": "パスワードを変更",
+      "logoutOthers": "他のすべてのデバイスからログアウト",
+      "logout": "ログアウト",
+      "sync": "同期",
+      "connect": "接続",
+      "disconnect": "接続を解除",
+      "testNotification": "テスト通知",
+      "viewShortcutReference": "すべてのショートカットを表示"
+    },
+    "errors": {
+      "dateRange": "終了日は開始日より後に設定してください。",
+      "duplicateLabel": "同じ名前のラベルがすでに存在します。",
+      "invalidSender": "有効なメールアドレスまたはドメインを入力してください。",
+      "duplicateSender": "このアドレスはすでにブロックされています。",
+      "invalidEmail": "有効なメールアドレスを入力してください。",
+      "requiredName": "表示名を入力してください。",
+      "duplicateAlias": "この送信元アドレスはすでに登録されています。",
+      "shortcutConflict": "{action} のショートカットと競合しています。",
+      "passwordRequired": "現在のパスワードを入力してください。",
+      "passwordLength": "新しいパスワードは8文字以上にしてください。",
+      "passwordMismatch": "新しいパスワードが一致しません。"
+    },
+    "preview": {
+      "unreadSubject": "未読メールの件名",
+      "unreadBody": "一覧の表示設定をここでプレビューできます。",
+      "conversationCount": "スレッド内のメール {count} 件"
+    },
+    "confirm": {
+      "deleteSignature": "この署名を削除しますか？",
+      "deleteLabel": "このラベルを削除しますか？",
+      "deleteFilter": "このフィルターを削除しますか？",
+      "deleteAlias": "この送信元エイリアスを削除しますか？",
+      "unblockSender": "ブロックを解除しますか？",
+      "disconnect": "サービスとの接続を解除しますか？",
+      "codes": "バックアップコードを再発行しますか？",
+      "all": "他のすべてのデバイスからログアウトしますか？",
+      "session": "このデバイスからログアウトしますか？"
+    },
+    "toast": {
+      "labelDeleted": "ラベルを削除しました",
+      "filterDeleted": "フィルターを削除しました",
+      "filterMatched": "テストメールがフィルター条件に一致しました",
+      "aliasDeleted": "送信元エイリアスを削除しました",
+      "senderBlocked": "送信者をブロックリストに追加しました",
+      "senderUnblocked": "送信者のブロックを解除しました",
+      "codesRegenerated": "バックアップコードを再発行しました",
+      "sessionsRevoked": "他のすべてのデバイスからログアウトしました",
+      "sessionRevoked": "デバイスからログアウトしました",
+      "passwordChanged": "パスワードを変更しました",
+      "syncComplete": "同期が完了しました",
+      "integrationConnected": "サービスに接続しました",
+      "integrationDisconnected": "サービスとの接続を解除しました",
+      "testNotification": "GXWebMailのテスト通知です"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "社内カレンダー",
+        "approval": "電子承認",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "予定の読み取りと書き込み",
+        "approval": "承認リクエストの同期と処理",
+        "slack": "重要メールの通知を送信",
+        "drive": "添付ファイルをリンクとして送信"
+      }
+    },
+    "shortcutActions": {
+      "compose": "新規メールを作成",
+      "search": "メールを検索",
+      "inbox": "受信トレイに移動",
+      "archive": "保管",
+      "delete": "削除",
+      "reply": "返信",
+      "forward": "渡す"
+    }
+  },
+  "adminNav": {
+    "backToMail": "メールに戻る",
+    "singleTenant": "この組織はgxsoft.co.krテナントの1つだけです",
+    "tenant": "テナント",
+    "systemMail": "システムメール・印刷・エラー",
+    "organizationSetup": "組織セットアップウィザード",
+    "systemStatus": "システム状態",
+    "allServicesHealthy": "すべてのサービス正常",
+    "queueStatus": "MTAキュー遅延0.4s・最終確認2分前",
+    "tabs": {
+      "dash": "概要",
+      "users": "アカウント・ユーザー",
+      "policy": "ドメイン・ポリシー",
+      "security": "セキュリティ・スパム",
+      "flow": "メールフロールール",
+      "groups": "グループ・メーリングリスト",
+      "audit": "監査ログ",
+      "backup": "バックアップ・保管",
+      "reports": "レポート・エクスポート",
+      "migration": "メールボックスの移行",
+      "brand": "ブランディング",
+      "api": "API・ウェブフック",
+      "billing": "料金・ライセンス"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "人事チームへのお問い合わせ",
+        "initials": "挨拶"
+      },
+      "recruit": {
+        "name": "採用支援受付",
+        "initials": "採用"
+      },
+      "support": {
+        "name": "グローバルカスタマーサポート",
+        "initials": "サポート"
+      },
+      "press": {
+        "name": "広報・メディア",
+        "initials": "広報"
+      },
+      "office": {
+        "name": "代表取締役秘書",
+        "initials": "秘書"
+      },
+      "invoice": {
+        "name": "税金計算書の受付",
+        "initials": "税"
+      }
+    },
+    "roles": {
+      "manager": "完全管理",
+      "reply": "読書・返信",
+      "readOnly": "読み取り専用",
+      "delegate": "代理送信"
+    },
+    "delegateNote": "ハン・ジウ（代理：人事チームへのお問い合わせ）",
+    "scheduleWhen": {
+      "today": "今日18:00",
+      "sep5": "9月5日 09:00",
+      "sep8": "9月8日 08:30",
+      "sep14": "9月14日 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "調整待ち",
+      "scheduled": "予約済み",
+      "recurring": "毎週月曜日"
+    },
+    "templates": {
+      "approval": "決済ペット案内",
+      "quote": "外部見積依頼",
+      "awayKorean": "不在中の自動応答（韓国語）",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "会議のスケジュール調整"
+    },
+    "templateScope": {
+      "shared": "公共",
+      "private": "個人"
+    },
+    "templateEdited": {
+      "aug21": "8月21日",
+      "jul30": "7月30日",
+      "sep1": "9月1日",
+      "jun12": "6月12日"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "パスワードリセット",
+      "accountInvite": "新規アカウントの招待",
+      "twoFactor": "2段階認証コード",
+      "newDevice": "新しい端末ログイン通知",
+      "quarantineDigest": "検疫メールのまとめ（日刊）",
+      "storageWarning": "容量しきい値警告",
+      "approvalRequest": "支払いリクエストの通知",
+      "awayNotice": "不在時の自動応答案内",
+      "largeLinkExpiry": "大容量リンクの有効期限予告",
+      "accountSuspended": "アカウント停止通知",
+      "migrationComplete": "移行完了",
+      "maintenance": "サービスチェックのお知らせ"
+    },
+    "printMeta": {
+      "from": "送信者",
+      "to": "受け取った人",
+      "date": "日付",
+      "thread": "スレッド"
+    },
+    "printOptions": {
+      "header": {
+        "name": "ヘッダ・ページ番号",
+        "desc": "印刷物の上部に発信情報を表示"
+      },
+      "metadata": {
+        "name": "メタ情報",
+        "desc": "送信者・受信者・日付を含む"
+      },
+      "quotes": {
+        "name": "引用を広げる",
+        "desc": "以前の返信内容をすべて印刷"
+      },
+      "attachments": {
+        "name": "添付リスト",
+        "desc": "添付ファイル名とサイズ表示"
+      },
+      "remoteImages": {
+        "name": "リモートイメージ",
+        "desc": "外部画像を印刷に含める"
+      },
+      "confidential": {
+        "name": "機密表記",
+        "desc": "「社内機密」透かしを追加"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "見つかりません",
+        "title": "このメールが見つかりません",
+        "body": "削除されたか、別のメールボックスに移動された可能性があります。ごみ箱には30日間保管されます。",
+        "action": "受信トレイで",
+        "alt": "ごみ箱を検索",
+        "foot": "問題が解決しない場合は、IT運営チームにお問い合わせください。"
+      },
+      "forbidden": {
+        "label": "権限なし",
+        "title": "この画面にアクセスする権限がありません",
+        "body": "管理者コンソールの料金・契約領域は組織管理者のみ表示できます。必要に応じて権限を要求してください。",
+        "meta": "リクエストログID：acl-7741-b2",
+        "action": "権限要求",
+        "alt": "戻る",
+        "foot": "要求は組織管理者2人に転送されます。"
+      },
+      "maintenance": {
+        "label": "点検中",
+        "title": "定期点検を進めています",
+        "body": "メールの受信は通常どおり継続され、チェックが終わるとすべて配信されます。 Webアクセスのみが中断されます。",
+        "meta": "予想完了 2026-09-05 02:00 KST",
+        "action": "ステータスページ",
+        "alt": "通知を受け取る",
+        "foot": "緊急問い合わせ 02-2000-1000 (24時間)"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "お知らせ",
+    "markAllRead": "すべて読む",
+    "all": "全体",
+    "approval": "承認",
+    "mention": "メンション",
+    "empty": "通知がありません。",
+    "openCenter": "通知センターを開く",
+    "items": {
+      "n1": {
+        "avatar": "パク",
+        "title": "決済要請・パク・ソジュン",
+        "body": "2026年上半期のクラウドインフラストラクチャ増設予算のレビュー - 私の番です",
+        "time": "ただ"
+      },
+      "n2": {
+        "avatar": "チェ",
+        "title": "メンション・チェ・ミンソ",
+        "body": "アトラス3次スプリントレビュー会議録で会員に言及しました",
+        "time": "12分前"
+      },
+      "n3": {
+        "avatar": "この",
+        "title": "決済承認済み・イ・スミン",
+        "body": "9月定期ワークショップ予算案が承認されました",
+        "time": "38分前"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "新しいメール3通",
+        "body": "イ・スミン、ジラ、チェ・ミンソから新しいメールが届きました",
+        "time": "1時間前"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "ストレージスペース82％使用中",
+        "body": "18.2GB / 50GB・大容量添付ファイルをまとめてみてください",
+        "time": "3時間前"
+      },
+      "n6": {
+        "avatar": "川",
+        "title": "メンション・カンテユン",
+        "body": "QAチェックリストコメントであなたに言及しました",
+        "time": "昨日"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "日時",
+      "location": "場所",
+      "organizer": "主催者",
+      "recurrence": "繰り返し"
+    },
+    "states": {
+      "accept": "出席",
+      "tentative": "未定",
+      "decline": "欠席",
+      "noResponse": "未回答"
+    },
+    "rsvpQuestion": "参加しますか？",
+    "viewEvent": "スケジュールを見る",
+    "viewEventNotice": "カレンダーで予定を確認します",
+    "suggestTime": "他の時間の提案",
+    "suggestTimeNotice": "他の時間を主催者に提案する",
+    "leaveMemo": "メモを残す",
+    "leaveMemoNotice": "メモ作成画面を開きます",
+    "attendeeStatus": "出席状況",
+    "host": "主催",
+    "briefing": "AIブリーフィング",
+    "briefingBody": "過去のスプリントレビューで議論されたGPUノード増設ガンの最終レビューが、今回の会議案件に含まれています。",
+    "relatedMailNotice": "関連メール検索結果に移動します",
+    "viewRelatedMail": "関連メールを3件見る",
+    "responseRecorded": "回答を記録しました：{choice}",
+    "attendeeSummary": "{count}人中{responded}人が回答",
+    "conflict": "この時間は<strong>{event}</strong>と重複します。"
+  },
+  "auth": {
+    "common": {
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "terms": "利用規約",
+      "privacy": "個人情報処理方針",
+      "termsNotice": "利用規約を開きます",
+      "privacyNotice": "個人情報処理方針を開きます",
+      "setupWizard": "サーバーインストールウィザード",
+      "noAccount": "アカウントがありませんか？",
+      "haveAccount": "すでにアカウントをお持ちですか？",
+      "signIn": "ログイン",
+      "signUp": "会員登録",
+      "procurementNotice": "©2026 GXWebMail。公共・教育機関調達登録製品。",
+      "eyebrow": "企業向けメールプラットフォーム"
+    },
+    "login": {
+      "title": "また会えてよかったです",
+      "description": "会社アカウントでログインしてください。 SSOを使用する組織は、下のボタンで直接アクセスできます。",
+      "passwordPlaceholder": "パスワードを入力してください",
+      "rememberMe": "ログイン状態を維持",
+      "forgotPassword": "パスワードを探す",
+      "resetNotice": "パスワードリセットメールを送信",
+      "enterEmailFirst": "まずメールを入力してください",
+      "missingCredentials": "メールとパスワードの両方を入力してください。",
+      "submitting": "ログインしています...",
+      "ssoButton": "組織アカウント (SAML) を続ける",
+      "ssoNotice": "SAML SSOログイン画面に移動します",
+      "ssoContact": "組織の管理者に連絡してください",
+      "twoFactorHint": "2段階認証が有効になっているアカウント。ログイン後、OTP 6桁を入力してください。",
+      "tagline": "1日12万通のメールを安定して処理",
+      "uptime": "稼働率 SLA",
+      "largeAttachments": "大容量付",
+      "certified": "認証取得"
+    },
+    "signup": {
+      "title": "アカウントを作成してください",
+      "description": "組織の電子メールでサインアップすると、管理者がアカウントを承認してアクティブ化します。",
+      "name": "名前",
+      "namePlaceholder": "ホンギルドン",
+      "passwordPlaceholder": "8文字以上入力してください",
+      "confirmPassword": "パスワード確認",
+      "confirmPlaceholder": "もう一度パスワードを入力してください",
+      "consentLabel": "利用規約とプライバシーポリシーに同意",
+      "requiredFields": "すべての必須項目を入力してください。",
+      "passwordMismatch": "パスワードが一致しません。",
+      "consentRequired": "利用規約および個人情報処理方針に同意してください。",
+      "submitting": "アカウントを作成しています...",
+      "submit": "参加する",
+      "productIntro": "製品紹介",
+      "tagline": "チーム全体で1つの受信トレイを共有",
+      "benefits": {
+        "brandedWorkspace": "組織に合わせたブランドとワークスペース",
+        "integratedTools": "カレンダー・連絡先・承認を統合",
+        "secureOperations": "ISMS-P基準に準拠した安全なメール運用"
+      },
+      "consent": "<terms>利用規約</terms>と<privacy>プライバシーポリシー</privacy>に同意します。"
+    }
+  },
+  "setup": {
+    "sidebarLabel": "セットアップ手順",
+    "brand": "Mailwave メールサーバー",
+    "title": "インストールウィザード",
+    "introduction": "サーバーのインストールが完了しました。 7つのステップを完了すると、ユーザーはすぐにメールを書くことができます。",
+    "done": "完了",
+    "inProgress": "進む",
+    "serverInfo": "サーバー mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "インストールガイドドキュメントを開く",
+    "guideNotice": "インストールガイドドキュメントを新しいタブで開きます",
+    "settingsLabel": "インストール設定",
+    "back": "戻る",
+    "finish": "インストール完了・ログイン",
+    "copy": "コピー",
+    "copied": "値をコピーしました",
+    "checkAgain": "再テスト",
+    "checking": "テスト中...",
+    "dnsCheckAgain": "DNSの再スキャン",
+    "dnsChecking": "検査中...",
+    "dbRecheckNotice": "データベース接続を再テストします",
+    "dbRecheckSuccess": "接続テストに合格しました",
+    "dnsRecheckNotice": "DNSレコードを再確認します",
+    "dnsRecheckSuccess": "DNSスキャンを完了しました",
+    "inviteSentNotice": "招待メールを送信しました",
+    "inviteSent": "発送完了",
+    "inviteButton": "招待メールを送信",
+    "inviteTargetHeading": "招待先",
+    "steps": {
+      "license": {
+        "name": "ライセンス・管理者アカウント",
+        "description": "{seats, number}席 · 管理者{admins, number}名を登録"
+      },
+      "database": {
+        "name": "データベース接続",
+        "description": "PostgreSQL 16・スキーマ42個"
+      },
+      "organization": {
+        "name": "組織/ドメインの登録",
+        "description": "gxsoft.co.kr · 部門42件をインポート"
+      },
+      "dns": {
+        "name": "ドメイン・DNS確認",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "メールストア・バックアップ",
+        "description": "保存パス・日1回バックアップ"
+      },
+      "security": {
+        "name": "セキュリティポリシー",
+        "description": "スパム・DLP・2段階認証"
+      },
+      "invitations": {
+        "name": "ユーザーの招待",
+        "description": "招待メール発送・初ログイン"
+      }
+    },
+    "license": {
+      "description": "ライセンスキーを入力し、最初の管理者アカウントを作成します。",
+      "fields": {
+        "key": "ライセンスキー",
+        "adminName": "管理者名",
+        "adminEmail": "管理メール",
+        "adminPassword": "管理者パスワード"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "ホスト",
+        "port": "ポート",
+        "database": "データベース",
+        "schema": "スキーマ",
+        "account": "アカウント",
+        "password": "パスワード",
+        "sslMode": "SSLモード",
+        "connectionPool": "コネクションプール"
+      },
+      "poolValue": "最大40・アイドル5",
+      "testTitle": "接続テスト",
+      "states": {
+        "passed": "合格",
+        "warning": "注意"
+      },
+      "checks": {
+        "connection": {
+          "name": "接続",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "バージョン",
+          "detail": "PostgreSQL 16.2 · 少なくとも14以上"
+        },
+        "permissions": {
+          "name": "特権",
+          "detail": "CREATE・ALTER・INDEX確認"
+        },
+        "charset": {
+          "name": "文字セット・ソート",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "タイムゾーン",
+          "detail": "アジア/ソウル・UTC推奨"
+        }
+      }
+    },
+    "organization": {
+      "description": "組織情報とプライマリドメインを登録します。",
+      "fields": {
+        "name": "組織名",
+        "domain": "代表ドメイン",
+        "contact": "担当者のメール"
+      },
+      "hrImportNotice": "HR組織図（グロー）から42の部門を自動的にインポートできます。"
+    },
+    "dns": {
+      "headers": {
+        "type": "タイプ",
+        "host": "ホスト",
+        "value": "値",
+        "status": "状態"
+      },
+      "states": {
+        "verified": "確認済み",
+        "propagating": "伝播中",
+        "missing": "未設定"
+      }
+    },
+    "storage": {
+      "description": "メールデータの保存パスとバックアップ周期を設定します。",
+      "fields": {
+        "path": "保存パス",
+        "frequency": "バックアップサイクル",
+        "retention": "保管期間"
+      },
+      "frequencyValue": "日1回・04:00",
+      "retentionValue": "3年"
+    },
+    "security": {
+      "description": "デフォルトのセキュリティポリシーを設定します。後で管理コンソールで調整できます。",
+      "policies": {
+        "spam": "スパム・フィッシングの自動分離",
+        "dlp": "DLP機密文書のブロック",
+        "twoFactor": "管理者2段階認証必須",
+        "externalWarning": "外部メール警告バナー"
+      }
+    },
+    "invitations": {
+      "description": "従業員に招待メールを送信します。CSVから取り込んだ{count, number}人に初回ログインの案内を送ります。"
+    },
+    "firstRun": "初回起動",
+    "stepCounter": "{total}ステップ中{step}ステップ",
+    "progressLabel": "進捗 {progress}%",
+    "nextStep": "次へ · {name}",
+    "checkSummary": "最終テスト: たった今 · {total}件中{passed}件合格",
+    "dnsSummary": "最終確認: 2分前 · {total}件中{verified}件確認済み",
+    "countSummary": "{total}件中{passed}件合格",
+    "dnsCountSummary": "{total}件中{verified}件確認済み",
+    "inviteTarget": "{count, number}人 · {domain}",
+    "inviteSentCount": "{count, number}人に送信しました",
+    "dbNotice": "次に42個のスキーマテーブルを作成し、初期データを投入します（約40秒）。既存データがある場合は、<strong>既存スキーマを再利用</strong>するか確認します。",
+    "dnsNotice": "DNSの伝播には最大24時間かかります。DKIMとDMARCは今はスキップできます。後で<strong>管理者 · ドメイン · ポリシー</strong>から確認してください。両方のレコードがないと、外部サーバーが送信メールを迷惑メールと判定する可能性があります。"
+  },
+  "adminOnboarding": {
+    "title": "組織セットアップウィザード",
+    "dnsDelayNotice": "DNSの反映に最大48時間かかることがあります。その間、既存のメールサーバーは引き続き動作します。",
+    "dnsTitle": "DNSレコード登録",
+    "copyAll": "フルコピー",
+    "copiedNotice": "DNSレコードをすべてコピーしました",
+    "recheck": "もう一度確認",
+    "checking": "確認中...",
+    "recheckNotice": "DNSレコードをもう一度確認してください",
+    "recheckSuccess": "DNS確認を完了しました",
+    "csvTitle": "アカウント一括登録",
+    "csvSelectNotice": "CSVファイル選択ウィンドウを開きます",
+    "csvSelect": "CSVファイルをドラッグまたは選択してください",
+    "csvColumns": "氏名・Eメール・部署・職級開設が必要",
+    "migrationTitle": "既存のメールの移行",
+    "migrationImap": "IMAP その他",
+    "migrationPending": "待機中",
+    "migrationNotice": "IMAP同期は、移行後も7日間維持され、欠落を防ぎます。",
+    "continueLater": "後で続ける",
+    "next": "Next · アカウントを作成",
+    "nextNotice": "アカウントを作成する手順に進みます",
+    "headers": {
+      "type": "タイプ",
+      "host": "ホスト",
+      "value": "値",
+      "priority": "優先順位",
+      "status": "状態"
+    },
+    "dnsStates": {
+      "verified": "確認済み",
+      "pending": "待機中",
+      "unregistered": "未設定"
+    },
+    "steps": {
+      "organization": {
+        "name": "組織情報",
+        "description": "会社名・代表ドメイン・担当者"
+      },
+      "domain": {
+        "name": "ドメイン接続",
+        "description": "MX・SPF・DKIMレコード登録"
+      },
+      "accounts": {
+        "name": "アカウントを作成",
+        "description": "CSV一括登録・HR組織図連動"
+      },
+      "migration": {
+        "name": "メールの移行",
+        "description": "既存のサーバーからのメールのエスカレーション"
+      },
+      "policy": {
+        "name": "ポリシーを適用する",
+        "description": "セキュリティ・保存・DLPのデフォルト"
+      },
+      "cutover": {
+        "name": "転換・検収",
+        "description": "MX最終転換と出荷テスト"
+      }
+    },
+    "subtitle": "{domain} · ステップ{step}進行中 · 所要時間約{minutes}分",
+    "recordCount": "{count, number}件",
+    "verifiedCount": "{total, number}件中{verified, number}件確認済み",
+    "csvSummary": "{rows, number}行を検証 · 重複{duplicates, number}件を自動統合",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "組織全体の電子メール処理ステータス",
+        "cta": "レポートのエクスポート"
+      },
+      "users": {
+        "sub": "{count, number}件のアカウントを管理",
+        "cta": "アカウントを追加"
+      },
+      "policy": {
+        "sub": "発信ドメインとセキュリティポリシー",
+        "cta": "ポリシーの保存"
+      },
+      "security": {
+        "sub": "ブロック・検疫ログと検知状況",
+        "cta": "ルールの追加"
+      },
+      "flow": {
+        "sub": "組織全体に適用される自動処理ルール",
+        "cta": "ルールの追加"
+      },
+      "groups": {
+        "sub": "配布リストと共有メールボックス",
+        "cta": "グループの作成"
+      },
+      "audit": {
+        "sub": "すべての管理タスクの変更不可記録",
+        "cta": "CSVのエクスポート"
+      },
+      "backup": {
+        "sub": "スナップショットと法的保存の現状",
+        "cta": "今バックアップ"
+      },
+      "reports": {
+        "sub": "カスタムレポートの作成",
+        "cta": "新しいレポート"
+      },
+      "migration": {
+        "sub": "他のメールシステムでのエスカレーション進行状況",
+        "cta": "バッチの追加"
+      },
+      "brand": {
+        "sub": "組織の ID とログイン画面",
+        "cta": "公開"
+      },
+      "api": {
+        "sub": "外部連動キーとイベントの購読",
+        "cta": "キー発行"
+      },
+      "billing": {
+        "sub": "購読と支払いの管理",
+        "cta": "請求書を見る"
+      }
+    },
+    "ranges": {
+      "today": "今日",
+      "last7": "最近7日",
+      "last30": "最近30日",
+      "last90": "最近90日"
+    },
+    "rangeLabel": "期間",
+    "actionNotice": "{action}を開きます"
+  },
+  "adminMobile": {
+    "menuLabel": "管理者メニュー",
+    "backToMenu": "管理者メニューに戻る",
+    "actionPreview": "この操作はプレビューです",
+    "executeAction": "{action}を実行",
+    "screens": {
+      "dash": {
+        "navLabel": "概要",
+        "title": "マネージャー",
+        "sub": "gxsoft.co.kr · リアルタイム",
+        "footerText": "完全なレポートはデスクトップで確認してください",
+        "chips": {
+          "chip0": "今日",
+          "chip1": "7日",
+          "chip2": "30日"
+        },
+        "rows": {
+          "throughput": {
+            "name": "仕事のスループット",
+            "meta": "{count}",
+            "line3": "前日比{growth}"
+          },
+          "blocked": {
+            "name": "ブロック・隔離",
+            "line3": "隔離{quarantined}件・危険高{highRisk}"
+          },
+          "queue": {
+            "name": "出荷キュー",
+            "line3": "再試行{retry}・失敗{failed}"
+          },
+          "deliveryDelay": {
+            "name": "平均配信遅延",
+            "meta": "{seconds}秒",
+            "line3": "SLA {slaSeconds}秒以内",
+            "tag": "ノーマル"
+          },
+          "needsAttention": {
+            "name": "確認が必要{items}件",
+            "line3": "MTA-STS未適用・容量臨界{threshold}件",
+            "tag": "見る"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "アカウント",
+        "title": "アカウント",
+        "sub": "{total}個 · 停止 {suspended} · 非アクティブ {inactive}",
+        "footerText": "スワイプで停止・長押しでパスワード初期化",
+        "footerBtn": "停止",
+        "chips": {
+          "chip0": "全体",
+          "chip1": "停止",
+          "chip2": "非アクティブ"
+        },
+        "action": "アカウントを検索",
+        "rows": {
+          "jiwoo": {
+            "tag": "ノーマル",
+            "line3": "戦略企画チーム · {usage}"
+          },
+          "seojun": {
+            "tag": "ノーマル",
+            "line3": "インフラチーム · {usage}"
+          },
+          "jaeho": {
+            "tag": "容量",
+            "line3": "営業チーム · {usage}"
+          },
+          "temporary": {
+            "tag": "停止",
+            "line3": "未指定・{days}日未接続"
+          },
+          "serin": {
+            "tag": "ノーマル",
+            "line3": "代表理事室 · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "セキュリティ",
+        "title": "セキュリティ",
+        "sub": "最近{days}日・措置待ち{pending}件",
+        "footerText": "ルールの変更はデスクトップでのみ可能です",
+        "chips": {
+          "chip0": "全体",
+          "chip1": "高い"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "異常ログイン試行",
+            "line2": "大阪、日本・{blocked}件ブロック",
+            "line3": "{days}日前・措置完了"
+          },
+          "phishing": {
+            "name": "フィッシングキャンペーンの検出",
+            "line2": "類似ドメイン gxsott.co.kr",
+            "line3": "今日{time} ·隔離{quarantined}件",
+            "tag": "大気"
+          },
+          "dlp": {
+            "name": "DLPブロック",
+            "line2": "実行ファイル添付の送信試行",
+            "line3": "昨日・{cases}件"
+          },
+          "spf": {
+            "name": "SPF障害の急増",
+            "line3": "昨日・評判{score}点",
+            "tag": "大気"
+          },
+          "appPassword": {
+            "name": "アプリパスワードの使用",
+            "line2": "IMAP クライアント {clients} 台",
+            "line3": "{days}日前・レビュー推奨"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "隔離レビュー",
+        "title": "隔離レビュー",
+        "sub": "{total}件・危険高 {highRisk}件",
+        "footerText": "バッチ削除は監査ログに記録されます",
+        "footerBtn": "一括削除",
+        "chips": {
+          "chip0": "高い",
+          "chip1": "スパム",
+          "chip2": "全体"
+        },
+        "rows": {
+          "alert": {
+            "line3": "受信者{recipients}名・類似ドメイン",
+            "tag": "削除"
+          },
+          "invoice": {
+            "line3": "受信者{recipients}名・実行ファイル",
+            "tag": "削除"
+          },
+          "newsletter": {
+            "line3": "受信者{recipients}人・SPF失敗",
+            "tag": "保留"
+          },
+          "recruitment": {
+            "line3": "{recipients}人の受信者・最初の受信",
+            "tag": "復元"
+          },
+          "billing": {
+            "line3": "受信者{recipients}人・正常性",
+            "tag": "復元"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "サービスステータス",
+        "title": "サービスステータス",
+        "sub": "すべてのサービス正常",
+        "footerText": "チェックバナーはすべてのユーザーに表示されます",
+        "action": "お知らせを追加",
+        "rows": {
+          "mail": {
+            "name": "メール受信・発送",
+            "line3": "稼働率{availability}（{days}日）",
+            "tag": "ノーマル"
+          },
+          "webClient": {
+            "name": "Webクライアント",
+            "line3": "p95応答{latency}ms",
+            "tag": "ノーマル"
+          },
+          "protocols": {
+            "line3": "{connections}接続",
+            "tag": "ノーマル"
+          },
+          "migration": {
+            "name": "メールボックスの移行",
+            "line3": "配置{batches}つ進行・帯域幅制限",
+            "tag": "遅延"
+          },
+          "maintenance": {
+            "name": "スケジュールされたチェック",
+            "line2": "{date} {start} – {end}",
+            "line3": "バナー投稿中・受信は継続",
+            "tag": "公開"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "グループ",
+        "title": "グループ",
+        "sub": "{total}個・メーリング{mailing}",
+        "footerText": "メンバー編集は長押しして選択してください",
+        "chips": {
+          "chip0": "全体",
+          "chip1": "部門",
+          "chip2": "メーリング"
+        },
+        "action": "グループを追加",
+        "rows": {
+          "strategy": {
+            "meta": "{count}人",
+            "line3": "strategy・部門グループ"
+          },
+          "infrastructure": {
+            "meta": "{count}人",
+            "line3": "infra・部門グループ"
+          },
+          "allStaff": {
+            "meta": "{count}人",
+            "tag": "限界",
+            "line3": "all・発信制限"
+          },
+          "sales": {
+            "meta": "{count}人",
+            "line3": "sales1・部門グループ"
+          },
+          "aurora": {
+            "meta": "{count}人",
+            "tag": "一時",
+            "line3": "aurora · 一時 · 12月の有効期限"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "ドメイン・ポリシー",
+        "title": "ドメイン・ポリシー",
+        "sub": "{domains}つのドメイン・措置{actions}件",
+        "footerText": "ポリシーの変更はデスクトップでのみ可能です",
+        "chips": {
+          "chip0": "ドメイン",
+          "chip1": "認証"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "メインドメイン · SPF · DKIM · DMARC",
+            "tag": "ノーマル"
+          },
+          "mailDomain": {
+            "line3": "発送専用・評判{score}点",
+            "tag": "警告"
+          },
+          "aliasDomain": {
+            "line3": "エイリアス・受信転送",
+            "tag": "ノーマル"
+          },
+          "dmarc": {
+            "line3": "p=quarantine・レポート週1回",
+            "name": "DMARCポリシー"
+          },
+          "mtaSts": {
+            "line3": "推奨・中間者攻撃ブロック",
+            "tag": "アクション",
+            "name": "MTA-STS 未適用"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "監査ログ",
+        "title": "監査ログ",
+        "sub": "最近{hours}時間・{events}件",
+        "footerText": "ログは7年保管・エクスポートするデスクトップ",
+        "chips": {
+          "chip0": "全体",
+          "chip1": "特権",
+          "chip2": "削除"
+        },
+        "action": "ログを検索",
+        "rows": {
+          "grantRole": {
+            "name": "管理者権限の付与",
+            "line2": "オセリン→パク・ソジュン",
+            "line3": "IP 10.2.14.8 · Webコンソール"
+          },
+          "removeDelegate": {
+            "name": "メールボックスの委任解除",
+            "line2": "shared-hr · ハン・ジウ"
+          },
+          "bulkDelete": {
+            "name": "一括削除の実行",
+            "tag": "重要",
+            "line2": "隔離メール{count}件",
+            "line3": "パク・ソジュン・元に戻せない"
+          },
+          "editPolicy": {
+            "name": "ポリシーの変更",
+            "meta": "昨日",
+            "line2": "DLP実行ファイルのブロックON",
+            "line3": "オセリン"
+          },
+          "issueApiKey": {
+            "name": "APIキー発行",
+            "meta": "昨日",
+            "line3": "インフラチーム・有効期限{days}日"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "バックアップ",
+        "title": "バックアップ",
+        "sub": "1日{frequency}回 · 最終成功 {lastSuccess}",
+        "footerText": "復元はデスクトップコンソールからリクエストしてください",
+        "chips": {
+          "chip0": "仕事",
+          "chip1": "復元"
+        },
+        "rows": {
+          "full": {
+            "name": "フルバックアップ",
+            "line3": "{used}TB・{minutes}分かかります",
+            "tag": "成功"
+          },
+          "incremental": {
+            "name": "増分バックアップ",
+            "meta": "マッシュ",
+            "line3": "最近{successes}回連続成功",
+            "tag": "成功"
+          },
+          "restoreTest": {
+            "name": "復元テスト",
+            "meta": "{days}日前",
+            "line3": "四半期1回推奨・期限切れ",
+            "tag": "推奨"
+          },
+          "retention": {
+            "name": "保存方針",
+            "line3": "メール{mailYears}年・監査ログ{auditYears}年"
+          },
+          "storage": {
+            "name": "ストレージの使用",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "料金",
+        "title": "料金",
+        "sub": "{month}の請求予定額 {amount}",
+        "footerText": "税金計算書は登録メールで送信されます",
+        "chips": {
+          "chip0": "今月",
+          "chip1": "先月"
+        },
+        "rows": {
+          "seats": {
+            "name": "使用席",
+            "line3": "契約{contracted}席・余裕{available}席"
+          },
+          "storage": {
+            "name": "追加ストレージ",
+            "line3": "{amount}・月額定額"
+          },
+          "archive": {
+            "name": "アーカイブのアーカイブ",
+            "line3": "{amount}・{years}年保存"
+          },
+          "augustInvoice": {
+            "name": "8月の請求",
+            "line3": "決済完了・{date}",
+            "tag": "完了"
+          },
+          "cardExpiry": {
+            "name": "カードの有効期限切れ",
+            "line3": "法人カード****4821・11月有効期限",
+            "tag": "アクション"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "ブランディング",
+        "title": "ブランディング",
+        "sub": "ロゴ・色・署名",
+        "footerText": "変更は承認後の戦士に適用されます",
+        "chips": {
+          "chip0": "適用",
+          "chip1": "ドラフト"
+        },
+        "rows": {
+          "logo": {
+            "name": "ロゴ",
+            "line3": "SVG・ライト・ダーク登録",
+            "tag": "適用"
+          },
+          "accent": {
+            "name": "ハイライトカラー",
+            "line3": "ログイン・ボタン・リンクに反映",
+            "tag": "適用"
+          },
+          "signature": {
+            "name": "メール署名テンプレート",
+            "line3": "部署別{types}種・自動挿入"
+          },
+          "loginBackground": {
+            "name": "ログインの背景",
+            "line3": "画像未登録・基本使用",
+            "tag": "ドラフト"
+          },
+          "senderName": {
+            "name": "システムメールの送信者名",
+            "line3": "GXSOFTメール・no-reply"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "キー{keys}個・呼び出し{calls}/日",
+        "footerText": "キー値は発行時に一度だけ表示されます",
+        "chips": {
+          "chip0": "キー",
+          "chip1": "ウェブフック"
+        },
+        "action": "APIキーを追加",
+        "rows": {
+          "hrSync": {
+            "line3": "読んで · アカウント · 最近呼び出す {minutes}分前",
+            "tag": "アクティブ"
+          },
+          "billingSync": {
+            "line3": "読書・使用量・有効期限{days}日",
+            "tag": "アクティブ"
+          },
+          "legacyImport": {
+            "line3": "書き込み・有効期限{days}日・回転推奨",
+            "tag": "有効期限"
+          },
+          "quarantineWebhook": {
+            "name": "Webフック・隔離通知"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/分",
+            "line3": "超過時429・再試行推奨",
+            "name": "レートリミット"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "承認フロー",
+        "title": "承認フロー",
+        "sub": "大気{pending}件・平均{averageHours}時間",
+        "footerText": "モバイルでは承認・返却のみ可能です",
+        "footerBtn": "承認",
+        "chips": {
+          "chip0": "大気",
+          "chip1": "完了"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "一括発送承認",
+            "line2": "戦士告知・{people}人",
+            "line3": "要請ハン・ジウ・{hours}時間前",
+            "tag": "大気"
+          },
+          "externalShare": {
+            "name": "外部共有例外",
+            "line2": "partner-corp.kr添付を許可",
+            "line3": "リクエスト営業1チーム・{hours}時間前",
+            "tag": "大気"
+          },
+          "deleteAccount": {
+            "name": "アカウントの削除",
+            "line2": "temp-001 ・データ破棄",
+            "line3": "要請インフラチーム・昨日",
+            "tag": "大気"
+          },
+          "dlpException": {
+            "name": "ポリシーの例外 · DLP",
+            "line2": "実行ファイル1回出荷",
+            "line3": "承認完了・オセリン",
+            "tag": "完了"
+          },
+          "approvalTemplate": {
+            "name": "結線のテンプレート",
+            "line3": "{step}段階・部署長→情報セキュリティ→代表"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "レポート",
+        "title": "レポート",
+        "sub": "週次 · {month}第{week}週",
+        "footerText": "PDFエクスポートはデスクトップで可能です",
+        "chips": {
+          "chip0": "週間",
+          "chip1": "毎月"
+        },
+        "rows": {
+          "traffic": {
+            "name": "受発信の推移",
+            "line3": "受信{received}・発送{sent}"
+          },
+          "spamBlock": {
+            "name": "スパムブロック率",
+            "line3": "オタムの報告{reports}件",
+            "tag": "ノーマル"
+          },
+          "userActivity": {
+            "name": "ユーザーの活動度",
+            "line3": "週{days}日以上接続{people}人"
+          },
+          "storageGrowth": {
+            "name": "ストレージ容量の増加",
+            "line3": "週平均・臨界予想{months}ヶ月"
+          },
+          "scheduled": {
+            "name": "予約レポート",
+            "meta": "{reports}件",
+            "line3": "{weekday}{time}・経営陣発送"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "移行",
+        "title": "移行",
+        "sub": "配置{batches}個進行・{progress}",
+        "footerText": "中断・再試行はデスクトップコンソールで",
+        "chips": {
+          "chip0": "進む",
+          "chip1": "完了",
+          "chip2": "失敗"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "{migrated}/{total} アカウント・残り{hours}時間{minutes}分",
+            "name": "配置07・営業本部"
+          },
+          "researchBatch": {
+            "line3": "{migrated}/{total} アカウント・帯域幅制限",
+            "name": "バッチ08・研究所"
+          },
+          "overseasBatch": {
+            "line3": "{migrated}/{total} 勘定・時差待ち",
+            "name": "配置09・海外支社"
+          },
+          "failedBatch": {
+            "line3": "メールボックス容量超過・再試行が必要",
+            "tag": "失敗",
+            "name": "バッチ06・失敗{failures}件"
+          },
+          "completedBatches": {
+            "line3": "検証通過・オリジナル保管{days}日",
+            "tag": "完了",
+            "name": "バッチ 01–05 完了"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "メールスループット",
+    "received": "受信",
+    "sent": "発信",
+    "blocked": "ブロック",
+    "authTitle": "認証ステータス",
+    "alertsTitle": "確認が必要な項目",
+    "openAlerts": "確認が必要な項目の完全なリストを開きます",
+    "all": "全体",
+    "funnelTitle": "配信ファンネル(今日)",
+    "averageDelay": "平均配信遅延",
+    "reputationTitle": "ドメイン評判",
+    "queueTitle": "出荷キュー",
+    "live": "リアルタイム",
+    "kpis": {
+      "processed": "今日処理メール",
+      "activeAccounts": "アクティブアカウント",
+      "blockedRate": "スパムブロック率",
+      "deliveryDelay": "平均配信遅延"
+    },
+    "authStatus": {
+      "normal": "ノーマル",
+      "quarantine": "隔離ポリシー",
+      "notApplied": "未適用"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "MTA-STSポリシー未適用",
+        "desc": "sub.gxsoft.co.kr ドメインに TLS 強制ポリシーがありません。"
+      },
+      "quota": {
+        "title": "容量臨界勘定8件",
+        "desc": "90％超のアカウントに自動通知が送信されました。"
+      }
+    },
+    "funnel": {
+      "attempted": "受信しよう",
+      "blocked": "スパム・悪意のあるブロック",
+      "quarantined": "隔離保留",
+      "delivered": "通常配信",
+      "bounced": "返送・失敗"
+    },
+    "queueStats": {
+      "pending": "待機中",
+      "retrying": "再試行",
+      "failed": "失敗"
+    },
+    "queueState": {
+      "sending": "発送中",
+      "completed": "完了",
+      "pending": "大気"
+    },
+    "reputationMetrics": "迷惑メール {spam} · バウンス {bounce}",
+    "itemCount": "{count, number}件"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "氏名・アカウント・部門検索",
+    "allDepartments": "部門全体",
+    "allRoles": "権限全体",
+    "allStatuses": "状態全体",
+    "selectAll": "全選択",
+    "moreActions": "もっと見る",
+    "resumeAccount": "解凍する",
+    "suspendAccount": "アカウントを停止",
+    "deleteAccount": "アカウントの削除",
+    "suspendedToast": "アカウントを停止しました",
+    "resumedToast": "アカウントの停止を解除しました",
+    "deletedToast": "アカウントが削除されました",
+    "bulkSuspend": "一括停止",
+    "clearSelection": "選択解除",
+    "columns": {
+      "user": "ユーザー",
+      "department": "部署・役職",
+      "role": "特権",
+      "quota": "容量",
+      "lastSeen": "最後の接続",
+      "status": "状態"
+    },
+    "departments": {
+      "strategy": "戦略企画チーム",
+      "infrastructure": "インフラチーム",
+      "finance": "財務チーム",
+      "platform": "プラットフォーム開発チーム",
+      "qa": "QAチーム",
+      "system": "システム"
+    },
+    "departmentFilter": "部署フィルター",
+    "roleFilter": "権限フィルター",
+    "statusFilter": "状態フィルター",
+    "positions": {
+      "deputy": "次長",
+      "principal": "責任者",
+      "lead": "チーム長",
+      "senior": "主任",
+      "serviceAccount": "サービスアカウント"
+    },
+    "roles": {
+      "superAdmin": "最高管理者",
+      "departmentAdmin": "部署管理者",
+      "auditor": "監査担当者",
+      "api": "API",
+      "member": "一般ユーザー"
+    },
+    "statuses": {
+      "active": "有効",
+      "overQuota": "容量超過",
+      "suspended": "停止"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "たった今",
+    "selectedCount": "{count, number}人を選択中",
+    "summary": "合計{total, number}件のアカウント · 停止{suspended, number}件",
+    "bulkSuspendedToast": "{count, number}件のアカウントを停止しました",
+    "selectUser": "{name}を選択",
+    "deleteTitle": "{name}のアカウントを削除しますか？",
+    "deleteDescription": "メールボックスとすべての添付ファイル（{quota}）も削除されます。確認のためメールアドレスを入力してください。"
+  },
+  "adminPolicy": {
+    "domainsTitle": "ドメイン",
+    "sendLimitsTitle": "出荷制限",
+    "mailPolicyTitle": "メールポリシー",
+    "aiTitle": "AI機能展開範囲",
+    "aiDescription": "要約・作成支援機能を組織単位で段階展開します。本文は国内リージョンでのみ処理され、学習には使用されません。",
+    "syncStarted": "HR組織も同期を開始します",
+    "syncCompleted": "組織も同期を完了しました",
+    "syncing": "同期中...",
+    "syncNow": "今すぐ同期",
+    "justNow": "ただ",
+    "domainTags": {
+      "primary": "基本",
+      "alias": "エイリアス",
+      "needsReview": "確認が必要"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "1人1時間あたりの発信",
+        "value": "{value, number}通"
+      },
+      "attachmentMb": {
+        "name": "1回添付容量",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "大容量リンクのアーカイブ",
+        "value": "{value, number}日"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "外部発信ドメイン認証の強制",
+        "desc": "SPF・DKIM失敗メールを受信拒否します。"
+      },
+      "ext": {
+        "name": "外部メール警告バナー",
+        "desc": "組織外からのメッセージ本文の上部にバナーを表示します。"
+      },
+      "dlp": {
+        "name": "機密文書外部転送ブロック(DLP)",
+        "desc": "「機密」ラベルが付いた添付の外部発送を遮断します。"
+      },
+      "retain": {
+        "name": "メールアーカイブ3年・削除後30日復旧",
+        "desc": "公共機関記録物管理指針に合わせた保存期間です。"
+      },
+      "sandbox": {
+        "name": "添付ファイルサンドボックスチェック",
+        "desc": "実行ファイル・マクロ 文書を隔離環境で先に実行します。"
+      }
+    },
+    "rollout": {
+      "engineering": "技術本部",
+      "strategyFinance": "戦略企画・財務",
+      "remaining": "他の戦士"
+    },
+    "rolloutState": {
+      "deployed": "フルデプロイ",
+      "beta": "ベータ",
+      "pending": "大気"
+    },
+    "verifiedCount": "{count, number}件を確認済み",
+    "peopleCount": "{count, number}人",
+    "todayAt": "今日 {time}",
+    "syncSummary": "HRシステム（Grow）は毎日03:00に組織図を同期します。最終同期：{lastSync} · {count, number}人",
+    "domainMeta": {
+      "primary": "アカウント{count, number}件 · MX正常 · {registered}登録",
+      "alias": "アカウント{count, number}件 · グローバル送信専用",
+      "review": "アカウント{count, number}件 · MTA-STSポリシーなし"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "ブロック・隔離ログ",
+    "exportStarted": "CSVエクスポートを開始しました",
+    "exportCsv": "CSVのエクスポート",
+    "empty": "その条件のログはありません。",
+    "kpis": {
+      "blocked": "ブロック（7日）",
+      "quarantine": "隔離待機",
+      "phishing": "フィッシング判定",
+      "accuracy": "検出精度"
+    },
+    "filters": {
+      "all": "全体",
+      "spam": "スパム",
+      "phishing": "フィッシング",
+      "malware": "マルウェア"
+    },
+    "columns": {
+      "time": "時刻",
+      "sender": "発信者",
+      "subjectReason": "件名・判定理由",
+      "recipient": "受信者",
+      "score": "スコア",
+      "action": "アクション"
+    },
+    "actions": {
+      "blocked": "ブロック",
+      "quarantined": "隔離",
+      "released": "解除",
+      "passed": "通過"
+    },
+    "recipients": {
+      "allStaff": "全社員",
+      "purchasing": "購買チーム",
+      "multiple": "複数の受信者"
+    },
+    "rowCount": "{count, number}件",
+    "reasons": {
+      "similarDomain": "フィッシングが疑われる類似ドメイン",
+      "executable": "実行ファイルを検出",
+      "spoofedDomain": "偽装ドメイン"
+    }
+  },
+  "adminFlow": {
+    "title": "ルール",
+    "reorder": "順序の変更",
+    "reorderToast": "ルール順序変更モードに切り替えます",
+    "added": "ルールを追加しました",
+    "createTitle": "ルールの作成",
+    "add": "ルールの追加",
+    "runSimulation": "シミュレーションの実行",
+    "simulationCompleted": "シミュレーションを完了しました",
+    "fields": {
+      "scope": "適用対象",
+      "condition": "条件（IF）",
+      "action": "アクション(THEN)"
+    },
+    "values": {
+      "allOrganization": "全体組織"
+    },
+    "rules": {
+      "executive": {
+        "name": "役員メール優先配信",
+        "condition": "受信者=役員グループ",
+        "action": "即時配信+重要マーク"
+      },
+      "confidential": {
+        "name": "外部→機密ラベル付き遮断",
+        "condition": "ラベル=機密、受信者外",
+        "action": "出荷をブロック"
+      },
+      "largeAttachment": {
+        "name": "大容量添付リンク切り替え",
+        "condition": "添付 > 10MB",
+        "action": "ドライブリンクに切り替える"
+      },
+      "recruitment": {
+        "name": "求人メールの人事チームリファレンスを追加",
+        "condition": "タイトルに【募集】と入れてください",
+        "action": "人事チームの参照を追加"
+      },
+      "foreignIp": {
+        "name": "海外IP発信隔離",
+        "condition": "送信元IPの国 ≠ KR",
+        "action": "検疫検査"
+      },
+      "formerEmployee": {
+        "name": "退職者メール配信",
+        "condition": "受信者 = 退職アカウント",
+        "action": "後任者に渡す"
+      },
+      "newsletter": {
+        "name": "ニュースレターのバルク分類",
+        "condition": "バルク発信ヘッダ検出",
+        "action": "「ニュースレター」ラベル"
+      },
+      "new": {
+        "name": "新しいルール",
+        "condition": "送信者ドメイン = ...",
+        "action": "ラベルの指定"
+      }
+    },
+    "evaluationOrder": "上から順に評価 · 有効 {count, number} 件",
+    "hitCount": "{count, number}件",
+    "ruleOrdinal": "ルール {count, number}",
+    "simulationIntro": "過去7日間のトラフィックに新しいルールを適用し、影響を事前に確認します。",
+    "simulationScope": "対象 {count, number}件",
+    "simulationFalsePositive": "誤検知予測 {count, number}件",
+    "ifLabel": "条件"
+  },
+  "adminGroups": {
+    "created": "グループを作成しました",
+    "approved": "送信を承認しました",
+    "rejected": "送信を拒否しました",
+    "searchPlaceholder": "グループアドレス・名前検索",
+    "noResults": "検索結果がありません。",
+    "createTitle": "グループの作成",
+    "create": "グループの作成",
+    "pendingModeration": "承認待ち",
+    "noPending": "承認待ちの項目はありません。",
+    "approve": "承認",
+    "reject": "拒否",
+    "newGroupName": "新しいグループ",
+    "currentUser": "私",
+    "nameOrEmail": "名前またはメール",
+    "columns": {
+      "address": "グループアドレス",
+      "typeOwner": "タイプ・所有者",
+      "members": "メンバー",
+      "externalSenders": "外部送信者",
+      "moderation": "承認"
+    },
+    "fields": {
+      "address": "グループアドレス",
+      "type": "タイプ",
+      "addMembers": "メンバーを追加",
+      "externalSenders": "外部送信者"
+    },
+    "types": {
+      "distribution": "配布リスト",
+      "security": "セキュリティグループ",
+      "shared": "共有メールボックス"
+    },
+    "external": {
+      "allowed": "許可",
+      "blocked": "ブロック"
+    },
+    "moderation": {
+      "required": "承認必須",
+      "autoReply": "自動返信",
+      "none": "なし"
+    },
+    "summary": "グループ {groups, number} 件 · メーリングリスト {lists, number} 件",
+    "queueMeta": "{mailbox} · {age} · 送信者: {sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "管理者・対象・アクション検索",
+    "noResults": "条件に一致するログはありません。",
+    "detailTitle": "監査ログの詳細",
+    "jsonComingSoon": "JSONビューアは準備中です",
+    "viewJson": "JSONを見る",
+    "revert": "元に戻す",
+    "revertTitle": "この変更を元に戻しますか？",
+    "reverted": "変更を元に戻しました",
+    "filters": {
+      "admin": "管理者",
+      "action": "アクション",
+      "range": "期間",
+      "all": "全体"
+    },
+    "ranges": {
+      "last7": "最近7日",
+      "last30": "最近30日",
+      "last90": "最近90日",
+      "all": "全期間"
+    },
+    "columns": {
+      "time": "時刻",
+      "admin": "管理者",
+      "action": "アクション",
+      "targetChange": "対象・変更内容",
+      "result": "結果"
+    },
+    "fields": {
+      "time": "時刻",
+      "admin": "管理者",
+      "action": "アクション",
+      "target": "対象",
+      "ip": "IP",
+      "result": "結果"
+    },
+    "actions": {
+      "policyChanged": "政策変更",
+      "accountSuspended": "アカウントを停止",
+      "logViewed": "ログ照会",
+      "quotaChanged": "容量の変更",
+      "orgSynced": "組織図の同期",
+      "adminLogin": "管理者ログイン",
+      "domainAdded": "ドメインを追加",
+      "accountsCreated": "アカウント作成",
+      "quarantineReleased": "隔離解除",
+      "permissionChanged": "権限の変更",
+      "backupRestored": "バックアップの回復"
+    },
+    "results": {
+      "success": "成功",
+      "blocked": "ブロック",
+      "failed": "失敗"
+    },
+    "summary": "{count, number}件 · 5年間保持 · 改変不可ストレージ",
+    "viewEntry": "詳細を表示: {action} · {target}",
+    "revertDescription": "{target}に適用された{action}を以前の状態に戻します。",
+    "internalIp": "内部ネットワーク",
+    "adminNames": {
+      "system": "システム",
+      "unknown": "不明"
+    },
+    "targets": {
+      "mtaSts": "{name} · MTA-STSを有効化",
+      "suspended": "{name}（QAチーム）",
+      "viewedAudit": "監査ログ · 過去7日間",
+      "quotaChanged": "{name}のアカウント · 50 GB → 100 GB",
+      "orgSynced": "人事システム → {count, number}人",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "従業員アカウント{count, number}件を一括作成",
+      "quarantineReleased": "メール{count, number}件 · {name}",
+      "permissionChanged": "{name} → 監査権限を付与",
+      "restoreFailed": "{name}のメールボックス · {date}のスナップショット"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "保存ポリシー",
+    "restoreTitle": "復元ジョブ",
+    "legalHoldTitle": "法的保存 (Legal Hold)",
+    "viewTargets": "対象アカウントを表示",
+    "kpis": {
+      "lastBackup": {
+        "label": "最近のバックアップ",
+        "value": "{value}",
+        "note": "所要時間 {value}分 · 成功"
+      },
+      "storage": {
+        "label": "保管容量",
+        "value": "{value} TB",
+        "note": "前月比 +{value} GB"
+      },
+      "recoveryWindow": {
+        "label": "回復可能な時点",
+        "value": "{value}日",
+        "note": "毎日スナップショット · {value}年"
+      },
+      "activeRestores": {
+        "label": "進行中の回復",
+        "value": "{value}件",
+        "note": "完了予定 {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "組織の標準保存",
+        "scope": "全従業員"
+      },
+      "executive": {
+        "name": "役員・承認文書",
+        "scope": "役員"
+      },
+      "publicContracts": {
+        "name": "公共契約記録",
+        "scope": "契約関連ラベル"
+      },
+      "formerEmployees": {
+        "name": "退職者のメールボックス",
+        "scope": "退職者アカウント"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "自動削除",
+      "undeletable": "削除不可",
+      "immutable": "変更不可の保管",
+      "adminAccess": "管理者閲覧"
+    },
+    "mailboxKinds": {
+      "personal": "メールボックス",
+      "shared": "共有メールボックス"
+    },
+    "jobStates": {
+      "restoring": "復元中",
+      "completed": "完了",
+      "pending": "待機中",
+      "failed": "失敗"
+    },
+    "years": "{count, number}年",
+    "jobName": "{owner}の{kind} · {date}",
+    "jobMeta": {
+      "restoring": "完了予定 {time}",
+      "completed": "{count, number}分前に完了",
+      "pending": "待ち行列 {count, number}番目",
+      "failed": "ストレージ認証エラー · 再試行が必要"
+    },
+    "legalHoldDescription": "進行中の監査{audits, number}件により、{accounts, number}アカウントの削除が禁止されています。",
+    "legalHoldToast": "法的保全対象の{count, number}アカウントを開く",
+    "activeAudits": "進行中の監査{count, number}件"
+  },
+  "adminReports": {
+    "createTitle": "レポートの作成",
+    "includedColumns": "含める列",
+    "formatLabel": "フォーマット",
+    "schedule": "スケジュール",
+    "export": "エクスポート",
+    "scheduledToast": "定期レポートで予約します",
+    "exportStarted": "レポートのエクスポートを開始しました",
+    "exportPolicyTitle": "エクスポートポリシー",
+    "recentExportsTitle": "最近エクスポート",
+    "scheduledReportsTitle": "定期レポート",
+    "notAvailable": "-",
+    "fields": {
+      "type": "レポートの種類",
+      "range": "期間",
+      "scope": "範囲",
+      "groupBy": "グループ化"
+    },
+    "values": {
+      "sentReport": "送信メールレポート",
+      "last7": "最近7日",
+      "allOrganization": "全体組織",
+      "daily": "毎日"
+    },
+    "reportColumns": {
+      "sender": "送信者",
+      "recipient": "受信者",
+      "subject": "件名",
+      "time": "時刻",
+      "size": "サイズ",
+      "attachmentCount": "添付数",
+      "deliveryStatus": "配達状況",
+      "filterVerdict": "フィルタ判定",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "レポート",
+      "requestedBy": "依頼者",
+      "size": "サイズ",
+      "completed": "完了",
+      "status": "状態"
+    },
+    "exportPolicy": {
+      "metadataOnly": "エクスポートにはメタデータのみが含まれ、本文は含まれません。",
+      "auditedApproval": "すべてのエクスポートは監査ログに記録され、管理者の承認が必要です。",
+      "autoDelete": "生成されたファイルは7日後に自動的に削除されます。",
+      "splitLarge": "100万行を超えると、自動的に複数のファイルに分割されます。"
+    },
+    "exportStates": {
+      "completed": "完了",
+      "generating": "作成中",
+      "expired": "期限切れ",
+      "failed": "失敗"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "先週",
+      "unavailable": "-"
+    },
+    "limits": "最大{days, number}日 · 最大{rows, number}行",
+    "estimate": "推定{rows, number}行 · 約{size} MB",
+    "exportToastDetail": "{format} · 推定{rows, number}行",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient}（{count, number}人）",
+    "cadence": {
+      "monthlyFirst": "毎月{day, number}日 {time}",
+      "weeklyMonday": "毎週{weekday} {time}",
+      "quarterlyFirst": "四半期初日 {time}",
+      "daily": "毎日 {time}",
+      "monthly25": "毎月{day, number}日"
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "バッチ別進行",
+    "throughputTitle": "スループット（最近12時間）",
+    "errorsTitle": "失敗・スキップ",
+    "retryAll": "すべて再試行",
+    "retryStarted": "失敗・スキップした項目を再試行します",
+    "noErrors": "再試行待機中の項目はありません。",
+    "kpis": {
+      "accounts": {
+        "label": "移行済みアカウント",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "移行済みメール",
+        "value": "{value}通",
+        "note": "+{value}（24時間）"
+      },
+      "rate": {
+        "label": "平均速度",
+        "value": "{value}通/分",
+        "note": "SLA {value}以上"
+      },
+      "failed": {
+        "label": "失敗・保留",
+        "value": "{value}通",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "バッチ",
+      "accounts": "アカウント",
+      "progress": "進捗",
+      "remaining": "残り時間",
+      "status": "状態"
+    },
+    "sources": {
+      "otherImap": "IMAP その他",
+      "mixed": "ミックス"
+    },
+    "states": {
+      "completed": "完了",
+      "inProgress": "進行中",
+      "pending": "待機中",
+      "retrying": "再試行中"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "メールボックス容量超過",
+        "detail": "ターゲットアカウントの保存容量が不足"
+      },
+      "corruptedSource": {
+        "reason": "元のアイテムの破損",
+        "detail": "読めないメールアイテム"
+      },
+      "unsupportedAttachment": {
+        "reason": "サポートしていない添付",
+        "detail": "型変換失敗"
+      },
+      "duplicate": {
+        "reason": "重複検知",
+        "detail": "移行済みの項目をスキップ"
+      },
+      "permissionDenied": {
+        "reason": "権限の拒否",
+        "detail": "ソースサーバーへのアクセス権なし"
+      }
+    },
+    "batchLimits": "同時実行{parallel, number}件 · 帯域制限{bandwidth, number} Mbps",
+    "batchName": "バッチ{number, number}",
+    "minutesRemaining": "{count, number}分",
+    "throughputSummary": "平均{average, number}通/分 · ピーク{peak, number}",
+    "itemCount": "{count, number}件",
+    "syncNotice": "移行後{days, number}日間は元のサーバーとのIMAP同期が継続するため、失敗した項目はいつでも再取り込みできます。"
+  },
+  "adminBrand": {
+    "identityTitle": "組織のアイデンティティ",
+    "openLogoPicker": "ロゴファイルの選択画面を開きます",
+    "replaceLogo": "ロゴを変更",
+    "replace": "変更",
+    "fields": {
+      "organizationName": "組織の表示名",
+      "senderLabel": "メールの差出人名",
+      "supportContact": "サポート連絡先"
+    },
+    "brandColor": "ブランドカラー",
+    "selectColor": "ブランドカラー {color} を選択",
+    "colorAppliesTo": "ログイン画面とシステムメールに適用",
+    "signatureTitle": "全社共通の署名テンプレート",
+    "toggles": {
+      "sig": "全従業員に署名を必須にする",
+      "disclaimer": "外部メールに免責事項を追加",
+      "logo": "署名にロゴを含める"
+    },
+    "loginPreviewTitle": "ログイン画面のプレビュー",
+    "companyEmail": "会社のメールアドレス",
+    "continue": "続行",
+    "signInWithSso": "会社のアカウント（SSO）でログイン",
+    "previewCustomizationHint": "背景画像と文言は組織ごとに変更できます。",
+    "openBackgroundPicker": "背景画像の選択画面を開きます",
+    "replaceBackground": "背景を変更",
+    "openCopyEditor": "文言の編集画面を開きます",
+    "editCopy": "文言を編集",
+    "published": "ブランドの変更を公開しました",
+    "publish": "公開"
+  },
+  "adminBilling": {
+    "currentPlan": "現在のプラン",
+    "enterpriseAnnual": "Enterprise 年間",
+    "planPeriod": "{start} ～ {end} · 自動更新",
+    "openPlanChange": "プラン変更画面を開きます",
+    "changePlan": "プランを変更",
+    "seatUsage": "ライセンス使用状況",
+    "seatsUsed": "{used} / {total} シート",
+    "seatEstimate": "残り {remaining} シート · {months} か月以内に上限に達する見込み",
+    "nextBilling": "次回の請求",
+    "nextBillingDetails": "{date} に請求予定 · 税金請求書を発行",
+    "openPaymentMethods": "支払い方法の管理画面を開きます",
+    "managePaymentMethods": "支払い方法を管理",
+    "licensesTitle": "ライセンス構成",
+    "licenses": {
+      "enterpriseMail": "Enterprise メール (50 GB)",
+      "aiAssistance": "AI 要約・文章作成支援",
+      "archive": "アーカイブ・eDiscovery",
+      "largeAttachments": "大容量添付 (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "基本プラン",
+      "addon": "追加機能",
+      "included": "含まれる"
+    },
+    "seatCount": "{count} シート",
+    "included": "—",
+    "pricePerMonth": "月額 {amount}",
+    "contractNotice": "公共機関調達契約（第三者単価）を適用中 · 契約番号 {number}",
+    "invoicesTitle": "請求履歴",
+    "columns": {
+      "number": "番号",
+      "date": "日付",
+      "amount": "金額",
+      "status": "状態"
+    },
+    "invoiceStates": {
+      "scheduled": "予定",
+      "paid": "支払い済み",
+      "underReview": "審査中"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "APIキー",
+    "issueKey": "キー発行",
+    "columns": {
+      "name": "名前",
+      "key": "キー",
+      "scopes": "権限",
+      "lastUsed": "最後の使用",
+      "status": "状態"
+    },
+    "keyNames": {
+      "legacyErp": "レガシーERP連動",
+      "approvalSystem": "承認システム（Grow）",
+      "reportAutomation": "レポートの自動化",
+      "oldMobileApp": "旧モバイルアプリ",
+      "newKey": "新しいAPIキー"
+    },
+    "self": "私",
+    "keyStates": {
+      "reviewNeeded": "レビューが必要",
+      "active": "アクティブ",
+      "inactive": "非アクティブ"
+    },
+    "keyIssued": "APIキーを発行しました",
+    "keyRotated": "キーをローテーションしました",
+    "appDisconnected": "連動を解除しました",
+    "rotateNow": "今すぐローテーション",
+    "webhooksTitle": "ウェブフック",
+    "webhookStates": {
+      "healthy": "正常",
+      "retrying": "再試行中",
+      "frequentFailures": "失敗が多発"
+    },
+    "usageTitle": "使用量（30日）",
+    "usage": {
+      "calls": "呼び出し（30日）",
+      "errorRate": "エラー率",
+      "latency": "p95 レイテンシー"
+    },
+    "approvedAppsTitle": "承認されたアプリ",
+    "noApps": "連携したアプリはありません。",
+    "disconnect": "連携解除",
+    "lastUsed": {
+      "daysAgo": "{count} 日前",
+      "hoursAgo": "{count} 時間前",
+      "monthsAgo": "{count} か月前",
+      "justNow": "たった今",
+      "never": "—"
+    },
+    "staleKeyWarning": "「{name}」キーは {days} 日以上ローテーションされていません。",
+    "milliseconds": "{count} ms",
+    "rateLimit": "上限：月 {count} 回 · 超過時は 429 を返します",
+    "appUsers": "{count} 人"
+  },
+  "composeEditor": {
+    "switchingToPlain": "プレーンテキストに切り替えます",
+    "formattingWillBeLost": "太字やリストなどの書式は失われます",
+    "imageAddedAsAttachment": "画像を添付ファイルとして追加しました",
+    "switchToRich": "リッチテキストに切り替え",
+    "switchToPlain": "プレーンテキストに切り替え",
+    "plainText": "プレーンテキスト",
+    "richText": "リッチテキスト",
+    "bold": "太字",
+    "italic": "斜体",
+    "list": "リスト",
+    "insertLink": "リンクを挿入",
+    "insertImage": "画像を挿入",
+    "emoji": "絵文字",
+    "closeEmojiMenu": "絵文字メニューを閉じる",
+    "chooseEmoji": "絵文字を選択",
+    "messageBody": "メール本文"
+  },
+  "composeModal": {
+    "attachmentNote": "添付ファイル {count} 件: {names}",
+    "attachmentCount": "添付 {count} 件",
+    "bccCount": "Bcc に {count} 人を含む",
+    "rewritingTone": "「{tone}」の文体で下書きを書き直しています",
+    "externalRecipientWarning": "外部の宛先が {count} 人含まれています",
+    "uploadComplete": "{size} · アップロード完了",
+    "schedule": {
+      "today": "今日 {time}",
+      "tomorrow": "明日 {time}",
+      "nextMonday": "次の月曜日 {time}"
+    },
+    "largeFilesBecomeLinks": "大容量ファイルはリンクに自動的に切り替えられます",
+    "fileTooLarge": "最大2GBを超えるファイルは添付できません",
+    "sent": "メールを送信しました",
+    "newMail": "新しいメール",
+    "savedJustNow": "下書きを保存 · たった今",
+    "collapse": "縮小",
+    "expand": "拡大",
+    "close": "閉じる",
+    "to": "宛先",
+    "removeRecipient": "削除する",
+    "recipientPlaceholder": "名前またはメールアドレスを入力…",
+    "ccAndBcc": "Cc · Bcc",
+    "cc": "Cc",
+    "ccPlaceholder": "Cc の宛先",
+    "bcc": "Bcc",
+    "bccPlaceholder": "Bcc の宛先",
+    "subject": "件名",
+    "subjectPlaceholder": "件名を入力",
+    "toneHint": "トーンを選択すると、ドラフトが書き換えられます。",
+    "tones": {
+      "polite": "丁寧に",
+      "concise": "簡潔に",
+      "english": "英語で"
+    },
+    "externalRecipientBody": "社内情報が外部に送信されないよう、宛先を再確認してください。",
+    "reviewRecipients": "受信者の確認",
+    "bodyPlaceholder": "内容を入力してください",
+    "largeFileLinkSuffix": " · 大容量ファイルのリンク",
+    "removeAttachment": "添付ファイルを削除",
+    "chooseAttachments": "添付ファイルを選択",
+    "dropFiles": "ファイルをドラッグアンドドロップします",
+    "attachmentLimits": "25 MB を超えるファイルはリンクに変換 · 最大 2 GB",
+    "send": "送信",
+    "scheduleSend": "送信予約",
+    "closeScheduleMenu": "予約メニューを閉じる",
+    "scheduleTimes": "予約送信時刻",
+    "scheduled": "送信を予約しました",
+    "attachFile": "ファイルの添付",
+    "tlsEncrypted": "発信暗号化(TLS)",
+    "delete": "削除",
+    "discardTitle": "保存せずに閉じますか？",
+    "discardDescription": "作成中のメールは下書きに残ります。",
+    "continueEditing": "編集を続ける",
+    "saveDraft": "下書きを保存",
+    "discardWithoutSaving": "保存しない",
+    "draftSaved": "下書きに保存しました"
+  },
+  "themeCustomizer": {
+    "title": "テーマをカスタマイズ",
+    "close": "閉じる",
+    "designThemes": "デザインテーマ",
+    "colorsTitle": "色",
+    "primaryColor": "基本色",
+    "accentColor": "アクセントカラー",
+    "screenMode": "表示モード",
+    "schemes": {
+      "light": "ライト",
+      "dark": "ダーク",
+      "system": "システム"
+    },
+    "typography": "タイポグラフィ",
+    "fonts": {
+      "sans": "標準 (Sans)",
+      "serif": "セリフ",
+      "mono": "等幅",
+      "rounded": "丸ゴシック"
+    },
+    "layout": "レイアウト",
+    "listDensity": "一覧の密度",
+    "densities": {
+      "comfortable": "ゆったり",
+      "compact": "コンパクト"
+    },
+    "sidebarPosition": "サイドバーの位置",
+    "sides": {
+      "left": "左",
+      "right": "右"
+    },
+    "corners": "角",
+    "radii": {
+      "sharp": "角ばった",
+      "rounded": "角丸",
+      "pill": "ピル型"
+    },
+    "defaults": "初期値",
+    "cancel": "キャンセル",
+    "publish": "公開",
+    "colors": {
+      "blue": "ブルー",
+      "indigo": "インディゴ",
+      "teal": "ティール",
+      "green": "グリーン",
+      "rose": "ローズ",
+      "purple": "パープル",
+      "orange": "オレンジ",
+      "yellow": "イエロー",
+      "pink": "ピンク",
+      "cyan": "シアン",
+      "lime": "ライム",
+      "gray": "グレー"
+    },
+    "presets": {
+      "broadsheet": "新聞組版のようなセリフ体とシアン・マゼンタ",
+      "classical": "クラシックなセリフ体とブロンズの優雅なスタイル",
+      "industry": "スチールブルーの端正な実用スタイル",
+      "modernist": "角ばったバウハウス風グリッドと鮮烈な赤橙",
+      "nocturne": "青紫のアクセントを持つダークなアプリスタイル",
+      "organic": "温かいテラコッタとセージの柔らかな丸み"
+    }
+  },
+  "searchPage": {
+    "results": "検索結果",
+    "allResults": "すべての検索結果",
+    "resultCount": "{count} 件の結果",
+    "syntaxHelp": "検索構文のヘルプ",
+    "syntaxHelpShortcut": "検索構文のヘルプ (?)",
+    "filters": "フィルター",
+    "sortBy": "並べ替え",
+    "resultList": "検索結果一覧",
+    "noResults": "検索結果がありません。",
+    "peopleCount": "{count} 人",
+    "itemCount": "{count} 件",
+    "searchFilters": "検索フィルター",
+    "narrowResults": "結果を絞り込む",
+    "examples": "検索例",
+    "groups": {
+      "mail": "メール",
+      "file": "添付ファイル",
+      "person": "人物"
+    },
+    "facets": {
+      "period": "期間",
+      "folder": "フォルダー",
+      "attachmentType": "添付ファイルの種類",
+      "label": "ラベル"
+    },
+    "facetRows": {
+      "today": "今日",
+      "lastSevenDays": "過去7日間",
+      "lastSixMonths": "過去6か月",
+      "all": "すべて",
+      "inbox": "受信トレイ",
+      "sent": "送信済み",
+      "pendingApproval": "承認待ち",
+      "archive": "アーカイブ",
+      "pdf": "PDF",
+      "xls": "スプレッドシート",
+      "doc": "文書",
+      "img": "画像",
+      "budgetFinance": "予算・財務",
+      "projectAtlas": "プロジェクト・アトラス",
+      "confidential": "機密"
+    },
+    "chips": {
+      "hasAttachment": "添付あり",
+      "recentSixMonths": "過去6か月"
+    },
+    "sort": {
+      "relevance": "関連度順",
+      "newest": "新しい順",
+      "sender": "差出人順"
+    },
+    "saved": {
+      "senderAttachments": "{name}の添付メール",
+      "inboxBudget": "受信トレイの予算メール",
+      "pdfFiles": "PDF添付ファイル"
+    }
+  },
+  "searchSyntax": {
+    "title": "検索構文",
+    "description": "このテンプレートのサンプルデータで使用できる検索条件です。",
+    "close": "閉じる",
+    "people": "人物・対象",
+    "content": "内容・状態",
+    "rulesTitle": "組み合わせ規則",
+    "recipesTitle": "よく使う組み合わせ",
+    "operators": {
+      "fromSender": "{name}からのメールと添付ファイル",
+      "inFolder": "受信トレイ内の結果",
+      "subject": "件名に含まれる単語",
+      "exactPhrase": "完全一致する語句を検索",
+      "hasAttachment": "添付ファイルのあるメール・ファイル",
+      "filename": "特定の拡張子の添付ファイル"
+    },
+    "rules": {
+      "allTerms": "複数の単語や条件はすべて一致する必要があります。",
+      "quotedPhrase": "スペースを含む語句は二重引用符で囲みます。",
+      "unsupportedOperator": "未対応の演算子は結果を返しません。"
+    },
+    "recipes": {
+      "senderAttachments": "{name}の添付結果",
+      "inboxBudget": "受信トレイ内の予算関連結果",
+      "pdfFiles": "PDF添付ファイルのある結果"
+    }
+  },
+  "accessibilityReport": {
+    "title": "アクセシビリティ報告 · KWCAG 2.2",
+    "sectionLabel": "アクセシビリティ報告",
+    "passSummary": "合格 {passed} / {total}",
+    "auditNote": "公共機関向け納品基準・自己点検 {date}",
+    "checklist": "点検項目",
+    "contrastHeading": "コントラスト比の検証",
+    "colorPair": "{role} {foreground} / 背景 {background}",
+    "focusTouchHeading": "フォーカス・タッチ領域",
+    "focusState": "フォーカス状態",
+    "touchTarget": "最小44 × 44 px・モバイルボタン、タブ、一覧行（フィルターチップは34 px）",
+    "focusRing": "フォーカスリングは2 pxのアクセント枠と3 pxのオフセットを使い、キーボード操作時のみ表示されます（:focus-visible）。",
+    "assistiveTest": "支援技術テスト",
+    "mailListNote": "メール一覧は表として読み上げられ、未読状態もテキストで伝えられます。",
+    "states": {
+      "pass": "合格",
+      "inProgress": "改善中",
+      "largeOnly": "大きな文字のみ"
+    },
+    "colors": {
+      "body": "本文",
+      "secondary": "補助テキスト",
+      "accent": "アクセント",
+      "muted": "補助テキスト"
+    },
+    "checks": {
+      "keyboard": "キーボードのみで全操作",
+      "focus": "フォーカスの表示",
+      "contrast": "本文のコントラスト比4.5:1以上",
+      "color": "色だけで情報を伝えない",
+      "altText": "代替テキスト",
+      "tableHeaders": "表構造と見出し",
+      "errors": "エラー通知と回復",
+      "zoom": "テキスト200%拡大",
+      "timing": "制限時間の調整"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "月間カレンダー",
+    "timeView": "時間別の予定",
+    "mobileView": "モバイルカレンダー",
+    "todaySummary": "今日 {todayCount} 件・今週 {weekCount} 件",
+    "createEvent": "予定を作成",
+    "detectedEvent": "メールから検出した予定",
+    "detectedDescription": "「{title}」— {personName}さんのメールから予定を見つけました。",
+    "addToCalendar": "カレンダーに追加",
+    "dismiss": "無視",
+    "noEvents": "この日の予定はありません。"
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "移動",
+      "global": "全般",
+      "list": "一覧",
+      "mail": "メール操作",
+      "compose": "作成",
+      "reply": "返信",
+      "search": "検索",
+      "admin": "管理者"
+    },
+    "actions": {
+      "inbox": "受信トレイ",
+      "sent": "送信済み",
+      "drafts": "下書き",
+      "pendingApprovals": "承認待ち",
+      "calendar": "カレンダー",
+      "contacts": "連絡先",
+      "commandSearch": "検索・コマンドパレット",
+      "compose": "新規メールを作成",
+      "notifications": "通知センター",
+      "shortcutHelp": "ショートカットのヘルプ",
+      "settings": "設定",
+      "collapseSidebar": "サイドバーを折りたたむ",
+      "nextPrevious": "次・前",
+      "open": "開く",
+      "select": "選択",
+      "selectAll": "すべて選択",
+      "toggleRead": "既読・未読",
+      "star": "重要としてマーク",
+      "archive": "アーカイブ",
+      "delete": "削除",
+      "reportSpam": "迷惑メールとして報告",
+      "snooze": "スヌーズ",
+      "addLabel": "ラベルを付ける",
+      "moveToFolder": "フォルダーに移動",
+      "send": "送信",
+      "saveDraft": "下書きを保存",
+      "scheduleSend": "送信予約",
+      "attachFile": "添付ファイルを追加",
+      "addRecipient": "宛先を追加",
+      "closeWindow": "ウィンドウを閉じる",
+      "reply": "返信",
+      "replyAll": "全員に返信",
+      "forward": "転送",
+      "collapseQuote": "引用文を折りたたむ",
+      "viewOriginal": "原文を表示",
+      "openSearch": "検索を開く",
+      "syntaxHelp": "構文のヘルプ",
+      "searchWithinResults": "結果内を検索",
+      "resetFilters": "フィルターをリセット",
+      "switchTab": "タブを切り替える",
+      "searchTable": "表内を検索",
+      "exportSelected": "選択項目をエクスポート",
+      "refresh": "更新"
+    },
+    "title": "キーボードショートカット",
+    "printEdition": "GXWebMail · 印刷用の全一覧 · {edition}",
+    "openWith": "画面では<key>?</key>で開きます",
+    "windowsModifier": "Windowsでは⌘の代わりにCtrlを使います",
+    "footerNote": "ショートカットは設定・アクセシビリティで無効にできます。入力中は動作しません。"
+  },
+  "securityPage": {
+    "title": "アカウントのセキュリティ",
+    "scoreSummary": "セキュリティスコア {score} / {total}・改善項目 {count} 件",
+    "passwordAge": "最終パスワード変更は {days} 日前",
+    "mfaHeading": "二要素認証",
+    "backupCodeNote": "バックアップコード {total} 個中 {unused} 個が未使用・安全な場所に保管してください",
+    "passwordSsoHeading": "パスワード・SSO",
+    "appPasswordNotice": "{count} 個のアプリパスワードがIMAP接続に使用中です。最新のクライアントはOAuthに対応しています。",
+    "sessionsHeading": "ログイン中のデバイス・セッション",
+    "logoutAll": "すべてログアウト",
+    "logout": "ログアウト",
+    "recentActivity": "最近のセキュリティ活動",
+    "sessionRevoked": "セッションからログアウトしました",
+    "openAction": "{method} の「{action}」画面を開きます",
+    "reissueTitle": "バックアップコードを再発行しますか？",
+    "reissueDescription": "既存のバックアップコード {count} 個は直ちに無効となり、新しいコード {count} 個が発行されます。",
+    "reissueSuccess": "バックアップコードを再発行しました",
+    "reissueSuccessDetail": "新しいコード {count} 個・安全に保管してください",
+    "logoutAllTitle": "他のすべてのデバイスからログアウトしますか？",
+    "logoutAllDescription": "現在のデバイスを除くすべてのセッションが直ちに終了します。",
+    "logoutAllSuccess": "他のすべてのデバイスからログアウトしました",
+    "mfaNames": {
+      "totp": "認証アプリ (TOTP)",
+      "securityKey": "セキュリティキー (FIDO2)",
+      "sms": "SMS",
+      "emailCode": "メールコード"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail}・登録日 {date}",
+      "securityKey": "{detail}・指紋なしでタップ",
+      "sms": "{detail}",
+      "emailCode": "個人メール {detail}"
+    },
+    "authNames": {
+      "password": "パスワード",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "アプリパスワード"
+    },
+    "authDescriptions": {
+      "password": "{age} 日前に変更・ポリシーにより {cycle} 日ごとの変更が必要",
+      "sso": "会社アカウントでログイン・自動プロビジョニング",
+      "appPassword": "{count} 個のIMAPクライアントで使用中"
+    },
+    "badges": {
+      "primary": "既定",
+      "currentDevice": "現在のデバイス",
+      "appPassword": "アプリパスワード",
+      "needsReview": "確認が必要"
+    },
+    "states": {
+      "active": "使用中",
+      "backup": "バックアップ用",
+      "unused": "未使用",
+      "caution": "注意",
+      "connected": "接続済み",
+      "review": "確認が必要"
+    },
+    "actions": {
+      "reset": "再設定",
+      "manage": "管理",
+      "change": "変更",
+      "configure": "設定",
+      "view": "表示",
+      "reissue": "再発行"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "ソウル・{ip}・社内ネットワーク",
+        "when": "アクティブ"
+      },
+      "iphone": {
+        "meta": "ソウル・LTE",
+        "when": "12分前"
+      },
+      "windows": {
+        "meta": "城南・オフィスPC",
+        "when": "昨日 18:22"
+      },
+      "ipad": {
+        "meta": "ソウル・自宅Wi-Fi",
+        "when": "3日前"
+      },
+      "outlook": {
+        "meta": "ソウル・アプリパスワード",
+        "when": "6日前"
+      },
+      "ubuntu": {
+        "meta": "大阪、日本・初めての場所",
+        "when": "8日前"
+      }
+    },
+    "events": {
+      "osakaLogin": "大阪から新しいデバイスでログイン",
+      "securityKeyRegistered": "セキュリティキーを登録 (YubiKey 5C)",
+      "backupCodesUsed": "バックアップコードを3個使用"
+    },
+    "when": {
+      "eightDays": "8日前",
+      "threeWeeks": "3週間前",
+      "oneMonth": "1か月前"
+    }
+  },
+  "quarantinePage": {
+    "title": "隔離ボックス",
+    "itemCount": "{count} 件",
+    "autoDelete": "{days} 日後に自動削除",
+    "listLabel": "隔離メール一覧",
+    "categoryLabel": "隔離分類",
+    "selectMail": "隔離メールを選択: {subject}",
+    "selectPrompt": "メールを選択してください。",
+    "backToList": "隔離一覧に戻る",
+    "release": "受信トレイに移動",
+    "requestAllowSender": "差出人の許可を申請",
+    "delete": "削除",
+    "approvalRequired": "解除はセキュリティチームの承認後に適用されます",
+    "released": "受信トレイに移動しました",
+    "allowRequested": "差出人の許可を申請しました",
+    "deleted": "メールを完全に削除しました",
+    "recipients": "受信者 {team} {count} 人",
+    "hrTeam": "人事チーム",
+    "riskBadge": "{kind}・リスク {score}",
+    "spoofedDomainTitle": "送信元ドメインが社内ドメインを模倣しています",
+    "reasonTitle": "{kind} の隔離理由: {reason}",
+    "spoofedDomainBody": "{trustedDomain} を模倣した {domain} から送信されました。本文のリンクは外部ログインページにつながります。開かずに削除することを推奨します。",
+    "riskBody": "リスクスコア {score} で隔離されました。操作前に差出人と件名を確認してください。",
+    "lookupDomain": "送信元ドメインを確認",
+    "lookupResult": "送信元ドメインの確認結果",
+    "domainRisk": "{domain}・評判にリスクあり",
+    "evidenceHeading": "判定根拠",
+    "riskScore": "リスクスコア {score}",
+    "safePreviewHeading": "安全なプレビュー（テキストのみ）",
+    "blockedLinks": "リンク {count} 件をブロックしました。",
+    "aiWarning": "人事チームの正式な通知は社内承認システムでのみ送信されます。",
+    "noPreview": "このメールの本文プレビューは利用できません。",
+    "deleteTitle": "このメールを完全に削除しますか？",
+    "deleteDescription": "「{subject}」を削除すると元に戻せません。",
+    "deletePermanently": "完全に削除",
+    "kinds": {
+      "all": "すべて",
+      "spam": "迷惑メール",
+      "phishing": "フィッシング",
+      "malware": "マルウェア"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "類似ドメイン・外部ログインリンク",
+      "bulkNoUnsubscribe": "一括送信・配信停止なし",
+      "executableAttachment": "実行ファイルの添付を検出",
+      "spoofedDomainCredentials": "類似ドメイン・認証情報の要求",
+      "bulkPattern": "一括送信パターン",
+      "spfFailure": "SPF失敗",
+      "spoofedDomainPayment": "類似ドメイン・支払い情報の要求"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "送信元ドメイン認証",
+        "detail": "SPF失敗・DKIM署名なし・DMARC拒否対象"
+      },
+      "typosquatting": {
+        "name": "類似ドメイン (タイポスクワッティング)",
+        "detail": "gxsoft-kr.net — 編集距離1"
+      },
+      "bodyLink": {
+        "name": "本文リンク",
+        "detail": "外部ログインページ1件・報告履歴のあるホスト"
+      },
+      "sendingPattern": {
+        "name": "送信パターン",
+        "detail": "同じ本文を14アカウントに同時送信"
+      },
+      "attachment": {
+        "name": "添付ファイル",
+        "detail": "添付なし"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "マイカレンダー",
+    "roomAvailability": "会議室の予約状況 · 今日",
+    "capacity": "{count}人",
+    "previous": "前へ",
+    "next": "次へ",
+    "today": "今日",
+    "schedule": "カレンダーの予定",
+    "close": "閉じる",
+    "title": "件名",
+    "titlePlaceholder": "例: パートナーとのキックオフ会議",
+    "date": "日付",
+    "start": "開始",
+    "end": "終了",
+    "calendar": "カレンダー",
+    "cancel": "キャンセル",
+    "create": "作成",
+    "eventCreated": "予定を作成しました",
+    "views": {
+      "day": "日",
+      "week": "週",
+      "month": "月"
+    },
+    "categories": {
+      "personal": "自分の予定",
+      "team": "戦略企画チーム",
+      "executive": "役員の予定 (閲覧のみ)",
+      "room": "会議室の予約",
+      "holiday": "韓国の祝日"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "会議室 5B",
+        "amenity": "プロジェクター · ビデオ",
+        "status": "予約可能"
+      },
+      "room3a": {
+        "name": "会議室 3A",
+        "amenity": "ホワイトボード",
+        "status": "15:00 使用中"
+      },
+      "auditorium": {
+        "name": "大会議室",
+        "amenity": "配信設備",
+        "status": "終日予約"
+      },
+      "focus": {
+        "name": "集中室",
+        "amenity": "一人用通話",
+        "status": "予約可能"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "スキップ",
+    "previous": "前へ",
+    "finish": "完了",
+    "next": "次へ",
+    "getStarted": "はじめましょう",
+    "close": "閉じる",
+    "progress": "{done} / {total} 完了",
+    "minutes": "{count}分",
+    "steps": {
+      "compose": {
+        "title": "メールの作成から始めましょう",
+        "body": "左上のメール作成ボタンから新しいメールを書けます。"
+      },
+      "search": {
+        "title": "どこからでも検索",
+        "body": "メール・人・添付ファイルをまとめて検索できます。from:alex のような条件も使えます。"
+      },
+      "theme": {
+        "title": "テーマを自由に変更",
+        "body": "テーマのカスタマイズで色、フォント、レイアウトを組織に合わせて変更できます。"
+      },
+      "tools": {
+        "title": "カレンダー・連絡先・承認",
+        "body": "サイドバーからカレンダー、連絡先、承認に直接移動できます。"
+      },
+      "quarantine": {
+        "title": "隔離フォルダーも確認",
+        "body": "不審なメールは自動的に隔離され、安全なプレビューで内容を確認できます。"
+      },
+      "ready": {
+        "title": "準備完了です",
+        "body": "設定で署名、自動返信、ショートカットを仕上げましょう。"
+      }
+    },
+    "checklist": {
+      "avatar": "プロフィール写真を登録",
+      "signature": "署名を作成",
+      "twoFactor": "二要素認証を有効化",
+      "mobileApp": "モバイルアプリをインストール",
+      "importMail": "既存のメールをインポート"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "インポートする新しい連絡先はありません",
+    "duplicateNotice": "同じメールアドレスの連絡先はスキップしました。",
+    "imported": "{count}件の連絡先をインポートしました",
+    "duplicatesSkipped": "重複する{count}件をスキップ",
+    "failed": "連絡先をインポートできませんでした",
+    "errors": {
+      "fileTooLarge": "2 MiB以下のファイルを選択してください。",
+      "unclosedQuote": "CSVの引用符が閉じられていません。",
+      "missingRows": "CSVにはヘッダーと連絡先の行が必要です。",
+      "missingNameColumn": "CSVには名前の列が必要です。",
+      "tooManyContacts": "一度にインポートできる連絡先は最大500件です。",
+      "missingCsvName": "CSVの{row}行目に名前がありません。",
+      "invalidVcard": "有効なvCard項目がありません。",
+      "missingVcardName": "vCardの{row}番目の項目に名前がありません。",
+      "unsupportedFile": "CSVまたはvCard（.vcf）ファイルのみインポートできます。",
+      "unknown": "ファイルを選び直してください。"
+    }
+  },
+  "contactsPage": {
+    "title": "連絡先",
+    "orgChart": "組織図",
+    "orgSearchPlaceholder": "名前 · 部署",
+    "orgSearchLabel": "名前と部署を検索",
+    "noResults": "検索結果はありません。",
+    "myContacts": "マイ連絡先",
+    "contactSummary": "個人 {count}件 · 最近の自動収集 {recent}件",
+    "importTooltip": "CSV · vCard をインポート",
+    "importing": "インポート中…",
+    "import": "インポート",
+    "addContact": "連絡先を追加",
+    "searchPlaceholder": "名前 · 会社 · メール",
+    "searchLabel": "名前・会社・メールを検索",
+    "mail": "メール",
+    "companyPosition": "会社 · 役職",
+    "group": "グループ",
+    "noMatchingContacts": "条件に一致する連絡先はありません。",
+    "selectContact": "連絡先を選択: {name} · {email}",
+    "removeFavorite": "{name}をお気に入りから削除",
+    "addFavorite": "{name}をお気に入りに追加",
+    "selectPrompt": "連絡先を選択してください。",
+    "editContact": "連絡先を編集",
+    "nameRequired": "名前を入力してください。",
+    "save": "保存",
+    "cancelChanges": "変更を破棄",
+    "delete": "削除",
+    "saved": "連絡先を保存しました",
+    "newContact": "新しい連絡先",
+    "contactAdded": "連絡先を追加しました",
+    "enterDetails": "詳細を入力してください",
+    "mobileContacts": "モバイル連絡先",
+    "backToList": "一覧に戻る",
+    "myCount": "マイ連絡先 {count}件",
+    "importContacts": "連絡先をインポート",
+    "importingContacts": "連絡先をインポート中",
+    "viewContact": "連絡先を表示: {name}",
+    "groups": {
+      "all": "すべて",
+      "starred": "お気に入り",
+      "external": "外部パートナー",
+      "purchasing": "購買担当",
+      "advisor": "アドバイザー",
+      "personal": "個人"
+    },
+    "fields": {
+      "name": "名前",
+      "company": "会社",
+      "title": "役職 · 部署",
+      "email": "メール",
+      "mobile": "携帯電話",
+      "phone": "会社電話",
+      "memo": "メモ"
+    },
+    "teamSummary": "{parent} › {team} · {count}人",
+    "teamCount": "{team} · {count}人",
+    "peopleCount": "{count}人",
+    "openTeamCompose": "チーム全員へのメール作成画面を開きます",
+    "mailTeam": "チーム全員にメール",
+    "vcardExported": "vCardをエクスポートしました",
+    "exportVcard": "vCardをエクスポート",
+    "teamEmpty": "このチームにはまだメンバー情報がありません。",
+    "selectMember": "メンバーを選択してください。",
+    "openCompose": "メール作成画面を開きます",
+    "composeMail": "メールを作成",
+    "openSchedule": "予定作成画面を開きます",
+    "scheduleMeeting": "予定を作成",
+    "recentMail": "最近のメール",
+    "noHistory": "履歴はありません。",
+    "presence": {
+      "working": "勤務中 · オフィス",
+      "away": "離席中",
+      "offline": "オフライン"
+    },
+    "approvalLines": {
+      "directorCeo": "本部長 → 代表",
+      "leadDirector": "チーム長 → 本部長"
+    },
+    "profile": {
+      "email": "メール",
+      "workPhone": "会社電話",
+      "mobile": "携帯電話",
+      "organization": "組織",
+      "joined": "入社日",
+      "approvalLine": "承認経路"
+    }
+  },
+  "filesPage": {
+    "title": "添付ファイル",
+    "summary": "メール添付 {count}件 · {used} · 大容量リンク {links}件有効",
+    "search": "ファイル名・送信者を検索",
+    "gridView": "グリッド表示",
+    "listView": "一覧表示",
+    "filters": "添付ファイルのフィルター",
+    "type": "種類",
+    "period": "期間",
+    "storage": "保存容量 {used} / {total}",
+    "storageHint": "大きい添付ファイル{count}件を整理すると{amount}を確保できます。",
+    "fileType": "ファイルの種類",
+    "filePeriod": "ファイルの期間",
+    "recentAttachments": "最近の添付",
+    "itemCount": "{count}件",
+    "noResults": "検索結果はありません。",
+    "attachmentSummary": "添付ファイルの概要",
+    "largeLinks": "大容量リンク",
+    "downloads": "ダウンロード {count}回",
+    "cleanupTitle": "整理の提案",
+    "cleanupDescription": "{years}年以上前の{threshold}以上の添付{count}件。メール本文は残し添付のみ削除すると{amount}を確保できます。",
+    "cleanupOpen": "整理対象の添付{count}件を開きます",
+    "cleanupEstimate": "確保見込み: {amount}",
+    "reviewList": "一覧を確認",
+    "downloading": "ファイルをダウンロードします",
+    "system": "システム",
+    "types": {
+      "all": "すべて",
+      "document": "文書",
+      "spreadsheet": "表計算",
+      "presentation": "プレゼンテーション",
+      "image": "画像",
+      "archive": "圧縮ファイル",
+      "other": "その他"
+    },
+    "periods": {
+      "last7": "最近7日",
+      "last30": "最近30日",
+      "thisYear": "今年",
+      "all": "全期間"
+    },
+    "sorts": {
+      "latest": "新しい順",
+      "size": "サイズ順",
+      "sender": "送信者順"
+    },
+    "linkStates": {
+      "active": "有効",
+      "expiring": "まもなく期限切れ",
+      "expired": "期限切れ"
+    },
+    "expiry": {
+      "days": "残り{count}日",
+      "tomorrow": "明日期限切れ",
+      "expired": "期限切れ"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "年額 {amount}",
+    "title": "承認",
+    "myTurnCount": "担当 {count}件",
+    "documentList": "承認文書一覧",
+    "approvalStatus": "承認状況",
+    "selectDocument": "承認文書を選択: {title}",
+    "emptyStatus": "この状態の承認文書はありません。",
+    "selectPrompt": "承認文書を選択してください。",
+    "backToList": "承認一覧に戻る",
+    "approve": "承認",
+    "reject": "差し戻し",
+    "holdRequested": "保留・意見依頼を送信しました",
+    "holdAndRequest": "保留 · 意見を依頼",
+    "documentMeta": "文書番号 {number} · 保存 {years}年",
+    "detailedAuthor": "起案 {author}（CTO）· {date} · メールスレッド連携",
+    "briefAuthor": "起案 {author} · {number} · {due}",
+    "requestedAmount": "申請金額",
+    "approvalChain": "承認経路",
+    "approvedOn": "承認 {date}",
+    "requestDetails": "申請内容",
+    "aiComparison": "類似申請{count}件と比較して単価が平均より{percent}%低く、財務チームの意見を反映した最新版です。",
+    "noDetailedRecord": "この文書の承認経路と申請詳細はサンプルデータに含まれていません。",
+    "commentsHistory": "意見 · 履歴",
+    "noComments": "意見はまだありません。",
+    "commentPlaceholder": "意見を入力…（Enterで投稿）",
+    "approvalComment": "承認に関する意見",
+    "approveQuestion": "この申請を承認しますか？",
+    "rejectQuestion": "この申請を差し戻しますか？",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · 差し戻し状態に変更されます。",
+    "approvedToast": "承認しました",
+    "rejectedToast": "差し戻しました",
+    "automaticCheck": "自動チェック",
+    "automaticCheckBody": "添付された提案書と申請金額は一致しています。予算コード IT-CAPEX-26H1 の残高は十分です。",
+    "tabs": {
+      "mine": "担当",
+      "drafts": "起案箱",
+      "inProgress": "進行中",
+      "completed": "完了"
+    },
+    "types": {
+      "budget": "予算",
+      "contract": "契約",
+      "purchase": "購買",
+      "hr": "人事",
+      "expense": "支出",
+      "policy": "規程"
+    },
+    "due": {
+      "today": "今日締切",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "進行中",
+      "completed": "完了",
+      "approved": "自分の承認完了",
+      "rejected": "差し戻し完了"
+    },
+    "roles": {
+      "drafter": "起案 · CTO",
+      "reviewer": "確認 · チーム長",
+      "finance": "協議 · 財務責任者",
+      "approver": "承認 · 自分",
+      "final": "最終承認"
+    },
+    "chainDetails": {
+      "done": "完了",
+      "pending": "待機中",
+      "upcoming": "予定",
+      "approved": "自分の承認完了",
+      "rejected": "差し戻し完了"
+    }
   }
 }

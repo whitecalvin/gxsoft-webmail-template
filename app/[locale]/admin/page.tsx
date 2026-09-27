@@ -5,7 +5,6 @@ import { AdminNav } from "@/components/admin/AdminNav";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminMobileMenu } from "@/components/admin/mobile/AdminMobileMenu";
 import { AdminMobileScreen } from "@/components/admin/mobile/AdminMobileScreen";
-import { ADMIN_HEADS } from "@/lib/mock-admin";
 import { MOBILE_ADMIN_SCREENS } from "@/lib/mock-admin-mobile";
 import type { AdminTabId } from "@/types/admin";
 import { DashboardTab } from "@/components/admin/tabs/DashboardTab";
@@ -49,7 +48,6 @@ const NO_RANGE_TABS = new Set<AdminTabId>(["brand", "api", "billing", "audit", "
 export default function AdminPage() {
   const [tab, setTab] = useState<AdminTabId>("dash");
   const [mobileScreenId, setMobileScreenId] = useState<string | null>(null);
-  const head = ADMIN_HEADS[tab];
   const TabBody = TAB_COMPONENTS[tab];
   const mobileScreen = MOBILE_ADMIN_SCREENS.find((s) => s.id === mobileScreenId);
 
@@ -67,12 +65,7 @@ export default function AdminPage() {
         <AdminNav active={tab} onSelect={setTab} />
       </div>
       <div className="hidden min-w-0 flex-1 flex-col lg:flex">
-        <AdminHeader
-          title={head.title}
-          sub={head.sub}
-          cta={head.cta}
-          showRange={!NO_RANGE_TABS.has(tab)}
-        />
+        <AdminHeader tab={tab} showRange={!NO_RANGE_TABS.has(tab)} />
         <TabBody />
       </div>
     </main>

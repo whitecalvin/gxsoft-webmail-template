@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "打开菜单",
     "searchPlaceholder": "搜索邮件",
+    "closeSearch": "关闭搜索",
     "clearSearch": "清除搜索",
     "tour": "开始导览",
     "notifications": "通知"
@@ -41,6 +42,8 @@
     "trash": "垃圾箱"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "跳转到内容",
     "navigation": "工作区导航",
     "mailboxGroup": "邮箱",
     "collaborationGroup": "协作",
@@ -75,6 +78,8 @@
     "sessionExtend": "保持登录"
   },
   "mailList": {
+    "noSubject": "（无主题）",
+    "yesterday": "昨天",
     "searchResultsFor": "“{query}”的搜索结果",
     "countUnit": "{count}封",
     "noSearchResults": "未找到结果。",
@@ -119,11 +124,13 @@
     "delete": "删除",
     "edit": "编辑",
     "close": "关闭",
+    "undo": "撤消",
     "back": "返回",
     "deleteForever": "永久删除",
     "sendAnyway": "仍然发送"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "返回邮件",
     "title": "共享邮箱",
     "summary": "管理邮箱 {mailboxes} 个 · 定时任务 {scheduled} 个 · 模板 {templates} 个",
@@ -185,5 +192,3157 @@
     "runAction": "执行",
     "expiryPrefix": "此链接将在",
     "expirySuffix": "。"
+  },
+  "settingsSystem": {
+    "title": "设置",
+    "navigationLabel": "设置菜单",
+    "groups": {
+      "general": "一般",
+      "mail": "邮件",
+      "management": "邮件管理",
+      "account": "帐户"
+    },
+    "nav": {
+      "locale": "语言与地区",
+      "theme": "主题与外观",
+      "accessibility": "可达性",
+      "signature": "撰写与签名",
+      "inbox-display": "收件箱与阅读",
+      "sending": "发送与回复",
+      "away": "外出自动回复",
+      "notifications": "通知",
+      "labels": "标签",
+      "filters": "筛选与自动分类",
+      "blocked-senders": "已屏蔽的发件人",
+      "account": "账户与发件地址",
+      "security": "安全与登录",
+      "integrations": "集成服务",
+      "shortcuts": "快捷键"
+    },
+    "unsaved": {
+      "title": "存在未保存的更改",
+      "description": "离开此页面将丢失更改。",
+      "leave": "放弃更改",
+      "stay": "继续编辑"
+    },
+    "common": {
+      "save": "保存",
+      "cancel": "取消",
+      "reset": "恢复默认值",
+      "saved": "已保存",
+      "unsaved": "未保存的更改",
+      "savedToast": "设置已保存",
+      "all": "全部",
+      "edit": "编辑",
+      "delete": "删除",
+      "preview": "预览",
+      "done": "完成",
+      "settings": "设置",
+      "current": "当前设备",
+      "connected": "已连接",
+      "disconnected": "未连接",
+      "syncFailed": "同步失败",
+      "neverSynced": "无同步记录",
+      "lastSync": "上次同步：{value}",
+      "lastActive": "上次活动：{value}",
+      "passwordChanged": "上次更改：{value}",
+      "messageCount": "{count} 封邮件",
+      "remainingCount": "剩余 {count} 个"
+    },
+    "empty": {
+      "items": "没有可显示的项目"
+    },
+    "descriptions": {
+      "locale": "管理邮件中显示的语言、日期和时区格式。",
+      "theme": "设置工作界面的设计主题和布局。",
+      "accessibility": "调整可读性、键盘和辅助技术偏好。",
+      "signature": "管理发件人信息、邮件签名和撰写默认值。",
+      "signatureList": "选择用于新邮件和回复的签名。",
+      "inbox": "设置邮件列表和阅读界面的显示方式。",
+      "sending": "设置回复、引用、自动保存和发送的默认值。",
+      "away": "设置在指定期间发送的自动回复。",
+      "notifications": "按邮件类型和渠道设置通知方式。",
+      "labels": "创建用于整理邮件的标签并管理其顺序。",
+      "filters": "自动分类并处理符合条件的邮件。",
+      "blockedSenders": "管理要屏蔽的邮箱地址和域名。",
+      "account": "管理显示名称、回复地址和发件人别名。",
+      "security": "管理双重验证和已登录的设备。",
+      "twoFactor": "登录时通过额外验证步骤保护账户。",
+      "integrations": "管理日历、审批和外部服务连接。",
+      "shortcuts": "启用键盘快捷键并自定义按键。"
+    },
+    "sections": {
+      "languageRegion": "语言与区域格式",
+      "themePreset": "设计主题",
+      "appearance": "外观",
+      "readability": "阅读与导航",
+      "senderDefaults": "传出默认值",
+      "signatures": "签名",
+      "inboxLayout": "列表与阅读界面",
+      "replyDefaults": "撰写与回复默认值",
+      "awaySchedule": "自动回复时间与消息",
+      "notificationChannels": "通知渠道",
+      "notificationRules": "按邮件类型设置通知",
+      "quietHours": "免打扰时段",
+      "labels": "标签列表",
+      "filters": "筛选规则",
+      "blockedSenders": "屏蔽列表",
+      "accountIdentity": "账户信息",
+      "aliases": "发件人别名",
+      "authentication": "认证",
+      "sessions": "已登录设备",
+      "recentActivity": "最近登录活动",
+      "integrations": "集成列表",
+      "shortcuts": "快捷键列表"
+    },
+    "fields": {
+      "displayLanguage": "显示语言",
+      "timezone": "时区",
+      "dateFormat": "日期格式",
+      "timeFormat": "时间格式",
+      "weekStart": "周开始日期",
+      "colorScheme": "屏幕模式",
+      "density": "列表密度",
+      "radius": "圆角样式",
+      "sidebarPosition": "侧边栏位置",
+      "sidebarCollapsed": "启动时折叠侧边栏",
+      "fontScale": "文字大小",
+      "highContrast": "高对比度模式",
+      "reduceMotion": "减少动态效果",
+      "enhancedFocus": "增强焦点指示",
+      "screenReaderDetails": "屏幕阅读器详细说明",
+      "keyboardNavigation": "键盘导航辅助",
+      "senderName": "发送姓名",
+      "senderAddress": "默认发送地址",
+      "defaultFont": "默认字体",
+      "undoSend": "撤销发送时限",
+      "defaultSignature": "默认签名",
+      "signatureOnNew": "在新邮件中使用签名",
+      "signatureOnReply": "在回复和转发中使用签名",
+      "signatureName": "签名名称",
+      "signatureContent": "签名内容",
+      "previewPane": "预览窗格",
+      "conversationView": "会话视图",
+      "markRead": "标为已读的时机",
+      "remoteImages": "外部图片",
+      "pageSize": "每页邮件数",
+      "mailDateFormat": "邮件日期显示",
+      "unreadStyle": "未读邮件突出方式",
+      "defaultReply": "默认回复方式",
+      "quoteStyle": "原文引用方式",
+      "requestReceipt": "请求已读回执",
+      "scheduleDefault": "定时发送默认值",
+      "autosaveSeconds": "自动保存间隔",
+      "composeMode": "撰写格式",
+      "defaultCc": "默认抄送",
+      "defaultBcc": "默认密送",
+      "awayEnabled": "启用外出自动回复",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "subject": "标题",
+      "internalMessage": "内部用户消息",
+      "externalMessage": "外部用户消息",
+      "contactsOnly": "仅向联系人发送外部回复",
+      "browserNotifications": "浏览器通知",
+      "emailNotifications": "邮件摘要通知",
+      "notificationSound": "通知声音",
+      "quietStart": "开始时间",
+      "quietEnd": "结束时间",
+      "weekendNotifications": "周末也通知",
+      "labelVisible": "在邮件列表中显示",
+      "labelName": "标签名称",
+      "labelColor": "标签颜色",
+      "filterEnabled": "启用筛选器",
+      "filterName": "筛选器名称",
+      "condition": "条件",
+      "conditionValue": "条件值",
+      "action": "行动",
+      "actionValue": "操作值",
+      "senderOrDomain": "邮箱地址或域名",
+      "displayName": "显示名称",
+      "primaryEmail": "主要邮箱",
+      "replyTo": "回复地址",
+      "newAlias": "新发件人别名",
+      "twoFactor": "两步验证",
+      "backupCodes": "备用代码",
+      "password": "密码",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认新密码",
+      "autoSync": "自动同步",
+      "shortcutsEnabled": "启用键盘快捷键"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "首尔（GMT+9）",
+        "Asia_Tokyo": "东京（GMT+9）",
+        "Asia_Shanghai": "上海（GMT+8）",
+        "Europe_London": "伦敦",
+        "America_New_York": "纽约",
+        "America_Los_Angeles": "洛杉矶"
+      },
+      "dateFormat": {
+        "locale": "区域格式",
+        "iso": "年-月-日",
+        "long": "完整日期"
+      },
+      "timeFormat": {
+        "12": "12 小时制",
+        "24": "24 小时制"
+      },
+      "weekStart": {
+        "sunday": "星期日",
+        "monday": "星期一"
+      },
+      "colorScheme": {
+        "light": "光",
+        "dark": "黑暗",
+        "system": "系统"
+      },
+      "density": {
+        "comfortable": "悠闲地",
+        "compact": "压缩"
+      },
+      "radius": {
+        "sharp": "直角",
+        "rounded": "圆形",
+        "pill": "药丸类型"
+      },
+      "sidebarPosition": {
+        "left": "左",
+        "right": "对"
+      },
+      "font": {
+        "sans": "无衬线字体",
+        "serif": "衬线",
+        "mono": "等宽字体"
+      },
+      "seconds": "{value} 秒",
+      "previewPane": {
+        "right": "对",
+        "bottom": "下方",
+        "off": "不启用"
+      },
+      "markRead": {
+        "immediate": "立即",
+        "2seconds": "2 秒后",
+        "manual": "手动处理"
+      },
+      "remoteImages": {
+        "always": "始终显示",
+        "contacts": "仅对联系人显示",
+        "never": "不显示"
+      },
+      "pageSize": {
+        "25": "25 封",
+        "50": "50 封",
+        "100": "100 封"
+      },
+      "mailDateFormat": {
+        "relative": "相对日期",
+        "short": "简短日期",
+        "full": "完整日期"
+      },
+      "unreadStyle": {
+        "bold": "大胆",
+        "highlight": "背景突出显示",
+        "dot": "指示点"
+      },
+      "defaultReply": {
+        "reply": "回复",
+        "replyAll": "全部回复"
+      },
+      "quoteStyle": {
+        "inline": "行内引用",
+        "below": "原文置于回复下方",
+        "none": "不包含原文"
+      },
+      "scheduleDefault": {
+        "off": "不启用",
+        "nextMorning": "次日上午",
+        "custom": "保留上次设置"
+      },
+      "autosaveSeconds": {
+        "15": "15 秒",
+        "30": "30 秒",
+        "60": "1分钟"
+      },
+      "composeMode": {
+        "html": "富文本邮件",
+        "plain": "纯文本"
+      },
+      "notificationMode": {
+        "instant": "即时通知",
+        "digest": "1小时总结",
+        "off": "无通知"
+      },
+      "filterField": {
+        "from": "发件人",
+        "to": "收件人",
+        "subject": "标题",
+        "body": "正文",
+        "attachment": "附件",
+        "size": "邮件大小"
+      },
+      "filterAction": {
+        "move": "移至文件夹",
+        "label": "应用标签",
+        "star": "重要标志",
+        "read": "标为已读",
+        "forward": "传递",
+        "delete": "删除"
+      },
+      "senderType": {
+        "email": "电子邮件",
+        "domain": "领域"
+      }
+    },
+    "notificationTypes": {
+      "important": "重要邮件",
+      "general": "普通邮件",
+      "approval": "审批请求",
+      "mention": "提及",
+      "shared": "共享邮箱"
+    },
+    "actions": {
+      "addSignature": "添加签名",
+      "editSignature": "编辑签名",
+      "addLabel": "添加标签",
+      "editLabel": "编辑标签",
+      "moveUp": "上移",
+      "moveDown": "下移",
+      "addFilter": "添加筛选器",
+      "editFilter": "编辑筛选器",
+      "test": "测试",
+      "search": "搜索",
+      "block": "块",
+      "unblock": "取消屏蔽",
+      "add": "添加",
+      "regenerate": "重新发行",
+      "changePassword": "更改密码",
+      "logoutOthers": "退出其他所有设备",
+      "logout": "注销",
+      "sync": "同步",
+      "connect": "连接",
+      "disconnect": "断开连接",
+      "testNotification": "测试通知",
+      "viewShortcutReference": "查看全部快捷键"
+    },
+    "errors": {
+      "dateRange": "结束日期必须晚于开始日期。",
+      "duplicateLabel": "已存在同名标签。",
+      "invalidSender": "请输入有效的邮箱地址或域名。",
+      "duplicateSender": "此地址已被屏蔽。",
+      "invalidEmail": "请输入有效的邮箱地址。",
+      "requiredName": "请输入显示名称。",
+      "duplicateAlias": "此发件地址已注册。",
+      "shortcutConflict": "与“{action}”快捷键冲突。",
+      "passwordRequired": "请输入当前密码。",
+      "passwordLength": "新密码必须至少包含 8 个字符。",
+      "passwordMismatch": "两次输入的新密码不一致。"
+    },
+    "preview": {
+      "unreadSubject": "未读邮件主题",
+      "unreadBody": "可在此预览列表显示设置。",
+      "conversationCount": "会话中有 {count} 封邮件"
+    },
+    "confirm": {
+      "deleteSignature": "要删除此签名吗？",
+      "deleteLabel": "要删除此标签吗？",
+      "deleteFilter": "要删除此筛选器吗？",
+      "deleteAlias": "要删除此发件人别名吗？",
+      "unblockSender": "要取消屏蔽吗？",
+      "disconnect": "要断开此服务吗？",
+      "codes": "要重新生成备用代码吗？",
+      "all": "退出所有其他设备？",
+      "session": "要从此设备退出登录吗？"
+    },
+    "toast": {
+      "labelDeleted": "标签已删除",
+      "filterDeleted": "筛选器已删除",
+      "filterMatched": "测试邮件符合筛选条件",
+      "aliasDeleted": "发件人别名已删除",
+      "senderBlocked": "已将发件人加入屏蔽列表",
+      "senderUnblocked": "已取消屏蔽发件人",
+      "codesRegenerated": "备用代码已重新生成",
+      "sessionsRevoked": "已退出其他所有设备",
+      "sessionRevoked": "已从设备退出登录",
+      "passwordChanged": "密码已更改",
+      "syncComplete": "同步已完成",
+      "integrationConnected": "服务已连接",
+      "integrationDisconnected": "服务已断开",
+      "testNotification": "这是 GXWebMail 测试通知"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "公司日历",
+        "approval": "电子审批",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "读取和写入日程",
+        "approval": "同步并处理审批请求",
+        "slack": "发送重要邮件通知",
+        "drive": "以链接发送附件"
+      }
+    },
+    "shortcutActions": {
+      "compose": "撰写新邮件",
+      "search": "搜索邮件",
+      "inbox": "转到您的收件箱",
+      "archive": "存储",
+      "delete": "删除",
+      "reply": "回复",
+      "forward": "传递"
+    }
+  },
+  "adminNav": {
+    "backToMail": "返回邮件",
+    "singleTenant": "该组织只有一个租户：gxsoft.co.kr",
+    "tenant": "租户",
+    "systemMail": "系统邮件·打印·错误",
+    "organizationSetup": "组织设置向导",
+    "systemStatus": "系统状态",
+    "allServicesHealthy": "一切服务正常",
+    "queueStatus": "MTA 队列延迟 0.4 秒 · 最后检查时间为 2 分钟前",
+    "tabs": {
+      "dash": "概述",
+      "users": "账户·用户",
+      "policy": "领域·政策",
+      "security": "安全·垃圾邮件",
+      "flow": "邮件流规则",
+      "groups": "群组/邮件列表",
+      "audit": "审计日志",
+      "backup": "备份/存档",
+      "reports": "报告·导出",
+      "migration": "邮箱传输",
+      "brand": "品牌推广",
+      "api": "API·Webhook",
+      "billing": "费用/许可证"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "联系人力资源团队",
+        "initials": "问候"
+      },
+      "recruit": {
+        "name": "招聘申请接待",
+        "initials": "招聘"
+      },
+      "support": {
+        "name": "全球客户支持",
+        "initials": "支持"
+      },
+      "press": {
+        "name": "公共关系/媒体",
+        "initials": "促销"
+      },
+      "office": {
+        "name": "首席执行官秘书",
+        "initials": "秘书"
+      },
+      "invoice": {
+        "name": "税务发票提交",
+        "initials": "税"
+      }
+    },
+    "roles": {
+      "manager": "全面管理",
+      "reply": "阅读·回复",
+      "readOnly": "只读",
+      "delegate": "委托发送"
+    },
+    "delegateNote": "Jiwoo Han（助理经理：人力资源团队询问）",
+    "scheduleWhen": {
+      "today": "今天 18:00",
+      "sep5": "9月5日 09:00",
+      "sep8": "9月8日 08:30",
+      "sep14": "9月14日 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "等待调整",
+      "scheduled": "保留",
+      "recurring": "每个星期一"
+    },
+    "templates": {
+      "approval": "付款退回信息",
+      "quote": "外部报价请求",
+      "awayKorean": "缺席时自动回复（韩语）",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "会议日程协调"
+    },
+    "templateScope": {
+      "shared": "公开的",
+      "private": "个人的"
+    },
+    "templateEdited": {
+      "aug21": "8月21日",
+      "jul30": "7月30日",
+      "sep1": "9月1日",
+      "jun12": "6月12日"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "重置密码",
+      "accountInvite": "邀请新帐户",
+      "twoFactor": "两步验证码",
+      "newDevice": "新设备登录通知",
+      "quarantineDigest": "隔离邮件摘要（每日）",
+      "storageWarning": "容量严重警告",
+      "approvalRequest": "付款请求通知",
+      "awayNotice": "外出自动回复信息",
+      "largeLinkExpiry": "大容量链接过期通知",
+      "accountSuspended": "账户暂停通知",
+      "migrationComplete": "迁移完成",
+      "maintenance": "服务维护通知"
+    },
+    "printMeta": {
+      "from": "来自",
+      "to": "收件人",
+      "date": "日期",
+      "thread": "线程"
+    },
+    "printOptions": {
+      "header": {
+        "name": "页眉·页码",
+        "desc": "在打印输出的顶部显示发送信息"
+      },
+      "metadata": {
+        "name": "元信息",
+        "desc": "包括发件人、收件人和日期"
+      },
+      "quotes": {
+        "name": "展开报价",
+        "desc": "打印之前的所有回复"
+      },
+      "attachments": {
+        "name": "附表",
+        "desc": "显示附件文件名和大小"
+      },
+      "remoteImages": {
+        "name": "远程图像",
+        "desc": "在打印中包含外部图像"
+      },
+      "confidential": {
+        "name": "机密符号",
+        "desc": "添加“公司机密”水印"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "未找到",
+        "title": "我找不到这封电子邮件",
+        "body": "它可能已被删除或移至另一个邮箱。它会在回收站中保留 30 天。",
+        "action": "到您的收件箱",
+        "alt": "回收站搜索",
+        "foot": "如果问题仍然存在，请联系 IT 运营部门。"
+      },
+      "forbidden": {
+        "label": "没有许可",
+        "title": "您无权访问此屏幕",
+        "body": "管理控制台的定价和协议区域仅对组织管理员可见。如有必要请请求许可。",
+        "meta": "请求日志ID：acl-7741-b2",
+        "action": "许可请求",
+        "alt": "返回",
+        "foot": "您的请求将转发给两名组织管理员。"
+      },
+      "maintenance": {
+        "label": "维护中",
+        "title": "我们正在进行定期检查",
+        "body": "邮件接收将继续正常进行，维护完成后所有邮件将被投递。仅暂停网络访问。",
+        "meta": "预计完成 2026-09-05 02:00 KST",
+        "action": "状态页",
+        "alt": "获取通知",
+        "foot": "紧急咨询02-2000-1000（24小时）"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "通知",
+    "markAllRead": "阅读全部",
+    "all": "全部",
+    "approval": "审批",
+    "mention": "提及",
+    "empty": "没有任何通知。",
+    "openCenter": "打开通知中心",
+    "items": {
+      "n1": {
+        "avatar": "公园",
+        "title": "请求批准 · 朴瑞俊",
+        "body": "2026年上半年云基础设施扩容预算回顾——轮到我了",
+        "time": "刚才"
+      },
+      "n2": {
+        "avatar": "崔",
+        "title": "提及·崔珉瑞",
+        "body": "Atlas 第三次 Sprint 评审会议纪要中提到了您。",
+        "time": "12 分钟前"
+      },
+      "n3": {
+        "avatar": "这个",
+        "title": "付款已批准·李素敏",
+        "body": "9月份定期研讨会预算获得批准",
+        "time": "38 分钟前"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "3 封新电子邮件",
+        "body": "Su-min Lee、Jira 和 Min-seo Choi 收到了一封新电子邮件",
+        "time": "1 小时前"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "82% 存储空间正在使用",
+        "body": "18.2GB / 50GB · 整理大型附件",
+        "time": "3小时前"
+      },
+      "n6": {
+        "avatar": "河",
+        "title": "提及·康泰允",
+        "body": "我在质量检查清单评论中提到了你",
+        "time": "昨天"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "日期与时间",
+      "location": "地点",
+      "organizer": "组织者",
+      "recurrence": "重复"
+    },
+    "states": {
+      "accept": "参加",
+      "tentative": "待定",
+      "decline": "不参加",
+      "noResponse": "未回复"
+    },
+    "rsvpQuestion": "您想参加吗？",
+    "viewEvent": "查看时间表",
+    "viewEventNotice": "检查日历上的日程安排",
+    "suggestTime": "建议改个时间",
+    "suggestTimeNotice": "向主办方建议其他时间",
+    "leaveMemo": "留言",
+    "leaveMemoNotice": "打开笔记创建屏幕",
+    "attendeeStatus": "出勤情况",
+    "host": "主办者",
+    "briefing": "人工智能简报",
+    "briefingBody": "上次冲刺评审中讨论的GPU节点扩展的最终评审纳入了本次会议的议程。",
+    "relatedMailNotice": "转到相关电子邮件搜索结果",
+    "viewRelatedMail": "查看 3 封相关电子邮件",
+    "responseRecorded": "已记录回复：{choice}",
+    "attendeeSummary": "{count} 人中有 {responded} 人回复",
+    "conflict": "此时段与<strong>{event}</strong>冲突。"
+  },
+  "auth": {
+    "common": {
+      "email": "电子邮件地址",
+      "password": "密码",
+      "terms": "使用条款",
+      "privacy": "隐私政策",
+      "termsNotice": "开放使用条款",
+      "privacyNotice": "开放的隐私政策",
+      "setupWizard": "服务器安装向导",
+      "noAccount": "没有帐户？",
+      "haveAccount": "已经有帐户？",
+      "signIn": "登录",
+      "signUp": "注册",
+      "procurementNotice": "© 2026 GXWebMail。注册供公共和教育机构采购的产品。",
+      "eyebrow": "企业邮件平台"
+    },
+    "login": {
+      "title": "很高兴再次见到你",
+      "description": "使用您的工作帐户登录。使用 SSO 的组织可以使用下面的按钮直接访问。",
+      "passwordPlaceholder": "请输入您的密码",
+      "rememberMe": "保持登录状态",
+      "forgotPassword": "找到你的密码",
+      "resetNotice": "发送密码重置电子邮件",
+      "enterEmailFirst": "请先输入您的电子邮件",
+      "missingCredentials": "请输入电子邮件和密码。",
+      "submitting": "正在登录...",
+      "ssoButton": "继续使用组织帐户 (SAML)",
+      "ssoNotice": "转至 SAML SSO 登录屏幕",
+      "ssoContact": "联系您的组织管理员",
+      "twoFactorHint": "该帐户已启用两步验证。登录后，输入您的 6 位 OTP。",
+      "tagline": "每天稳定处理 12 万封邮件",
+      "uptime": "正常运行时间服务等级协议",
+      "largeAttachments": "大附件",
+      "certified": "获得认证"
+    },
+    "signup": {
+      "title": "创建帐户",
+      "description": "如果您使用组织电子邮件注册，您的管理员将批准并激活您的帐户。",
+      "name": "姓名",
+      "namePlaceholder": "洪吉东",
+      "passwordPlaceholder": "请输入至少8个字符",
+      "confirmPassword": "确认密码",
+      "confirmPlaceholder": "请再次输入您的密码",
+      "consentLabel": "同意服务条款和隐私政策",
+      "requiredFields": "请填写所有必填字段。",
+      "passwordMismatch": "密码不匹配。",
+      "consentRequired": "请同意使用条款和隐私政策。",
+      "submitting": "正在创建账户...",
+      "submit": "注册",
+      "productIntro": "产品介绍",
+      "tagline": "整个团队共用一个收件箱",
+      "benefits": {
+        "brandedWorkspace": "适合组织的品牌与工作环境",
+        "integratedTools": "集成日历、联系人与审批",
+        "secureOperations": "符合 ISMS-P 标准的安全邮件运营"
+      },
+      "consent": "我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。"
+    }
+  },
+  "setup": {
+    "sidebarLabel": "安装步骤",
+    "brand": "Mailwave邮件服务器",
+    "title": "安装向导",
+    "introduction": "服务器安装完成。完成七个步骤后，用户可以立即开始撰写邮件。",
+    "done": "完成",
+    "inProgress": "进展",
+    "serverInfo": "服务器mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "打开安装说明文档",
+    "guideNotice": "在新选项卡中打开安装说明文档",
+    "settingsLabel": "安装设置",
+    "back": "回来",
+    "finish": "安装完成·登录",
+    "copy": "复制",
+    "copied": "复制了值",
+    "checkAgain": "再次测试",
+    "checking": "测试...",
+    "dnsCheckAgain": "DNS 重新检查",
+    "dnsChecking": "正在检查...",
+    "dbRecheckNotice": "再次测试您的数据库连接",
+    "dbRecheckSuccess": "连接测试通过",
+    "dnsRecheckNotice": "重新检查您的 DNS 记录",
+    "dnsRecheckSuccess": "DNS检查完成",
+    "inviteSentNotice": "邀请电子邮件已发送",
+    "inviteSent": "发货完成",
+    "inviteButton": "发送邀请邮件",
+    "inviteTargetHeading": "邀请函",
+    "steps": {
+      "license": {
+        "name": "许可证 · 管理员帐户",
+        "description": "注册{seats, number}个席位和{admins, number}名管理员"
+      },
+      "database": {
+        "name": "数据库连接",
+        "description": "PostgreSQL 16 · 42 种模式"
+      },
+      "organization": {
+        "name": "组织/域名注册",
+        "description": "gxsoft.co.kr · 导入42个部门"
+      },
+      "dns": {
+        "name": "域名/DNS验证",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "邮件存储/备份",
+        "description": "存储路径·每天备份一次"
+      },
+      "security": {
+        "name": "安全政策",
+        "description": "垃圾邮件·DLP·两步身份验证"
+      },
+      "invitations": {
+        "name": "用户邀请",
+        "description": "邀请邮件已发送 · 首次登录"
+      }
+    },
+    "license": {
+      "description": "输入您的许可证密钥并创建您的第一个管理员帐户。",
+      "fields": {
+        "key": "许可证密钥",
+        "adminName": "管理员姓名",
+        "adminEmail": "管理员邮箱",
+        "adminPassword": "管理员密码"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "主机",
+        "port": "港口",
+        "database": "数据库",
+        "schema": "图式",
+        "account": "帐户",
+        "password": "密码",
+        "sslMode": "SSL模式",
+        "connectionPool": "连接池"
+      },
+      "poolValue": "最多 40 · 空闲 5",
+      "testTitle": "连接测试",
+      "states": {
+        "passed": "通过",
+        "warning": "小心"
+      },
+      "checks": {
+        "connection": {
+          "name": "连接",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "版本",
+          "detail": "PostgreSQL 16.2 · 至少 14 或更高"
+        },
+        "permissions": {
+          "name": "许可",
+          "detail": "检查创建·更改·索引"
+        },
+        "charset": {
+          "name": "字符集/排序",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "时区",
+          "detail": "亚洲/首尔 · UTC 推荐"
+        }
+      }
+    },
+    "organization": {
+      "description": "注册您的组织信息和主域。",
+      "fields": {
+        "name": "组织名称",
+        "domain": "代表域",
+        "contact": "联系邮箱"
+      },
+      "hrImportNotice": "您可以从HR组织结构图（Grow）中自动导入42个部门。"
+    },
+    "dns": {
+      "headers": {
+        "type": "类型",
+        "host": "主机",
+        "value": "值",
+        "status": "状态"
+      },
+      "states": {
+        "verified": "已确认",
+        "propagating": "传播",
+        "missing": "未设置"
+      }
+    },
+    "storage": {
+      "description": "设置邮件数据存储路径和备份周期。",
+      "fields": {
+        "path": "保存路径",
+        "frequency": "备份周期",
+        "retention": "储存期限"
+      },
+      "frequencyValue": "每天一次 · 04:00",
+      "retentionValue": "3年"
+    },
+    "security": {
+      "description": "设置默认安全策略。您可以稍后在管理员控制台中进行调整。",
+      "policies": {
+        "spam": "自动隔离垃圾邮件和网络钓鱼",
+        "dlp": "DLP 机密文档阻止",
+        "twoFactor": "需要管理员两步身份验证",
+        "externalWarning": "外部邮件警报横幅"
+      }
+    },
+    "invitations": {
+      "description": "向员工发送邀请邮件。将向从CSV导入的{count, number}人发送首次登录说明。"
+    },
+    "firstRun": "首次运行",
+    "stepCounter": "第 {step} 步，共 {total} 步",
+    "progressLabel": "进度 {progress}%",
+    "nextStep": "下一步 · {name}",
+    "checkSummary": "刚刚完成测试 · {total}项中{passed}项通过",
+    "dnsSummary": "2分钟前完成检查 · {total}项中{verified}项已确认",
+    "countSummary": "{total}项中{passed}项通过",
+    "dnsCountSummary": "{total}项中{verified}项已确认",
+    "inviteTarget": "{count, number}人 · {domain}",
+    "inviteSentCount": "已发送给{count, number}人",
+    "dbNotice": "下一步将创建42张数据库表并写入初始数据（约40秒）。如果数据库已有数据，安装会先询问是否<strong>继续使用现有架构</strong>。",
+    "dnsNotice": "DNS传播最多可能需要24小时。现在可以跳过DKIM和DMARC，稍后在<strong>管理 · 域名 · 策略</strong>中检查。缺少这两条记录时，外部服务器可能将外发邮件判为垃圾邮件。"
+  },
+  "adminOnboarding": {
+    "title": "组织设置向导",
+    "dnsDelayNotice": "DNS 反射最多可能需要 48 小时。与此同时，现有的邮件服务器将继续运行。",
+    "dnsTitle": "注册 DNS 记录",
+    "copyAll": "全部复制",
+    "copiedNotice": "复制所有 DNS 记录",
+    "recheck": "再次检查",
+    "checking": "正在检查...",
+    "recheckNotice": "重新检查您的 DNS 记录",
+    "recheckSuccess": "DNS验证完成",
+    "csvTitle": "批量账户注册",
+    "csvSelectNotice": "打开 CSV 文件选择窗口",
+    "csvSelect": "拖动或选择 CSV 文件",
+    "csvColumns": "姓名、电子邮件、部门和级别列必填",
+    "migrationTitle": "迁移现有邮件",
+    "migrationImap": "IMAP 其他",
+    "migrationPending": "等待",
+    "migrationNotice": "IMAP 同步将在转换后保留 7 天，以确保不会遗漏任何内容。",
+    "continueLater": "稍后继续",
+    "next": "下一步 · 创建帐户",
+    "nextNotice": "转到帐户创建步骤",
+    "headers": {
+      "type": "类型",
+      "host": "主机",
+      "value": "值",
+      "priority": "优先级",
+      "status": "状态"
+    },
+    "dnsStates": {
+      "verified": "已确认",
+      "pending": "待生效",
+      "unregistered": "未配置"
+    },
+    "steps": {
+      "organization": {
+        "name": "组织信息",
+        "description": "公司名称、代表域名、负责人"
+      },
+      "domain": {
+        "name": "域连接",
+        "description": "MX·SPF·DKIM记录注册"
+      },
+      "accounts": {
+        "name": "创建帐户",
+        "description": "CSV批量登记和HR组织结构图集成"
+      },
+      "migration": {
+        "name": "邮件迁移",
+        "description": "从现有服务器迁移邮件"
+      },
+      "policy": {
+        "name": "申请政策",
+        "description": "安全·保留·DLP 默认值"
+      },
+      "cutover": {
+        "name": "转换/检验",
+        "description": "MX 最终转换和运输测试"
+      }
+    },
+    "subtitle": "{domain} · 正在进行第{step}步 · 预计{minutes}分钟",
+    "recordCount": "{count, number}条记录",
+    "verifiedCount": "{total, number}条中已确认{verified, number}条",
+    "csvSummary": "已验证{rows, number}行 · 自动合并{duplicates, number}条重复记录",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "组织范围内的电子邮件处理状态",
+        "cta": "出口报告"
+      },
+      "users": {
+        "sub": "管理 {count, number} 个账户",
+        "cta": "添加帐户"
+      },
+      "policy": {
+        "sub": "发送域和安全策略",
+        "cta": "保存政策"
+      },
+      "security": {
+        "sub": "阻止/隔离日志和检测状态",
+        "cta": "添加规则"
+      },
+      "flow": {
+        "sub": "适用于整个组织的自动处理规则",
+        "cta": "添加规则"
+      },
+      "groups": {
+        "sub": "通讯组列表和共享邮箱",
+        "cta": "创建一个群组"
+      },
+      "audit": {
+        "sub": "所有管理任务的不可变记录",
+        "cta": "CSV 导出"
+      },
+      "backup": {
+        "sub": "快照和合法保留状态",
+        "cta": "立即备份"
+      },
+      "reports": {
+        "sub": "创建自定义报告",
+        "cta": "新报告"
+      },
+      "migration": {
+        "sub": "从其他邮件系统的迁移进度状态",
+        "cta": "添加批次"
+      },
+      "brand": {
+        "sub": "组织身份和登录屏幕",
+        "cta": "帖子"
+      },
+      "api": {
+        "sub": "外部集成密钥和事件订阅",
+        "cta": "密钥发行"
+      },
+      "billing": {
+        "sub": "订阅和付款管理",
+        "cta": "查看您的账单"
+      }
+    },
+    "ranges": {
+      "today": "今天",
+      "last7": "过去 7 天",
+      "last30": "过去 30 天",
+      "last90": "过去 90 天"
+    },
+    "rangeLabel": "日期范围",
+    "actionNotice": "正在打开{action}"
+  },
+  "adminMobile": {
+    "menuLabel": "管理员菜单",
+    "backToMenu": "返回管理员菜单",
+    "actionPreview": "此操作为预览",
+    "executeAction": "执行{action}",
+    "screens": {
+      "dash": {
+        "navLabel": "概述",
+        "title": "经理",
+        "sub": "gxsoft.co.kr · 实时",
+        "footerText": "在桌面上查看完整报告",
+        "chips": {
+          "chip0": "今天",
+          "chip1": "7天",
+          "chip2": "30天"
+        },
+        "rows": {
+          "throughput": {
+            "name": "工作吞吐量",
+            "meta": "{count}",
+            "line3": "与前一天相比{growth}"
+          },
+          "blocked": {
+            "name": "封锁/隔离",
+            "line3": "隔离{quarantined}例 高风险{highRisk}例"
+          },
+          "queue": {
+            "name": "调度队列",
+            "line3": "重试 {retry} · 失败 {failed}"
+          },
+          "deliveryDelay": {
+            "name": "平均交货延迟",
+            "meta": "{seconds}秒",
+            "line3": "{slaSeconds} 秒内达到 SLA",
+            "tag": "正常"
+          },
+          "needsAttention": {
+            "name": "{items} 项需要确认",
+            "line3": "MTA-STS 未应用 · 容量阈值 {threshold} 例",
+            "tag": "查看"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "帐户",
+        "title": "帐户",
+        "sub": "{total} · 暂停 {suspended} · 不活跃 {inactive}",
+        "footerText": "滑动停止/长按重置密码",
+        "footerBtn": "停止",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "停止",
+          "chip2": "不活跃的"
+        },
+        "action": "搜索账户",
+        "rows": {
+          "jiwoo": {
+            "tag": "正常",
+            "line3": "战略规划团队 · {usage}"
+          },
+          "seojun": {
+            "tag": "正常",
+            "line3": "基础设施团队 · {usage}"
+          },
+          "jaeho": {
+            "tag": "容量",
+            "line3": "销售团队 · {usage}"
+          },
+          "temporary": {
+            "tag": "停止",
+            "line3": "未指定 · {days} 天无法访问"
+          },
+          "serin": {
+            "tag": "正常",
+            "line3": "首席执行官办公室 · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "安全",
+        "title": "安全",
+        "sub": "过去 {days} 天 · {pending} 起案件待处理",
+        "footerText": "规则更改只能在桌面上进行",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "高"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "异常登录尝试",
+            "line2": "日本大阪 · {blocked} 被封锁",
+            "line3": "{days} 天前 · 行动完成"
+          },
+          "phishing": {
+            "name": "网络钓鱼活动检测",
+            "line2": "类似域名 gxsott.co.kr",
+            "line3": "今日 {time} · {quarantined}例隔离病例",
+            "tag": "等待"
+          },
+          "dlp": {
+            "name": "DLP 屏蔽",
+            "line2": "尝试发送可执行文件附件",
+            "line3": "昨天 · {cases} 例"
+          },
+          "spf": {
+            "name": "SPF失败率飙升",
+            "line3": "昨天·声望{score}点",
+            "tag": "等待"
+          },
+          "appPassword": {
+            "name": "使用应用程序密码",
+            "line2": "{clients} 个 IMAP 客户端",
+            "line3": "{days} 天前 · 评论推荐"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "检疫审查",
+        "title": "检疫审查",
+        "sub": "{total}例 · {highRisk}例高危病例",
+        "footerText": "批量删除记录在审核日志中",
+        "footerBtn": "批量删除",
+        "chips": {
+          "chip0": "高",
+          "chip1": "垃圾邮件",
+          "chip2": "全部"
+        },
+        "rows": {
+          "alert": {
+            "line3": "{recipients} 个收件人 · 类似域名",
+            "tag": "删除"
+          },
+          "invoice": {
+            "line3": "{recipients} 个收件人·可执行文件",
+            "tag": "删除"
+          },
+          "newsletter": {
+            "line3": "{recipients} 个收件人 · SPF 失败",
+            "tag": "保持"
+          },
+          "recruitment": {
+            "line3": "{recipients} 位收件人 · 第一个收件人",
+            "tag": "恢复"
+          },
+          "billing": {
+            "line3": "{recipients} 位收件人 · 可能正常",
+            "tag": "恢复"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "服务状态",
+        "title": "服务状态",
+        "sub": "一切服务正常",
+        "footerText": "维护横幅对所有用户可见",
+        "action": "添加通知",
+        "rows": {
+          "mail": {
+            "name": "接收和发送邮件",
+            "line3": "运转率{availability}（{days}天）",
+            "tag": "正常"
+          },
+          "webClient": {
+            "name": "网络客户端",
+            "line3": "p95响应{latency}ms",
+            "tag": "正常"
+          },
+          "protocols": {
+            "line3": "{connections} 个连接",
+            "tag": "正常"
+          },
+          "migration": {
+            "name": "邮箱传输",
+            "line3": "{batches} 批次正在进行中 带宽有限",
+            "tag": "延迟"
+          },
+          "maintenance": {
+            "name": "定期维护",
+            "line2": "{date} {start} – {end}",
+            "line3": "横幅已张贴·接待仍在继续",
+            "tag": "帖子"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "组",
+        "title": "组",
+        "sub": "{total} · 邮寄 {mailing}",
+        "footerText": "要编辑成员，请按住选择",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "部门",
+          "chip2": "邮寄"
+        },
+        "action": "添加群组",
+        "rows": {
+          "strategy": {
+            "meta": "{count}人",
+            "line3": "战略·部门组"
+          },
+          "infrastructure": {
+            "meta": "{count}人",
+            "line3": "下属·部门组"
+          },
+          "allStaff": {
+            "meta": "{count}人",
+            "tag": "限制",
+            "line3": "全部 · 发送限制"
+          },
+          "sales": {
+            "meta": "{count}人",
+            "line3": "销售1·部门组"
+          },
+          "aurora": {
+            "meta": "{count}人",
+            "tag": "暂时的",
+            "line3": "极光·临时·12月到期"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "领域·政策",
+        "title": "领域·政策",
+        "sub": "{domains} 个域，{actions} 个操作",
+        "footerText": "策略更改只能在桌面上进行",
+        "chips": {
+          "chip0": "领域",
+          "chip1": "认证"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "主域·SPF·DKIM·DMARC",
+            "tag": "正常"
+          },
+          "mailDomain": {
+            "line3": "仅送货 · 信誉 {score} 点",
+            "tag": "警告"
+          },
+          "aliasDomain": {
+            "line3": "别名/接收转发",
+            "tag": "正常"
+          },
+          "dmarc": {
+            "line3": "p=隔离·每周报告一次",
+            "name": "DMARC 政策"
+          },
+          "mtaSts": {
+            "line3": "推荐 · 阻止中间人攻击",
+            "tag": "行动",
+            "name": "MTA-STS 不适用"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "审计日志",
+        "title": "审计日志",
+        "sub": "过去 {hours} 小时 · {events} 例",
+        "footerText": "日志保存7年并导出至桌面",
+        "chips": {
+          "chip0": "全部",
+          "chip1": "许可",
+          "chip2": "删除"
+        },
+        "action": "搜索日志",
+        "rows": {
+          "grantRole": {
+            "name": "授予管理员权限",
+            "line2": "吴世琳 → 朴瑞俊",
+            "line3": "IP 10.2.14.8 · 网页控制台"
+          },
+          "removeDelegate": {
+            "name": "禁用邮箱委派",
+            "line2": "共享 hr · Jiwoo Han"
+          },
+          "bulkDelete": {
+            "name": "运行批量删除",
+            "tag": "重要的",
+            "line2": "{count} 封隔离电子邮件",
+            "line3": "朴叙俊·没有回头路"
+          },
+          "editPolicy": {
+            "name": "修改政策",
+            "meta": "昨天",
+            "line2": "DLP 可执行文件阻止开启",
+            "line3": "欧赛琳"
+          },
+          "issueApiKey": {
+            "name": "API密钥发放",
+            "meta": "昨天",
+            "line3": "基础设施团队 · {days} 天到期"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "备份",
+        "title": "备份",
+        "sub": "每天 {frequency} 次 · 最近成功 {lastSuccess}",
+        "footerText": "从桌面控制台请求恢复",
+        "chips": {
+          "chip0": "工作",
+          "chip1": "恢复"
+        },
+        "rows": {
+          "full": {
+            "name": "完整备份",
+            "line3": "{used} TB · {minutes} 分钟",
+            "tag": "成功"
+          },
+          "incremental": {
+            "name": "增量备份",
+            "meta": "捣碎",
+            "line3": "最近{successes}连胜",
+            "tag": "成功"
+          },
+          "restoreTest": {
+            "name": "恢复测试",
+            "meta": "{days}天前",
+            "line3": "建议每季度一次 · 截止日期迫在眉睫",
+            "tag": "推荐"
+          },
+          "retention": {
+            "name": "保留政策",
+            "line3": "邮件{mailYears}年·审核日志{auditYears}年"
+          },
+          "storage": {
+            "name": "存储使用情况",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "费用",
+        "title": "费用",
+        "sub": "预计{month}结算 {amount}",
+        "footerText": "税务发票将发送至您注册的电子邮件地址。",
+        "chips": {
+          "chip0": "这个月",
+          "chip1": "上个月"
+        },
+        "rows": {
+          "seats": {
+            "name": "二手座椅",
+            "line3": "{contracted}个签约座位，{available}个备用座位"
+          },
+          "storage": {
+            "name": "额外的存储空间",
+            "line3": "{amount} · 每月固定费用"
+          },
+          "archive": {
+            "name": "档案存储",
+            "line3": "{amount} · {years} 年保留"
+          },
+          "augustInvoice": {
+            "name": "八月计费",
+            "line3": "付款完成·{date}",
+            "tag": "完成"
+          },
+          "cardExpiry": {
+            "name": "卡即将到期",
+            "line3": "公司卡 ****4821 · 11 月到期",
+            "tag": "行动"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "品牌推广",
+        "title": "品牌推广",
+        "sub": "标志、颜色、签名",
+        "footerText": "更改将在批准后应用于您的转录",
+        "chips": {
+          "chip0": "申请",
+          "chip1": "草案"
+        },
+        "rows": {
+          "logo": {
+            "name": "标志",
+            "line3": "SVG · 亮色 · 暗色配准",
+            "tag": "申请"
+          },
+          "accent": {
+            "name": "强调色",
+            "line3": "体现在登录、按钮和链接上",
+            "tag": "申请"
+          },
+          "signature": {
+            "name": "邮件签名模板",
+            "line3": "按部门分 {types} 种 · 自动插入"
+          },
+          "loginBackground": {
+            "name": "登录后台",
+            "line3": "图像未注册/默认使用",
+            "tag": "草案"
+          },
+          "senderName": {
+            "name": "系统邮件发件人姓名",
+            "line3": "GXSOFT邮件·无回复"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "{keys} 个按键 · {calls} 次调用/天",
+        "footerText": "键值在发行时仅出现一次",
+        "chips": {
+          "chip0": "钥匙",
+          "chip1": "网络钩子"
+        },
+        "action": "添加 API 密钥",
+        "rows": {
+          "hrSync": {
+            "line3": "阅读 · 账户 · 最后致电 {minutes} 分钟前",
+            "tag": "活跃的"
+          },
+          "billingSync": {
+            "line3": "读取 · 使用 · 有效期 {days} 天",
+            "tag": "活跃的"
+          },
+          "legacyImport": {
+            "line3": "写入 · 有效期 {days} 天 · 建议轮换",
+            "tag": "过期"
+          },
+          "quarantineWebhook": {
+            "name": "Webhook·检疫通知"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/分钟",
+            "line3": "超过 429 · 建议重试",
+            "name": "速率限制"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "审批流程",
+        "title": "审批流程",
+        "sub": "等待{pending}例，平均{averageHours}小时",
+        "footerText": "在移动设备上，只能批准和拒绝。",
+        "footerBtn": "批准",
+        "chips": {
+          "chip0": "等待",
+          "chip1": "完成"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "批准用于批量运输",
+            "line2": "全公司公告·{people}人",
+            "line3": "请求 Jiwoo Han · {hours} 小时前",
+            "tag": "等待"
+          },
+          "externalShare": {
+            "name": "外部共享异常",
+            "line2": "允许附加partner-corp.kr",
+            "line3": "请求销售团队 1 · {hours} 小时前",
+            "tag": "等待"
+          },
+          "deleteAccount": {
+            "name": "删除帐户",
+            "line2": "temp-001 · 数据破坏",
+            "line3": "请求基础设施团队 · 昨天",
+            "tag": "等待"
+          },
+          "dlpException": {
+            "name": "政策例外·DLP",
+            "line2": "发送可执行文件一次",
+            "line3": "已批准 · 奥瑟林",
+            "tag": "完成"
+          },
+          "approvalTemplate": {
+            "name": "审批行模板",
+            "line3": "步骤{step}·部门负责人→信息安全→代表"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "报告",
+        "title": "报告",
+        "sub": "每周 · {month}第{week}周",
+        "footerText": "可在桌面上导出 PDF",
+        "chips": {
+          "chip0": "每周",
+          "chip1": "每月"
+        },
+        "rows": {
+          "traffic": {
+            "name": "传入/传出趋势",
+            "line3": "接收：{received}，发送：{sent}"
+          },
+          "spamBlock": {
+            "name": "垃圾邮件拦截率",
+            "line3": "{reports} 份误报报告",
+            "tag": "正常"
+          },
+          "userActivity": {
+            "name": "用户活动",
+            "line3": "{people} 人每周登录时间超过 {days} 天"
+          },
+          "storageGrowth": {
+            "name": "增加存储容量",
+            "line3": "预计 {months} 个月的每周平均值/临界值"
+          },
+          "scheduled": {
+            "name": "预订报告",
+            "meta": "{reports}例",
+            "line3": "{weekday} {time} · 由管理层发送"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "迁移",
+        "title": "迁移",
+        "sub": "{batches}批次进行中 {progress}",
+        "footerText": "从桌面控制台中止并重试",
+        "chips": {
+          "chip0": "进展",
+          "chip1": "完成",
+          "chip2": "失败"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "帐户 {migrated}/{total} · 剩余 {hours} 小时 {minutes} 分钟",
+            "name": "第07批·销售总部"
+          },
+          "researchBatch": {
+            "line3": "{migrated}/{total} 帐户带宽限制",
+            "name": "第 08 批·实验室"
+          },
+          "overseasBatch": {
+            "line3": "{migrated}/{total}帐号·延时待机",
+            "name": "实习09·海外分公司"
+          },
+          "failedBatch": {
+            "line3": "超出邮箱容量/需要重试",
+            "tag": "失败",
+            "name": "第 06 批·{failures} 次失败"
+          },
+          "completedBatches": {
+            "line3": "审核通过·原件保存{days}天",
+            "tag": "完成",
+            "name": "第 01-05 批已完成"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "邮件吞吐量",
+    "received": "收到",
+    "sent": "传出",
+    "blocked": "块",
+    "authTitle": "认证状态",
+    "alertsTitle": "需要确认的项目",
+    "openAlerts": "打开需要确认的项目的完整列表",
+    "all": "全部",
+    "funnelTitle": "交付漏斗（今天）",
+    "averageDelay": "平均交货延迟",
+    "reputationTitle": "域名声誉",
+    "queueTitle": "调度队列",
+    "live": "实时",
+    "kpis": {
+      "processed": "今天处理邮件",
+      "activeAccounts": "活跃账户",
+      "blockedRate": "垃圾邮件拦截率",
+      "deliveryDelay": "平均交货延迟"
+    },
+    "authStatus": {
+      "normal": "正常",
+      "quarantine": "检疫政策",
+      "notApplied": "未应用"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "MTA-STS 政策未应用",
+        "desc": "域 sub.gxsoft.co.kr 没有 TLS 强制策略。"
+      },
+      "quota": {
+        "title": "8 个容量关键帐户",
+        "desc": "已向超过 90% 的帐户发送自动通知。"
+      }
+    },
+    "funnel": {
+      "attempted": "接收尝试",
+      "blocked": "垃圾邮件和恶意拦截",
+      "quarantined": "隔离检疫暂停",
+      "delivered": "正常发货",
+      "bounced": "退货/失败"
+    },
+    "queueStats": {
+      "pending": "等待",
+      "retrying": "重试",
+      "failed": "失败"
+    },
+    "queueState": {
+      "sending": "运输",
+      "completed": "完成",
+      "pending": "等待"
+    },
+    "reputationMetrics": "垃圾邮件 {spam} · 退信 {bounce}",
+    "itemCount": "{count, number} 项"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "姓名/账户/部门搜索",
+    "allDepartments": "整个部门",
+    "allRoles": "全权",
+    "allStatuses": "状态满",
+    "selectAll": "选择全部",
+    "moreActions": "查看更多",
+    "resumeAccount": "解冻",
+    "suspendAccount": "帐户被暂停",
+    "deleteAccount": "删除帐户",
+    "suspendedToast": "帐户已被暂停",
+    "resumedToast": "账户暂停已解除",
+    "deletedToast": "您的帐户已被删除",
+    "bulkSuspend": "批量停止",
+    "clearSelection": "取消选择",
+    "columns": {
+      "user": "用户",
+      "department": "部门/职位",
+      "role": "许可",
+      "quota": "容量",
+      "lastSeen": "最后访问",
+      "status": "状态"
+    },
+    "departments": {
+      "strategy": "策略规划团队",
+      "infrastructure": "基础设施团队",
+      "finance": "财务团队",
+      "platform": "平台开发团队",
+      "qa": "质量保证团队",
+      "system": "系统"
+    },
+    "departmentFilter": "部门筛选",
+    "roleFilter": "权限筛选",
+    "statusFilter": "状态筛选",
+    "positions": {
+      "deputy": "副经理",
+      "principal": "负责人",
+      "lead": "组长",
+      "senior": "高级专员",
+      "serviceAccount": "服务账户"
+    },
+    "roles": {
+      "superAdmin": "超级管理员",
+      "departmentAdmin": "部门管理员",
+      "auditor": "审计员",
+      "api": "API",
+      "member": "普通用户"
+    },
+    "statuses": {
+      "active": "启用",
+      "overQuota": "超出配额",
+      "suspended": "已停用"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "刚刚",
+    "selectedCount": "已选择 {count, number} 人",
+    "summary": "共 {total, number} 个账户 · 已停用 {suspended, number} 个",
+    "bulkSuspendedToast": "已停用 {count, number} 个账户",
+    "selectUser": "选择{name}",
+    "deleteTitle": "删除{name}的账户？",
+    "deleteDescription": "整个邮箱和所有附件（{quota}）也将被删除。请输入电子邮件地址以确认。"
+  },
+  "adminPolicy": {
+    "domainsTitle": "领域",
+    "sendLimitsTitle": "运输限制",
+    "mailPolicyTitle": "邮件政策",
+    "aiTitle": "AI功能部署范围",
+    "aiDescription": "将摘要/写作帮助功能逐步分配给每个组织单位。尸体仅在国内地区加工，不用于训练。",
+    "syncStarted": "开始同步您的 HR 组织结构图",
+    "syncCompleted": "组织结构图同步完成",
+    "syncing": "正在同步...",
+    "syncNow": "立即同步",
+    "justNow": "刚才",
+    "domainTags": {
+      "primary": "基本的",
+      "alias": "别名",
+      "needsReview": "需要确认"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "每人每小时发送",
+        "value": "{value, number} 封"
+      },
+      "attachmentMb": {
+        "name": "一次性附件容量",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "大链接存储",
+        "value": "{value, number} 天"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "强制外部发送域验证",
+        "desc": "取消订阅 SPF/DKIM 失败电子邮件。"
+      },
+      "ext": {
+        "name": "外部邮件警报横幅",
+        "desc": "在来自组织外部的消息正文顶部显示横幅。"
+      },
+      "dlp": {
+        "name": "阻止机密文件的外部传输 (DLP)",
+        "desc": "阻止外部发送标记为“机密”的附件。"
+      },
+      "retain": {
+        "name": "邮件保存3年，删除后30天恢复",
+        "desc": "这是符合公共机构记录管理准则的保留期限。"
+      },
+      "sandbox": {
+        "name": "附件沙箱检查",
+        "desc": "首先在隔离环境中执行可执行文件和宏文档。"
+      }
+    },
+    "rollout": {
+      "engineering": "技术总部",
+      "strategyFinance": "战略规划·财务",
+      "remaining": "其他战士"
+    },
+    "rolloutState": {
+      "deployed": "全面部署",
+      "beta": "贝塔",
+      "pending": "等待"
+    },
+    "verifiedCount": "已验证 {count, number} 个",
+    "peopleCount": "{count, number} 人",
+    "todayAt": "今天 {time}",
+    "syncSummary": "HR 系统（Grow）每天 03:00 同步组织架构。上次同步：{lastSync} · {count, number} 人",
+    "domainMeta": {
+      "primary": "{count, number} 个账户 · MX 正常 · {registered} 注册",
+      "alias": "{count, number} 个账户 · 仅全球发信",
+      "review": "{count, number} 个账户 · 无 MTA-STS 策略"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "阻止/隔离日志",
+    "exportStarted": "CSV 导出开始",
+    "exportCsv": "CSV 导出",
+    "empty": "没有此条件的日志。",
+    "kpis": {
+      "blocked": "已拦截（7 天）",
+      "quarantine": "待隔离",
+      "phishing": "检测到网络钓鱼",
+      "accuracy": "检测精度"
+    },
+    "filters": {
+      "all": "全部",
+      "spam": "垃圾邮件",
+      "phishing": "网络钓鱼",
+      "malware": "恶意软件"
+    },
+    "columns": {
+      "time": "时间",
+      "sender": "发件人",
+      "subjectReason": "主题 · 检测依据",
+      "recipient": "收件人",
+      "score": "分数",
+      "action": "行动"
+    },
+    "actions": {
+      "blocked": "已拦截",
+      "quarantined": "已隔离",
+      "released": "已放行",
+      "passed": "已通过"
+    },
+    "recipients": {
+      "allStaff": "全体员工",
+      "purchasing": "采购团队",
+      "multiple": "多个收件人"
+    },
+    "rowCount": "{count, number} 条",
+    "reasons": {
+      "similarDomain": "疑似钓鱼的相似域名",
+      "executable": "检测到可执行文件",
+      "spoofedDomain": "伪造域名"
+    }
+  },
+  "adminFlow": {
+    "title": "规则",
+    "reorder": "调整顺序",
+    "reorderToast": "切换到规则顺序更改模式",
+    "added": "添加规则",
+    "createTitle": "创建规则",
+    "add": "添加规则",
+    "runSimulation": "运行模拟",
+    "simulationCompleted": "模拟完成",
+    "fields": {
+      "scope": "适用于",
+      "condition": "条件（如果）",
+      "action": "操作（那么）"
+    },
+    "values": {
+      "allOrganization": "整个组织"
+    },
+    "rules": {
+      "executive": {
+        "name": "优先发送行政电子邮件",
+        "condition": "收件人 = 执行小组",
+        "action": "即时交付+重要标记"
+      },
+      "confidential": {
+        "name": "外部→阻止机密标签附件",
+        "condition": "标签=机密，收件人外部",
+        "action": "块发送"
+      },
+      "largeAttachment": {
+        "name": "切换大附件链接",
+        "condition": "附件 > 10MB",
+        "action": "切换到云端硬盘链接"
+      },
+      "recruitment": {
+        "name": "将人力资源团队参考添加到招聘电子邮件中",
+        "condition": "标题中包含【招聘】",
+        "action": "添加人力资源参考"
+      },
+      "foreignIp": {
+        "name": "隔离海外IP传输",
+        "condition": "发送 IP 国家 ≠ KR",
+        "action": "检疫检测"
+      },
+      "formerEmployee": {
+        "name": "将邮件转发给退休人员",
+        "condition": "收件人 = 退休帐户",
+        "action": "传给继任者"
+      },
+      "newsletter": {
+        "name": "时事通讯批量排序",
+        "condition": "批量传出标头检测",
+        "action": "“时事通讯”标签"
+      },
+      "new": {
+        "name": "新规则",
+        "condition": "发件人域 = ...",
+        "action": "标签"
+      }
+    },
+    "evaluationOrder": "自上而下评估 · {count, number} 条已启用",
+    "hitCount": "{count, number} 次匹配",
+    "ruleOrdinal": "规则 {count, number}",
+    "simulationIntro": "将新规则应用于过去 7 天的流量，预览其影响。",
+    "simulationScope": "影响 {count, number} 项",
+    "simulationFalsePositive": "预计误报 {count, number} 项",
+    "ifLabel": "如果"
+  },
+  "adminGroups": {
+    "created": "创建了一个群组",
+    "approved": "已批准发送邮件",
+    "rejected": "已拒绝发送邮件",
+    "searchPlaceholder": "群组地址/名称搜索",
+    "noResults": "没有搜索结果。",
+    "createTitle": "创建一个群组",
+    "create": "创建群组",
+    "pendingModeration": "待审核",
+    "noPending": "没有待审核项目。",
+    "approve": "批准",
+    "reject": "拒绝",
+    "newGroupName": "新组",
+    "currentUser": "我",
+    "nameOrEmail": "姓名或电子邮件",
+    "columns": {
+      "address": "群组地址",
+      "typeOwner": "类型/所有者",
+      "members": "成员",
+      "externalSenders": "外部发件人",
+      "moderation": "审核"
+    },
+    "fields": {
+      "address": "群组地址",
+      "type": "类型",
+      "addMembers": "添加成员",
+      "externalSenders": "外部发件人"
+    },
+    "types": {
+      "distribution": "分发列表",
+      "security": "安全组",
+      "shared": "共享邮箱"
+    },
+    "external": {
+      "allowed": "允许",
+      "blocked": "已拦截"
+    },
+    "moderation": {
+      "required": "需要审批",
+      "autoReply": "自动回复",
+      "none": "无"
+    },
+    "summary": "{groups, number} 个群组 · {lists, number} 个邮件列表",
+    "queueMeta": "{mailbox} · {age} · 发件人：{sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "管理员·目标·动作搜索",
+    "noResults": "没有符合条件的日志。",
+    "detailTitle": "审计日志详情",
+    "jsonComingSoon": "JSON 查看器正在准备中",
+    "viewJson": "查看 JSON",
+    "revert": "恢复",
+    "revertTitle": "要撤销此更改吗？",
+    "reverted": "更改已撤销",
+    "filters": {
+      "admin": "管理员",
+      "action": "操作",
+      "range": "期间",
+      "all": "全部"
+    },
+    "ranges": {
+      "last7": "过去 7 天",
+      "last30": "过去 30 天",
+      "last90": "过去 90 天",
+      "all": "整个时期"
+    },
+    "columns": {
+      "time": "时间",
+      "admin": "管理员",
+      "action": "操作",
+      "targetChange": "目标/变更详情",
+      "result": "结果"
+    },
+    "fields": {
+      "time": "时间",
+      "admin": "管理员",
+      "action": "操作",
+      "target": "目标",
+      "ip": "IP",
+      "result": "结果"
+    },
+    "actions": {
+      "policyChanged": "政策变化",
+      "accountSuspended": "帐户被暂停",
+      "logViewed": "日志查询",
+      "quotaChanged": "容量变化",
+      "orgSynced": "组织结构图同步",
+      "adminLogin": "管理员登录",
+      "domainAdded": "添加域名",
+      "accountsCreated": "创建帐户",
+      "quarantineReleased": "解除隔离",
+      "permissionChanged": "更改权限",
+      "backupRestored": "备份恢复"
+    },
+    "results": {
+      "success": "成功",
+      "blocked": "已拦截",
+      "failed": "失败"
+    },
+    "summary": "{count, number} 条记录 · 保留 5 年 · 不可变存储",
+    "viewEntry": "查看详情：{action} · {target}",
+    "revertDescription": "将对 {target} 执行的{action}恢复到先前状态。",
+    "internalIp": "内部网络",
+    "adminNames": {
+      "system": "系统",
+      "unknown": "未知"
+    },
+    "targets": {
+      "mtaSts": "{name} · 已启用 MTA-STS",
+      "suspended": "{name}（QA 团队）",
+      "viewedAudit": "审计日志 · 最近 7 天",
+      "quotaChanged": "{name} 的账户 · 50 GB → 100 GB",
+      "orgSynced": "人力资源系统 → {count, number} 人",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "批量创建 {count, number} 个员工账户",
+      "quarantineReleased": "{count, number} 封邮件 · {name}",
+      "permissionChanged": "{name} → 已授予审计权限",
+      "restoreFailed": "{name} 的邮箱 · {date} 快照"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "保留策略",
+    "restoreTitle": "恢复任务",
+    "legalHoldTitle": "法律保全",
+    "viewTargets": "查看受影响账户",
+    "kpis": {
+      "lastBackup": {
+        "label": "最近的备份",
+        "value": "{value}",
+        "note": "耗时 {value} 分钟 · 成功"
+      },
+      "storage": {
+        "label": "存储容量",
+        "value": "{value} TB",
+        "note": "较上月增加 {value} GB"
+      },
+      "recoveryWindow": {
+        "label": "我什么时候可以康复？",
+        "value": "{value} 天",
+        "note": "每日快照 · {value} 年"
+      },
+      "activeRestores": {
+        "label": "恢复正在进行中",
+        "value": "{value} 项",
+        "note": "预计完成 {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "组织默认保留",
+        "scope": "全体员工"
+      },
+      "executive": {
+        "name": "高管及审批文档",
+        "scope": "高管"
+      },
+      "publicContracts": {
+        "name": "公共合同记录",
+        "scope": "合同相关标签"
+      },
+      "formerEmployees": {
+        "name": "离职员工邮箱",
+        "scope": "离职员工账户"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "自动删除",
+      "undeletable": "无法删除",
+      "immutable": "不可变存储",
+      "adminAccess": "由管理员查看"
+    },
+    "mailboxKinds": {
+      "personal": "邮箱",
+      "shared": "共享邮箱"
+    },
+    "jobStates": {
+      "restoring": "恢复中",
+      "completed": "已完成",
+      "pending": "待处理",
+      "failed": "失败"
+    },
+    "years": "{count, number} 年",
+    "jobName": "{owner} 的{kind} · {date}",
+    "jobMeta": {
+      "restoring": "预计完成 {time}",
+      "completed": "{count, number} 分钟前完成",
+      "pending": "队列第 {count, number} 位",
+      "failed": "存储身份验证错误 · 需要重试"
+    },
+    "legalHoldDescription": "由于 {audits, number} 项正在进行的审计，{accounts, number} 个账户被禁止删除。",
+    "legalHoldToast": "打开 {count, number} 个处于法律保全状态的账户",
+    "activeAudits": "{count, number} 项正在进行的审计"
+  },
+  "adminReports": {
+    "createTitle": "创建报告",
+    "includedColumns": "要包含的列",
+    "formatLabel": "格式",
+    "schedule": "安排",
+    "export": "导出",
+    "scheduledToast": "已安排为定期报告",
+    "exportStarted": "报告导出已开始",
+    "exportPolicyTitle": "导出策略",
+    "recentExportsTitle": "最近导出",
+    "scheduledReportsTitle": "定期报告",
+    "notAvailable": "-",
+    "fields": {
+      "type": "报告类型",
+      "range": "期间",
+      "scope": "范围",
+      "groupBy": "分组"
+    },
+    "values": {
+      "sentReport": "已发送邮件报告",
+      "last7": "过去 7 天",
+      "allOrganization": "整个组织",
+      "daily": "每日"
+    },
+    "reportColumns": {
+      "sender": "发件人",
+      "recipient": "收件人",
+      "subject": "主题",
+      "time": "时间",
+      "size": "大小",
+      "attachmentCount": "附件数量",
+      "deliveryStatus": "投递状态",
+      "filterVerdict": "筛选结果",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "报告",
+      "requestedBy": "请求者",
+      "size": "大小",
+      "completed": "完成",
+      "status": "状态"
+    },
+    "exportPolicy": {
+      "metadataOnly": "导出仅包含元数据，不包含正文。",
+      "auditedApproval": "所有导出都记录在审核日志中，并需要管理员批准。",
+      "autoDelete": "创建的文件将在 7 天后自动删除。",
+      "splitLarge": "如果超过100万行，会自动分割成多个文件。"
+    },
+    "exportStates": {
+      "completed": "完成",
+      "generating": "生成中",
+      "expired": "已过期",
+      "failed": "失败"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "上周",
+      "unavailable": "-"
+    },
+    "limits": "最多 {days, number} 天 · {rows, number} 行",
+    "estimate": "预计 {rows, number} 行 · 约 {size} MB",
+    "exportToastDetail": "{format} · 预计 {rows, number} 行",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient}（{count, number} 人）",
+    "cadence": {
+      "monthlyFirst": "每月 {day, number} 日 {time}",
+      "weeklyMonday": "每周{weekday} {time}",
+      "quarterlyFirst": "每季度第一天 {time}",
+      "daily": "每天 {time}",
+      "monthly25": "每月 {day, number} 日"
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "分批进度",
+    "throughputTitle": "吞吐量（过去 12 小时）",
+    "errorsTitle": "失败/跳过",
+    "retryAll": "全部重试",
+    "retryStarted": "重试失败/跳过的项目",
+    "noErrors": "没有等待重试的项目。",
+    "kpis": {
+      "accounts": {
+        "label": "已迁移账户",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "已迁移邮件",
+        "value": "{value} 封邮件",
+        "note": "+{value}（24 小时）"
+      },
+      "rate": {
+        "label": "平均速度",
+        "value": "{value} 封/分钟",
+        "note": "SLA 至少 {value}"
+      },
+      "failed": {
+        "label": "失败/待处理",
+        "value": "{value} 封邮件",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "批次",
+      "accounts": "账户",
+      "progress": "进度",
+      "remaining": "剩余时间",
+      "status": "状态"
+    },
+    "sources": {
+      "otherImap": "IMAP 其他",
+      "mixed": "混合的"
+    },
+    "states": {
+      "completed": "完成",
+      "inProgress": "进行中",
+      "pending": "等待",
+      "retrying": "重试中"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "邮箱超出容量",
+        "detail": "目标帐户存储空间不足"
+      },
+      "corruptedSource": {
+        "reason": "原件损坏",
+        "detail": "无法读取的邮件项目"
+      },
+      "unsupportedAttachment": {
+        "reason": "不支持附件",
+        "detail": "格式转换失败"
+      },
+      "duplicate": {
+        "reason": "重复检测",
+        "detail": "跳过已传输的项目"
+      },
+      "permissionDenied": {
+        "reason": "权限被拒绝",
+        "detail": "无法访问源服务器"
+      }
+    },
+    "batchLimits": "同时运行 {parallel, number} 个 · 带宽限制 {bandwidth, number} Mbps",
+    "batchName": "批次 {number, number}",
+    "minutesRemaining": "{count, number} 分钟",
+    "throughputSummary": "平均 {average, number} 封/分钟 · 峰值 {peak, number}",
+    "itemCount": "{count, number} 项",
+    "syncNotice": "迁移后仍会与源服务器保持 {days, number} 天的 IMAP 同步，失败项目可随时重新导入。"
+  },
+  "adminBrand": {
+    "identityTitle": "组织标识",
+    "openLogoPicker": "打开徽标文件选择器",
+    "replaceLogo": "更换徽标",
+    "replace": "更换",
+    "fields": {
+      "organizationName": "组织显示名称",
+      "senderLabel": "邮件发件人名称",
+      "supportContact": "支持联系方式"
+    },
+    "brandColor": "品牌颜色",
+    "selectColor": "选择品牌颜色 {color}",
+    "colorAppliesTo": "应用于登录页面和系统邮件",
+    "signatureTitle": "全组织签名模板",
+    "toggles": {
+      "sig": "要求所有员工使用签名",
+      "disclaimer": "在外部邮件中添加免责声明",
+      "logo": "在签名中包含徽标"
+    },
+    "loginPreviewTitle": "登录页面预览",
+    "companyEmail": "工作邮箱",
+    "continue": "继续",
+    "signInWithSso": "使用工作账户（SSO）登录",
+    "previewCustomizationHint": "各组织可自定义背景图片和文字。",
+    "openBackgroundPicker": "打开背景图片选择器",
+    "replaceBackground": "更换背景",
+    "openCopyEditor": "打开文字编辑器",
+    "editCopy": "编辑文字",
+    "published": "品牌更改已发布",
+    "publish": "发布"
+  },
+  "adminBilling": {
+    "currentPlan": "当前套餐",
+    "enterpriseAnnual": "Enterprise 年付",
+    "planPeriod": "{start} 至 {end} · 自动续订",
+    "openPlanChange": "打开套餐变更页面",
+    "changePlan": "更改套餐",
+    "seatUsage": "席位使用情况",
+    "seatsUsed": "已用 {used} / {total} 个席位",
+    "seatEstimate": "剩余 {remaining} 个席位 · 预计 {months} 个月内用尽",
+    "nextBilling": "下次账单",
+    "nextBillingDetails": "计划于 {date} 收费 · 将开具税务发票",
+    "openPaymentMethods": "打开付款方式管理",
+    "managePaymentMethods": "管理付款方式",
+    "licensesTitle": "许可证构成",
+    "licenses": {
+      "enterpriseMail": "Enterprise 邮箱 (50 GB)",
+      "aiAssistance": "AI 摘要与写作辅助",
+      "archive": "归档与电子取证",
+      "largeAttachments": "大附件 (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "基础套餐",
+      "addon": "附加功能",
+      "included": "已包含"
+    },
+    "seatCount": "{count} 个席位",
+    "included": "—",
+    "pricePerMonth": "{amount}/月",
+    "contractNotice": "适用公共采购合同（第三方单价）· 合同编号 {number}",
+    "invoicesTitle": "账单记录",
+    "columns": {
+      "number": "编号",
+      "date": "日期",
+      "amount": "金额",
+      "status": "状态"
+    },
+    "invoiceStates": {
+      "scheduled": "待支付",
+      "paid": "已支付",
+      "underReview": "审核中"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "API密钥",
+    "issueKey": "创建密钥",
+    "columns": {
+      "name": "名称",
+      "key": "密钥",
+      "scopes": "权限",
+      "lastUsed": "上次使用",
+      "status": "状态"
+    },
+    "keyNames": {
+      "legacyErp": "旧版 ERP 集成",
+      "approvalSystem": "审批系统（Grow）",
+      "reportAutomation": "报告自动化",
+      "oldMobileApp": "旧的移动应用程序",
+      "newKey": "新的 API 密钥"
+    },
+    "self": "我",
+    "keyStates": {
+      "reviewNeeded": "需要审查",
+      "active": "活跃的",
+      "inactive": "不活跃的"
+    },
+    "keyIssued": "API 密钥已创建",
+    "keyRotated": "密钥已轮换",
+    "appDisconnected": "应用已断开连接",
+    "rotateNow": "立即轮换",
+    "webhooksTitle": "Webhook",
+    "webhookStates": {
+      "healthy": "正常",
+      "retrying": "重试中",
+      "frequentFailures": "频繁失败"
+    },
+    "usageTitle": "使用情况（30 天）",
+    "usage": {
+      "calls": "调用量（30 天）",
+      "errorRate": "错误率",
+      "latency": "p95 延迟"
+    },
+    "approvedAppsTitle": "批准的应用程序",
+    "noApps": "没有链接的应用程序。",
+    "disconnect": "断开连接",
+    "lastUsed": {
+      "daysAgo": "{count} 天前",
+      "hoursAgo": "{count} 小时前",
+      "monthsAgo": "{count} 个月前",
+      "justNow": "刚刚",
+      "never": "—"
+    },
+    "staleKeyWarning": "“{name}”密钥已超过 {days} 天未轮换。",
+    "milliseconds": "{count} 毫秒",
+    "rateLimit": "上限：每月 {count} 次调用 · 超出后返回 429",
+    "appUsers": "{count} 位用户"
+  },
+  "composeEditor": {
+    "switchingToPlain": "正在切换为纯文本",
+    "formattingWillBeLost": "粗体和列表等格式将丢失",
+    "imageAddedAsAttachment": "图片已作为附件添加",
+    "switchToRich": "切换为富文本",
+    "switchToPlain": "切换为纯文本",
+    "plainText": "纯文本",
+    "richText": "富文本",
+    "bold": "加粗",
+    "italic": "斜体",
+    "list": "列表",
+    "insertLink": "插入链接",
+    "insertImage": "插入图片",
+    "emoji": "表情符号",
+    "closeEmojiMenu": "关闭表情符号菜单",
+    "chooseEmoji": "选择表情符号",
+    "messageBody": "邮件正文"
+  },
+  "composeModal": {
+    "attachmentNote": "{count} 个附件：{names}",
+    "attachmentCount": "{count} 个附件",
+    "bccCount": "包含 {count} 位密送收件人",
+    "rewritingTone": "正在以“{tone}”语气改写草稿",
+    "externalRecipientWarning": "包含 {count} 位外部收件人",
+    "uploadComplete": "{size} · 上传完成",
+    "schedule": {
+      "today": "今天 {time}",
+      "tomorrow": "明天 {time}",
+      "nextMonday": "下周一 {time}"
+    },
+    "largeFilesBecomeLinks": "大文件自动转换为链接",
+    "fileTooLarge": "无法附加大于 2GB 的文件",
+    "sent": "邮件已发送",
+    "newMail": "新邮件",
+    "savedJustNow": "草稿已保存 · 刚刚",
+    "collapse": "缩小",
+    "expand": "放大",
+    "close": "关闭",
+    "to": "收件人",
+    "removeRecipient": "删除",
+    "recipientPlaceholder": "输入姓名或邮箱…",
+    "ccAndBcc": "抄送 · 密送",
+    "cc": "抄送",
+    "ccPlaceholder": "抄送收件人",
+    "bcc": "密送",
+    "bccPlaceholder": "密件抄送收件人",
+    "subject": "主题",
+    "subjectPlaceholder": "输入主题",
+    "toneHint": "一旦您选择了语气，我们就会重写您的草稿。",
+    "tones": {
+      "polite": "礼貌",
+      "concise": "简洁",
+      "english": "英语"
+    },
+    "externalRecipientBody": "请仔细检查内部信息是否未发送到外部。",
+    "reviewRecipients": "检查收件人",
+    "bodyPlaceholder": "撰写邮件正文",
+    "largeFileLinkSuffix": " · 大文件链接",
+    "removeAttachment": "删除附件",
+    "chooseAttachments": "选择附件",
+    "dropFiles": "拖放文件",
+    "attachmentLimits": "超过 25 MB 的文件转为链接 · 最大 2 GB",
+    "send": "发送",
+    "scheduleSend": "定时发送",
+    "closeScheduleMenu": "关闭定时发送菜单",
+    "scheduleTimes": "定时发送时间",
+    "scheduled": "已设置定时发送",
+    "attachFile": "附加文件",
+    "tlsEncrypted": "传出加密 (TLS)",
+    "delete": "删除",
+    "discardTitle": "不保存就离开？",
+    "discardDescription": "未完成的邮件仍保留在草稿箱。",
+    "continueEditing": "继续编辑",
+    "saveDraft": "保存草稿",
+    "discardWithoutSaving": "不保存",
+    "draftSaved": "已保存到草稿箱"
+  },
+  "themeCustomizer": {
+    "title": "自定义主题",
+    "close": "关闭",
+    "designThemes": "设计主题",
+    "colorsTitle": "颜色",
+    "primaryColor": "主色",
+    "accentColor": "强调色",
+    "screenMode": "显示模式",
+    "schemes": {
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    },
+    "typography": "字体排版",
+    "fonts": {
+      "sans": "默认 (Sans)",
+      "serif": "衬线",
+      "mono": "等宽",
+      "rounded": "圆润"
+    },
+    "layout": "布局",
+    "listDensity": "列表密度",
+    "densities": {
+      "comfortable": "宽松",
+      "compact": "紧凑"
+    },
+    "sidebarPosition": "侧边栏位置",
+    "sides": {
+      "left": "左侧",
+      "right": "右侧"
+    },
+    "corners": "圆角样式",
+    "radii": {
+      "sharp": "直角",
+      "rounded": "圆角",
+      "pill": "胶囊形"
+    },
+    "defaults": "恢复默认",
+    "cancel": "取消",
+    "publish": "发布",
+    "colors": {
+      "blue": "蓝色",
+      "indigo": "靛蓝",
+      "teal": "青绿",
+      "green": "绿色",
+      "rose": "玫红",
+      "purple": "紫色",
+      "orange": "橙色",
+      "yellow": "黄色",
+      "pink": "粉色",
+      "cyan": "青色",
+      "lime": "青柠",
+      "gray": "灰色"
+    },
+    "presets": {
+      "broadsheet": "报纸排版风格的衬线字体与青色、洋红色",
+      "classical": "古典衬线字体与优雅的古铜色调",
+      "industry": "钢蓝色的克制实用风格",
+      "modernist": "包豪斯式棱角网格与鲜明的红橙色",
+      "nocturne": "带蓝紫色点缀的深色应用风格",
+      "organic": "温暖陶土色与鼠尾草绿的柔和圆润风格"
+    }
+  },
+  "searchPage": {
+    "results": "搜索结果",
+    "allResults": "所有搜索结果",
+    "resultCount": "{count} 个结果",
+    "syntaxHelp": "搜索语法帮助",
+    "syntaxHelpShortcut": "搜索语法帮助 (?)",
+    "filters": "筛选",
+    "sortBy": "排序方式",
+    "resultList": "搜索结果列表",
+    "noResults": "没有找到搜索结果。",
+    "peopleCount": "{count} 人",
+    "itemCount": "{count} 项",
+    "searchFilters": "搜索筛选",
+    "narrowResults": "缩小搜索范围",
+    "examples": "搜索示例",
+    "groups": {
+      "mail": "邮件",
+      "file": "附件",
+      "person": "联系人"
+    },
+    "facets": {
+      "period": "时间范围",
+      "folder": "文件夹",
+      "attachmentType": "附件类型",
+      "label": "标签"
+    },
+    "facetRows": {
+      "today": "今天",
+      "lastSevenDays": "最近 7 天",
+      "lastSixMonths": "最近 6 个月",
+      "all": "全部",
+      "inbox": "收件箱",
+      "sent": "已发送",
+      "pendingApproval": "待审批",
+      "archive": "归档",
+      "pdf": "PDF",
+      "xls": "电子表格",
+      "doc": "文档",
+      "img": "图片",
+      "budgetFinance": "预算 · 财务",
+      "projectAtlas": "阿特拉斯项目",
+      "confidential": "机密"
+    },
+    "chips": {
+      "hasAttachment": "有附件",
+      "recentSixMonths": "最近 6 个月"
+    },
+    "sort": {
+      "relevance": "按相关性",
+      "newest": "最新优先",
+      "sender": "按发件人"
+    },
+    "saved": {
+      "senderAttachments": "{name}的附件邮件",
+      "inboxBudget": "收件箱中的预算邮件",
+      "pdfFiles": "PDF 附件"
+    }
+  },
+  "searchSyntax": {
+    "title": "搜索语法",
+    "description": "此模板示例数据支持的搜索条件。",
+    "close": "关闭",
+    "people": "人员 · 范围",
+    "content": "内容 · 状态",
+    "rulesTitle": "组合规则",
+    "recipesTitle": "常用组合",
+    "operators": {
+      "fromSender": "{name}发送的邮件和附件",
+      "inFolder": "收件箱中的结果",
+      "subject": "主题中的词语",
+      "exactPhrase": "搜索完全匹配的短语",
+      "hasAttachment": "含附件的邮件和文件",
+      "filename": "指定扩展名的附件"
+    },
+    "rules": {
+      "allTerms": "所有词语和条件都必须匹配。",
+      "quotedPhrase": "含空格的短语请用双引号括起来。",
+      "unsupportedOperator": "不支持的运算符不会返回结果。"
+    },
+    "recipes": {
+      "senderAttachments": "{name}的附件结果",
+      "inboxBudget": "收件箱中的预算相关结果",
+      "pdfFiles": "包含 PDF 附件的结果"
+    }
+  },
+  "accessibilityReport": {
+    "title": "无障碍报告 · KWCAG 2.2",
+    "sectionLabel": "无障碍报告",
+    "passSummary": "通过 {passed} / {total}",
+    "auditNote": "公共部门交付标准 · 自评 {date}",
+    "checklist": "检查项目",
+    "contrastHeading": "对比度验证",
+    "colorPair": "{role} {foreground} / 背景 {background}",
+    "focusTouchHeading": "焦点 · 触控目标",
+    "focusState": "焦点状态",
+    "touchTarget": "最小 44 × 44 px · 移动按钮、标签页和列表行（筛选标签 34 px）",
+    "focusRing": "焦点环使用 2 px 强调色轮廓和 3 px 偏移，仅在键盘操作时显示（:focus-visible）。",
+    "assistiveTest": "辅助技术测试",
+    "mailListNote": "邮件列表按表格朗读，未读状态也通过文字传达。",
+    "states": {
+      "pass": "通过",
+      "inProgress": "改进中",
+      "largeOnly": "仅大号文字"
+    },
+    "colors": {
+      "body": "正文",
+      "secondary": "辅助文字",
+      "accent": "强调色",
+      "muted": "辅助文字"
+    },
+    "checks": {
+      "keyboard": "仅用键盘即可操作",
+      "focus": "焦点可见",
+      "contrast": "正文对比度至少 4.5:1",
+      "color": "不只通过颜色传达信息",
+      "altText": "替代文本",
+      "tableHeaders": "表格结构和表头",
+      "errors": "错误提示与恢复",
+      "zoom": "文本放大至 200%",
+      "timing": "可调整时间限制"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "月历",
+    "timeView": "按时间排列的日程",
+    "mobileView": "移动日历",
+    "todaySummary": "今天 {todayCount} 项 · 本周 {weekCount} 项",
+    "createEvent": "创建日程",
+    "detectedEvent": "从邮件中检测到的日程",
+    "detectedDescription": "“{title}”——在 {personName} 的邮件中发现了日程。",
+    "addToCalendar": "添加到日历",
+    "dismiss": "忽略",
+    "noEvents": "这一天没有日程。"
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "导航",
+      "global": "全局",
+      "list": "列表",
+      "mail": "邮件操作",
+      "compose": "撰写",
+      "reply": "回复",
+      "search": "搜索",
+      "admin": "管理员"
+    },
+    "actions": {
+      "inbox": "收件箱",
+      "sent": "已发送",
+      "drafts": "草稿",
+      "pendingApprovals": "待审批",
+      "calendar": "日历",
+      "contacts": "通讯录",
+      "commandSearch": "搜索 · 命令面板",
+      "compose": "撰写新邮件",
+      "notifications": "通知中心",
+      "shortcutHelp": "快捷键帮助",
+      "settings": "设置",
+      "collapseSidebar": "收起侧边栏",
+      "nextPrevious": "下一个 · 上一个",
+      "open": "打开",
+      "select": "选择",
+      "selectAll": "全选",
+      "toggleRead": "已读 · 未读",
+      "star": "标记为重要",
+      "archive": "归档",
+      "delete": "删除",
+      "reportSpam": "举报垃圾邮件",
+      "snooze": "稍后提醒",
+      "addLabel": "添加标签",
+      "moveToFolder": "移至文件夹",
+      "send": "发送",
+      "saveDraft": "保存草稿",
+      "scheduleSend": "定时发送",
+      "attachFile": "添加附件",
+      "addRecipient": "添加收件人",
+      "closeWindow": "关闭窗口",
+      "reply": "回复",
+      "replyAll": "回复所有人",
+      "forward": "转发",
+      "collapseQuote": "收起引用内容",
+      "viewOriginal": "查看原文",
+      "openSearch": "打开搜索",
+      "syntaxHelp": "语法帮助",
+      "searchWithinResults": "在结果中搜索",
+      "resetFilters": "重置筛选",
+      "switchTab": "切换标签页",
+      "searchTable": "搜索表格",
+      "exportSelected": "导出所选项目",
+      "refresh": "刷新"
+    },
+    "title": "键盘快捷键",
+    "printEdition": "GXWebMail · 可打印完整列表 · {edition}",
+    "openWith": "在页面中按 <key>?</key> 打开",
+    "windowsModifier": "在 Windows 上使用 Ctrl 代替 ⌘",
+    "footerNote": "可在设置 · 无障碍中关闭快捷键。输入时快捷键不会生效。"
+  },
+  "securityPage": {
+    "title": "账户安全",
+    "scoreSummary": "安全评分 {score} / {total} · {count} 项待改进",
+    "passwordAge": "上次更改密码是 {days} 天前",
+    "mfaHeading": "双重身份验证",
+    "backupCodeNote": "{total} 个备用代码中有 {unused} 个未使用 · 请妥善保管",
+    "passwordSsoHeading": "密码 · SSO",
+    "appPasswordNotice": "{count} 个应用密码用于 IMAP 连接。较新的客户端支持 OAuth。",
+    "sessionsHeading": "已登录设备 · 会话",
+    "logoutAll": "全部退出登录",
+    "logout": "退出登录",
+    "recentActivity": "最近的安全活动",
+    "sessionRevoked": "会话已退出",
+    "openAction": "正在打开 {method} 的{action}页面",
+    "reissueTitle": "要重新生成备用代码吗？",
+    "reissueDescription": "现有 {count} 个备用代码将立即失效，并生成 {count} 个新代码。",
+    "reissueSuccess": "备用代码已重新生成",
+    "reissueSuccessDetail": "{count} 个新代码 · 请妥善保管",
+    "logoutAllTitle": "要从所有其他设备退出登录吗？",
+    "logoutAllDescription": "除当前设备外的所有会话都将立即结束。",
+    "logoutAllSuccess": "已从所有其他设备退出登录",
+    "mfaNames": {
+      "totp": "身份验证器应用 (TOTP)",
+      "securityKey": "安全密钥 (FIDO2)",
+      "sms": "短信",
+      "emailCode": "电子邮件验证码"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail} · 注册于 {date}",
+      "securityKey": "{detail} · 无需指纹即可轻触",
+      "sms": "{detail}",
+      "emailCode": "个人邮箱 {detail}"
+    },
+    "authNames": {
+      "password": "密码",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "应用密码"
+    },
+    "authDescriptions": {
+      "password": "{age} 天前更改 · 根据政策每 {cycle} 天需更改",
+      "sso": "使用公司账户登录 · 自动配置",
+      "appPassword": "由 {count} 个 IMAP 客户端使用"
+    },
+    "badges": {
+      "primary": "默认",
+      "currentDevice": "当前设备",
+      "appPassword": "应用密码",
+      "needsReview": "需要检查"
+    },
+    "states": {
+      "active": "使用中",
+      "backup": "备用",
+      "unused": "未使用",
+      "caution": "注意",
+      "connected": "已连接",
+      "review": "需要审核"
+    },
+    "actions": {
+      "reset": "重置",
+      "manage": "管理",
+      "change": "更改",
+      "configure": "设置",
+      "view": "查看",
+      "reissue": "重新生成"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "首尔 · {ip} · 公司网络",
+        "when": "活跃"
+      },
+      "iphone": {
+        "meta": "首尔 · LTE",
+        "when": "12 分钟前"
+      },
+      "windows": {
+        "meta": "城南 · 办公电脑",
+        "when": "昨天 18:22"
+      },
+      "ipad": {
+        "meta": "首尔 · 家庭 Wi-Fi",
+        "when": "3 天前"
+      },
+      "outlook": {
+        "meta": "首尔 · 应用密码",
+        "when": "6 天前"
+      },
+      "ubuntu": {
+        "meta": "日本大阪 · 陌生地点",
+        "when": "8 天前"
+      }
+    },
+    "events": {
+      "osakaLogin": "新设备从大阪登录成功",
+      "securityKeyRegistered": "已注册安全密钥 (YubiKey 5C)",
+      "backupCodesUsed": "已使用 3 个备用代码"
+    },
+    "when": {
+      "eightDays": "8 天前",
+      "threeWeeks": "3 周前",
+      "oneMonth": "1 个月前"
+    }
+  },
+  "quarantinePage": {
+    "title": "隔离区",
+    "itemCount": "{count} 封",
+    "autoDelete": "{days} 天后自动删除",
+    "listLabel": "隔离邮件列表",
+    "categoryLabel": "隔离类别",
+    "selectMail": "选择隔离邮件：{subject}",
+    "selectPrompt": "请选择邮件。",
+    "backToList": "返回隔离列表",
+    "release": "移至收件箱",
+    "requestAllowSender": "申请允许发件人",
+    "delete": "删除",
+    "approvalRequired": "解除隔离须经安全团队批准",
+    "released": "已移至收件箱",
+    "allowRequested": "已提交发件人允许申请",
+    "deleted": "邮件已永久删除",
+    "recipients": "收件人：{team} {count} 人",
+    "hrTeam": "人力资源团队",
+    "riskBadge": "{kind} · 风险 {score}",
+    "spoofedDomainTitle": "发件域名仿冒公司域名",
+    "reasonTitle": "{kind} 隔离原因：{reason}",
+    "spoofedDomainBody": "邮件来自仿冒 {trustedDomain} 的 {domain}。正文链接指向外部登录页面。建议不要打开并删除邮件。",
+    "riskBody": "因风险评分为 {score} 而隔离。处理前请核对发件人和主题。",
+    "lookupDomain": "查询发件域名",
+    "lookupResult": "发件域名查询结果",
+    "domainRisk": "{domain} · 信誉存在风险",
+    "evidenceHeading": "检测依据",
+    "riskScore": "风险评分 {score}",
+    "safePreviewHeading": "安全预览（仅文本）",
+    "blockedLinks": "已阻止 {count} 个链接。",
+    "aiWarning": "真正的人力资源通知只通过内部审批系统发送。",
+    "noPreview": "此邮件没有正文预览。",
+    "deleteTitle": "要永久删除此邮件吗？",
+    "deleteDescription": "删除“{subject}”后无法恢复。",
+    "deletePermanently": "永久删除",
+    "kinds": {
+      "all": "全部",
+      "spam": "垃圾邮件",
+      "phishing": "网络钓鱼",
+      "malware": "恶意软件"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "仿冒域名 · 外部登录链接",
+      "bulkNoUnsubscribe": "群发邮件 · 无退订选项",
+      "executableAttachment": "检测到可执行文件附件",
+      "spoofedDomainCredentials": "仿冒域名 · 索取凭据",
+      "bulkPattern": "群发模式",
+      "spfFailure": "SPF 验证失败",
+      "spoofedDomainPayment": "仿冒域名 · 索取付款信息"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "发件域名验证",
+        "detail": "SPF 失败 · 无 DKIM 签名 · DMARC 拒绝"
+      },
+      "typosquatting": {
+        "name": "仿冒域名（误拼抢注）",
+        "detail": "gxsoft-kr.net — 编辑距离 1"
+      },
+      "bodyLink": {
+        "name": "正文链接",
+        "detail": "1 个外部登录页面 · 主机曾被举报"
+      },
+      "sendingPattern": {
+        "name": "发送模式",
+        "detail": "相同正文同时发送至 14 个账户"
+      },
+      "attachment": {
+        "name": "附件",
+        "detail": "无附件"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "我的日历",
+    "roomAvailability": "会议室预订情况 · 今天",
+    "capacity": "{count}人",
+    "previous": "上一个",
+    "next": "下一个",
+    "today": "今天",
+    "schedule": "日历日程",
+    "close": "关闭",
+    "title": "标题",
+    "titlePlaceholder": "例如：合作伙伴启动会议",
+    "date": "日期",
+    "start": "开始",
+    "end": "结束",
+    "calendar": "日历",
+    "cancel": "取消",
+    "create": "创建",
+    "eventCreated": "日程已创建",
+    "views": {
+      "day": "日",
+      "week": "周",
+      "month": "月"
+    },
+    "categories": {
+      "personal": "我的日程",
+      "team": "战略规划团队",
+      "executive": "高管日程（只读）",
+      "room": "会议室预订",
+      "holiday": "韩国节假日"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "会议室 5B",
+        "amenity": "投影仪 · 视频",
+        "status": "可预订"
+      },
+      "room3a": {
+        "name": "会议室 3A",
+        "amenity": "白板",
+        "status": "15:00 使用中"
+      },
+      "auditorium": {
+        "name": "大会议室",
+        "amenity": "直播设备",
+        "status": "全天预订"
+      },
+      "focus": {
+        "name": "专注室",
+        "amenity": "单人通话",
+        "status": "可预订"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "跳过",
+    "previous": "上一步",
+    "finish": "完成",
+    "next": "下一步",
+    "getStarted": "开始使用",
+    "close": "关闭",
+    "progress": "已完成 {done} / {total}",
+    "minutes": "{count} 分钟",
+    "steps": {
+      "compose": {
+        "title": "从写邮件开始",
+        "body": "使用左上角的写邮件按钮撰写新邮件。"
+      },
+      "search": {
+        "title": "随时随地搜索",
+        "body": "在一处查找邮件、联系人和附件。还可以使用 from:alex 等条件。"
+      },
+      "theme": {
+        "title": "自由定制主题",
+        "body": "在主题自定义中调整颜色、字体和布局，以适应组织需求。"
+      },
+      "tools": {
+        "title": "日历 · 联系人 · 审批",
+        "body": "从侧边栏直接打开日历、联系人和审批。"
+      },
+      "quarantine": {
+        "title": "也要检查隔离区",
+        "body": "可疑邮件会自动隔离，您可以通过安全预览查看内容。"
+      },
+      "ready": {
+        "title": "准备就绪",
+        "body": "在设置中完成签名、自动回复和快捷键配置。"
+      }
+    },
+    "checklist": {
+      "avatar": "添加头像",
+      "signature": "创建签名",
+      "twoFactor": "启用双重身份验证",
+      "mobileApp": "安装移动应用",
+      "importMail": "导入现有邮件"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "没有可导入的新联系人",
+    "duplicateNotice": "已跳过电子邮件地址相同的联系人。",
+    "imported": "已导入 {count} 位联系人",
+    "duplicatesSkipped": "已跳过 {count} 个重复项",
+    "failed": "无法导入联系人",
+    "errors": {
+      "fileTooLarge": "请选择不超过 2 MiB 的文件。",
+      "unclosedQuote": "CSV 中的引号未闭合。",
+      "missingRows": "CSV 需要表头和至少一行联系人。",
+      "missingNameColumn": "CSV 需要姓名列。",
+      "tooManyContacts": "每次最多导入 500 位联系人。",
+      "missingCsvName": "CSV 第 {row} 行缺少姓名。",
+      "invalidVcard": "未找到有效的 vCard 条目。",
+      "missingVcardName": "第 {row} 个 vCard 条目缺少姓名。",
+      "unsupportedFile": "只能导入 CSV 或 vCard (.vcf) 文件。",
+      "unknown": "请重新选择文件。"
+    }
+  },
+  "contactsPage": {
+    "title": "联系人",
+    "orgChart": "组织结构图",
+    "orgSearchPlaceholder": "姓名 · 部门",
+    "orgSearchLabel": "搜索姓名和部门",
+    "noResults": "没有搜索结果。",
+    "myContacts": "我的联系人",
+    "contactSummary": "个人联系人 {count} 位 · 最近自动收集 {recent} 位",
+    "importTooltip": "导入 CSV · vCard",
+    "importing": "正在导入…",
+    "import": "导入",
+    "addContact": "添加联系人",
+    "searchPlaceholder": "姓名 · 公司 · 邮箱",
+    "searchLabel": "搜索姓名、公司和邮箱",
+    "mail": "邮件",
+    "companyPosition": "公司 · 职位",
+    "group": "分组",
+    "noMatchingContacts": "没有符合条件的联系人。",
+    "selectContact": "选择联系人：{name} · {email}",
+    "removeFavorite": "从收藏中移除 {name}",
+    "addFavorite": "将 {name} 加入收藏",
+    "selectPrompt": "请选择联系人。",
+    "editContact": "编辑联系人",
+    "nameRequired": "请输入姓名。",
+    "save": "保存",
+    "cancelChanges": "放弃更改",
+    "delete": "删除",
+    "saved": "联系人已保存",
+    "newContact": "新联系人",
+    "contactAdded": "已添加新联系人",
+    "enterDetails": "请输入详细信息",
+    "mobileContacts": "移动版联系人",
+    "backToList": "返回列表",
+    "myCount": "我的联系人 {count} 位",
+    "importContacts": "导入联系人",
+    "importingContacts": "正在导入联系人",
+    "viewContact": "查看联系人：{name}",
+    "groups": {
+      "all": "全部",
+      "starred": "收藏",
+      "external": "外部合作伙伴",
+      "purchasing": "采购联系人",
+      "advisor": "顾问",
+      "personal": "个人"
+    },
+    "fields": {
+      "name": "姓名",
+      "company": "公司",
+      "title": "职位 · 部门",
+      "email": "电子邮件",
+      "mobile": "手机",
+      "phone": "办公电话",
+      "memo": "备注"
+    },
+    "teamSummary": "{parent} › {team} · {count}人",
+    "teamCount": "{team} · {count}人",
+    "peopleCount": "{count}人",
+    "openTeamCompose": "正在打开给整个团队写邮件的页面",
+    "mailTeam": "给团队发邮件",
+    "vcardExported": "已导出 vCard",
+    "exportVcard": "导出 vCard",
+    "teamEmpty": "该团队尚未登记成员信息。",
+    "selectMember": "请选择成员。",
+    "openCompose": "正在打开写邮件页面",
+    "composeMail": "写邮件",
+    "openSchedule": "正在打开日程安排页面",
+    "scheduleMeeting": "安排会议",
+    "recentMail": "最近往来邮件",
+    "noHistory": "暂无记录。",
+    "presence": {
+      "working": "工作中 · 办公室",
+      "away": "离开",
+      "offline": "离线"
+    },
+    "approvalLines": {
+      "directorCeo": "部门主管 → 总经理",
+      "leadDirector": "组长 → 部门主管"
+    },
+    "profile": {
+      "email": "电子邮件",
+      "workPhone": "办公电话",
+      "mobile": "手机",
+      "organization": "组织",
+      "joined": "入职日期",
+      "approvalLine": "审批链"
+    }
+  },
+  "filesPage": {
+    "title": "附件",
+    "summary": "邮件附件 {count} 个 · {used} · {links} 个大文件链接有效",
+    "search": "搜索文件名和发件人",
+    "gridView": "网格视图",
+    "listView": "列表视图",
+    "filters": "附件筛选",
+    "type": "类型",
+    "period": "时间范围",
+    "storage": "存储空间 {used} / {total}",
+    "storageHint": "清理 {count} 个大附件可释放 {amount}。",
+    "fileType": "文件类型",
+    "filePeriod": "文件时间范围",
+    "recentAttachments": "最近附件",
+    "itemCount": "{count} 个",
+    "noResults": "没有搜索结果。",
+    "attachmentSummary": "附件概览",
+    "largeLinks": "大文件链接",
+    "downloads": "下载 {count} 次",
+    "cleanupTitle": "清理建议",
+    "cleanupDescription": "{count} 个超过 {threshold} 且已有 {years} 年以上的附件。保留邮件正文，仅删除附件，可释放 {amount}。",
+    "cleanupOpen": "打开 {count} 个待清理附件的列表",
+    "cleanupEstimate": "预计释放 {amount}",
+    "reviewList": "查看列表",
+    "downloading": "正在下载文件",
+    "system": "系统",
+    "types": {
+      "all": "全部",
+      "document": "文档",
+      "spreadsheet": "电子表格",
+      "presentation": "演示文稿",
+      "image": "图片",
+      "archive": "压缩文件",
+      "other": "其他"
+    },
+    "periods": {
+      "last7": "最近 7 天",
+      "last30": "最近 30 天",
+      "thisYear": "今年",
+      "all": "全部时间"
+    },
+    "sorts": {
+      "latest": "最新",
+      "size": "大小",
+      "sender": "发件人"
+    },
+    "linkStates": {
+      "active": "有效",
+      "expiring": "即将到期",
+      "expired": "已到期"
+    },
+    "expiry": {
+      "days": "剩余 {count} 天",
+      "tomorrow": "明天到期",
+      "expired": "已到期"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "每年 {amount}",
+    "title": "审批",
+    "myTurnCount": "待我审批 {count} 件",
+    "documentList": "审批文件列表",
+    "approvalStatus": "审批状态",
+    "selectDocument": "选择审批文件：{title}",
+    "emptyStatus": "此状态下没有审批文件。",
+    "selectPrompt": "请选择审批文件。",
+    "backToList": "返回审批列表",
+    "approve": "批准",
+    "reject": "驳回",
+    "holdRequested": "已发送暂缓及征求意见请求",
+    "holdAndRequest": "暂缓 · 征求意见",
+    "documentMeta": "文件编号 {number} · 保存 {years} 年",
+    "detailedAuthor": "由 {author}（CTO）提交 · {date} · 已关联邮件会话",
+    "briefAuthor": "由 {author} 提交 · {number} · {due}",
+    "requestedAmount": "申请金额",
+    "approvalChain": "审批链",
+    "approvedOn": "于 {date} 批准",
+    "requestDetails": "申请明细",
+    "aiComparison": "与 {count} 件类似申请相比，单价低于平均值 {percent}%。此版本已纳入财务团队意见。",
+    "noDetailedRecord": "此文件的审批链和申请详情未包含在示例数据中。",
+    "commentsHistory": "意见 · 历史",
+    "noComments": "暂无意见。",
+    "commentPlaceholder": "留下意见…（按 Enter 提交）",
+    "approvalComment": "审批意见",
+    "approveQuestion": "批准这项申请？",
+    "rejectQuestion": "驳回这项申请？",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · 将标记为已驳回。",
+    "approvedToast": "已批准申请",
+    "rejectedToast": "已驳回申请",
+    "automaticCheck": "自动检查",
+    "automaticCheckBody": "附件提案与申请金额一致。预算代码 IT-CAPEX-26H1 余额充足。",
+    "tabs": {
+      "mine": "待我审批",
+      "drafts": "草稿箱",
+      "inProgress": "进行中",
+      "completed": "已完成"
+    },
+    "types": {
+      "budget": "预算",
+      "contract": "合同",
+      "purchase": "采购",
+      "hr": "人事",
+      "expense": "支出",
+      "policy": "规章"
+    },
+    "due": {
+      "today": "今天截止",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "approved": "我的审批已完成",
+      "rejected": "已驳回"
+    },
+    "roles": {
+      "drafter": "提交 · CTO",
+      "reviewer": "审核 · 组长",
+      "finance": "会签 · 财务主管",
+      "approver": "审批 · 我",
+      "final": "最终批准"
+    },
+    "chainDetails": {
+      "done": "已完成",
+      "pending": "等待中",
+      "upcoming": "待处理",
+      "approved": "我的审批已完成",
+      "rejected": "已驳回"
+    }
   }
 }

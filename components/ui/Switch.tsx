@@ -28,13 +28,13 @@ export function Switch({ on, onToggle, size = "md", label, disabled = false, cla
       disabled={disabled}
       onClick={onToggle}
       className={cn(
-        "inline-flex shrink-0 items-center rounded-full border border-transparent p-0.5 outline-none transition-[background-color,box-shadow] focus-visible:ring-3 focus-visible:ring-(--focus-ring) disabled:cursor-not-allowed disabled:opacity-45",
-        dims.track,
+        "inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring) disabled:cursor-not-allowed disabled:opacity-45 md:[@media(pointer:fine)]:min-h-0 md:[@media(pointer:fine)]:min-w-0",
         className,
       )}
-      style={{ backgroundColor: on ? "var(--color-primary)" : "var(--control-muted)" }}
     >
-      <span className={cn("rounded-full bg-white shadow-sm transition-transform", dims.knob, on && dims.translate)} />
+      <span aria-hidden="true" className={cn("inline-flex shrink-0 items-center rounded-full border border-transparent p-0.5 transition-[background-color,box-shadow] motion-reduce:transition-none", dims.track)} style={{ backgroundColor: on ? "var(--color-primary)" : "var(--control-muted)" }}>
+        <span className={cn("rounded-full bg-white shadow-sm transition-transform motion-reduce:transition-none", dims.knob, on && dims.translate)} />
+      </span>
     </button>
   );
 }

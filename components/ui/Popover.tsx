@@ -19,7 +19,7 @@ export function Popover({ trigger, children, label, align = "right", open: contr
   return (
     <div ref={rootRef} className="relative inline-flex">
       {isValidElement(trigger) ? cloneElement(trigger, { onClick: () => setOpen(!open), "aria-expanded": open, "aria-controls": open ? id : undefined }) : trigger}
-      {open ? <div id={id} role="dialog" aria-label={label} className={cn("absolute top-full z-60 mt-2 min-w-56 rounded-(--radius-app) border border-(--border-app) bg-(--surface-app) p-3 shadow-(--shadow-panel)", align === "right" ? "right-0" : "left-0", className)}>{children}</div> : null}
+      {open ? <div id={id} role="dialog" aria-label={label} className={cn("absolute top-full z-(--layer-popover) mt-2 min-w-56 rounded-(--radius-app) border border-(--border-app) bg-(--surface-app) p-3 shadow-(--shadow-panel)", align === "right" ? "right-0" : "left-0", className)}>{children}</div> : null}
     </div>
   );
 }

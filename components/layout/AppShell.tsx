@@ -122,7 +122,7 @@ export function AppShell() {
         className="relative flex flex-col"
       >
         {bannerTone && (
-          <div className="pointer-events-none absolute inset-x-0 top-3 z-30 flex justify-center px-3 sm:px-4">
+          <div className="pointer-events-none absolute inset-x-0 top-3 z-(--layer-banner) flex justify-center px-3 sm:px-4 lg:left-90">
             <div className="pointer-events-auto w-full max-w-3xl overflow-hidden rounded-xl shadow-xl ring-1 ring-black/10 dark:ring-white/10">
               {bannerTone === "offline" && (
                 <GlobalBanner

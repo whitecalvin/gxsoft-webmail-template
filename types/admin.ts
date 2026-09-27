@@ -17,7 +17,6 @@ export type AdminTabId =
 
 export interface AdminNavItem {
   id: AdminTabId;
-  name: string;
   dot: string;
   badge?: string;
 }
@@ -43,27 +42,34 @@ export interface SparkBar {
 }
 
 export interface AdminMobileRow {
+  id: string;
   tone: Tone;
   avatar?: string;
-  name: string;
+  name?: string;
   meta?: string;
+  metaMetric?: { kind: "number" | "percent" | "gigabyte" | "terabyte" | "currencyKrw"; value: number; signed?: boolean } | { kind: "time"; value: string };
+  metaCount?: number;
+  metaCountCompact?: boolean;
+  hasMeta?: boolean;
   line2?: string;
+  hasLine2?: boolean;
   line3?: string;
+  line3UsageGb?: number;
+  line3StorageTb?: { used: number; total: number };
+  hasLine3?: boolean;
   tag?: string;
+  hasTag?: boolean;
   tagTone?: Tone;
   on?: boolean;
 }
 
 export interface AdminMobileScreen {
   id: string;
-  navLabel: string;
   navDot: string;
-  title: string;
-  sub: string;
-  caption: string;
+  subValues?: Record<string, { value: number | string; format?: "number" | "percent" | "compact" | "currencyKrw" | "time" | "month" }>;
   actionLabel?: string;
-  chips?: string[];
+  chipCount?: number;
   rows: AdminMobileRow[];
-  footerText?: string;
-  footerBtn?: string;
+  hasFooterText?: boolean;
+  hasFooterAction?: boolean;
 }

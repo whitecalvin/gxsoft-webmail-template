@@ -26,7 +26,7 @@ export function CustomizerSection({
         {title}
         <ChevronDown
           size={16}
-          className={`transition-transform ${open ? "rotate-180" : ""}`}
+          className={`transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
         />
       </button>
       {open && <div className="space-y-4 px-4 pb-4">{children}</div>}

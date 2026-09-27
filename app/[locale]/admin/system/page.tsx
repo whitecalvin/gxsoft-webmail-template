@@ -13,7 +13,6 @@ import {
   SYS_VARS,
 } from "@/lib/mock-system-mail";
 import { useToast } from "@/context/toast-context";
-import { useUiText } from "@/components/i18n/useUiText";
 
 const PAPER_SIZES = ["A4", "Letter", "A5"];
 
@@ -30,15 +29,15 @@ export default function AdminSystemPage() {
   const router = useRouter();
   const toast = useToast();
   const t = useTranslations("adminSystemPage");
-  const ui = useUiText();
+  const tMock = useTranslations("adminSystemMock");
   const [tab, setTab] = useState<"mail" | "print" | "error">("mail");
   const [templates, setTemplates] = useState(SYS_TEMPLATES);
   const [printOpts, setPrintOpts] = useState(PRINT_OPTIONS);
   const [paperSize, setPaperSize] = useState("A4");
-  const activeTemplate = templates.find((t) => t.active)?.name ?? "";
+  const activeTemplate = templates.find((item) => item.active)?.id;
 
-  const togglePrintOpt = (name: string) =>
-    setPrintOpts((prev) => prev.map((o) => (o.name === name ? { ...o, on: !o.on } : o)));
+  const togglePrintOpt = (id: string) =>
+    setPrintOpts((prev) => prev.map((option) => (option.id === id ? { ...option, on: !option.on } : option)));
 
   return (
     <main className="flex h-dvh w-full bg-(--surface-muted) text-foreground">
@@ -84,15 +83,15 @@ export default function AdminSystemPage() {
                 <div className="flex flex-col gap-0.5">
                   {templates.map((template) => (
                     <button
-                      key={template.name}
+                      key={template.id}
                       type="button"
-                      onClick={() => setTemplates((prev) => prev.map((x) => ({ ...x, active: x.name === template.name })))}
+                      onClick={() => setTemplates((prev) => prev.map((item) => ({ ...item, active: item.id === template.id })))}
                       className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs transition ${
                         template.active ? "bg-[#EDEFFB] font-semibold text-(--color-primary)" : "text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/5"
                       }`}
                     >
                       <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: template.dot }} />
-                      <span className="truncate">{ui(template.name)}</span>
+                      <span className="truncate">{tMock(`templates.${template.id}`)}</span>
                     </button>
                   ))}
                 </div>
@@ -135,21 +134,21 @@ export default function AdminSystemPage() {
                 <div className="mx-auto flex w-full max-w-130 gap-2">
                   <button
                     type="button"
-                    onClick={() => toast.info(t("openHtmlEditor"), { sub: ui(activeTemplate) })}
+                    onClick={() => toast.info(t("openHtmlEditor"), { sub: activeTemplate ? tMock(`templates.${activeTemplate}`) : "" })}
                     className="h-8 flex-1 rounded-lg border border-(--border-app) text-xs font-semibold"
                   >
                     {t("editHtml")}
                   </button>
                   <button
                     type="button"
-                    onClick={() => toast.success(t("testMailSent"), { sub: ui(activeTemplate) })}
+                    onClick={() => toast.success(t("testMailSent"), { sub: activeTemplate ? tMock(`templates.${activeTemplate}`) : "" })}
                     className="h-8 flex-1 rounded-lg border border-(--border-app) text-xs font-semibold"
                   >
                     {t("testSend")}
                   </button>
                   <button
                     type="button"
-                    onClick={() => toast.success(t("templatePublished"), { sub: ui(activeTemplate) })}
+                    onClick={() => toast.success(t("templatePublished"), { sub: activeTemplate ? tMock(`templates.${activeTemplate}`) : "" })}
                     className="h-8 flex-1 rounded-lg text-xs font-semibold text-white"
                     style={{ backgroundColor: "#17181B" }}
                   >
@@ -164,7 +163,7 @@ export default function AdminSystemPage() {
                   <div className="flex flex-wrap gap-1.5">
                     {SYS_VARS.map((v) => (
                       <code key={v} className="rounded bg-black/5 px-1.5 py-1 text-[10.5px] dark:bg-white/10">
-                        {ui(v)}
+                        {v}
                       </code>
                     ))}
                   </div>
@@ -197,11 +196,11 @@ export default function AdminSystemPage() {
                 <div className="flex justify-center rounded-lg bg-[#E8E8E3] p-6">
                   <div className="w-full max-w-95 bg-white p-5 text-[10px] text-[#17181B] shadow-sm">
                     <p className="font-bold">{t("brandName")}</p>
-                    <p className="mt-2 font-bold">{ui("[승인요청] 2026 상반기 클라우드 인프라 증설 예산 검토")}</p>
+                    <p className="mt-2 font-bold">[승인요청] 2026 상반기 클라우드 인프라 증설 예산 검토</p>
                     <div className="mt-2 flex flex-col gap-0.5 text-[#6B6F77]">
                       {PRINT_META.map((m) => (
-                        <p key={m.k}>
-                          {ui(m.k)}: {ui(m.v)}
+                        <p key={m.id}>
+                          {tMock(`printMeta.${m.id}`)}: {m.value}
                         </p>
                       ))}
                     </div>
@@ -209,9 +208,9 @@ export default function AdminSystemPage() {
                       {PRINT_BODY.map((b, i) => (
                         <div key={i}>
                           <p className="font-semibold">
-                            {ui(b.who)} <span className="font-normal text-[#9A9EA5]">{ui(b.when)}</span>
+                            {b.who} <span className="font-normal text-[#9A9EA5]">{b.when}</span>
                           </p>
-                          <p className="text-[#3E4147]">{ui(b.text)}</p>
+                          <p className="text-[#3E4147]">{b.text}</p>
                         </div>
                       ))}
                     </div>
@@ -226,10 +225,10 @@ export default function AdminSystemPage() {
                 <p className="mb-2.5 text-[13px] font-bold">{t("printOptions")}</p>
                 <div className="flex flex-col gap-2.5">
                   {printOpts.map((o) => (
-                    <button key={o.name} type="button" onClick={() => togglePrintOpt(o.name)} className="flex items-start gap-2.5 text-left">
+                    <button key={o.id} type="button" onClick={() => togglePrintOpt(o.id)} className="flex items-start gap-2.5 text-left">
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-semibold">{ui(o.name)}</p>
-                        <p className="text-[10.5px] text-(--text-muted)">{ui(o.desc)}</p>
+                        <p className="text-xs font-semibold">{tMock(`printOptions.${o.id}.name`)}</p>
+                        <p className="text-[10.5px] text-(--text-muted)">{tMock(`printOptions.${o.id}.desc`)}</p>
                       </div>
                       <span
                         className="flex h-5 w-8 shrink-0 items-center rounded-full p-0.75 transition"
@@ -286,7 +285,7 @@ export default function AdminSystemPage() {
                       className="rounded-full px-2 py-0.5 text-[10px] font-bold"
                       style={{ backgroundColor: TONE_STYLE[e.tone].bg, color: TONE_STYLE[e.tone].fg }}
                     >
-                      {e.code} · {ui(e.label)}
+                      {e.code} · {tMock(`errors.${e.id}.label`)}
                     </span>
                   </div>
                   <p className="font-mono text-[10.5px] text-(--text-muted)">{e.url}</p>
@@ -296,27 +295,27 @@ export default function AdminSystemPage() {
                   >
                     {e.glyph}
                   </div>
-                  <h3 className="text-sm font-bold">{ui(e.title)}</h3>
-                  <p className="text-xs leading-relaxed text-(--text-muted)">{ui(e.body)}</p>
-                  {e.meta && <p className="text-[10.5px] text-(--text-muted)">{ui(e.meta)}</p>}
+                  <h3 className="text-sm font-bold">{tMock(`errors.${e.id}.title`)}</h3>
+                  <p className="text-xs leading-relaxed text-(--text-muted)">{tMock(`errors.${e.id}.body`)}</p>
+                  {e.hasMeta && <p className="text-[10.5px] text-(--text-muted)">{tMock(`errors.${e.id}.meta`)}</p>}
                   <div className="mt-auto flex gap-2 pt-2">
                     <button
                       type="button"
-                      onClick={() => toast.info(`${ui(e.action)} · ${t("runAction")}`, { sub: e.code })}
+                      onClick={() => toast.info(`${tMock(`errors.${e.id}.action`)} · ${t("runAction")}`, { sub: e.code })}
                       className="h-8 flex-1 rounded-lg text-xs font-semibold text-white"
                       style={{ backgroundColor: e.tone === "neutral" ? "#17181B" : TONE_STYLE[e.tone].fg }}
                     >
-                      {ui(e.action)}
+                      {tMock(`errors.${e.id}.action`)}
                     </button>
                     <button
                       type="button"
-                      onClick={() => toast.info(`${ui(e.alt)} · ${t("runAction")}`, { sub: e.code })}
+                      onClick={() => toast.info(`${tMock(`errors.${e.id}.alt`)} · ${t("runAction")}`, { sub: e.code })}
                       className="h-8 flex-1 rounded-lg border border-(--border-app) text-xs font-semibold"
                     >
-                      {ui(e.alt)}
+                      {tMock(`errors.${e.id}.alt`)}
                     </button>
                   </div>
-                  <p className="text-[10px] text-(--text-muted)">{ui(e.foot)}</p>
+                  <p className="text-[10px] text-(--text-muted)">{tMock(`errors.${e.id}.foot`)}</p>
                 </div>
               ))}
             </div>

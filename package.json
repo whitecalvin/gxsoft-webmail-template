@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:locales": "node scripts/check-locales.mjs",
-    "generate:ui-translations": "node scripts/generate-ui-translations.mjs"
+    "check:locales": "node scripts/check-locales.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/noto-serif-kr": "^5.3.0",
+    "@fontsource-variable/nunito": "^5.3.0",
     "lucide-react": "^1.41.0",
     "next": "16.3.4",
     "next-intl": "^4.14.2",

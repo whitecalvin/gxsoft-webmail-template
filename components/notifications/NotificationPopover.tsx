@@ -1,67 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { NOTIFICATIONS } from "@/lib/mock-notifications";
+import { useTranslations } from "next-intl";
+import type { NotificationItem } from "@/lib/mock-notifications";
+import { containTabFocus } from "@/components/overlay/contain-tab-focus";
 
-const TABS = ["전체", "결재", "멘션"] as const;
+const TABS = ["all", "approval", "mention"] as const;
 type Tab = (typeof TABS)[number];
 
-// Bell-icon dropdown in the top bar. Its own local copy of NOTIFICATIONS
-// (so "mark all read" doesn't need to reach into a shared store) means the
-// unread state resets whenever this popover unmounts and remounts.
-export function NotificationPopover({ onClose }: { onClose: () => void }) {
-  const [items, setItems] = useState(NOTIFICATIONS);
-  const [tab, setTab] = useState<Tab>("전체");
+export function NotificationPopover({ id, items, onMarkAllRead, onClose }: { id: string; items: NotificationItem[]; onMarkAllRead: () => void; onClose: () => void }) {
+  const t = useTranslations("notificationCenter");
+  const [tab, setTab] = useState<Tab>("all");
+  const allTabRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  const filtered = items.filter((n) => tab === "전체" || n.kind === tab);
+  useEffect(() => { allTabRef.current?.focus(); }, []);
+
+  const filtered = items.filter((n) => tab === "all" || n.kind === tab);
   const unreadCount = items.filter((n) => n.unread).length;
-  const countFor = (t: Tab) => (t === "전체" ? items.length : items.filter((n) => n.kind === t).length);
+  const countFor = (kind: Tab) => (kind === "all" ? items.length : items.filter((n) => n.kind === kind).length);
 
   return (
     <>
-      <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="fixed inset-x-3 top-16 z-50 flex max-h-[calc(100dvh-5rem)] w-auto flex-col overflow-hidden rounded-(--radius-app) border border-(--border-app) bg-background shadow-[0_16px_34px_-18px_rgba(20,22,30,.34)] sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2 sm:max-h-none sm:w-85">
+      <div aria-hidden="true" className="fixed inset-0 z-(--layer-popover-backdrop)" onClick={onClose} />
+      <div ref={panelRef} id={id} role="dialog" aria-labelledby={`${id}-title`} onKeyDown={(event) => containTabFocus(event, panelRef.current)} className="fixed inset-x-3 top-16 z-(--layer-popover) flex max-h-[calc(100dvh-5rem)] w-auto flex-col overflow-hidden rounded-(--radius-app) border border-(--border-app) bg-background shadow-[0_16px_34px_-18px_rgba(20,22,30,.34)] sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2 sm:max-h-none sm:w-85">
         <div className="flex shrink-0 items-center gap-2.5 border-b border-(--border-app) px-3.5 py-3">
-          <p className="text-[13.5px] font-bold">알림</p>
+          <p id={`${id}-title`} className="text-[13.5px] font-bold">{t("title")}</p>
           {unreadCount > 0 && (
             <span
               className="rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
-              style={{ backgroundColor: "var(--color-primary)" }}
+              style={{ backgroundColor: "var(--color-primary-solid)" }}
             >
               {unreadCount}
             </span>
           )}
           <button
             type="button"
-            onClick={() => setItems((prev) => prev.map((n) => ({ ...n, unread: false })))}
-            className="ml-auto text-[11.5px] font-semibold"
-            style={{ color: "var(--color-primary)" }}
+            onClick={() => { onMarkAllRead(); allTabRef.current?.focus(); }}
+            disabled={unreadCount === 0}
+            className="ml-auto inline-flex min-h-11 items-center rounded-(--radius-app) px-2 text-[11.5px] font-semibold outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring) disabled:cursor-not-allowed disabled:opacity-50"
+            style={{ color: "var(--color-primary-ink)" }}
           >
-            모두 읽음
+            {t("markAllRead")}
           </button>
         </div>
 
-        <div className="flex shrink-0 gap-1.5 border-b border-(--border-app) px-3.5 py-2.5">
-          {TABS.map((t) => (
+        <div className="flex shrink-0 gap-1.5 border-b border-(--border-app) px-3.5 py-1.5">
+          {TABS.map((kind) => (
             <button
-              key={t}
+              key={kind}
+              ref={kind === "all" ? allTabRef : undefined}
               type="button"
-              onClick={() => setTab(t)}
-              className={`h-6.5 rounded-full px-2.5 text-[11.5px] font-semibold transition ${
-                tab === t
-                  ? "bg-[#17181B] text-white dark:bg-white dark:text-[#17181B]"
+              onClick={() => setTab(kind)}
+              aria-pressed={tab === kind}
+              className={`min-h-11 rounded-full px-3 text-[11.5px] font-semibold transition outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring) ${
+                tab === kind
+                  ? "bg-(--color-primary-solid) text-white"
                   : "bg-black/5 text-(--text-muted) dark:bg-white/10"
               }`}
             >
-              {t} {countFor(t)}
+              {t(kind)} {countFor(kind)}
             </button>
           ))}
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto sm:max-h-85 sm:flex-none">
           {filtered.length === 0 ? (
-            <p className="px-4 py-8 text-center text-[12.5px] text-(--text-muted)">알림이 없습니다.</p>
+            <p className="px-4 py-8 text-center text-[12.5px] text-(--text-muted)">{t("empty")}</p>
           ) : (
             filtered.map((n) => (
               <div
@@ -76,13 +82,13 @@ export function NotificationPopover({ onClose }: { onClose: () => void }) {
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10.5px] font-bold"
                   style={{ backgroundColor: n.avatarBg, color: n.avatarFg }}
                 >
-                  {n.avatar}
+                  {t(`items.${n.id}.avatar`)}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[12.5px] font-semibold">{n.title}</p>
-                  <p className="truncate text-[11.5px] text-(--text-muted)">{n.body}</p>
+                  <p className="truncate text-[12.5px] font-semibold">{t(`items.${n.id}.title`)}</p>
+                  <p className="truncate text-[11.5px] text-(--text-muted)">{t(`items.${n.id}.body`)}</p>
                 </div>
-                <span className="shrink-0 text-[10.5px] text-[#9A9EA5]">{n.time}</span>
+                <span className="shrink-0 text-[10.5px] text-(--text-muted)">{t(`items.${n.id}.time`)}</span>
               </div>
             ))
           )}
@@ -91,10 +97,10 @@ export function NotificationPopover({ onClose }: { onClose: () => void }) {
         <Link
           href="/approvals"
           onClick={onClose}
-          className="shrink-0 border-t border-(--border-app) py-2.5 text-center text-[11.5px] font-semibold"
-          style={{ color: "var(--color-primary)" }}
+          className="flex min-h-11 shrink-0 items-center justify-center border-t border-(--border-app) px-3 text-center text-[11.5px] font-semibold outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-(--focus-ring)"
+          style={{ color: "var(--color-primary-ink)" }}
         >
-          알림 센터 열기
+          {t("openCenter")}
         </Link>
       </div>
     </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import type { CalendarEvent } from "@/types/calendar";
 import { toDateKey } from "@/lib/date-utils";
 
@@ -17,8 +18,6 @@ function startOfMonthGrid(anchor: Date): Date {
   return first;
 }
 
-const DOW_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
-
 export function CalendarMonthGrid({
   anchor,
   events,
@@ -30,6 +29,9 @@ export function CalendarMonthGrid({
   today: Date;
   onSelectDay: (date: Date) => void;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("calendarGrid");
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" });
   const gridStart = startOfMonthGrid(anchor);
   const todayISO = toDateKey(today);
   const weeks: Date[][] = [];
@@ -51,15 +53,15 @@ export function CalendarMonthGrid({
   }
 
   return (
-    <section aria-label="월간 캘린더" className="flex flex-1 flex-col overflow-y-auto">
+    <section aria-label={t("monthView")} className="flex flex-1 flex-col overflow-y-auto">
       <div className="grid grid-cols-7 border-b border-(--border-app)">
-        {DOW_LABELS.map((label, i) => (
+        {Array.from({ length: 7 }, (_, i) => (
           <div
-            key={label}
+            key={i}
             className="py-2.5 text-center text-[11px] font-semibold"
             style={{ color: i >= 5 ? "var(--status-danger)" : "var(--text-muted)" }}
           >
-            {label}
+            {weekdayFormatter.format(new Date(Date.UTC(2026, 8, 7 + i, 12)))}
           </div>
         ))}
       </div>
@@ -83,7 +85,7 @@ export function CalendarMonthGrid({
                 className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold"
                 style={{
                   color: isToday ? "#fff" : isWeekend ? "var(--status-danger)" : "var(--text-app)",
-                  backgroundColor: isToday ? "var(--color-primary)" : "transparent",
+                  backgroundColor: isToday ? "var(--color-primary-solid)" : "transparent",
                 }}
               >
                 {day.getDate()}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type DragEvent, type FormEvent, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type DragEvent, type FormEvent, type KeyboardEvent } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Clock, Maximize2, Minimize2, Paperclip, Trash2, Upload, X } from "lucide-react";
 import { useMail } from "@/context/mail-context";
 import { useToast } from "@/context/toast-context";
@@ -8,6 +9,7 @@ import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { InlineBanner } from "@/components/banner/InlineBanner";
 import { ComposeEditor } from "@/components/compose/ComposeEditor";
 import type { ComposeDraft } from "@/types/mail";
+import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
 
 // The compose window: recipient chips, cc/bcc, an AI "rewrite tone" banner,
 // drag-and-drop attachments, and a send/schedule split button. All of it is
@@ -18,9 +20,9 @@ const INTERNAL_DOMAIN = "@gxsoft.co.kr";
 const MAX_ATTACHMENT_BYTES = 2 * 1024 * 1024 * 1024;
 const LARGE_FILE_LINK_THRESHOLD = 25 * 1024 * 1024;
 const TONE_OPTIONS = [
-  { key: "polite", label: "정중하게" },
-  { key: "concise", label: "간결하게" },
-  { key: "english", label: "영문으로" },
+  { key: "polite" },
+  { key: "concise" },
+  { key: "english" },
 ] as const;
 type ToneKey = (typeof TONE_OPTIONS)[number]["key"];
 
@@ -90,10 +92,10 @@ function parseRecipients(raw: string): Recipient[] {
     });
 }
 
-function formatBytes(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+function formatBytes(bytes: number, locale: string) {
+  if (bytes < 1024) return new Intl.NumberFormat(locale, { style: "unit", unit: "byte", unitDisplay: "narrow" }).format(bytes);
+  if (bytes < 1024 * 1024) return new Intl.NumberFormat(locale, { style: "unit", unit: "kilobyte", unitDisplay: "narrow", maximumFractionDigits: 0 }).format(bytes / 1024);
+  return new Intl.NumberFormat(locale, { style: "unit", unit: "megabyte", unitDisplay: "narrow", maximumFractionDigits: 1 }).format(bytes / (1024 * 1024));
 }
 
 function toAttachments(files: FileList | File[]): Attachment[] {
@@ -112,6 +114,8 @@ function ComposeForm({
   initial: ComposeDraft;
   onClose: () => void;
 }) {
+  const t = useTranslations("composeModal");
+  const locale = useLocale();
   const { sendEmail } = useMail();
   const toast = useToast();
   const [recipients, setRecipients] = useState<Recipient[]>(() => parseRecipients(initial.to));
@@ -127,9 +131,21 @@ function ComposeForm({
   const [expanded, setExpanded] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const recipientInputRef = useRef<HTMLInputElement>(null);
   const ccInputRef = useRef<HTMLInputElement>(null);
+  const scheduleButtonRef = useRef<HTMLButtonElement>(null);
+  const scheduleMenuRef = useRef<HTMLDivElement>(null);
+  const numberFormatter = new Intl.NumberFormat(locale);
+  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit", timeZone: "UTC" });
+  const formatTime = (hour: number) => timeFormatter.format(new Date(Date.UTC(2026, 0, 1, hour)));
+  const scheduleOptions = [
+    { id: "today", label: t("schedule.today", { time: formatTime(18) }) },
+    { id: "tomorrow", label: t("schedule.tomorrow", { time: formatTime(9) }) },
+    { id: "nextMonday", label: t("schedule.nextMonday", { time: formatTime(9) }) },
+  ];
 
   const hasContent =
     recipients.length > 0 ||
@@ -177,11 +193,11 @@ function ComposeForm({
       setAttachments((prev) => [...prev, ...toAttachments(accepted)]);
       const large = accepted.filter((f) => f.size > LARGE_FILE_LINK_THRESHOLD);
       if (large.length > 0) {
-        toast.info("대용량 파일은 링크로 자동 전환됩니다", { sub: large.map((f) => f.name).join(", ") });
+        toast.info(t("largeFilesBecomeLinks"), { sub: large.map((f) => f.name).join(", ") });
       }
     }
     if (tooBig.length > 0) {
-      toast.error("최대 2GB를 초과하는 파일은 첨부할 수 없습니다", { sub: tooBig.map((f) => f.name).join(", ") });
+      toast.error(t("fileTooLarge"), { sub: tooBig.map((f) => f.name).join(", ") });
     }
   };
 
@@ -198,15 +214,15 @@ function ComposeForm({
     commitRecipientInput();
     const toStr = recipients.map((r) => r.label).join(", ") || recipientInput.trim();
     const attachmentNote =
-      attachments.length > 0 ? `\n\n첨부파일 ${attachments.length}개: ${attachments.map((a) => a.name).join(", ")}` : "";
+      attachments.length > 0 ? `\n\n${t("attachmentNote", { count: numberFormatter.format(attachments.length), names: attachments.map((a) => a.name).join(", ") })}` : "";
     sendEmail({ to: toStr, cc, bcc, subject, body: body + attachmentNote });
     const sub = [
-      attachments.length > 0 ? `첨부 ${attachments.length}개` : null,
-      bccAddrs.length > 0 ? `숨은참조 ${bccAddrs.length}명 포함` : null,
+      attachments.length > 0 ? t("attachmentCount", { count: numberFormatter.format(attachments.length) }) : null,
+      bccAddrs.length > 0 ? t("bccCount", { count: numberFormatter.format(bccAddrs.length) }) : null,
     ]
       .filter(Boolean)
       .join(" · ");
-    toast.success("메일을 보냈습니다", sub ? { sub } : undefined);
+    toast.success(t("sent"), sub ? { sub } : undefined);
   };
 
   const handleClose = () => {
@@ -218,17 +234,60 @@ function ComposeForm({
   };
 
   useEffect(() => {
-    const handler = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape" && !scheduleOpen) handleClose();
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const unlock = lockBodyScroll();
+    recipientInputRef.current?.focus();
+    return () => {
+      unlock();
+      if (previouslyFocused?.isConnected && previouslyFocused.getClientRects().length > 0) {
+        previouslyFocused.focus();
+      } else {
+        Array.from(document.querySelectorAll<HTMLButtonElement>('button[data-compose-trigger], button[data-mobile-menu-trigger]'))
+          .find((button) => button.getClientRects().length > 0)?.focus();
+      }
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduleOpen, hasContent]);
+  }, []);
+
+  useEffect(() => {
+    if (scheduleOpen) scheduleMenuRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+  }, [scheduleOpen]);
+
+  const handleDialogKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (confirmingDiscard) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      if (scheduleOpen) {
+        setScheduleOpen(false);
+        scheduleButtonRef.current?.focus();
+      } else handleClose();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([type="file"]), textarea:not([disabled]), [contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+    ) ?? []).filter((element) => element.getClientRects().length > 0);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      data-compose-dialog
+      className="fixed inset-0 z-(--layer-modal) flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
+      onKeyDown={handleDialogKeyDown}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
@@ -241,24 +300,24 @@ function ComposeForm({
         }`}
       >
         <div className="flex shrink-0 items-center gap-2.5 border-b border-(--border-app) px-4 py-3">
-          <span className="text-sm font-bold tracking-tight">새 메일</span>
+          <h2 id={titleId} className="text-sm font-bold tracking-tight">{t("newMail")}</h2>
           <span className="rounded-full bg-(--surface-muted) px-2 py-0.5 text-[11px] text-(--text-muted)">
-            임시저장 · 방금
+            {t("savedJustNow")}
           </span>
           <div className="ml-auto flex items-center gap-1 text-(--text-muted)">
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
               className="hidden rounded p-1.5 hover:bg-black/5 dark:hover:bg-white/10 sm:block"
-              aria-label={expanded ? "축소" : "확대"}
+              aria-label={expanded ? t("collapse") : t("expand")}
             >
               {expanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
             </button>
             <button
               type="button"
               onClick={handleClose}
-              className="rounded p-1.5 hover:bg-black/5 dark:hover:bg-white/10"
-              aria-label="닫기"
+              className="flex size-11 items-center justify-center rounded-(--radius-app) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:size-auto sm:p-1.5"
+              aria-label={t("close")}
             >
               <X size={15} />
             </button>
@@ -268,15 +327,15 @@ function ComposeForm({
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
           <div className="flex flex-col px-4">
             <div className="flex items-start gap-3 border-b border-(--border-app) py-2.5">
-              <span className="mt-1.5 shrink-0 text-xs font-semibold text-(--text-muted)">받는 사람</span>
-              <div className="flex flex-1 flex-wrap items-center gap-1.5">
+              <span className="mt-1.5 shrink-0 text-xs font-semibold text-(--text-muted)">{t("to")}</span>
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
                 {recipients.map((r) => (
                   <button
                     key={r.id}
                     type="button"
                     onClick={() => setRecipients((prev) => prev.filter((x) => x.id !== r.id))}
                     className="group flex items-center gap-1.5 rounded-full bg-(--surface-muted) py-1 pl-1 pr-2.5 text-xs font-medium hover:bg-black/6 dark:hover:bg-white/10"
-                    title="제거"
+                    title={t("removeRecipient")}
                   >
                     <span
                       className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold"
@@ -291,21 +350,22 @@ function ComposeForm({
                 <input
                   ref={recipientInputRef}
                   type="text"
+                  aria-label={t("to")}
                   value={recipientInput}
                   onChange={(e) => setRecipientInput(e.target.value)}
                   onKeyDown={handleRecipientKeyDown}
                   onBlur={commitRecipientInput}
-                  placeholder="이름 또는 이메일 입력…"
-                  className="min-w-35 flex-1 bg-transparent text-xs outline-none placeholder:text-[#B0B4BA]"
+                  placeholder={t("recipientPlaceholder")}
+                  className="min-w-0 flex-1 basis-35 bg-transparent text-base outline-none placeholder:text-(--text-muted) md:text-xs"
                 />
               </div>
               <button
                 type="button"
                 onClick={() => setShowCcBcc((v) => !v)}
                 className="mt-1 shrink-0 text-[11.5px] font-medium"
-                style={{ color: "var(--color-primary)" }}
+                style={{ color: "var(--color-primary-ink)" }}
               >
-                참조 · 숨은참조
+                {t("ccAndBcc")}
                 {ccAddrs.length + bccAddrs.length > 0 && ` (${ccAddrs.length + bccAddrs.length})`}
               </button>
             </div>
@@ -313,62 +373,65 @@ function ComposeForm({
             {showCcBcc && (
               <>
                 <div className="flex items-center gap-3 border-b border-(--border-app) py-2">
-                  <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">참조</span>
+                  <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">{t("cc")}</span>
                   <input
                     ref={ccInputRef}
                     type="text"
+                    aria-label={t("cc")}
                     value={cc}
                     onChange={(e) => setCc(e.target.value)}
-                    placeholder="참조 수신자"
-                    className="flex-1 bg-transparent text-xs outline-none placeholder:text-[#B0B4BA]"
+                    placeholder={t("ccPlaceholder")}
+                    className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--text-muted) md:text-xs"
                   />
                 </div>
                 <div className="flex items-center gap-3 border-b border-(--border-app) py-2">
-                  <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">숨은참조</span>
+                  <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">{t("bcc")}</span>
                   <input
                     type="text"
+                    aria-label={t("bcc")}
                     value={bcc}
                     onChange={(e) => setBcc(e.target.value)}
-                    placeholder="숨은참조 수신자"
-                    className="flex-1 bg-transparent text-xs outline-none placeholder:text-[#B0B4BA]"
+                    placeholder={t("bccPlaceholder")}
+                    className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--text-muted) md:text-xs"
                   />
                 </div>
               </>
             )}
 
             <div className="flex items-center gap-3 py-2.5">
-              <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">제목</span>
+              <span className="w-14 shrink-0 text-xs font-semibold text-(--text-muted)">{t("subject")}</span>
               <input
                 type="text"
+                aria-label={t("subject")}
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="제목을 입력하세요"
-                className="flex-1 bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-[#B0B4BA]"
+                placeholder={t("subjectPlaceholder")}
+                className="min-w-0 flex-1 bg-transparent text-base font-semibold outline-none placeholder:font-normal placeholder:text-(--text-muted) md:text-sm"
               />
             </div>
           </div>
 
-          <div className="mx-4 mb-1 flex flex-wrap items-center gap-3 rounded-xl border border-[#EBE4D6] bg-[#FBF9F4] px-4 py-3">
-            <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-md bg-[#17181B] text-[9px] font-extrabold text-white">
+          <div className="mx-4 mb-1 flex flex-wrap items-center gap-3 rounded-xl border border-(--border-app) bg-(--surface-muted) px-4 py-3">
+            <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-md bg-(--color-primary-solid) text-[9px] font-extrabold text-white">
               AI
             </span>
-            <span className="text-xs text-(--text-muted)">톤을 선택하면 초안을 다시 씁니다.</span>
+            <span className="text-xs text-(--text-muted)">{t("toneHint")}</span>
             <div className="ml-auto flex gap-1.5">
-              {TONE_OPTIONS.map((t) => (
+              {TONE_OPTIONS.map((option) => (
                 <button
-                  key={t.key}
+                  key={option.key}
                   type="button"
                   onClick={() => {
-                    setTone(t.key);
-                    toast.info(`'${t.label}' 어조로 다시 쓰는 중입니다`);
+                    setTone(option.key);
+                    toast.info(t("rewritingTone", { tone: t(`tones.${option.key}`) }));
                   }}
-                  className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${
-                    tone === t.key
-                      ? "bg-[#17181B] text-white"
-                      : "border border-[#E6DFD0] bg-white text-[#5C6068] hover:bg-black/2"
+                  className={`min-h-11 rounded-full px-2.5 text-[11px] font-semibold transition sm:min-h-0 sm:py-1 ${
+                    tone === option.key
+                      ? "bg-(--color-primary-solid) text-white"
+                      : "border border-(--border-app) bg-background text-foreground hover:bg-(--control-hover)"
                   }`}
                 >
-                  {t.label}
+                  {t(`tones.${option.key}`)}
                 </button>
               ))}
             </div>
@@ -378,9 +441,9 @@ function ComposeForm({
             <div className="px-4 pb-1">
               <InlineBanner
                 tone="warning"
-                title={`외부 수신자 ${externalCount}명이 포함돼 있습니다`}
-                body="사내 정보는 외부로 발송되지 않도록 다시 확인해 주세요."
-                actionLabel="수신자 확인"
+                title={t("externalRecipientWarning", { count: numberFormatter.format(externalCount) })}
+                body={t("externalRecipientBody")}
+                actionLabel={t("reviewRecipients")}
                 onAction={() => {
                   const toIsExternal = recipients.some((r) => !r.label.toLowerCase().endsWith(INTERNAL_DOMAIN));
                   if (toIsExternal) {
@@ -397,7 +460,7 @@ function ComposeForm({
           <ComposeEditor
             value={body}
             onChange={setBody}
-            placeholder="내용을 입력하세요"
+            placeholder={t("bodyPlaceholder")}
             onImageAttach={(file) => addFiles([file])}
           />
 
@@ -420,15 +483,15 @@ function ComposeForm({
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-xs font-semibold">{att.name}</p>
                         <p className="text-[11px] text-(--text-muted)">
-                          {formatBytes(att.size)} · 업로드 완료
-                          {att.size > LARGE_FILE_LINK_THRESHOLD ? " · 대용량 링크" : ""}
+                          {t("uploadComplete", { size: formatBytes(att.size, locale) })}
+                          {att.size > LARGE_FILE_LINK_THRESHOLD ? t("largeFileLinkSuffix") : ""}
                         </p>
                       </div>
                       <button
                         type="button"
                         onClick={() => removeAttachment(att.id)}
                         className="shrink-0 text-(--text-muted) hover:text-(--status-danger)"
-                        aria-label="첨부파일 제거"
+                        aria-label={t("removeAttachment")}
                       >
                         <X size={14} />
                       </button>
@@ -448,7 +511,14 @@ function ComposeForm({
               onDrop={handleDrop}
               role="button"
               tabIndex={0}
-              className={`flex shrink-0 cursor-pointer items-center gap-2.5 rounded-[10px] border border-dashed px-3 py-2 transition sm:w-55 ${
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
+              aria-label={t("chooseAttachments")}
+              className={`flex shrink-0 cursor-pointer items-center gap-2.5 rounded-[10px] border border-dashed px-3 py-2 outline-none transition focus-visible:ring-2 focus-visible:ring-(--focus-ring) sm:w-55 ${
                 isDragging
                   ? "border-(--color-primary) bg-(--color-primary)/6"
                   : "border-(--border-app) bg-black/1.5 dark:bg-white/2"
@@ -458,9 +528,9 @@ function ComposeForm({
                 <Upload size={14} />
               </span>
               <div className="min-w-0">
-                <p className="text-xs font-semibold">파일을 끌어다 놓으세요</p>
+                <p className="text-xs font-semibold">{t("dropFiles")}</p>
                 <p className="text-[11px] leading-tight text-(--text-muted)">
-                  25 MB 초과 시 대용량 링크로 자동 전환 · 최대 2 GB
+                  {t("attachmentLimits")}
                 </p>
               </div>
             </div>
@@ -477,40 +547,45 @@ function ComposeForm({
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-t border-(--border-app) bg-(--surface-muted) px-3 py-2.5">
-          <div className="relative flex items-center overflow-hidden rounded-[9px]" style={{ backgroundColor: "var(--color-primary)" }}>
-            <button
-              type="submit"
-              className="px-4 py-2 text-[13px] font-semibold text-white transition hover:brightness-110"
-            >
-              보내기
-            </button>
-            <span className="h-4 w-px bg-white/30" />
-            <button
-              type="button"
-              onClick={() => setScheduleOpen((v) => !v)}
-              className="flex items-center gap-1 px-2.5 py-2 text-[11px] font-medium text-white/90 transition hover:brightness-110"
-            >
-              <Clock size={12} />
-              예약
-            </button>
+        <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-t border-(--border-app) bg-(--surface-muted) px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] sm:pb-2.5">
+          <div className="relative shrink-0">
+            <div className="flex items-center overflow-hidden rounded-[9px]" style={{ backgroundColor: "var(--color-primary-solid)" }}>
+              <button
+                type="submit"
+                className="min-h-11 px-4 text-[13px] font-semibold text-white transition hover:brightness-110 sm:min-h-0 sm:py-2"
+              >
+                {t("send")}
+              </button>
+              <span className="h-4 w-px bg-white/30" />
+              <button
+                ref={scheduleButtonRef}
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={scheduleOpen}
+                onClick={() => setScheduleOpen((v) => !v)}
+                className="flex min-h-11 items-center gap-1 px-2.5 text-[11px] font-medium text-white/90 transition hover:brightness-110 sm:min-h-0 sm:py-2"
+              >
+                <Clock size={12} />
+                {t("scheduleSend")}
+              </button>
+            </div>
             {scheduleOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setScheduleOpen(false)} />
-                <div className="absolute bottom-full left-0 z-50 mb-2 w-48 overflow-hidden rounded-[10px] border border-(--border-app) bg-background py-1 text-foreground shadow-xl">
-                  {["오늘 18:00", "내일 09:00", "다음 주 월요일 09:00"].map((opt) => (
+                <button type="button" tabIndex={-1} aria-label={t("closeScheduleMenu")} className="fixed inset-0 z-(--layer-popover-backdrop) cursor-default" onClick={() => { setScheduleOpen(false); scheduleButtonRef.current?.focus(); }} />
+                <div ref={scheduleMenuRef} role="group" aria-label={t("scheduleTimes")} className="absolute bottom-full left-0 z-(--layer-popover) mb-2 w-48 overflow-hidden rounded-[10px] border border-(--border-app) bg-background py-1 text-foreground shadow-xl">
+                  {scheduleOptions.map((option) => (
                     <button
-                      key={opt}
+                      key={option.id}
                       type="button"
                       onClick={() => {
                         setScheduleOpen(false);
                         commitRecipientInput();
-                        toast.success("예약 발송으로 등록되었습니다", { sub: opt });
+                        toast.success(t("scheduled"), { sub: option.label });
                         onClose();
                       }}
                       className="block w-full px-3 py-2 text-left text-xs hover:bg-black/5 dark:hover:bg-white/5"
                     >
-                      {opt}
+                      {option.label}
                     </button>
                   ))}
                 </div>
@@ -522,9 +597,9 @@ function ComposeForm({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="rounded-lg p-1.5 text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10"
-              aria-label="파일 첨부"
-              title="파일 첨부"
+              className="flex size-11 items-center justify-center rounded-lg text-(--text-muted) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:size-auto sm:p-1.5"
+              aria-label={t("attachFile")}
+              title={t("attachFile")}
             >
               <Paperclip size={15} />
             </button>
@@ -533,14 +608,14 @@ function ComposeForm({
           <div className="ml-auto flex items-center gap-3">
             <span className="hidden items-center gap-1.5 text-[11px] text-(--text-muted) sm:flex">
               <span className="h-1.5 w-1.5 rounded-full bg-(--status-success)" />
-              발신 암호화 (TLS)
+              {t("tlsEncrypted")}
             </span>
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-lg p-1.5 text-(--text-muted) hover:bg-black/5 hover:text-(--status-danger) dark:hover:bg-white/10"
-              aria-label="삭제"
-              title="삭제"
+              className="flex size-11 items-center justify-center rounded-lg text-(--text-muted) outline-none hover:bg-black/5 hover:text-(--status-danger) focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:size-auto sm:p-1.5"
+              aria-label={t("delete")}
+              title={t("delete")}
             >
               <Trash2 size={15} />
             </button>
@@ -551,13 +626,13 @@ function ComposeForm({
       {confirmingDiscard && (
         <ConfirmDialog
           tone="default"
-          title="저장하지 않고 나갈까요?"
-          description="작성 중인 메일은 임시보관함에 남습니다."
-          cancelLabel="계속 작성"
-          confirmLabel="임시 저장"
+          title={t("discardTitle")}
+          description={t("discardDescription")}
+          cancelLabel={t("continueEditing")}
+          confirmLabel={t("saveDraft")}
           onCancel={() => setConfirmingDiscard(false)}
           middleAction={{
-            label: "저장 안 함",
+            label: t("discardWithoutSaving"),
             onClick: () => {
               setConfirmingDiscard(false);
               onClose();
@@ -565,7 +640,7 @@ function ComposeForm({
           }}
           onConfirm={() => {
             setConfirmingDiscard(false);
-            toast.info("임시보관함에 저장되었습니다");
+            toast.info(t("draftSaved"));
             onClose();
           }}
         />

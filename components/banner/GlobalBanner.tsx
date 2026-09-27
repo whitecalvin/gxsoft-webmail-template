@@ -1,5 +1,8 @@
 "use client";
 
+import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 // Full-width strip banner for app-wide notices (maintenance, offline mode,
 // acting-as-delegate). Distinct from InlineBanner, which is scoped to a
 // single card/section rather than the whole page.
@@ -24,12 +27,13 @@ export function GlobalBanner({
   onAction?: () => void;
   onDismiss?: () => void;
 }) {
+  const t = useTranslations("common");
   const s = TONE_STYLE[tone];
   return (
     <div
       role={tone === "offline" ? "alert" : "status"}
       aria-live={tone === "offline" ? "assertive" : "polite"}
-      className={`flex min-h-10 items-center gap-2.5 px-4 py-2 ${s.wrap}`}
+      className={`flex min-h-11 items-center gap-1.5 px-2 py-1 sm:gap-2.5 sm:px-4 ${s.wrap}`}
     >
       <span className={`h-1.75 w-1.75 shrink-0 rounded-full ${s.dot}`} />
       <p className={`min-w-0 flex-1 truncate text-[12px] ${s.text}`}>{message}</p>
@@ -37,7 +41,7 @@ export function GlobalBanner({
         <button
           type="button"
           onClick={onAction}
-          className={`shrink-0 text-[11.5px] font-semibold hover:underline ${s.action}`}
+          className={`inline-flex min-h-11 shrink-0 items-center justify-center rounded-md px-2 text-[11.5px] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${s.action}`}
         >
           {actionLabel}
         </button>
@@ -46,10 +50,10 @@ export function GlobalBanner({
         <button
           type="button"
           onClick={onDismiss}
-          className={`shrink-0 text-[11px] opacity-70 hover:opacity-100 ${s.text}`}
-          aria-label="닫기"
+          className={`inline-flex size-11 shrink-0 items-center justify-center rounded-md opacity-70 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${s.text}`}
+          aria-label={t("close")}
         >
-          ✕
+          <X size={16} aria-hidden="true" />
         </button>
       )}
     </div>

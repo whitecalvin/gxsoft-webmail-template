@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useFormatter, useTranslations } from "next-intl";
 import { Check, RefreshCw, Upload } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { DNS_RECORDS, MIGRATIONS, ONBOARD_STEPS } from "@/lib/mock-onboarding";
@@ -16,6 +17,8 @@ const STATE_TONE: Record<string, string> = {
 };
 
 export default function OnboardingPage() {
+  const t = useTranslations("adminOnboarding");
+  const format = useFormatter();
   const toast = useToast();
   const doneCount = ONBOARD_STEPS.filter((s) => s.status === "done").length;
   const progress = Math.round((doneCount / ONBOARD_STEPS.length) * 100) + 5;
@@ -25,16 +28,16 @@ export default function OnboardingPage() {
   const copyAllDns = () => {
     const text = dnsRecords.map((r) => `${r.type}\t${r.host}\t${r.value}`).join("\n");
     navigator.clipboard?.writeText(text).catch(() => {});
-    toast.success("DNS 레코드를 모두 복사했습니다", { sub: `${dnsRecords.length}건` });
+    toast.success(t("copiedNotice"), { sub: t("recordCount", { count: dnsRecords.length }) });
   };
 
   const recheckDns = () => {
     setDnsChecking(true);
-    toast.info("DNS 레코드를 다시 확인합니다");
+    toast.info(t("recheckNotice"));
     window.setTimeout(() => {
-      setDnsRecords((prev) => prev.map((r) => ({ ...r, state: "확인됨", tone: "success" as const })));
+      setDnsRecords((prev) => prev.map((r) => ({ ...r, state: "verified", tone: "success" as const })));
       setDnsChecking(false);
-      toast.success("DNS 확인을 완료했습니다", { sub: `${dnsRecords.length}건 중 ${dnsRecords.length}건 확인` });
+      toast.success(t("recheckSuccess"), { sub: t("verifiedCount", { total: dnsRecords.length, verified: dnsRecords.length }) });
     }, 800);
   };
 
@@ -43,9 +46,9 @@ export default function OnboardingPage() {
       <div className="mx-auto flex max-w-6xl flex-col gap-5 p-5 sm:p-8">
         <header className="flex items-center gap-3">
           <div>
-            <h1 className="text-[19px] font-bold tracking-tight">조직 설치 마법사</h1>
+            <h1 className="text-[19px] font-bold tracking-tight">{t("title")}</h1>
             <p className="text-xs text-(--text-muted)">
-              gxsoft.co.kr · 2단계 진행 중 · 예상 소요 20분
+              {t("subtitle", { domain: "gxsoft.co.kr", step: 2, minutes: 20 })}
             </p>
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -53,7 +56,7 @@ export default function OnboardingPage() {
               <div className="h-full rounded-full" style={{ width: `${progress}%`, backgroundColor: "var(--color-primary)" }} />
             </div>
             <span className="text-xs font-bold" style={{ color: "var(--color-primary)" }}>
-              {progress}%
+              {format.number(progress / 100, { style: "percent", maximumFractionDigits: 0 })}
             </span>
           </div>
         </header>
@@ -62,7 +65,7 @@ export default function OnboardingPage() {
           <div className="flex flex-col gap-2 rounded-xl border border-(--border-app) bg-background p-4">
             {ONBOARD_STEPS.map((s, i) => (
               <div
-                key={s.name}
+                key={s.id}
                 className="flex items-center gap-2.5 rounded-lg px-2 py-2"
                 style={{ backgroundColor: s.status === "now" ? "#F5F7FF" : "transparent" }}
               >
@@ -76,27 +79,27 @@ export default function OnboardingPage() {
                   {s.status === "done" ? <Check size={12} /> : i + 1}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-semibold">{s.name}</p>
-                  <p className="truncate text-[10.5px] text-(--text-muted)">{s.desc}</p>
+                  <p className="truncate text-xs font-semibold">{t(`steps.${s.id}.name`)}</p>
+                  <p className="truncate text-[10.5px] text-(--text-muted)">{t(`steps.${s.id}.description`)}</p>
                 </div>
               </div>
             ))}
             <p className="mt-2 border-t border-(--border-app) pt-3 text-[10.5px] leading-relaxed text-(--text-muted)">
-              DNS 반영에 최대 48시간이 걸릴 수 있습니다. 그동안 기존 메일 서버는 계속 동작합니다.
+              {t("dnsDelayNotice")}
             </p>
           </div>
 
           <div className="flex flex-col gap-4">
             <div className="rounded-xl border border-(--border-app) bg-background p-4">
               <div className="mb-3 flex items-center gap-2">
-                <p className="text-sm font-bold">DNS 레코드 등록</p>
+                <p className="text-sm font-bold">{t("dnsTitle")}</p>
                 <div className="ml-auto flex gap-2">
                   <button
                     type="button"
                     onClick={copyAllDns}
                     className="h-8 rounded-lg border border-(--border-app) px-3 text-xs font-semibold"
                   >
-                    전체 복사
+                    {t("copyAll")}
                   </button>
                   <button
                     type="button"
@@ -106,7 +109,7 @@ export default function OnboardingPage() {
                     style={{ backgroundColor: "#17181B" }}
                   >
                     <RefreshCw size={12} className={dnsChecking ? "animate-spin" : undefined} />
-                    {dnsChecking ? "확인 중..." : "다시 확인"}
+                    {dnsChecking ? t("checking") : t("recheck")}
                   </button>
                 </div>
               </div>
@@ -114,11 +117,11 @@ export default function OnboardingPage() {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b border-(--border-app) text-left text-[10px] font-bold uppercase text-(--text-muted)">
-                      <th className="pb-2 pr-2">타입</th>
-                      <th className="pb-2 pr-2">호스트</th>
-                      <th className="pb-2 pr-2">값</th>
-                      <th className="pb-2 pr-2">우선순위</th>
-                      <th className="pb-2">상태</th>
+                      <th className="pb-2 pr-2">{t("headers.type")}</th>
+                      <th className="pb-2 pr-2">{t("headers.host")}</th>
+                      <th className="pb-2 pr-2">{t("headers.value")}</th>
+                      <th className="pb-2 pr-2">{t("headers.priority")}</th>
+                      <th className="pb-2">{t("headers.status")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -129,7 +132,7 @@ export default function OnboardingPage() {
                         <td className="max-w-55 truncate py-2 pr-2 font-mono text-(--text-muted)">{r.value}</td>
                         <td className="py-2 pr-2 text-(--text-muted)">{r.prio}</td>
                         <td className="py-2">
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATE_TONE[r.tone]}`}>{r.state}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATE_TONE[r.tone]}`}>{t(`dnsStates.${r.state}`)}</span>
                         </td>
                       </tr>
                     ))}
@@ -140,36 +143,38 @@ export default function OnboardingPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-(--border-app) bg-background p-4">
-                <p className="mb-3 text-sm font-bold">계정 일괄 등록</p>
+                <p className="mb-3 text-sm font-bold">{t("csvTitle")}</p>
                 <button
                   type="button"
-                  onClick={() => toast.info("CSV 파일 선택 창을 엽니다")}
+                  onClick={() => toast.info(t("csvSelectNotice"))}
                   className="flex h-24 w-full flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-(--border-app) text-(--text-muted) transition hover:bg-black/2 dark:hover:bg-white/3"
                 >
                   <Upload size={18} />
-                  <span className="text-[11px]">CSV 파일을 드래그하거나 선택하세요</span>
+                  <span className="text-[11px]">{t("csvSelect")}</span>
                 </button>
-                <p className="mt-2 text-[10.5px] text-(--text-muted)">이름 · 이메일 · 부서 · 직급 열 필요</p>
-                <p className="mt-1 text-[11px] font-semibold text-(--status-success)">1,284행 검증 완료 · 중복 3건 자동 병합</p>
+                <p className="mt-2 text-[10.5px] text-(--text-muted)">{t("csvColumns")}</p>
+                <p className="mt-1 text-[11px] font-semibold text-(--status-success)">{t("csvSummary", { rows: 1284, duplicates: 3 })}</p>
               </div>
               <div className="rounded-xl border border-(--border-app) bg-background p-4">
-                <p className="mb-3 text-sm font-bold">기존 메일 마이그레이션</p>
+                <p className="mb-3 text-sm font-bold">{t("migrationTitle")}</p>
                 <div className="flex flex-col gap-2.5">
                   {MIGRATIONS.map((m) => (
                     <div key={m.source}>
                       <div className="mb-1 flex items-center justify-between text-xs">
-                        <span className="font-semibold">{m.source}</span>
-                        <span className="text-(--text-muted)">{m.percent}%</span>
+                        <span className="font-semibold">{m.id === "imap" ? t("migrationImap") : m.source}</span>
+                        <span className="text-(--text-muted)">{format.number(m.percent / 100, { style: "percent", maximumFractionDigits: 0 })}</span>
                       </div>
                       <div className="h-1.5 overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
                         <div className="h-full rounded-full" style={{ width: `${m.percent}%`, backgroundColor: "var(--color-primary)" }} />
                       </div>
-                      <p className="mt-1 text-[10.5px] text-(--text-muted)">{m.note}</p>
+                      <p className="mt-1 text-[10.5px] text-(--text-muted)">
+                        {m.completed === null || m.total === null ? t("migrationPending") : t("migrationCounts", { completed: m.completed, total: m.total })}
+                      </p>
                     </div>
                   ))}
                 </div>
                 <p className="mt-2 text-[10.5px] text-(--text-muted)">
-                  IMAP 동기화는 전환 후에도 7일간 유지되어 누락을 방지합니다.
+                  {t("migrationNotice")}
                 </p>
               </div>
             </div>
@@ -178,15 +183,15 @@ export default function OnboardingPage() {
 
         <div className="flex items-center justify-end gap-2">
           <Link href="/admin" className="h-9 rounded-lg border border-(--border-app) px-4 text-xs font-semibold leading-9">
-            나중에 계속하기
+            {t("continueLater")}
           </Link>
           <button
             type="button"
-            onClick={() => toast.info("계정 만들기 단계로 이동합니다")}
+            onClick={() => toast.info(t("nextNotice"))}
             className="h-9 rounded-lg px-4 text-xs font-semibold text-white"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
-            다음 · 계정 만들기
+            {t("next")}
           </button>
         </div>
       </div>

@@ -10,9 +10,7 @@ import { ThemeProvider } from "@/context/theme-context";
 import { MailProvider } from "@/context/mail-context";
 import { ToastProvider } from "@/context/toast-context";
 import { ToastStack } from "@/components/toast/ToastStack";
-import { UiTextLocalizer } from "@/components/i18n/UiTextLocalizer";
-import { UiMessagesProvider } from "@/components/i18n/UiMessagesProvider";
-import { FONT_OPTIONS, THEME_STORAGE_KEY } from "@/lib/theme-presets";
+import { DEFAULT_THEME, DENSITY_MAP, FONT_OPTIONS, RADIUS_MAP, THEME_STORAGE_KEY } from "@/lib/theme-presets";
 import { WorkspaceSidebarProvider } from "@/context/workspace-sidebar-context";
 import { WORKSPACE_SIDEBAR_COOKIE_NAME } from "@/lib/workspace-sidebar";
 import { SettingsProvider } from "@/context/settings-context";
@@ -22,12 +20,26 @@ const FONT_STACKS = Object.fromEntries(
   FONT_OPTIONS.map(({ value, stack }) => [value, stack])
 );
 
-const FONT_BOOTSTRAP_SCRIPT = `(() => {
+const THEME_BOOTSTRAP_SCRIPT = `(() => {
   try {
-    const stored = JSON.parse(window.localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)}) || "null");
+    const raw = window.localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});
+    if (!raw) return;
+    const stored = JSON.parse(raw);
+    if (!stored || typeof stored !== "object") return;
+    const theme = { ...${JSON.stringify(DEFAULT_THEME)}, ...stored };
+    const root = document.documentElement;
     const fontStacks = ${JSON.stringify(FONT_STACKS)};
-    const fontStack = stored && fontStacks[stored.fontFamily];
-    if (fontStack) document.documentElement.style.setProperty("--font-app", fontStack);
+    const radiusMap = ${JSON.stringify(RADIUS_MAP)};
+    const densityMap = ${JSON.stringify(DENSITY_MAP)};
+    if (typeof theme.primaryColor === "string") root.style.setProperty("--color-primary", theme.primaryColor);
+    if (typeof theme.accentColor === "string") root.style.setProperty("--color-accent", theme.accentColor);
+    if (fontStacks[theme.fontFamily]) root.style.setProperty("--font-app", fontStacks[theme.fontFamily]);
+    if (radiusMap[theme.radius]) root.style.setProperty("--radius-app", radiusMap[theme.radius]);
+    if (densityMap[theme.density]) root.style.setProperty("--density-preference-scale", densityMap[theme.density]);
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
+    root.classList.toggle("dark", theme.colorScheme === "dark" || (theme.colorScheme === "system" && prefersDark));
+    root.dataset.sidebarPosition = theme.sidebarPosition;
+    root.dataset.layoutStyle = theme.layoutStyle;
   } catch {}
 })();`;
 
@@ -72,7 +84,6 @@ export default async function RootLayout({
   // rendered further down the tree without re-reading the route param.
   setRequestLocale(locale);
   const [messages, cookieStore] = await Promise.all([getMessages(), cookies()]);
-  const uiMessages = (await import(`../../i18n/ui-messages/${locale}.json`)).default as Record<string, string>;
   const sidebarInitiallyCollapsed =
     cookieStore.get(WORKSPACE_SIDEBAR_COOKIE_NAME)?.value === "1";
 
@@ -80,12 +91,11 @@ export default async function RootLayout({
     <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
       <body className="h-full">
         <Script
-          id="gxmail-font-bootstrap"
+          id="gxmail-theme-bootstrap"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: FONT_BOOTSTRAP_SCRIPT }}
+          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
         />
-        <NextIntlClientProvider messages={messages}>
-          <UiMessagesProvider messages={uiMessages}>
+        <NextIntlClientProvider messages={messages} now={new Date()}>
             <ThemeProvider>
               <WorkspaceSidebarProvider
                 initialCollapsed={sidebarInitiallyCollapsed}
@@ -96,13 +106,11 @@ export default async function RootLayout({
                       {children}
                       <SettingsNavigationGuard />
                       <ToastStack />
-                      <UiTextLocalizer locale={locale} />
                     </ToastProvider>
                   </SettingsProvider>
                 </MailProvider>
               </WorkspaceSidebarProvider>
             </ThemeProvider>
-          </UiMessagesProvider>
         </NextIntlClientProvider>
       </body>
     </html>

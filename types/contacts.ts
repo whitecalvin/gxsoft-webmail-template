@@ -1,5 +1,6 @@
 // Shared shapes for the Contacts / Org Chart feature.
-export type ContactGroup = "외부 파트너" | "구매 담당" | "자문" | "개인";
+export type ContactGroup = "external" | "purchasing" | "advisor" | "personal";
+export type ContactFilter = "all" | "starred" | "external" | "purchasing";
 
 export interface Contact {
   id: string;
@@ -34,7 +35,7 @@ export interface OrgMember {
   phone: string;
   mobile: string;
   joined: string;
-  approvalLine: string;
+  approvalLine: "directorCeo" | "leadDirector";
   initials: string;
   bg: string;
   fg: string;
@@ -43,5 +44,5 @@ export interface OrgMember {
 
 export interface PersonMail {
   subject: string;
-  date: string;
+  date: string; // ISO calendar date
 }

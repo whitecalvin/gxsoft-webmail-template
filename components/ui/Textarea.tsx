@@ -26,14 +26,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         aria-invalid={Boolean(error) || undefined}
         aria-describedby={descriptionId}
         className={cn(
-          "min-h-24 w-full resize-y rounded-(--radius-app) border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-[border-color,box-shadow,background-color] placeholder:text-(--text-muted) focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/15 disabled:cursor-not-allowed disabled:bg-(--surface-muted) disabled:opacity-60",
-          error ? "border-(--status-danger)" : "border-(--border-app)",
+          "min-h-24 w-full resize-y rounded-(--radius-app) border bg-background px-3 py-2.5 text-base text-foreground outline-none transition-[border-color,box-shadow,background-color] motion-reduce:transition-none placeholder:text-(--text-muted) focus:ring-2 disabled:cursor-not-allowed disabled:bg-(--surface-muted) disabled:opacity-60 md:text-sm",
+          error ? "border-(--status-danger) focus:border-(--status-danger) focus:ring-(--status-danger)" : "border-(--border-app) focus:border-(--color-primary-ink) focus:ring-(--focus-ring)",
           className,
         )}
         {...props}
       />
       {error || hint ? (
-        <span id={descriptionId} className={cn("text-xs", error ? "text-(--status-danger)" : "text-(--text-muted)")}>
+        <span id={descriptionId} role={error ? "alert" : undefined} className={cn("text-xs", error ? "text-(--status-danger)" : "text-(--text-muted)")}>
           {error ?? hint}
         </span>
       ) : null}

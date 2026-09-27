@@ -13,16 +13,16 @@ import type { ConfirmTone } from "@/types/overlay";
 // (`requireTypedText`, e.g. the account email) before the confirm button
 // enables.
 const ICON_STYLE: Record<Exclude<ConfirmTone, "default">, string> = {
-  destructive: "bg-[#FBEAE8] text-[#C0433B]",
-  warning: "bg-[#FDF0E4] text-[#B4740F]",
-  alert: "bg-[#E9F3EC] text-[#2E8B5B]",
+  destructive: "bg-(--status-danger-bg) text-(--status-danger)",
+  warning: "bg-(--status-warning-bg) text-(--status-warning)",
+  alert: "bg-(--status-success-bg) text-(--status-success)",
 };
 
 const CONFIRM_BTN_STYLE: Record<ConfirmTone, string> = {
-  destructive: "bg-[#C0433B] text-white",
-  warning: "bg-[#B4740F] text-white",
+  destructive: "",
+  warning: "bg-(--status-warning-solid) text-white",
   default: "text-white",
-  alert: "bg-[#17181B] text-white",
+  alert: "bg-(--color-primary-solid) text-white",
 };
 
 interface ConfirmDialogProps {
@@ -96,7 +96,7 @@ export function ConfirmDialog({
             value={typed}
             onChange={(e) => setTyped(e.target.value)}
             placeholder={typedPlaceholder ?? requireTypedText}
-            autoFocus
+            data-modal-autofocus
             className="text-[12.5px]"
           />
         )}
@@ -135,7 +135,7 @@ export function ConfirmDialog({
               requireTypedText && !typedMatches
                 ? undefined
                 : tone === "default"
-                  ? { backgroundColor: "var(--color-primary)" }
+                  ? { backgroundColor: "var(--color-primary-solid)" }
                   : undefined
             }
           >

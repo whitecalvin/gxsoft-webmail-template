@@ -4,6 +4,7 @@
 // per-row and bulk actions (suspend, delete). All state is local/in-memory —
 // there is no backend, so refreshing the page resets it to ADMIN_USERS.
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { MoreHorizontal, Search } from "lucide-react";
 import { ADMIN_USERS } from "@/lib/mock-admin";
 import { AdminCard, ProgressBar } from "../primitives";
@@ -14,52 +15,66 @@ import { useToast } from "@/context/toast-context";
 
 type AdminUser = (typeof ADMIN_USERS)[number];
 
-// Filter option lists are derived from the mock data itself, prefixed with an
-// "all" choice, so they stay correct if the roster changes.
-const DEPT_OPTIONS = ["부서 전체", ...Array.from(new Set(ADMIN_USERS.map((u) => u.dept.split(" · ")[0])))];
-const ROLE_OPTIONS = ["권한 전체", ...Array.from(new Set(ADMIN_USERS.map((u) => u.role)))];
-const STATUS_OPTIONS = ["상태 전체", ...Array.from(new Set(ADMIN_USERS.map((u) => u.status)))];
+// Keep filter values independent of their translated labels.
+const DEPT_IDS = Array.from(new Set(ADMIN_USERS.map((u) => u.deptId)));
+const ROLE_IDS = Array.from(new Set(ADMIN_USERS.map((u) => u.role)));
+const STATUS_IDS = Array.from(new Set(ADMIN_USERS.map((u) => u.status)));
 
 const ROLE_STYLE: Record<string, string> = {
-  최고관리자: "bg-[#FBEAE8] text-[#C0433B]",
-  부서관리자: "bg-[#ECEFFE] text-[#2B4BF2]",
-  감사: "bg-[#EDEBF7] text-[#6B5CA8]",
-  API: "bg-[#F0F0EC] text-[#5C6068]",
-  일반: "bg-[#F7F7F5] text-[#6B6F77]",
+  superAdmin: "bg-[#FBEAE8] text-[#C0433B]",
+  departmentAdmin: "bg-[#ECEFFE] text-[#2B4BF2]",
+  auditor: "bg-[#EDEBF7] text-[#6B5CA8]",
+  api: "bg-[#F0F0EC] text-[#5C6068]",
+  member: "bg-[#F7F7F5] text-[#6B6F77]",
 };
 
 const STATUS_STYLE: Record<string, string> = {
-  활성: "bg-[#E9F3EC] text-[#2E8B5B]",
-  용량초과: "bg-[#FDF0E4] text-[#B4740F]",
-  정지: "bg-[#F0F0EC] text-[#8E9299]",
+  active: "bg-[#E9F3EC] text-[#2E8B5B]",
+  overQuota: "bg-[#FDF0E4] text-[#B4740F]",
+  suspended: "bg-[#F0F0EC] text-[#8E9299]",
 };
 
 export function UsersTab() {
+  const t = useTranslations("adminUsers");
+  const locale = useLocale();
   const toast = useToast();
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState(ADMIN_USERS);
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const [deletingUser, setDeletingUser] = useState<AdminUser | null>(null);
-  const [deptFilter, setDeptFilter] = useState("부서 전체");
-  const [roleFilter, setRoleFilter] = useState("권한 전체");
-  const [statusFilter, setStatusFilter] = useState("상태 전체");
+  const [deptFilter, setDeptFilter] = useState("all");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+  const relative = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  const quotaLabel = (user: AdminUser) => t("quotaValue", { used: number.format(user.quotaUsedGb), limit: number.format(user.quotaLimitGb) });
+  const lastSeenLabel = (minutes: number) => minutes === 0
+    ? t("justNow")
+    : minutes >= 1440
+      ? relative.format(-Math.round(minutes / 1440), "day")
+      : minutes >= 60
+        ? relative.format(-Math.round(minutes / 60), "hour")
+        : relative.format(-minutes, "minute");
+  const deptOptions = [{ value: "all", label: t("allDepartments") }, ...DEPT_IDS.map((id) => ({ value: id, label: t(`departments.${id}`) }))];
+  const roleOptions = [{ value: "all", label: t("allRoles") }, ...ROLE_IDS.map((id) => ({ value: id, label: t(`roles.${id}`) }))];
+  const statusOptions = [{ value: "all", label: t("allStatuses") }, ...STATUS_IDS.map((id) => ({ value: id, label: t(`statuses.${id}`) }))];
 
   const filtered = users.filter(
     (u) =>
-      (!query || u.name.includes(query) || u.email.toLowerCase().includes(query.toLowerCase())) &&
-      (deptFilter === "부서 전체" || u.dept.startsWith(deptFilter)) &&
-      (roleFilter === "권한 전체" || u.role === roleFilter) &&
-      (statusFilter === "상태 전체" || u.status === statusFilter)
+      (!query || u.name.includes(query) || u.email.toLowerCase().includes(query.toLowerCase()) || t(`departments.${u.deptId}`).toLowerCase().includes(query.toLowerCase())) &&
+      (deptFilter === "all" || u.deptId === deptFilter) &&
+      (roleFilter === "all" || u.role === roleFilter) &&
+      (statusFilter === "all" || u.status === statusFilter)
   );
 
   const toggleSuspend = (u: AdminUser) => {
-    const suspending = u.status !== "정지";
+    const suspending = u.status !== "suspended";
     setUsers((prev) =>
-      prev.map((row) => (row.email === u.email ? { ...row, status: suspending ? "정지" : "활성" } : row))
+      prev.map((row) => (row.email === u.email ? { ...row, status: suspending ? "suspended" : "active" } : row))
     );
     setMenuFor(null);
-    toast.success(suspending ? "계정을 정지했습니다" : "계정 정지를 해제했습니다", { sub: u.name });
+    toast.success(t(suspending ? "suspendedToast" : "resumedToast"), { sub: u.name });
   };
 
   const toggleSelect = (email: string) =>
@@ -82,8 +97,8 @@ export function UsersTab() {
     });
 
   const bulkSuspend = () => {
-    setUsers((prev) => prev.map((row) => (selected.has(row.email) ? { ...row, status: "정지" } : row)));
-    toast.success(`${selected.size}개 계정을 정지했습니다`);
+    setUsers((prev) => prev.map((row) => (selected.has(row.email) ? { ...row, status: "suspended" } : row)));
+    toast.success(t("bulkSuspendedToast", { count: selected.size }));
     setSelected(new Set());
   };
 
@@ -97,49 +112,49 @@ export function UsersTab() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="이름 · 계정 · 부서 검색"
+              placeholder={t("searchPlaceholder")}
+              aria-label={t("searchPlaceholder")}
               className="h-8 w-70 rounded-lg bg-black/4 pl-7 pr-2.5 text-xs outline-none dark:bg-white/6"
             />
           </div>
-          <Dropdown value={deptFilter} options={DEPT_OPTIONS} onChange={setDeptFilter} />
-          <Dropdown value={roleFilter} options={ROLE_OPTIONS} onChange={setRoleFilter} />
-          <Dropdown value={statusFilter} options={STATUS_OPTIONS} onChange={setStatusFilter} />
+          <Dropdown value={deptFilter} label={t("departmentFilter")} options={deptOptions} onChange={setDeptFilter} />
+          <Dropdown value={roleFilter} label={t("roleFilter")} options={roleOptions} onChange={setRoleFilter} />
+          <Dropdown value={statusFilter} label={t("statusFilter")} options={statusOptions} onChange={setStatusFilter} />
           {selected.size > 0 ? (
             // Bulk-action bar replaces the summary text while a selection is active.
             <span className="ml-auto flex items-center gap-2 text-xs">
-              <strong className="text-foreground">{selected.size}명</strong> 선택됨
+              <strong className="text-foreground">{t("selectedCount", { count: selected.size })}</strong>
               <button
                 type="button"
                 onClick={bulkSuspend}
                 className="h-7 rounded-lg border border-(--border-app) px-2.5 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/10"
               >
-                일괄 정지
+                {t("bulkSuspend")}
               </button>
               <button
                 type="button"
                 onClick={() => setSelected(new Set())}
                 className="h-7 rounded-lg px-2.5 text-xs font-semibold text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10"
               >
-                선택 해제
+                {t("clearSelection")}
               </button>
             </span>
           ) : (
             <span className="ml-auto text-xs text-(--text-muted)">
-              총 <strong className="text-foreground">{filtered.length.toLocaleString()}</strong>개 계정 ·{" "}
-              {filtered.filter((u) => u.status === "정지").length} 정지
+              {t("summary", { total: filtered.length, suspended: filtered.filter((u) => u.status === "suspended").length })}
             </span>
           )}
         </div>
 
         <div className="overflow-hidden rounded-lg border border-(--border-app)">
           <div className="grid grid-cols-[28px_2.2fr_1.3fr_1fr_1.1fr_1fr_90px_28px] gap-2 border-b border-(--border-app) bg-black/2 px-3 py-2 text-[10.5px] font-bold uppercase tracking-[.03em] text-(--text-muted) dark:bg-white/3">
-            <Checkbox checked={allFilteredSelected} onChange={toggleSelectAll} label="전체 선택" />
-            <span>사용자</span>
-            <span>부서 · 직위</span>
-            <span>권한</span>
-            <span>용량</span>
-            <span>마지막 접속</span>
-            <span>상태</span>
+            <Checkbox checked={allFilteredSelected} onChange={toggleSelectAll} label={t("selectAll")} />
+            <span>{t("columns.user")}</span>
+            <span>{t("columns.department")}</span>
+            <span>{t("columns.role")}</span>
+            <span>{t("columns.quota")}</span>
+            <span>{t("columns.lastSeen")}</span>
+            <span>{t("columns.status")}</span>
             <span />
           </div>
           {filtered.map((u) => (
@@ -147,7 +162,7 @@ export function UsersTab() {
               key={u.email}
               className="group relative grid grid-cols-[28px_2.2fr_1.3fr_1fr_1.1fr_1fr_90px_28px] items-center gap-2 border-b border-(--border-app) px-3 py-2.5 text-xs last:border-b-0 hover:bg-black/1.5 dark:hover:bg-white/2"
             >
-              <Checkbox checked={selected.has(u.email)} onChange={() => toggleSelect(u.email)} label={`${u.name} 선택`} />
+              <Checkbox checked={selected.has(u.email)} onChange={() => toggleSelect(u.email)} label={t("selectUser", { name: u.name })} />
               <div className="flex min-w-0 items-center gap-2">
                 <span
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
@@ -160,24 +175,24 @@ export function UsersTab() {
                   <p className="truncate text-[10.5px] text-(--text-muted)">{u.email}</p>
                 </div>
               </div>
-              <span className="truncate text-(--text-muted)">{u.dept}</span>
+              <span className="truncate text-(--text-muted)">{t(`departments.${u.deptId}`)} · {t(`positions.${u.positionId}`)}</span>
               <span>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${ROLE_STYLE[u.role]}`}>
-                  {u.role}
+                  {t(`roles.${u.role}`)}
                 </span>
               </span>
               <div className="min-w-0">
-                <p className="truncate text-[11px]">{u.quota}</p>
+                <p className="truncate text-[11px]">{quotaLabel(u)}</p>
                 <ProgressBar
                   pct={u.pct}
                   height={4}
                   color={u.pct > 85 ? "#C0433B" : u.pct > 60 ? "#E0AC4A" : "#2B4BF2"}
                 />
               </div>
-              <span className="text-(--text-muted)">{u.last}</span>
+              <span className="text-(--text-muted)">{lastSeenLabel(u.lastSeenMinutes)}</span>
               <span>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_STYLE[u.status]}`}>
-                  {u.status}
+                  {t(`statuses.${u.status}`)}
                 </span>
               </span>
               <div className="relative flex justify-end">
@@ -185,7 +200,7 @@ export function UsersTab() {
                   type="button"
                   onClick={() => setMenuFor((v) => (v === u.email ? null : u.email))}
                   className="flex h-6 w-6 items-center justify-center rounded-md text-(--text-muted) opacity-0 transition hover:bg-black/5 group-hover:opacity-100 dark:hover:bg-white/10"
-                  aria-label="더 보기"
+                  aria-label={t("moreActions")}
                 >
                   <MoreHorizontal size={14} />
                 </button>
@@ -198,7 +213,7 @@ export function UsersTab() {
                         onClick={() => toggleSuspend(u)}
                         className="flex w-full items-center px-3 py-2 text-left text-xs hover:bg-black/5 dark:hover:bg-white/5"
                       >
-                        {u.status === "정지" ? "정지 해제" : "계정 정지"}
+                        {t(u.status === "suspended" ? "resumeAccount" : "suspendAccount")}
                       </button>
                       <button
                         type="button"
@@ -208,7 +223,7 @@ export function UsersTab() {
                         }}
                         className="flex w-full items-center px-3 py-2 text-left text-xs text-[#C0433B] hover:bg-black/5 dark:hover:bg-white/5"
                       >
-                        계정 삭제
+                        {t("deleteAccount")}
                       </button>
                     </div>
                   </>
@@ -222,14 +237,14 @@ export function UsersTab() {
       {deletingUser && (
         <ConfirmDialog
           tone="destructive"
-          title={`${deletingUser.name} 계정을 삭제할까요?`}
-          description={`메일함과 첨부파일 전체(${deletingUser.quota})가 함께 삭제됩니다. 확인을 위해 이메일 주소를 입력하세요.`}
-          confirmLabel="계정 삭제"
+          title={t("deleteTitle", { name: deletingUser.name })}
+          description={t("deleteDescription", { quota: quotaLabel(deletingUser) })}
+          confirmLabel={t("deleteAccount")}
           requireTypedText={deletingUser.email}
           onCancel={() => setDeletingUser(null)}
           onConfirm={() => {
             setUsers((prev) => prev.filter((row) => row.email !== deletingUser.email));
-            toast.success("계정이 삭제되었습니다", { sub: deletingUser.name });
+            toast.success(t("deletedToast"), { sub: deletingUser.name });
             setDeletingUser(null);
           }}
         />

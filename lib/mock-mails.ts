@@ -5,12 +5,12 @@ import { CURRENT_USER } from "@/lib/current-user";
 // MailProvider (context/mail-context.tsx) copies this into React state, so
 // edits here only affect what a fresh page load starts with.
 export const FOLDERS: Folder[] = [
-  { id: "inbox", label: "받은편지함" },
-  { id: "drafts", label: "임시보관함" },
-  { id: "sent", label: "보낸편지함" },
-  { id: "archive", label: "보관함" },
-  { id: "spam", label: "스팸" },
-  { id: "trash", label: "휴지통" },
+  { id: "inbox" },
+  { id: "drafts" },
+  { id: "sent" },
+  { id: "archive" },
+  { id: "spam" },
+  { id: "trash" },
 ];
 
 export const MOCK_EMAILS: Email[] = [
@@ -29,22 +29,22 @@ export const MOCK_EMAILS: Email[] = [
     unread: true,
     starred: false,
     invite: {
-      dateLabel: { month: "9월", day: "11", weekday: "금요일" },
-      when: "2026년 9월 11일 (금) 14:00 – 15:30 · KST",
+      startsAt: "2026-09-11T14:00:00+09:00",
+      endsAt: "2026-09-11T15:30:00+09:00",
       where: "본사 12층 아틀라스룸 · Meet 링크 포함",
       organizer: "최민서 (플랫폼개발팀)",
       recurrence: "격주 금요일 · 12월 19일까지",
       conflict: "재무팀 정기 회의 (14:00–15:00)",
       attendees: [
-        { name: "최민서", team: "플랫폼개발팀", state: "참석", isHost: true },
-        { name: "한지우", team: "전략기획팀 · 나", state: "미정" },
-        { name: "박서준", team: "인프라팀", state: "참석" },
-        { name: "이수민", team: "재무팀", state: "참석" },
-        { name: "강태윤", team: "QA팀", state: "참석" },
-        { name: "윤재호", team: "영업팀", state: "불참" },
-        { name: "오세린", team: "대표이사실", state: "응답 없음" },
-        { name: "배수아", team: "브랜드팀", state: "응답 없음" },
-        { name: "Alex Meyer", team: "Global Partnerships", state: "응답 없음" },
+        { name: "최민서", team: "플랫폼개발팀", state: "accept", isHost: true },
+        { name: "한지우", team: "전략기획팀 · 나", state: "tentative" },
+        { name: "박서준", team: "인프라팀", state: "accept" },
+        { name: "이수민", team: "재무팀", state: "accept" },
+        { name: "강태윤", team: "QA팀", state: "accept" },
+        { name: "윤재호", team: "영업팀", state: "decline" },
+        { name: "오세린", team: "대표이사실", state: "noResponse" },
+        { name: "배수아", team: "브랜드팀", state: "noResponse" },
+        { name: "Alex Meyer", team: "Global Partnerships", state: "noResponse" },
       ],
     },
   },

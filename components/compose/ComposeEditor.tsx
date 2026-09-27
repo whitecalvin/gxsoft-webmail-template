@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useTranslations } from "next-intl";
 import { Bold, Image as ImageIcon, Italic, Link2, List, Smile, Type } from "lucide-react";
 import { useToast } from "@/context/toast-context";
 
@@ -36,19 +37,21 @@ function escapeHtml(s: string) {
 }
 
 export function ComposeEditor({ value, onChange, placeholder, onImageAttach }: ComposeEditorProps) {
+  const t = useTranslations("composeEditor");
   const toast = useToast();
   const [mode, setMode] = useState<ComposeEditorMode>("plain");
   const [emojiOpen, setEmojiOpen] = useState(false);
   const plainRef = useRef<HTMLTextAreaElement>(null);
   const richRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const emojiButtonRef = useRef<HTMLButtonElement>(null);
 
   const switchMode = (next: ComposeEditorMode) => {
     if (next === mode) return;
     // Switching to plain text is lossy — rich formatting has no plain-text
     // equivalent, so warn before discarding it.
     if (next === "plain" && mode === "rich") {
-      toast.info("일반 텍스트로 전환합니다", { sub: "굵게 · 목록 등 서식은 사라집니다" });
+      toast.info(t("switchingToPlain"), { sub: t("formattingWillBeLost") });
     }
     setMode(next);
     requestAnimationFrame(() => {
@@ -139,7 +142,7 @@ export function ComposeEditor({ value, onChange, placeholder, onImageAttach }: C
       reader.readAsDataURL(file);
     } else {
       onImageAttach?.(file);
-      toast.info("이미지가 첨부파일로 추가됩니다", { sub: file.name });
+      toast.info(t("imageAddedAsAttachment"), { sub: file.name });
     }
   };
 
@@ -150,7 +153,7 @@ export function ComposeEditor({ value, onChange, placeholder, onImageAttach }: C
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  const toolbarBtn = "rounded-lg p-1.5 text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10";
+  const toolbarBtn = "flex size-11 shrink-0 items-center justify-center rounded-lg text-(--text-muted) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:size-auto sm:p-1.5";
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -158,48 +161,59 @@ export function ComposeEditor({ value, onChange, placeholder, onImageAttach }: C
         <button
           type="button"
           onClick={() => switchMode(mode === "plain" ? "rich" : "plain")}
-          className="mr-1 flex items-center gap-1.5 rounded-lg px-2 py-1 text-[11px] font-semibold text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/10"
-          title={mode === "plain" ? "서식 있는 텍스트로 전환" : "일반 텍스트로 전환"}
+          className="flex size-11 shrink-0 items-center justify-center rounded-lg text-[11px] font-semibold text-(--text-muted) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:mr-1 sm:h-auto sm:w-auto sm:gap-1.5 sm:px-2 sm:py-1"
+          aria-label={mode === "plain" ? t("switchToRich") : t("switchToPlain")}
+          title={mode === "plain" ? t("switchToRich") : t("switchToPlain")}
         >
           <Type size={13} />
-          {mode === "plain" ? "일반 텍스트" : "서식 있는 텍스트"}
+          <span className="hidden sm:inline">{mode === "plain" ? t("plainText") : t("richText")}</span>
         </button>
-        <span className="mx-1 h-4 w-px bg-(--border-app)" />
-        <button type="button" onClick={handleBold} className={toolbarBtn} aria-label="굵게" title="굵게">
+        <span className="mx-1 hidden h-4 w-px bg-(--border-app) sm:block" />
+        <button type="button" onClick={handleBold} className={toolbarBtn} aria-label={t("bold")} title={t("bold")}>
           <Bold size={14} />
         </button>
-        <button type="button" onClick={handleItalic} className={toolbarBtn} aria-label="기울임" title="기울임">
+        <button type="button" onClick={handleItalic} className={toolbarBtn} aria-label={t("italic")} title={t("italic")}>
           <Italic size={14} />
         </button>
-        <button type="button" onClick={handleList} className={toolbarBtn} aria-label="목록" title="목록">
+        <button type="button" onClick={handleList} className={toolbarBtn} aria-label={t("list")} title={t("list")}>
           <List size={14} />
         </button>
-        <button type="button" onClick={handleLink} className={toolbarBtn} aria-label="링크 삽입" title="링크 삽입">
+        <button type="button" onClick={handleLink} className={toolbarBtn} aria-label={t("insertLink")} title={t("insertLink")}>
           <Link2 size={14} />
         </button>
         <button
           type="button"
           onClick={() => imageInputRef.current?.click()}
           className={toolbarBtn}
-          aria-label="이미지 삽입"
-          title="이미지 삽입"
+          aria-label={t("insertImage")}
+          title={t("insertImage")}
         >
           <ImageIcon size={14} />
         </button>
-        <div className="relative">
-          <button type="button" onClick={() => setEmojiOpen((v) => !v)} className={toolbarBtn} aria-label="이모지" title="이모지">
+        <div
+          className="relative"
+          onKeyDown={(event) => {
+            if (emojiOpen && event.key === "Escape") {
+              event.preventDefault();
+              event.stopPropagation();
+              setEmojiOpen(false);
+              emojiButtonRef.current?.focus();
+            }
+          }}
+        >
+          <button ref={emojiButtonRef} type="button" onClick={() => setEmojiOpen((v) => !v)} className={toolbarBtn} aria-label={t("emoji")} aria-haspopup="true" aria-expanded={emojiOpen} title={t("emoji")}>
             <Smile size={14} />
           </button>
           {emojiOpen && (
             <>
-              <div className="fixed inset-0 z-40" onClick={() => setEmojiOpen(false)} />
-              <div className="absolute top-full left-0 z-50 mt-1 grid grid-cols-4 gap-1 rounded-[10px] border border-(--border-app) bg-background p-2 shadow-xl">
+              <button type="button" tabIndex={-1} aria-label={t("closeEmojiMenu")} className="fixed inset-0 z-(--layer-popover-backdrop) cursor-default" onClick={() => { setEmojiOpen(false); emojiButtonRef.current?.focus(); }} />
+              <div role="group" aria-label={t("chooseEmoji")} className="absolute top-full right-0 z-(--layer-popover) mt-1 grid w-52 grid-cols-4 gap-1 rounded-[10px] border border-(--border-app) bg-background p-2 shadow-xl sm:right-auto sm:left-0 sm:w-40">
                 {EMOJI_OPTIONS.map((em) => (
                   <button
                     key={em}
                     type="button"
                     onClick={() => handleEmoji(em)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10"
+                    className="flex size-11 items-center justify-center rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 sm:size-8"
                   >
                     {em}
                   </button>
@@ -214,19 +228,23 @@ export function ComposeEditor({ value, onChange, placeholder, onImageAttach }: C
       {mode === "plain" ? (
         <textarea
           ref={plainRef}
+          aria-label={t("messageBody")}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="min-h-35 flex-1 resize-none px-4 py-3 text-sm leading-relaxed outline-none placeholder:text-[#B0B4BA]"
+          className="min-h-35 flex-1 resize-none px-4 py-3 text-base leading-relaxed outline-none placeholder:text-(--text-muted) md:text-sm"
         />
       ) : (
         <div
           ref={richRef}
           contentEditable
+          role="textbox"
+          aria-label={t("messageBody")}
+          aria-multiline="true"
           suppressContentEditableWarning
           onInput={() => onChange(richRef.current?.innerText ?? "")}
           data-placeholder={placeholder}
-          className="compose-rich-editor min-h-35 flex-1 overflow-y-auto px-4 py-3 text-sm leading-relaxed outline-none empty:before:text-[#B0B4BA] empty:before:content-[attr(data-placeholder)]"
+          className="compose-rich-editor min-h-35 flex-1 overflow-y-auto px-4 py-3 text-base leading-relaxed outline-none empty:before:text-(--text-muted) empty:before:content-[attr(data-placeholder)] md:text-sm"
         />
       )}
     </div>

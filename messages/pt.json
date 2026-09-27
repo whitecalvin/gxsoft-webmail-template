@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "Abrir menu",
     "searchPlaceholder": "Pesquisar e-mails",
+    "closeSearch": "Fechar pesquisa",
     "clearSearch": "Limpar pesquisa",
     "tour": "Iniciar tour",
     "notifications": "Notificações"
@@ -41,6 +42,8 @@
     "trash": "Lixeira"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "Ir para o conteúdo",
     "navigation": "Navegação do espaço de trabalho",
     "mailboxGroup": "Caixas de correio",
     "collaborationGroup": "Colaboração",
@@ -75,6 +78,8 @@
     "sessionExtend": "Continuar conectado"
   },
   "mailList": {
+    "noSubject": "(Sem assunto)",
+    "yesterday": "Ontem",
     "searchResultsFor": "Resultados para “{query}”",
     "countUnit": "{count}",
     "noSearchResults": "Nenhum resultado encontrado.",
@@ -119,11 +124,13 @@
     "delete": "Excluir",
     "edit": "Editar",
     "close": "Fechar",
+    "undo": "desfazer",
     "back": "Voltar",
     "deleteForever": "Excluir definitivamente",
     "sendAnyway": "Enviar mesmo assim"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "Voltar ao correio",
     "title": "Caixas compartilhadas",
     "summary": "Caixas gerenciadas {mailboxes} · Agendados {scheduled} · Modelos {templates}",
@@ -185,5 +192,3157 @@
     "runAction": "Executar",
     "expiryPrefix": "Este link ",
     "expirySuffix": "."
+  },
+  "settingsSystem": {
+    "title": "configurações",
+    "navigationLabel": "Menu de configurações",
+    "groups": {
+      "general": "geral",
+      "mail": "correio",
+      "management": "Gestão de e-mail",
+      "account": "conta"
+    },
+    "nav": {
+      "locale": "Idioma e região",
+      "theme": "Tema e aparência",
+      "accessibility": "acessibilidade",
+      "signature": "Composição e assinaturas",
+      "inbox-display": "Caixa de entrada e leitura",
+      "sending": "Envio e respostas",
+      "away": "Resposta automática fora do escritório",
+      "notifications": "notificação",
+      "labels": "etiqueta",
+      "filters": "Filtros e classificação automática",
+      "blocked-senders": "Remetentes bloqueados",
+      "account": "Conta e endereços de remetente",
+      "security": "Segurança e login",
+      "integrations": "Integrações",
+      "shortcuts": "tecla de atalho"
+    },
+    "unsaved": {
+      "title": "Você tem alterações não salvas",
+      "description": "Suas alterações serão perdidas se você sair desta página.",
+      "leave": "Descartar alterações",
+      "stay": "Continuar editando"
+    },
+    "common": {
+      "save": "salvar",
+      "cancel": "Cancelar",
+      "reset": "Restaurar padrões",
+      "saved": "Salvo",
+      "unsaved": "Alterações não salvas",
+      "savedToast": "Configurações salvas",
+      "all": "tudo",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "preview": "Prévia",
+      "done": "feito",
+      "settings": "configurações",
+      "current": "dispositivo atual",
+      "connected": "conectado",
+      "disconnected": "Desconectado",
+      "syncFailed": "Falha na sincronização",
+      "neverSynced": "Nunca sincronizado",
+      "lastSync": "Última sincronização: {value}",
+      "lastActive": "Última atividade: {value}",
+      "passwordChanged": "Última alteração: {value}",
+      "messageCount": "{count} mensagens",
+      "remainingCount": "{count} restantes"
+    },
+    "empty": {
+      "items": "Nenhum item para exibir"
+    },
+    "descriptions": {
+      "locale": "Gerencie idioma, data e fuso horário exibidos nas mensagens.",
+      "theme": "Configure o tema e o layout do espaço de trabalho.",
+      "accessibility": "Ajuste a legibilidade, o teclado e as preferências de tecnologia assistiva.",
+      "signature": "Gerencie informações do remetente, assinaturas e padrões de composição.",
+      "signatureList": "Escolha assinaturas para novas mensagens e respostas.",
+      "inbox": "Configure como a lista de mensagens e a visualização de leitura são exibidas.",
+      "sending": "Defina os padrões de respostas, citações, salvamento automático e envio.",
+      "away": "Configure respostas automáticas para um período especificado.",
+      "notifications": "Configure notificações por tipo de mensagem e canal.",
+      "labels": "Crie marcadores para organizar mensagens e gerencie sua ordem.",
+      "filters": "Organize e processe automaticamente as mensagens que correspondem às condições.",
+      "blockedSenders": "Gerencie endereços de e-mail e domínios bloqueados.",
+      "account": "Gerencie o nome de exibição, o endereço de resposta e os aliases de remetente.",
+      "security": "Gerencie a autenticação de dois fatores e os dispositivos conectados.",
+      "twoFactor": "Proteja sua conta com uma etapa adicional de verificação ao entrar.",
+      "integrations": "Gerencie conexões com calendário, aprovações e serviços externos.",
+      "shortcuts": "Ative os atalhos de teclado e personalize suas teclas."
+    },
+    "sections": {
+      "languageRegion": "Formatos de idioma e região",
+      "themePreset": "tema de design",
+      "appearance": "Aparência",
+      "readability": "Leitura e navegação",
+      "senderDefaults": "Padrão de saída",
+      "signatures": "assinatura",
+      "inboxLayout": "Lista e visualização de leitura",
+      "replyDefaults": "Padrões de composição e resposta",
+      "awaySchedule": "Agenda e mensagens de resposta automática",
+      "notificationChannels": "Canais de notificação",
+      "notificationRules": "Notificações por tipo de mensagem",
+      "quietHours": "Horário silencioso",
+      "labels": "Lista de marcadores",
+      "filters": "Regras de filtro",
+      "blockedSenders": "Lista de bloqueio",
+      "accountIdentity": "Informações da conta",
+      "aliases": "Aliases de remetente",
+      "authentication": "Certificação",
+      "sessions": "Dispositivo conectado",
+      "recentActivity": "Atividade de login recente",
+      "integrations": "Lista de integrações",
+      "shortcuts": "Lista de atalhos"
+    },
+    "fields": {
+      "displayLanguage": "idioma de exibição",
+      "timezone": "fuso horário",
+      "dateFormat": "Formato de data",
+      "timeFormat": "Formato de hora",
+      "weekStart": "data de início da semana",
+      "colorScheme": "modo de tela",
+      "density": "densidade da lista",
+      "radius": "Estilo dos cantos",
+      "sidebarPosition": "Localização da barra lateral",
+      "sidebarCollapsed": "Iniciar com a barra lateral recolhida",
+      "fontScale": "Tamanho do texto",
+      "highContrast": "Modo de alto contraste",
+      "reduceMotion": "Reduzir movimento",
+      "enhancedFocus": "Indicadores de foco aprimorados",
+      "screenReaderDetails": "Descrições detalhadas para leitor de tela",
+      "keyboardNavigation": "Assistência à navegação por teclado",
+      "senderName": "nome de envio",
+      "senderAddress": "endereço de envio padrão",
+      "defaultFont": "Fonte padrão",
+      "undoSend": "Período para desfazer o envio",
+      "defaultSignature": "Assinatura padrão",
+      "signatureOnNew": "Usar assinatura em novas mensagens",
+      "signatureOnReply": "Usar assinatura em respostas e encaminhamentos",
+      "signatureName": "Nome da assinatura",
+      "signatureContent": "Conteúdo da assinatura",
+      "previewPane": "Painel de visualização",
+      "conversationView": "Visualização por conversa",
+      "markRead": "Quando marcar como lida",
+      "remoteImages": "Imagens remotas",
+      "pageSize": "Mensagens por página",
+      "mailDateFormat": "Exibição da data da mensagem",
+      "unreadStyle": "Destacar mensagens não lidas",
+      "defaultReply": "Ação de resposta padrão",
+      "quoteStyle": "Estilo de citação",
+      "requestReceipt": "Solicitar confirmação de leitura",
+      "scheduleDefault": "Envio programado padrão",
+      "autosaveSeconds": "Intervalo de salvamento automático",
+      "composeMode": "Formato de composição",
+      "defaultCc": "Cc padrão",
+      "defaultBcc": "Cco padrão",
+      "awayEnabled": "Ativar resposta de ausência",
+      "startDate": "Data de início",
+      "endDate": "Data de término",
+      "subject": "título",
+      "internalMessage": "Mensagem para usuários internos",
+      "externalMessage": "Mensagem para usuários externos",
+      "contactsOnly": "Responder externamente apenas aos contatos",
+      "browserNotifications": "Notificações do navegador",
+      "emailNotifications": "Notificações de resumo por e-mail",
+      "notificationSound": "Som de notificação",
+      "quietStart": "Hora de início",
+      "quietEnd": "Hora de término",
+      "weekendNotifications": "Notificar também nos fins de semana",
+      "labelVisible": "Mostrar na lista de mensagens",
+      "labelName": "nome do rótulo",
+      "labelColor": "Cor do marcador",
+      "filterEnabled": "Ativar filtro",
+      "filterName": "Nome do filtro",
+      "condition": "condição",
+      "conditionValue": "Valor da condição",
+      "action": "ação",
+      "actionValue": "Valor da ação",
+      "senderOrDomain": "Endereço de e-mail ou domínio",
+      "displayName": "Nome de exibição",
+      "primaryEmail": "E-mail principal",
+      "replyTo": "Endereço de resposta",
+      "newAlias": "Novo alias de remetente",
+      "twoFactor": "Verificação em duas etapas",
+      "backupCodes": "Códigos de backup",
+      "password": "senha",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar nova senha",
+      "autoSync": "Sincronização automática",
+      "shortcutsEnabled": "Ativar atalhos de teclado"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "Seul (GMT+9)",
+        "Asia_Tokyo": "Tóquio (GMT+9)",
+        "Asia_Shanghai": "Xangai (GMT+8)",
+        "Europe_London": "Londres",
+        "America_New_York": "Nova York",
+        "America_Los_Angeles": "Los Angeles"
+      },
+      "dateFormat": {
+        "locale": "Formato regional",
+        "iso": "Ano-mês-dia",
+        "long": "Data completa"
+      },
+      "timeFormat": {
+        "12": "12 horas",
+        "24": "24 horas"
+      },
+      "weekStart": {
+        "sunday": "Domingo",
+        "monday": "segunda-feira"
+      },
+      "colorScheme": {
+        "light": "luz",
+        "dark": "escuro",
+        "system": "sistema"
+      },
+      "density": {
+        "comfortable": "vagaroso",
+        "compact": "compressão"
+      },
+      "radius": {
+        "sharp": "Angular",
+        "rounded": "redondo",
+        "pill": "tipo de pílula"
+      },
+      "sidebarPosition": {
+        "left": "esquerda",
+        "right": "certo"
+      },
+      "font": {
+        "sans": "Sem serifa",
+        "serif": "serifa",
+        "mono": "Monoespaçada"
+      },
+      "seconds": "{value} segundos",
+      "previewPane": {
+        "right": "certo",
+        "bottom": "Embaixo",
+        "off": "Desativado"
+      },
+      "markRead": {
+        "immediate": "imediatamente",
+        "2seconds": "Após 2 segundos",
+        "manual": "Manual"
+      },
+      "remoteImages": {
+        "always": "Sempre mostrar",
+        "contacts": "Mostrar apenas para contatos",
+        "never": "Nunca mostrar"
+      },
+      "pageSize": {
+        "25": "25 itens",
+        "50": "50 itens",
+        "100": "100 itens"
+      },
+      "mailDateFormat": {
+        "relative": "Data relativa",
+        "short": "Data curta",
+        "full": "Data completa"
+      },
+      "unreadStyle": {
+        "bold": "Ousado",
+        "highlight": "Destaque de fundo",
+        "dot": "Ponto indicador"
+      },
+      "defaultReply": {
+        "reply": "Responder",
+        "replyAll": "Responder a todos"
+      },
+      "quoteStyle": {
+        "inline": "Citação incorporada",
+        "below": "Mensagem original abaixo da resposta",
+        "none": "Excluir mensagem original"
+      },
+      "scheduleDefault": {
+        "off": "Desativado",
+        "nextMorning": "Na manhã seguinte",
+        "custom": "Manter última configuração"
+      },
+      "autosaveSeconds": {
+        "15": "15 segundos",
+        "30": "30 segundos",
+        "60": "1 minuto"
+      },
+      "composeMode": {
+        "html": "Texto formatado",
+        "plain": "texto simples"
+      },
+      "notificationMode": {
+        "instant": "Notificação instantânea",
+        "digest": "Resumo de 1 hora",
+        "off": "Nenhuma notificação"
+      },
+      "filterField": {
+        "from": "Remetente",
+        "to": "destinatário",
+        "subject": "título",
+        "body": "Corpo da mensagem",
+        "attachment": "anexo",
+        "size": "Tamanho da mensagem"
+      },
+      "filterAction": {
+        "move": "Mover para pasta",
+        "label": "Aplicar marcador",
+        "star": "sinal importante",
+        "read": "Marcar como lida",
+        "forward": "passar adiante",
+        "delete": "Excluir"
+      },
+      "senderType": {
+        "email": "e-mail",
+        "domain": "domínio"
+      }
+    },
+    "notificationTypes": {
+      "important": "correio importante",
+      "general": "correio normal",
+      "approval": "Solicitações de aprovação",
+      "mention": "Mencionar",
+      "shared": "Caixas compartilhadas"
+    },
+    "actions": {
+      "addSignature": "Adicionar assinatura",
+      "editSignature": "Editar assinatura",
+      "addLabel": "Adicionar marcador",
+      "editLabel": "Editar marcador",
+      "moveUp": "Mover para cima",
+      "moveDown": "Mover para baixo",
+      "addFilter": "Adicionar filtro",
+      "editFilter": "Editar filtro",
+      "test": "Testar",
+      "search": "pesquisar",
+      "block": "bloquear",
+      "unblock": "Desbloquear",
+      "add": "Adicionar",
+      "regenerate": "Reeditar",
+      "changePassword": "Alterar senha",
+      "logoutOthers": "Encerrar sessão em todos os outros dispositivos",
+      "logout": "sair",
+      "sync": "Sincronizar",
+      "connect": "conexão",
+      "disconnect": "Desconectar",
+      "testNotification": "Notificação de teste",
+      "viewShortcutReference": "Ver todos os atalhos"
+    },
+    "errors": {
+      "dateRange": "A data de término deve ser posterior à data de início.",
+      "duplicateLabel": "Já existe um marcador com este nome.",
+      "invalidSender": "Insira um endereço de e-mail ou domínio válido.",
+      "duplicateSender": "Este endereço já está bloqueado.",
+      "invalidEmail": "Insira um endereço de e-mail válido.",
+      "requiredName": "Insira um nome de exibição.",
+      "duplicateAlias": "Este endereço de remetente já está registrado.",
+      "shortcutConflict": "Entra em conflito com o atalho {action}.",
+      "passwordRequired": "Insira sua senha atual.",
+      "passwordLength": "A nova senha deve ter pelo menos 8 caracteres.",
+      "passwordMismatch": "As novas senhas não coincidem."
+    },
+    "preview": {
+      "unreadSubject": "Assunto de mensagens não lidas",
+      "unreadBody": "Visualize aqui as configurações de exibição da lista.",
+      "conversationCount": "{count} mensagens na conversa"
+    },
+    "confirm": {
+      "deleteSignature": "Excluir esta assinatura?",
+      "deleteLabel": "Excluir este marcador?",
+      "deleteFilter": "Excluir este filtro?",
+      "deleteAlias": "Excluir este alias de remetente?",
+      "unblockSender": "Desbloquear este remetente?",
+      "disconnect": "Desconectar este serviço?",
+      "codes": "Gerar novos códigos de backup?",
+      "all": "Sair de todos os outros dispositivos?",
+      "session": "Sair deste dispositivo?"
+    },
+    "toast": {
+      "labelDeleted": "Marcador excluído",
+      "filterDeleted": "Filtro excluído",
+      "filterMatched": "A mensagem de teste corresponde às condições do filtro",
+      "aliasDeleted": "Alias de remetente excluído",
+      "senderBlocked": "Remetente adicionado à lista de bloqueio",
+      "senderUnblocked": "Remetente desbloqueado",
+      "codesRegenerated": "Códigos de backup gerados novamente",
+      "sessionsRevoked": "Sessão encerrada em todos os outros dispositivos",
+      "sessionRevoked": "Sessão encerrada no dispositivo",
+      "passwordChanged": "Senha alterada",
+      "syncComplete": "Sincronização concluída",
+      "integrationConnected": "Serviço conectado",
+      "integrationDisconnected": "Serviço desconectado",
+      "testNotification": "Esta é uma notificação de teste do GXWebMail"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "Calendário da empresa",
+        "approval": "Sistema de aprovação",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "Ler e editar eventos",
+        "approval": "Sincronizar e processar solicitações de aprovação",
+        "slack": "Enviar notificações de mensagens importantes",
+        "drive": "Enviar anexos como links"
+      }
+    },
+    "shortcutActions": {
+      "compose": "Escrever nova mensagem",
+      "search": "Pesquisar e-mails",
+      "inbox": "Vá para sua caixa de entrada",
+      "archive": "armazenamento",
+      "delete": "Excluir",
+      "reply": "Responder",
+      "forward": "passar adiante"
+    }
+  },
+  "adminNav": {
+    "backToMail": "Voltar ao correio",
+    "singleTenant": "Esta organização tem apenas um locatário: gxsoft.co.kr",
+    "tenant": "inquilino",
+    "systemMail": "Correio do sistema · Imprimir · Erro",
+    "organizationSetup": "Assistente de configuração da organização",
+    "systemStatus": "status do sistema",
+    "allServicesHealthy": "Todos os serviços normais",
+    "queueStatus": "Atraso na fila do MTA 0,4s · Última verificação há 2 minutos",
+    "tabs": {
+      "dash": "Visão geral",
+      "users": "Conta · Usuário",
+      "policy": "Domínio · Política",
+      "security": "Segurança · Spam",
+      "flow": "Regras de fluxo de mensagens",
+      "groups": "Grupo/lista de discussão",
+      "audit": "registro de auditoria",
+      "backup": "Backup/Arquivo",
+      "reports": "Relatório · Exportar",
+      "migration": "Transferência de caixa postal",
+      "brand": "marca",
+      "api": "API · Webhook",
+      "billing": "Taxas/Licença"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "Entre em contato com a equipe de recursos humanos",
+        "initials": "saudações"
+      },
+      "recruit": {
+        "name": "Recepção de candidatura de recrutamento",
+        "initials": "recrutamento"
+      },
+      "support": {
+        "name": "Suporte global ao cliente",
+        "initials": "suporte"
+      },
+      "press": {
+        "name": "Relações Públicas/Mídia",
+        "initials": "promoção"
+      },
+      "office": {
+        "name": "Secretário CEO",
+        "initials": "secretário"
+      },
+      "invoice": {
+        "name": "Envio de nota fiscal",
+        "initials": "imposto"
+      }
+    },
+    "roles": {
+      "manager": "gestão completa",
+      "reply": "Ler · Responder",
+      "readOnly": "somente leitura",
+      "delegate": "Envio delegado"
+    },
+    "delegateNote": "Jiwoo Han (Gerente Assistente: Consulta com a Equipe de Recursos Humanos)",
+    "scheduleWhen": {
+      "today": "Hoje 18:00",
+      "sep5": "5 de setembro 09:00",
+      "sep8": "8 de setembro 08h30",
+      "sep14": "14 de setembro 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "aguardando ajuste",
+      "scheduled": "reservado",
+      "recurring": "toda segunda-feira"
+    },
+    "templates": {
+      "approval": "Informações de devolução de pagamento",
+      "quote": "Solicitação de orçamento externo",
+      "awayKorean": "Resposta automática durante ausência (coreano)",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "Coordenação de agenda de reuniões"
+    },
+    "templateScope": {
+      "shared": "público",
+      "private": "pessoal"
+    },
+    "templateEdited": {
+      "aug21": "21 de agosto",
+      "jul30": "30 de julho",
+      "sep1": "1º de setembro",
+      "jun12": "12 de junho"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "Redefinir senha",
+      "accountInvite": "Convidar nova conta",
+      "twoFactor": "Código de verificação em duas etapas",
+      "newDevice": "Notificação de login de novo dispositivo",
+      "quarantineDigest": "Resumo do correio de quarentena (diariamente)",
+      "storageWarning": "Aviso crítico de capacidade",
+      "approvalRequest": "Notificação de solicitação de pagamento",
+      "awayNotice": "Informações de resposta automática fora do escritório",
+      "largeLinkExpiry": "Aviso de expiração de link de alta capacidade",
+      "accountSuspended": "Aviso de suspensão de conta",
+      "migrationComplete": "Migração concluída",
+      "maintenance": "Aviso de manutenção de serviço"
+    },
+    "printMeta": {
+      "from": "De",
+      "to": "Destinatário",
+      "date": "data",
+      "thread": "tópico"
+    },
+    "printOptions": {
+      "header": {
+        "name": "Cabeçalho · Número da página",
+        "desc": "Exibir informações de envio na parte superior das impressões"
+      },
+      "metadata": {
+        "name": "meta-informação",
+        "desc": "Inclui remetente, destinatário e data"
+      },
+      "quotes": {
+        "name": "Expandir cotação",
+        "desc": "Imprimir todas as respostas anteriores"
+      },
+      "attachments": {
+        "name": "lista anexa",
+        "desc": "Exibir nome e tamanho do arquivo anexo"
+      },
+      "remoteImages": {
+        "name": "imagem remota",
+        "desc": "Incluir imagens externas na impressão"
+      },
+      "confidential": {
+        "name": "Notação confidencial",
+        "desc": "Adicionada marca d’água ‘confidencial da empresa’"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "não encontrado",
+        "title": "Não consigo encontrar este e-mail",
+        "body": "Pode ter sido excluído ou movido para outra caixa de correio. Ele permanece na Lixeira por 30 dias.",
+        "action": "para sua caixa de entrada",
+        "alt": "Pesquisa na lixeira",
+        "foot": "Se o problema persistir, entre em contato com as operações de TI."
+      },
+      "forbidden": {
+        "label": "Sem permissão",
+        "title": "Você não tem permissão para acessar esta tela",
+        "body": "A área Preços e contratos do Admin Console fica visível apenas para administradores da organização. Solicite permissão, se necessário.",
+        "meta": "ID de registro da solicitação: acl-7741-b2",
+        "action": "Solicitação de permissão",
+        "alt": "Volte",
+        "foot": "Sua solicitação será encaminhada para dois administradores da organização."
+      },
+      "maintenance": {
+        "label": "Em manutenção",
+        "title": "Estamos realizando inspeções regulares",
+        "body": "A recepção de correspondência continuará normalmente e todas as correspondências serão entregues assim que a manutenção for concluída. Apenas o acesso à web está suspenso.",
+        "meta": "Conclusão prevista para 05/09/2026 às 02:00 KST",
+        "action": "página de status",
+        "alt": "Receba notificações",
+        "foot": "Consulta de emergência 02-2000-1000 (24 horas)"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "notificação",
+    "markAllRead": "Leia tudo",
+    "all": "tudo",
+    "approval": "Aprovações",
+    "mention": "Mencionar",
+    "empty": "Não há notificações.",
+    "openCenter": "Abrir Centro de Notificação",
+    "items": {
+      "n1": {
+        "avatar": "Parque",
+        "title": "Pedido de aprovação · Parque Seojun",
+        "body": "Revisão do orçamento de expansão da infraestrutura em nuvem para o primeiro semestre de 2026 — Chegou a minha vez",
+        "time": "agora mesmo"
+      },
+      "n2": {
+        "avatar": "Choi",
+        "title": "Mencionar · Choi Min-seo",
+        "body": "Você foi mencionado nas atas da Atlas 3rd Sprint Review.",
+        "time": "12 minutos atrás"
+      },
+      "n3": {
+        "avatar": "Isto",
+        "title": "Pagamento aprovado · Su-min Lee",
+        "body": "Orçamento regular do workshop de setembro aprovado",
+        "time": "38 minutos atrás"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "3 novos e-mails",
+        "body": "Chegou um novo e-mail de Su-min Lee, Jira e Min-seo Choi",
+        "time": "1 hora atrás"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "82% de espaço de armazenamento em uso",
+        "body": "18,2 GB/50 GB · Organize anexos grandes",
+        "time": "3 horas atrás"
+      },
+      "n6": {
+        "avatar": "rio",
+        "title": "Menção · Taeyoon Kang",
+        "body": "Mencionei você no comentário da lista de verificação de controle de qualidade",
+        "time": "ontem"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "Data e hora",
+      "location": "Local",
+      "organizer": "Organizador",
+      "recurrence": "Recorrência"
+    },
+    "states": {
+      "accept": "Vou participar",
+      "tentative": "Talvez",
+      "decline": "Não vou participar",
+      "noResponse": "Sem resposta"
+    },
+    "rsvpQuestion": "Você gostaria de participar?",
+    "viewEvent": "Ver programação",
+    "viewEventNotice": "Confira sua programação no calendário",
+    "suggestTime": "sugira outra hora",
+    "suggestTimeNotice": "Sugira outro horário ao organizador",
+    "leaveMemo": "Deixe uma nota",
+    "leaveMemoNotice": "Abra a tela de criação de notas",
+    "attendeeStatus": "Status de comparecimento",
+    "host": "hospedado por",
+    "briefing": "Briefing de IA",
+    "briefingBody": "A revisão final da expansão do nó GPU discutida na última revisão do sprint está incluída na agenda desta reunião.",
+    "relatedMailNotice": "Ir para os resultados de pesquisa de e-mail relacionados",
+    "viewRelatedMail": "Ver 3 e-mails relacionados",
+    "responseRecorded": "Resposta registrada: {choice}",
+    "attendeeSummary": "{responded} de {count} responderam",
+    "conflict": "<strong>{event}</strong> coincide com este horário."
+  },
+  "auth": {
+    "common": {
+      "email": "endereço de e-mail",
+      "password": "senha",
+      "terms": "Termos de Uso",
+      "privacy": "Política de Privacidade",
+      "termsNotice": "Termos de uso abertos",
+      "privacyNotice": "Política de privacidade aberta",
+      "setupWizard": "Assistente de instalação de servidor",
+      "noAccount": "Não tem uma conta?",
+      "haveAccount": "Já tem uma conta?",
+      "signIn": "Entrar",
+      "signUp": "Inscreva-se",
+      "procurementNotice": "© 2026 GXWebMail. Produtos cadastrados para contratação por instituições públicas e de ensino.",
+      "eyebrow": "Plataforma de e-mail empresarial"
+    },
+    "login": {
+      "title": "Prazer em conhecê-lo novamente",
+      "description": "Faça login com sua conta de trabalho. As organizações que usam SSO podem acessar diretamente usando o botão abaixo.",
+      "passwordPlaceholder": "Por favor digite sua senha",
+      "rememberMe": "Permaneça conectado",
+      "forgotPassword": "Encontre sua senha",
+      "resetNotice": "Envie um e-mail de redefinição de senha",
+      "enterEmailFirst": "Por favor insira seu e-mail primeiro",
+      "missingCredentials": "Por favor, insira o e-mail e a senha.",
+      "submitting": "Fazendo login...",
+      "ssoButton": "Continuar com contas organizacionais (SAML)",
+      "ssoNotice": "Vá para a tela de login do SAML SSO",
+      "ssoContact": "Entre em contato com o administrador da sua organização",
+      "twoFactorHint": "Esta conta tem a verificação em duas etapas ativada. Após fazer login, insira seu OTP de 6 dígitos.",
+      "tagline": "Processe 120.000 mensagens por dia com confiabilidade",
+      "uptime": "SLA de tempo de atividade",
+      "largeAttachments": "Anexo grande",
+      "certified": "Obtenha Certificação"
+    },
+    "signup": {
+      "title": "Crie uma conta",
+      "description": "Se você se inscrever com o e-mail da sua organização, o administrador aprovará e ativará sua conta.",
+      "name": "nome",
+      "namePlaceholder": "Hong Gil Dong",
+      "passwordPlaceholder": "Por favor insira pelo menos 8 caracteres",
+      "confirmPassword": "Confirmar senha",
+      "confirmPlaceholder": "Por favor digite sua senha novamente",
+      "consentLabel": "Concordar com os Termos de Serviço e a Política de Privacidade",
+      "requiredFields": "Por favor preencha todos os campos obrigatórios.",
+      "passwordMismatch": "A senha não corresponde.",
+      "consentRequired": "Por favor, concorde com os Termos de Uso e Política de Privacidade.",
+      "submitting": "Criando conta...",
+      "submit": "Inscreva-se",
+      "productIntro": "Visão geral do produto",
+      "tagline": "Toda a sua equipe trabalha em uma caixa de entrada compartilhada",
+      "benefits": {
+        "brandedWorkspace": "Marca e espaço de trabalho adaptados à sua organização",
+        "integratedTools": "Calendário, contatos e aprovações integrados",
+        "secureOperations": "Operação segura de e-mail alinhada ao ISMS-P"
+      },
+      "consent": "Concordo com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>."
+    }
+  },
+  "setup": {
+    "sidebarLabel": "Etapas de configuração",
+    "brand": "Servidor de correio Mailwave",
+    "title": "assistente de instalação",
+    "introduction": "A instalação do servidor foi concluída. Depois de concluir sete etapas, os usuários podem começar a escrever e-mails imediatamente.",
+    "done": "feito",
+    "inProgress": "progresso",
+    "serverInfo": "Servidor mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "Abra o documento de instruções de instalação",
+    "guideNotice": "Abra o documento de instruções de instalação em uma nova guia",
+    "settingsLabel": "Configurações de instalação",
+    "back": "de volta",
+    "finish": "Instalação concluída · Login",
+    "copy": "copiar",
+    "copied": "copiou o valor",
+    "checkAgain": "teste novamente",
+    "checking": "Testando...",
+    "dnsCheckAgain": "Nova verificação de DNS",
+    "dnsChecking": "Verificando...",
+    "dbRecheckNotice": "Teste sua conexão com o banco de dados novamente",
+    "dbRecheckSuccess": "Teste de conexão aprovado",
+    "dnsRecheckNotice": "Verifique novamente seus registros DNS",
+    "dnsRecheckSuccess": "Verificação de DNS concluída",
+    "inviteSentNotice": "Um e-mail de convite foi enviado",
+    "inviteSent": "Remessa concluída",
+    "inviteButton": "Enviar e-mail de convite",
+    "inviteTargetHeading": "Convite para",
+    "steps": {
+      "license": {
+        "name": "Licença · Conta de administrador",
+        "description": "{seats, number} licenças · {admins, number} administrador"
+      },
+      "database": {
+        "name": "conexão de banco de dados",
+        "description": "PostgreSQL 16 · 42 esquemas"
+      },
+      "organization": {
+        "name": "Registro de organização/domínio",
+        "description": "gxsoft.co.kr · 42 departamentos importados"
+      },
+      "dns": {
+        "name": "Verificação de domínio/DNS",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "Armazenamento/backup de e-mail",
+        "description": "Caminho de armazenamento · Backup uma vez por dia"
+      },
+      "security": {
+        "name": "política de segurança",
+        "description": "Spam · DLP · Autenticação em duas etapas"
+      },
+      "invitations": {
+        "name": "convite do usuário",
+        "description": "E-mail de convite enviado · Primeiro login"
+      }
+    },
+    "license": {
+      "description": "Insira sua chave de licença e crie sua primeira conta de administrador.",
+      "fields": {
+        "key": "chave de licença",
+        "adminName": "Nome do administrador",
+        "adminEmail": "E-mail do administrador",
+        "adminPassword": "Senha do administrador"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "anfitrião",
+        "port": "porto",
+        "database": "banco de dados",
+        "schema": "esquema",
+        "account": "conta",
+        "password": "senha",
+        "sslMode": "Modo SSL",
+        "connectionPool": "conjunto de conexões"
+      },
+      "poolValue": "Máx. 40 · Inativo 5",
+      "testTitle": "Teste de conexão",
+      "states": {
+        "passed": "Aprovado",
+        "warning": "cuidado"
+      },
+      "checks": {
+        "connection": {
+          "name": "conexão",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "versão",
+          "detail": "PostgreSQL 16.2 · Pelo menos 14 ou superior"
+        },
+        "permissions": {
+          "name": "permissão",
+          "detail": "Verifique CREATE · ALTER · INDEX"
+        },
+        "charset": {
+          "name": "Conjunto/classificação de caracteres",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "fuso horário",
+          "detail": "Ásia/Seul · UTC recomendado"
+        }
+      }
+    },
+    "organization": {
+      "description": "Registre as informações da sua organização e o domínio principal.",
+      "fields": {
+        "name": "Nome da organização",
+        "domain": "domínio representativo",
+        "contact": "E-mail de contato"
+      },
+      "hrImportNotice": "Você pode importar automaticamente 42 departamentos do organograma de RH (Grow)."
+    },
+    "dns": {
+      "headers": {
+        "type": "tipo",
+        "host": "anfitrião",
+        "value": "valor",
+        "status": "estado"
+      },
+      "states": {
+        "verified": "Confirmado",
+        "propagating": "Espalhando",
+        "missing": "Não definido"
+      }
+    },
+    "storage": {
+      "description": "Defina o caminho de armazenamento de dados de correio e o ciclo de backup.",
+      "fields": {
+        "path": "salvar caminho",
+        "frequency": "Ciclo de backup",
+        "retention": "Período de armazenamento"
+      },
+      "frequencyValue": "Uma vez por dia · 04:00",
+      "retentionValue": "3 anos"
+    },
+    "security": {
+      "description": "Defina a política de segurança padrão. Você pode ajustar isso posteriormente no console do administrador.",
+      "policies": {
+        "spam": "Quarentena automática de spam e phishing",
+        "dlp": "Bloqueio de documentos confidenciais DLP",
+        "twoFactor": "É necessária autenticação em duas etapas do administrador",
+        "externalWarning": "Banner de alerta de email externo"
+      }
+    },
+    "invitations": {
+      "description": "Envie convites aos funcionários. {count, number} pessoas importadas do CSV receberão as instruções para o primeiro acesso."
+    },
+    "firstRun": "Primeira execução",
+    "stepCounter": "Etapa {step} de {total}",
+    "progressLabel": "{progress}% concluído",
+    "nextStep": "Próximo · {name}",
+    "checkSummary": "Último teste agora · {passed} de {total} aprovados",
+    "dnsSummary": "Última verificação há 2 minutos · {verified} de {total} confirmados",
+    "countSummary": "{passed} de {total} aprovados",
+    "dnsCountSummary": "{verified} de {total} confirmados",
+    "inviteTarget": "{count, number} pessoas · {domain}",
+    "inviteSentCount": "Enviado para {count, number} pessoas",
+    "dbNotice": "A próxima etapa criará 42 tabelas e inserirá os dados iniciais (cerca de 40 segundos). Se o banco já tiver dados, será perguntado se deseja <strong>reutilizar o esquema existente</strong>.",
+    "dnsNotice": "A propagação DNS pode levar até 24 horas. Você pode pular DKIM e DMARC por enquanto. Verifique depois em <strong>Administração · Domínios · Políticas</strong>. Sem os dois registros, servidores externos podem classificar os e-mails enviados como spam."
+  },
+  "adminOnboarding": {
+    "title": "Assistente de configuração da organização",
+    "dnsDelayNotice": "A reflexão do DNS pode levar até 48 horas. Entretanto, o servidor de correio existente continuará a funcionar.",
+    "dnsTitle": "Registrar registros DNS",
+    "copyAll": "copiar tudo",
+    "copiedNotice": "Copiou todos os registros DNS",
+    "recheck": "verifique novamente",
+    "checking": "Verificando...",
+    "recheckNotice": "Verifique novamente seus registros DNS",
+    "recheckSuccess": "Verificação de DNS concluída",
+    "csvTitle": "Registro de conta em massa",
+    "csvSelectNotice": "Abra a janela de seleção de arquivo CSV",
+    "csvSelect": "Arraste ou selecione o arquivo CSV",
+    "csvColumns": "Colunas de nome, e-mail, departamento e classificação obrigatórias",
+    "migrationTitle": "Migrar e-mails existentes",
+    "migrationImap": "IMAP Outro",
+    "migrationPending": "esperando",
+    "migrationNotice": "A sincronização IMAP permanecerá por 7 dias após a conversão para garantir que nada seja perdido.",
+    "continueLater": "Continuar mais tarde",
+    "next": "Próximo · Crie uma conta",
+    "nextNotice": "Vá para as etapas de criação de conta",
+    "headers": {
+      "type": "tipo",
+      "host": "anfitrião",
+      "value": "valor",
+      "priority": "prioridade",
+      "status": "estado"
+    },
+    "dnsStates": {
+      "verified": "Confirmado",
+      "pending": "Pendente",
+      "unregistered": "Não configurado"
+    },
+    "steps": {
+      "organization": {
+        "name": "Informações da organização",
+        "description": "Nome da empresa, domínio representativo, responsável"
+      },
+      "domain": {
+        "name": "conexão de domínio",
+        "description": "MX · SPF · Registro de registro DKIM"
+      },
+      "accounts": {
+        "name": "Crie uma conta",
+        "description": "Registro em lote CSV e integração de organograma de RH"
+      },
+      "migration": {
+        "name": "Migração de correio",
+        "description": "Migrar e-mails do servidor existente"
+      },
+      "policy": {
+        "name": "Aplicar política",
+        "description": "Segurança · Retenção · Padrões DLP"
+      },
+      "cutover": {
+        "name": "Conversão/Inspeção",
+        "description": "Conversão final MX e teste de envio"
+      }
+    },
+    "subtitle": "{domain} · Etapa {step} em andamento · Cerca de {minutes} min",
+    "recordCount": "{count, number} registros",
+    "verifiedCount": "{verified, number} de {total, number} confirmados",
+    "csvSummary": "{rows, number} linhas validadas · {duplicates, number} duplicatas mescladas",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "Status de processamento de e-mail em toda a organização",
+        "cta": "Exportar relatório"
+      },
+      "users": {
+        "sub": "Gerenciar {count, number} contas",
+        "cta": "Adicionar conta"
+      },
+      "policy": {
+        "sub": "Envio de domínio e política de segurança",
+        "cta": "Salvar política"
+      },
+      "security": {
+        "sub": "Log de bloqueio/quarentena e status de detecção",
+        "cta": "Adicionar regra"
+      },
+      "flow": {
+        "sub": "Regras de processamento automatizado que se aplicam a toda a sua organização",
+        "cta": "Adicionar regra"
+      },
+      "groups": {
+        "sub": "Lista de distribuição e caixa de correio compartilhada",
+        "cta": "Crie um grupo"
+      },
+      "audit": {
+        "sub": "Registro imutável de todas as tarefas administrativas",
+        "cta": "Exportação CSV"
+      },
+      "backup": {
+        "sub": "Instantâneos e status de retenção legal",
+        "cta": "Faça backup agora"
+      },
+      "reports": {
+        "sub": "Crie relatórios personalizados",
+        "cta": "novo relatório"
+      },
+      "migration": {
+        "sub": "Status do progresso da migração de outros sistemas de correio",
+        "cta": "Adicionar lote"
+      },
+      "brand": {
+        "sub": "Identidade da organização e tela de login",
+        "cta": "postar"
+      },
+      "api": {
+        "sub": "Chave de integração externa e assinatura de evento",
+        "cta": "Emissão de chave"
+      },
+      "billing": {
+        "sub": "Gerenciamento de assinaturas e pagamentos",
+        "cta": "Ver sua fatura"
+      }
+    },
+    "ranges": {
+      "today": "hoje",
+      "last7": "Últimos 7 dias",
+      "last30": "Últimos 30 dias",
+      "last90": "Últimos 90 dias"
+    },
+    "rangeLabel": "Intervalo de datas",
+    "actionNotice": "Abrindo {action}"
+  },
+  "adminMobile": {
+    "menuLabel": "Menu de administração",
+    "backToMenu": "Voltar ao menu de administração",
+    "actionPreview": "Esta ação é uma prévia",
+    "executeAction": "Executar {action}",
+    "screens": {
+      "dash": {
+        "navLabel": "Visão geral",
+        "title": "gerente",
+        "sub": "gxsoft.co.kr · Tempo real",
+        "footerText": "Veja o relatório completo em seu desktop",
+        "chips": {
+          "chip0": "hoje",
+          "chip1": "7 dias",
+          "chip2": "30 dias"
+        },
+        "rows": {
+          "throughput": {
+            "name": "rendimento de trabalho",
+            "meta": "{count}",
+            "line3": "{growth} em relação ao dia anterior"
+          },
+          "blocked": {
+            "name": "Bloquear/quarentena",
+            "line3": "Isolamento {quarantined} casos Alto risco {highRisk}"
+          },
+          "queue": {
+            "name": "fila de despacho",
+            "line3": "Nova tentativa {retry} · Falha {failed}"
+          },
+          "deliveryDelay": {
+            "name": "atraso médio na entrega",
+            "meta": "{seconds} segundos",
+            "line3": "SLA em {slaSeconds} segundos",
+            "tag": "normais"
+          },
+          "needsAttention": {
+            "name": "{items} itens precisam de confirmação",
+            "line3": "MTA-STS não aplicado · Limite de capacidade {threshold} casos",
+            "tag": "ver"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "conta",
+        "title": "conta",
+        "sub": "{total} · Suspenso {suspended} · Inativo {inactive}",
+        "footerText": "Deslize para parar / pressione e segure para redefinir a senha",
+        "footerBtn": "pare",
+        "chips": {
+          "chip0": "tudo",
+          "chip1": "pare",
+          "chip2": "inativo"
+        },
+        "action": "Pesquisar contas",
+        "rows": {
+          "jiwoo": {
+            "tag": "normais",
+            "line3": "Equipe de Planejamento Estratégico · {usage}"
+          },
+          "seojun": {
+            "tag": "normais",
+            "line3": "Equipe de infraestrutura · {usage}"
+          },
+          "jaeho": {
+            "tag": "capacidade",
+            "line3": "Equipe de vendas · {usage}"
+          },
+          "temporary": {
+            "tag": "pare",
+            "line3": "Não especificado · Sem acesso por {days} dias"
+          },
+          "serin": {
+            "tag": "normais",
+            "line3": "Escritório do CEO · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "segurança",
+        "title": "segurança",
+        "sub": "Últimos {days} dias · {pending} casos pendentes de ação",
+        "footerText": "Mudanças de regras só são possíveis no desktop",
+        "chips": {
+          "chip0": "tudo",
+          "chip1": "alto"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "Tentativa de login anormal",
+            "line2": "Osaka, Japão · {blocked} bloqueados",
+            "line3": "há {days} dias · Ação concluída"
+          },
+          "phishing": {
+            "name": "Detecção de campanha de phishing",
+            "line2": "Domínio semelhante gxsott.co.kr",
+            "line3": "Hoje {time} · {quarantined} casos em quarentena",
+            "tag": "esperando"
+          },
+          "dlp": {
+            "name": "Bloqueio DLP",
+            "line2": "Tentativa de enviar anexo de arquivo executável",
+            "line3": "Ontem · {cases} casos"
+          },
+          "spf": {
+            "name": "Falhas de SPF disparam",
+            "line3": "Ontem · Reputação {score} pontos",
+            "tag": "esperando"
+          },
+          "appPassword": {
+            "name": "Usar senha do aplicativo",
+            "line2": "{clients} clientes IMAP",
+            "line3": "{days} dias atrás · Avaliação recomendada"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "revisão de quarentena",
+        "title": "revisão de quarentena",
+        "sub": "{total} casos · {highRisk} casos de alto risco",
+        "footerText": "As exclusões em massa são registradas no log de auditoria",
+        "footerBtn": "Exclusão em massa",
+        "chips": {
+          "chip0": "alto",
+          "chip1": "spam",
+          "chip2": "tudo"
+        },
+        "rows": {
+          "alert": {
+            "line3": "{recipients} destinatários · Domínios semelhantes",
+            "tag": "Excluir"
+          },
+          "invoice": {
+            "line3": "{recipients} destinatários · Arquivo executável",
+            "tag": "Excluir"
+          },
+          "newsletter": {
+            "line3": "{recipients} destinatários · Falha no SPF",
+            "tag": "segure"
+          },
+          "recruitment": {
+            "line3": "{recipients} destinatários · Primeiro destinatário",
+            "tag": "restaurar"
+          },
+          "billing": {
+            "line3": "{recipients} destinatários · Provavelmente normal",
+            "tag": "restaurar"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "status do serviço",
+        "title": "status do serviço",
+        "sub": "Todos os serviços normais",
+        "footerText": "O banner de manutenção fica visível para todos os usuários",
+        "action": "Adicionar aviso",
+        "rows": {
+          "mail": {
+            "name": "Recebendo e enviando correspondência",
+            "line3": "Taxa de operação {availability} ({days} dias)",
+            "tag": "normais"
+          },
+          "webClient": {
+            "name": "cliente web",
+            "line3": "resposta p95 {latency}ms",
+            "tag": "normais"
+          },
+          "protocols": {
+            "line3": "{connections} conexões",
+            "tag": "normais"
+          },
+          "migration": {
+            "name": "Transferência de caixa postal",
+            "line3": "{batches} lotes em andamento Largura de banda limitada",
+            "tag": "atraso"
+          },
+          "maintenance": {
+            "name": "manutenção programada",
+            "line2": "{date} {start} – {end}",
+            "line3": "Banner sendo postado · recepção continua",
+            "tag": "postar"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "grupo",
+        "title": "grupo",
+        "sub": "{total} · Correspondência {mailing}",
+        "footerText": "Para editar um membro, pressione e segure para selecionar",
+        "chips": {
+          "chip0": "tudo",
+          "chip1": "departamento",
+          "chip2": "correspondência"
+        },
+        "action": "Adicionar grupo",
+        "rows": {
+          "strategy": {
+            "meta": "{count}pessoas",
+            "line3": "estratégia · grupo de departamento"
+          },
+          "infrastructure": {
+            "meta": "{count}pessoas",
+            "line3": "grupo infradepartamental"
+          },
+          "allStaff": {
+            "meta": "{count}pessoas",
+            "tag": "limite",
+            "line3": "todos · Restrições de envio"
+          },
+          "sales": {
+            "meta": "{count}pessoas",
+            "line3": "vendas1 · grupo de departamentos"
+          },
+          "aurora": {
+            "meta": "{count}pessoas",
+            "tag": "temporário",
+            "line3": "aurora · Temporário · Expira em dezembro"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "Domínio · Política",
+        "title": "Domínio · Política",
+        "sub": "{domains} domínios, {actions} ação",
+        "footerText": "Mudanças de política só são possíveis em computadores",
+        "chips": {
+          "chip0": "domínio",
+          "chip1": "Certificação"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "Domínio primário · SPF · DKIM · DMARC",
+            "tag": "normais"
+          },
+          "mailDomain": {
+            "line3": "Somente frete · Reputação {score} pontos",
+            "tag": "aviso"
+          },
+          "aliasDomain": {
+            "line3": "Alias/Receber encaminhamento",
+            "tag": "normais"
+          },
+          "dmarc": {
+            "line3": "p=quarentena · Reportar uma vez por semana",
+            "name": "Política DMARC"
+          },
+          "mtaSts": {
+            "line3": "Recomendado · Bloquear ataques man-in-the-middle",
+            "tag": "ação",
+            "name": "MTA-STS não aplicável"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "registro de auditoria",
+        "title": "registro de auditoria",
+        "sub": "Últimas {hours} horas · {events} casos",
+        "footerText": "Os registros são mantidos por 7 anos e exportados para desktop",
+        "chips": {
+          "chip0": "tudo",
+          "chip1": "permissão",
+          "chip2": "Excluir"
+        },
+        "action": "Pesquisar logs",
+        "rows": {
+          "grantRole": {
+            "name": "Conceda privilégios de administrador",
+            "line2": "Oh Se-rin → Park Seo-joon",
+            "line3": "IP 10.2.14.8 · Consola Web"
+          },
+          "removeDelegate": {
+            "name": "Desabilitar delegação de caixa de correio",
+            "line2": "hora compartilhada · Jiwoo Han"
+          },
+          "bulkDelete": {
+            "name": "Executar exclusão em lote",
+            "tag": "importante",
+            "line2": "{count} e-mails de quarentena",
+            "line3": "Park Seo-joon · Não há como voltar atrás"
+          },
+          "editPolicy": {
+            "name": "Modificar política",
+            "meta": "ontem",
+            "line2": "Bloqueio de arquivo executável DLP ATIVADO",
+            "line3": "Ocelina"
+          },
+          "issueApiKey": {
+            "name": "Emissão de chave API",
+            "meta": "ontem",
+            "line3": "Equipe de infraestrutura · Expira em {days} dias"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "cópia de segurança",
+        "title": "cópia de segurança",
+        "sub": "{frequency} vez por dia · Último sucesso às {lastSuccess}",
+        "footerText": "Solicite uma restauração no console do seu desktop",
+        "chips": {
+          "chip0": "trabalho",
+          "chip1": "restaurar"
+        },
+        "rows": {
+          "full": {
+            "name": "backup completo",
+            "line3": "{used} TB · {minutes} minutos",
+            "tag": "sucesso"
+          },
+          "incremental": {
+            "name": "Backup incremental",
+            "meta": "purê",
+            "line3": "Últimos {successes} sucessos consecutivos",
+            "tag": "sucesso"
+          },
+          "restoreTest": {
+            "name": "teste de restauração",
+            "meta": "{days} dias atrás",
+            "line3": "Recomendado uma vez por trimestre · O prazo é iminente",
+            "tag": "recomendado"
+          },
+          "retention": {
+            "name": "política de retenção",
+            "line3": "Correio {mailYears} anos · Registro de auditoria {auditYears} anos"
+          },
+          "storage": {
+            "name": "Uso de armazenamento",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "taxa",
+        "title": "taxa",
+        "sub": "Cobrança prevista em {month}: {amount}",
+        "footerText": "A nota fiscal será enviada para o seu e-mail cadastrado.",
+        "chips": {
+          "chip0": "este mês",
+          "chip1": "mês passado"
+        },
+        "rows": {
+          "seats": {
+            "name": "assento usado",
+            "line3": "{contracted} assentos contratados, {available} assentos sobressalentes"
+          },
+          "storage": {
+            "name": "armazenamento adicional",
+            "line3": "{amount} · Taxa fixa mensal"
+          },
+          "archive": {
+            "name": "armazenamento de arquivo",
+            "line3": "{amount} · {years} anos de retenção"
+          },
+          "augustInvoice": {
+            "name": "Faturamento de agosto",
+            "line3": "Pagamento concluído · {date}",
+            "tag": "feito"
+          },
+          "cardExpiry": {
+            "name": "Expiração do cartão iminente",
+            "line3": "Cartão corporativo ****4821 · Expira em novembro",
+            "tag": "ação"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "marca",
+        "title": "marca",
+        "sub": "Logotipo, cor, assinatura",
+        "footerText": "As alterações serão aplicadas à sua transcrição após aprovação",
+        "chips": {
+          "chip0": "Aplicar",
+          "chip1": "rascunho"
+        },
+        "rows": {
+          "logo": {
+            "name": "logotipo",
+            "line3": "SVG · Claro · Registro escuro",
+            "tag": "Aplicar"
+          },
+          "accent": {
+            "name": "cor de destaque",
+            "line3": "Refletido em login, botão e link",
+            "tag": "Aplicar"
+          },
+          "signature": {
+            "name": "modelo de assinatura de e-mail",
+            "line3": "{types} tipos por departamento · Inserção automática"
+          },
+          "loginBackground": {
+            "name": "plano de fundo de login",
+            "line3": "Imagem não registrada/uso padrão",
+            "tag": "rascunho"
+          },
+          "senderName": {
+            "name": "Nome do remetente do e-mail do sistema",
+            "line3": "GXSOFT Mail · sem resposta"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "{keys} teclas · {calls} chamadas/dia",
+        "footerText": "Os valores-chave aparecem apenas uma vez, após a emissão",
+        "chips": {
+          "chip0": "chave",
+          "chip1": "webhook"
+        },
+        "action": "Adicionar chave de API",
+        "rows": {
+          "hrSync": {
+            "line3": "Ler · Conta · Última chamada há {minutes} minutos",
+            "tag": "ativo"
+          },
+          "billingSync": {
+            "line3": "Leituras · Uso · Validade {days} dias",
+            "tag": "ativo"
+          },
+          "legacyImport": {
+            "line3": "Escreva · Expira em {days} dias · Rotação recomendada",
+            "tag": "expira"
+          },
+          "quarantineWebhook": {
+            "name": "Webhook · Notificação de quarentena"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/min",
+            "line3": "429 quando excedido · Tentar novamente recomendado",
+            "name": "limite de taxa"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "fluxo de aprovação",
+        "title": "fluxo de aprovação",
+        "sub": "{pending} casos de espera, média de {averageHours} horas",
+        "footerText": "No celular, apenas aprovação e rejeição são possíveis.",
+        "footerBtn": "aprovação",
+        "chips": {
+          "chip0": "esperando",
+          "chip1": "feito"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "Aprovado para envio a granel",
+            "line2": "Aviso para toda a empresa · {people} pessoas",
+            "line3": "Solicitar Jiwoo Han · {hours} horas atrás",
+            "tag": "esperando"
+          },
+          "externalShare": {
+            "name": "Exceção de compartilhamento externo",
+            "line2": "Permitir anexo de parceiro-corp.kr",
+            "line3": "Solicitar equipe de vendas 1 · {hours} horas atrás",
+            "tag": "esperando"
+          },
+          "deleteAccount": {
+            "name": "Excluir conta",
+            "line2": "temp-001 · Destruição de dados",
+            "line3": "Solicitar Equipe de Infraestrutura · Ontem",
+            "tag": "esperando"
+          },
+          "dlpException": {
+            "name": "Exceções de política · DLP",
+            "line2": "Envie o arquivo executável uma vez",
+            "line3": "Aprovado · Oserin",
+            "tag": "feito"
+          },
+          "approvalTemplate": {
+            "name": "Modelo de linha de aprovação",
+            "line3": "Passo {step} · Chefe de departamento → Segurança da informação → Representante"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "relatório",
+        "title": "relatório",
+        "sub": "Semanal · Semana {week} de {month}",
+        "footerText": "A exportação de PDF está disponível no desktop",
+        "chips": {
+          "chip0": "semanalmente",
+          "chip1": "mensalmente"
+        },
+        "rows": {
+          "traffic": {
+            "name": "Tendência de entrada/saída",
+            "line3": "Recepção: {received}, Enviado: {sent}"
+          },
+          "spamBlock": {
+            "name": "Taxa de bloqueio de spam",
+            "line3": "{reports} relatórios falsos positivos",
+            "tag": "normais"
+          },
+          "userActivity": {
+            "name": "atividade do usuário",
+            "line3": "{people} pessoas logadas mais de {days} dias por semana"
+          },
+          "storageGrowth": {
+            "name": "Maior capacidade de armazenamento",
+            "line3": "Média semanal/crítica esperada para {months} meses"
+          },
+          "scheduled": {
+            "name": "Relatório de reserva",
+            "meta": "{reports} casos",
+            "line3": "{weekday} {time} · Enviado pela gerência"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "migração",
+        "title": "migração",
+        "sub": "{batches} lotes em andamento {progress}",
+        "footerText": "Abortar e tentar novamente no console da área de trabalho",
+        "chips": {
+          "chip0": "progresso",
+          "chip1": "feito",
+          "chip2": "fracasso"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "Conta {migrated}/{total} · {hours} hora e {minutes} minutos restantes",
+            "name": "Lote 07 · Sede de Vendas"
+          },
+          "researchBatch": {
+            "line3": "Limites de largura de banda de contas {migrated}/{total}",
+            "name": "Lote 08 · Laboratório"
+          },
+          "overseasBatch": {
+            "line3": "Conta {migrated}/{total} · Tempo de espera em espera",
+            "name": "Colocação 09 · Filial no exterior"
+          },
+          "failedBatch": {
+            "line3": "Capacidade da caixa de correio excedida/é necessária nova tentativa",
+            "tag": "fracasso",
+            "name": "Lote 06 · {failures} falhas"
+          },
+          "completedBatches": {
+            "line3": "Verificação aprovada · Original mantido por {days} dias",
+            "tag": "feito",
+            "name": "Lote 01–05 concluído"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "taxa de transferência de correio",
+    "received": "receber",
+    "sent": "Saída",
+    "blocked": "bloquear",
+    "authTitle": "Status de autenticação",
+    "alertsTitle": "Itens que precisam de confirmação",
+    "openAlerts": "Abra a lista completa de itens que precisam de confirmação",
+    "all": "tudo",
+    "funnelTitle": "Funil de entrega (hoje)",
+    "averageDelay": "atraso médio na entrega",
+    "reputationTitle": "reputação do domínio",
+    "queueTitle": "fila de despacho",
+    "live": "tempo real",
+    "kpis": {
+      "processed": "Processar correspondência hoje",
+      "activeAccounts": "conta ativa",
+      "blockedRate": "Taxa de bloqueio de spam",
+      "deliveryDelay": "atraso médio na entrega"
+    },
+    "authStatus": {
+      "normal": "normais",
+      "quarantine": "política de quarentena",
+      "notApplied": "Não aplicado"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "Política MTA-STS não aplicada",
+        "desc": "O domínio sub.gxsoft.co.kr não possui uma política de aplicação de TLS."
+      },
+      "quota": {
+        "title": "8 contas de capacidade crítica",
+        "desc": "Uma notificação automática foi enviada para contas que excedem 90%."
+      }
+    },
+    "funnel": {
+      "attempted": "Receber tentativa",
+      "blocked": "Spam e bloqueio malicioso",
+      "quarantined": "quarentena em espera",
+      "delivered": "parto normal",
+      "bounced": "Retorno/Falha"
+    },
+    "queueStats": {
+      "pending": "esperando",
+      "retrying": "tente novamente",
+      "failed": "fracasso"
+    },
+    "queueState": {
+      "sending": "Envio",
+      "completed": "feito",
+      "pending": "esperando"
+    },
+    "reputationMetrics": "Spam {spam} · Devoluções {bounce}",
+    "itemCount": "{count, number} itens"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "Pesquisa de nome/conta/departamento",
+    "allDepartments": "departamento inteiro",
+    "allRoles": "autoridade total",
+    "allStatuses": "estado completo",
+    "selectAll": "selecione tudo",
+    "moreActions": "Ver mais",
+    "resumeAccount": "descongelar",
+    "suspendAccount": "conta suspensa",
+    "deleteAccount": "Excluir conta",
+    "suspendedToast": "A conta foi suspensa",
+    "resumedToast": "A suspensão da conta foi suspensa",
+    "deletedToast": "Sua conta foi excluída",
+    "bulkSuspend": "Parada de lote",
+    "clearSelection": "Desmarcar",
+    "columns": {
+      "user": "usuário",
+      "department": "Departamento / Cargo",
+      "role": "permissão",
+      "quota": "capacidade",
+      "lastSeen": "último acesso",
+      "status": "estado"
+    },
+    "departments": {
+      "strategy": "Equipe de Planejamento Estratégico",
+      "infrastructure": "Equipe de Infraestrutura",
+      "finance": "equipe financeira",
+      "platform": "Equipe de desenvolvimento de plataforma",
+      "qa": "Equipe de controle de qualidade",
+      "system": "sistema"
+    },
+    "departmentFilter": "Filtro de departamento",
+    "roleFilter": "Filtro de função",
+    "statusFilter": "Filtro de status",
+    "positions": {
+      "deputy": "Gerente adjunto",
+      "principal": "Responsável",
+      "lead": "Líder de equipe",
+      "senior": "Sênior",
+      "serviceAccount": "Conta de serviço"
+    },
+    "roles": {
+      "superAdmin": "Administrador principal",
+      "departmentAdmin": "Administrador de departamento",
+      "auditor": "Auditor",
+      "api": "API",
+      "member": "Usuário"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "overQuota": "Cota excedida",
+      "suspended": "Suspenso"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "Agora mesmo",
+    "selectedCount": "{count, number} selecionados",
+    "summary": "{total, number} contas · {suspended, number} suspensas",
+    "bulkSuspendedToast": "{count, number} contas suspensas",
+    "selectUser": "Selecionar {name}",
+    "deleteTitle": "Excluir a conta de {name}?",
+    "deleteDescription": "Toda a caixa de correio e os anexos ({quota}) também serão excluídos. Digite o endereço de e-mail para confirmar."
+  },
+  "adminPolicy": {
+    "domainsTitle": "domínio",
+    "sendLimitsTitle": "Restrições de envio",
+    "mailPolicyTitle": "política de correio",
+    "aiTitle": "Escopo de implantação da função de IA",
+    "aiDescription": "Distribuição passo a passo da função de ajuda de resumo/escrita para cada unidade organizacional. O corpo é processado apenas na região nacional e não é utilizado para treinamento.",
+    "syncStarted": "Comece a sincronizar seu organograma de RH",
+    "syncCompleted": "Sincronização do organograma concluída",
+    "syncing": "Sincronizando...",
+    "syncNow": "Sincronize agora",
+    "justNow": "agora mesmo",
+    "domainTags": {
+      "primary": "básico",
+      "alias": "apelido",
+      "needsReview": "Confirmação necessária"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "Envio por pessoa por hora",
+        "value": "{value, number} mensagens"
+      },
+      "attachmentMb": {
+        "name": "Capacidade de fixação única",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "Grande armazenamento de links",
+        "value": "{value, number} dias"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "Forçar autenticação de domínio de envio externo",
+        "desc": "Cancele a assinatura de e-mails de falha de SPF/DKIM."
+      },
+      "ext": {
+        "name": "Banner de alerta de email externo",
+        "desc": "Exiba um banner na parte superior do corpo das mensagens de fora da sua organização."
+      },
+      "dlp": {
+        "name": "Bloquear transmissão externa de documentos confidenciais (DLP)",
+        "desc": "Bloqueia o envio externo de anexos rotulados como ‘Confidencial’."
+      },
+      "retain": {
+        "name": "Armazenamento de correio por 3 anos, recuperação 30 dias após a exclusão",
+        "desc": "Este é um período de retenção consistente com as diretrizes de gestão de registros de instituições públicas."
+      },
+      "sandbox": {
+        "name": "Inspeção de sandbox de anexos",
+        "desc": "Execute primeiro arquivos executáveis ​​e documentos de macro em um ambiente de isolamento."
+      }
+    },
+    "rollout": {
+      "engineering": "Sede de Tecnologia",
+      "strategyFinance": "Planejamento Estratégico · Finanças",
+      "remaining": "outros guerreiros"
+    },
+    "rolloutState": {
+      "deployed": "Implantação completa",
+      "beta": "beta",
+      "pending": "esperando"
+    },
+    "verifiedCount": "{count, number} verificados",
+    "peopleCount": "{count, number} pessoas",
+    "todayAt": "Hoje às {time}",
+    "syncSummary": "O sistema de RH (Grow) sincroniza o organograma diariamente às 03:00. Última sincronização: {lastSync} · {count, number} pessoas",
+    "domainMeta": {
+      "primary": "{count, number} contas · MX normal · Registrado em {registered}",
+      "alias": "{count, number} contas · Apenas envio global",
+      "review": "{count, number} contas · Sem política MTA-STS"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "Registro de bloqueio/quarentena",
+    "exportStarted": "Exportação de CSV iniciada",
+    "exportCsv": "Exportação CSV",
+    "empty": "Não há registros para esta condição.",
+    "kpis": {
+      "blocked": "Bloqueados (7 dias)",
+      "quarantine": "Aguardando quarentena",
+      "phishing": "Phishing detectado",
+      "accuracy": "precisão de detecção"
+    },
+    "filters": {
+      "all": "tudo",
+      "spam": "spam",
+      "phishing": "phishing",
+      "malware": "malware"
+    },
+    "columns": {
+      "time": "hora",
+      "sender": "remetente",
+      "subjectReason": "Assunto · motivo da detecção",
+      "recipient": "destinatário",
+      "score": "pontuação",
+      "action": "ação"
+    },
+    "actions": {
+      "blocked": "Bloqueado",
+      "quarantined": "Em quarentena",
+      "released": "Liberado",
+      "passed": "Permitido"
+    },
+    "recipients": {
+      "allStaff": "Toda a equipe",
+      "purchasing": "Equipe de compras",
+      "multiple": "Vários destinatários"
+    },
+    "rowCount": "{count, number} registros",
+    "reasons": {
+      "similarDomain": "Domínio semelhante suspeito de phishing",
+      "executable": "Executável detectado",
+      "spoofedDomain": "Domínio falsificado"
+    }
+  },
+  "adminFlow": {
+    "title": "regras",
+    "reorder": "alterar pedido",
+    "reorderToast": "Mudar para o modo de mudança de ordem de regras",
+    "added": "Regra adicionada",
+    "createTitle": "Criar regras",
+    "add": "Adicionar regra",
+    "runSimulation": "Executar simulação",
+    "simulationCompleted": "Simulação concluída",
+    "fields": {
+      "scope": "Aplicável a",
+      "condition": "Condição (SE)",
+      "action": "Ação (ENTÃO)"
+    },
+    "values": {
+      "allOrganization": "toda a organização"
+    },
+    "rules": {
+      "executive": {
+        "name": "Entrega prioritária de e-mails executivos",
+        "condition": "Destinatário = Grupo Executivo",
+        "action": "Entrega instantânea + marcação importante"
+      },
+      "confidential": {
+        "name": "Externo→Bloquear anexo de etiqueta confidencial",
+        "condition": "Rótulo = Confidencial, Destinatário Externo",
+        "action": "Bloquear envio"
+      },
+      "largeAttachment": {
+        "name": "Alternar links de anexos grandes",
+        "condition": "Anexo > 10 MB",
+        "action": "Mudar para o Drive Link"
+      },
+      "recruitment": {
+        "name": "Adicionar referência da equipe de RH ao e-mail de recrutamento",
+        "condition": "Incluir [Recrutamento] no título",
+        "action": "Adicionar referência de RH"
+      },
+      "foreignIp": {
+        "name": "Transmissão IP no exterior em quarentena",
+        "condition": "País de envio do IP ≠ KR",
+        "action": "testes de quarentena"
+      },
+      "formerEmployee": {
+        "name": "Encaminhar correspondência para aposentados",
+        "condition": "Destinatário = Conta de Aposentadoria",
+        "action": "repassado ao sucessor"
+      },
+      "newsletter": {
+        "name": "Classificação em massa de boletins informativos",
+        "condition": "Detecção de cabeçalho de saída em massa",
+        "action": "Etiqueta ‘Boletim Informativo’"
+      },
+      "new": {
+        "name": "novas regras",
+        "condition": "Domínio do remetente = ...",
+        "action": "Rotulagem"
+      }
+    },
+    "evaluationOrder": "Avaliadas de cima para baixo · {count, number} ativas",
+    "hitCount": "{count, number} correspondências",
+    "ruleOrdinal": "Regra {count, number}",
+    "simulationIntro": "Pré-visualize o impacto de uma nova regra no tráfego dos últimos 7 dias.",
+    "simulationScope": "{count, number} afetados",
+    "simulationFalsePositive": "{count, number} falsos positivos esperados",
+    "ifLabel": "SE"
+  },
+  "adminGroups": {
+    "created": "Criou um grupo",
+    "approved": "Envio da mensagem aprovado",
+    "rejected": "Mensagem recusada",
+    "searchPlaceholder": "Pesquisa de endereço/nome de grupo",
+    "noResults": "Nenhum resultado de pesquisa.",
+    "createTitle": "Crie um grupo",
+    "create": "Criar grupo",
+    "pendingModeration": "Moderação pendente",
+    "noPending": "Nenhum item pendente.",
+    "approve": "Aprovar",
+    "reject": "Recusar",
+    "newGroupName": "novo grupo",
+    "currentUser": "eu",
+    "nameOrEmail": "nome ou e-mail",
+    "columns": {
+      "address": "endereço do grupo",
+      "typeOwner": "Tipo/Proprietário",
+      "members": "Membros",
+      "externalSenders": "Remetentes externos",
+      "moderation": "Moderação"
+    },
+    "fields": {
+      "address": "endereço do grupo",
+      "type": "tipo",
+      "addMembers": "Adicionar membro",
+      "externalSenders": "Remetentes externos"
+    },
+    "types": {
+      "distribution": "Lista de distribuição",
+      "security": "grupo de segurança",
+      "shared": "caixa de correio compartilhada"
+    },
+    "external": {
+      "allowed": "Permitidos",
+      "blocked": "Bloqueados"
+    },
+    "moderation": {
+      "required": "Aprovação necessária",
+      "autoReply": "Resposta automática",
+      "none": "Nenhuma"
+    },
+    "summary": "{groups, number} grupos · {lists, number} listas de distribuição",
+    "queueMeta": "{mailbox} · {age} · De: {sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "Administrador · Alvo · Pesquisa de ação",
+    "noResults": "Não há registros que atendam às condições.",
+    "detailTitle": "Detalhes do registro de auditoria",
+    "jsonComingSoon": "O visualizador JSON está em preparação",
+    "viewJson": "Ver JSON",
+    "revert": "reverter",
+    "revertTitle": "Devo reverter essa alteração?",
+    "reverted": "Alteração revertida",
+    "filters": {
+      "admin": "Administrador",
+      "action": "ação",
+      "range": "período",
+      "all": "tudo"
+    },
+    "ranges": {
+      "last7": "Últimos 7 dias",
+      "last30": "Últimos 30 dias",
+      "last90": "Últimos 90 dias",
+      "all": "período inteiro"
+    },
+    "columns": {
+      "time": "hora",
+      "admin": "Administrador",
+      "action": "ação",
+      "targetChange": "Detalhes de meta/alteração",
+      "result": "resultado"
+    },
+    "fields": {
+      "time": "hora",
+      "admin": "Administrador",
+      "action": "ação",
+      "target": "alvo",
+      "ip": "IP",
+      "result": "resultado"
+    },
+    "actions": {
+      "policyChanged": "mudança de política",
+      "accountSuspended": "conta suspensa",
+      "logViewed": "Consulta de registro",
+      "quotaChanged": "mudança de capacidade",
+      "orgSynced": "Sincronização de organograma",
+      "adminLogin": "Login de administrador",
+      "domainAdded": "Adicionar domínio",
+      "accountsCreated": "Criar conta",
+      "quarantineReleased": "libertação da quarentena",
+      "permissionChanged": "Alterar permissões",
+      "backupRestored": "recuperação de backup"
+    },
+    "results": {
+      "success": "sucesso",
+      "blocked": "Bloqueado",
+      "failed": "Falhou"
+    },
+    "summary": "{count, number} registros · retenção de 5 anos · armazenamento imutável",
+    "viewEntry": "Ver detalhes: {action} · {target}",
+    "revertDescription": "Restaurar o estado anterior a {action} para {target}.",
+    "internalIp": "Rede interna",
+    "adminNames": {
+      "system": "Sistema",
+      "unknown": "Desconhecido"
+    },
+    "targets": {
+      "mtaSts": "{name} · MTA-STS ativado",
+      "suspended": "{name} (equipe de QA)",
+      "viewedAudit": "Registro de auditoria · últimos 7 dias",
+      "quotaChanged": "Conta de {name} · 50 GB → 100 GB",
+      "orgSynced": "Sistema de RH → {count, number} pessoas",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "{count, number} contas de funcionários criadas em lote",
+      "quarantineReleased": "{count, number} mensagens · {name}",
+      "permissionChanged": "{name} → permissão de auditoria concedida",
+      "restoreFailed": "Caixa de {name} · backup de {date}"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "Políticas de retenção",
+    "restoreTitle": "Tarefas de restauração",
+    "legalHoldTitle": "Retenção Legal",
+    "viewTargets": "Ver contas afetadas",
+    "kpis": {
+      "lastBackup": {
+        "label": "backup mais recente",
+        "value": "{value}",
+        "note": "Duração {value} min · sucesso"
+      },
+      "storage": {
+        "label": "capacidade de armazenamento",
+        "value": "{value} TB",
+        "note": "+{value} GB em relação ao mês anterior"
+      },
+      "recoveryWindow": {
+        "label": "Quando posso me recuperar?",
+        "value": "{value} dias",
+        "note": "Snapshots diários · {value} anos"
+      },
+      "activeRestores": {
+        "label": "Recuperação em andamento",
+        "value": "{value} tarefas",
+        "note": "Conclusão prevista {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "Retenção padrão da organização",
+        "scope": "Todos os funcionários"
+      },
+      "executive": {
+        "name": "Documentos executivos e de aprovação",
+        "scope": "Executivos"
+      },
+      "publicContracts": {
+        "name": "Registros de contratos públicos",
+        "scope": "Rótulos relacionados a contratos"
+      },
+      "formerEmployees": {
+        "name": "Caixas de ex-funcionários",
+        "scope": "Contas de ex-funcionários"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "exclusão automática",
+      "undeletable": "Não pode ser excluído",
+      "immutable": "armazenamento imutável",
+      "adminAccess": "Ver pelo administrador"
+    },
+    "mailboxKinds": {
+      "personal": "caixa de correio",
+      "shared": "caixa compartilhada"
+    },
+    "jobStates": {
+      "restoring": "Restaurando",
+      "completed": "Concluído",
+      "pending": "Pendente",
+      "failed": "Falhou"
+    },
+    "years": "{count, number} anos",
+    "jobName": "{kind} de {owner} · {date}",
+    "jobMeta": {
+      "restoring": "Conclusão prevista {time}",
+      "completed": "Concluído há {count, number} min",
+      "pending": "Posição {count, number} na fila",
+      "failed": "Erro de autenticação do armazenamento · tente novamente"
+    },
+    "legalHoldDescription": "A exclusão de {accounts, number} contas está bloqueada por {audits, number} auditorias em andamento.",
+    "legalHoldToast": "Abrir {count, number} contas sob retenção legal",
+    "activeAudits": "{count, number} auditorias em andamento"
+  },
+  "adminReports": {
+    "createTitle": "Criar relatório",
+    "includedColumns": "Colunas a serem incluídas",
+    "formatLabel": "formato",
+    "schedule": "Agendar",
+    "export": "exportar",
+    "scheduledToast": "Agendado como relatório recorrente",
+    "exportStarted": "A exportação do relatório começou",
+    "exportPolicyTitle": "Política de Exportação",
+    "recentExportsTitle": "Exportações recentes",
+    "scheduledReportsTitle": "Relatórios agendados",
+    "notAvailable": "-",
+    "fields": {
+      "type": "Tipo de relatório",
+      "range": "período",
+      "scope": "Escopo",
+      "groupBy": "agrupamento"
+    },
+    "values": {
+      "sentReport": "Relatório de emails enviados",
+      "last7": "Últimos 7 dias",
+      "allOrganization": "toda a organização",
+      "daily": "diariamente"
+    },
+    "reportColumns": {
+      "sender": "De",
+      "recipient": "Destinatário",
+      "subject": "Assunto",
+      "time": "hora",
+      "size": "tamanho",
+      "attachmentCount": "número de anexos",
+      "deliveryStatus": "status de entrega",
+      "filterVerdict": "Decisão de filtro",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "relatório",
+      "requestedBy": "solicitante",
+      "size": "tamanho",
+      "completed": "Concluído",
+      "status": "estado"
+    },
+    "exportPolicy": {
+      "metadataOnly": "A exportação inclui apenas metadados e nenhum corpo.",
+      "auditedApproval": "Todas as exportações são registradas no log de auditoria e exigem aprovação do administrador.",
+      "autoDelete": "Os arquivos criados são excluídos automaticamente após 7 dias.",
+      "splitLarge": "Se exceder 1 milhão de linhas, será automaticamente dividido em vários arquivos."
+    },
+    "exportStates": {
+      "completed": "Concluído",
+      "generating": "Gerando",
+      "expired": "expirou",
+      "failed": "Falhou"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "semana passada",
+      "unavailable": "-"
+    },
+    "limits": "Até {days, number} dias · {rows, number} linhas",
+    "estimate": "Cerca de {rows, number} linhas · {size} MB",
+    "exportToastDetail": "{format} · cerca de {rows, number} linhas",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient} ({count, number})",
+    "cadence": {
+      "monthlyFirst": "Dia {day, number} de cada mês às {time}",
+      "weeklyMonday": "Toda {weekday} às {time}",
+      "quarterlyFirst": "Primeiro dia de cada trimestre às {time}",
+      "daily": "Diariamente às {time}",
+      "monthly25": "Dia {day, number} de cada mês"
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "Progresso por lote",
+    "throughputTitle": "Taxa de transferência (últimas 12 horas)",
+    "errorsTitle": "Falhas · ignorados",
+    "retryAll": "Tentar tudo novamente",
+    "retryStarted": "Tentando novamente itens com falha ou ignorados",
+    "noErrors": "Não há itens esperando para serem repetidos.",
+    "kpis": {
+      "accounts": {
+        "label": "Contas migradas",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "Mensagens migradas",
+        "value": "{value} mensagens",
+        "note": "+{value} (24 h)"
+      },
+      "rate": {
+        "label": "velocidade média",
+        "value": "{value} msg/min",
+        "note": "SLA de pelo menos {value}"
+      },
+      "failed": {
+        "label": "Falha/Pendente",
+        "value": "{value} mensagens",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "Lote",
+      "accounts": "Contas",
+      "progress": "progresso",
+      "remaining": "tempo restante",
+      "status": "estado"
+    },
+    "sources": {
+      "otherImap": "IMAP Outro",
+      "mixed": "misturado"
+    },
+    "states": {
+      "completed": "Concluído",
+      "inProgress": "Em andamento",
+      "pending": "Pendente",
+      "retrying": "Tentando novamente"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "A caixa de correio excede a capacidade",
+        "detail": "A conta de destino está com pouco espaço de armazenamento"
+      },
+      "corruptedSource": {
+        "reason": "Danos ao item original",
+        "detail": "Item de correio ilegível"
+      },
+      "unsupportedAttachment": {
+        "reason": "Anexos não suportados",
+        "detail": "Falha na conversão de formato"
+      },
+      "duplicate": {
+        "reason": "Detecção duplicada",
+        "detail": "Ignorar itens já transferidos"
+      },
+      "permissionDenied": {
+        "reason": "Permissão negada",
+        "detail": "Sem acesso ao servidor de origem"
+      }
+    },
+    "batchLimits": "{parallel, number} simultâneos · limite de banda {bandwidth, number} Mbps",
+    "batchName": "Lote {number, number}",
+    "minutesRemaining": "{count, number} min",
+    "throughputSummary": "Média {average, number} msg/min · pico {peak, number}",
+    "itemCount": "{count, number} itens",
+    "syncNotice": "A sincronização IMAP com o servidor de origem continua por {days, number} dias após a migração. Itens com falha podem ser importados novamente a qualquer momento."
+  },
+  "adminBrand": {
+    "identityTitle": "Identidade da organização",
+    "openLogoPicker": "Abrir seletor de ficheiro do logótipo",
+    "replaceLogo": "Substituir logótipo",
+    "replace": "Substituir",
+    "fields": {
+      "organizationName": "Nome de apresentação",
+      "senderLabel": "Nome do remetente",
+      "supportContact": "Contacto de suporte"
+    },
+    "brandColor": "Cor da marca",
+    "selectColor": "Selecionar a cor da marca {color}",
+    "colorAppliesTo": "Aplica-se ao ecrã de início de sessão e aos emails do sistema",
+    "signatureTitle": "Modelo de assinatura da organização",
+    "toggles": {
+      "sig": "Exigir assinatura de todos os colaboradores",
+      "disclaimer": "Adicionar aviso legal aos emails externos",
+      "logo": "Incluir o logótipo nas assinaturas"
+    },
+    "loginPreviewTitle": "Pré-visualização do ecrã de início de sessão",
+    "companyEmail": "Email profissional",
+    "continue": "Continuar",
+    "signInWithSso": "Iniciar sessão com a conta profissional (SSO)",
+    "previewCustomizationHint": "Cada organização pode personalizar a imagem de fundo e o texto.",
+    "openBackgroundPicker": "Abrir seletor da imagem de fundo",
+    "replaceBackground": "Substituir fundo",
+    "openCopyEditor": "Abrir editor de texto",
+    "editCopy": "Editar texto",
+    "published": "Alterações à marca publicadas",
+    "publish": "Publicar"
+  },
+  "adminBilling": {
+    "currentPlan": "Plano atual",
+    "enterpriseAnnual": "Enterprise anual",
+    "planPeriod": "{start} – {end} · Renovação automática",
+    "openPlanChange": "Abrir alteração de plano",
+    "changePlan": "Alterar plano",
+    "seatUsage": "Utilização de licenças",
+    "seatsUsed": "{used} / {total} licenças",
+    "seatEstimate": "Restam {remaining} licenças · Esgotamento previsto em {months} meses",
+    "nextBilling": "Próxima fatura",
+    "nextBillingDetails": "Prevista para {date} · Emissão de fatura fiscal",
+    "openPaymentMethods": "Abrir métodos de pagamento",
+    "managePaymentMethods": "Gerir métodos de pagamento",
+    "licensesTitle": "Composição das licenças",
+    "licenses": {
+      "enterpriseMail": "Correio Enterprise (50 GB)",
+      "aiAssistance": "Resumos e ajuda à escrita com IA",
+      "archive": "Arquivo e eDiscovery",
+      "largeAttachments": "Anexos grandes (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "Plano base",
+      "addon": "Funcionalidade adicional",
+      "included": "Incluído"
+    },
+    "seatCount": "{count} licenças",
+    "included": "—",
+    "pricePerMonth": "{amount}/mês",
+    "contractNotice": "Aplica-se um contrato de contratação pública (preço unitário de terceiros) · N.º {number}",
+    "invoicesTitle": "Histórico de faturas",
+    "columns": {
+      "number": "Número",
+      "date": "Data",
+      "amount": "Montante",
+      "status": "Estado"
+    },
+    "invoiceStates": {
+      "scheduled": "Prevista",
+      "paid": "Paga",
+      "underReview": "Em análise"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "Chave de API",
+    "issueKey": "Criar chave",
+    "columns": {
+      "name": "nome",
+      "key": "chave",
+      "scopes": "Permissões",
+      "lastUsed": "último uso",
+      "status": "estado"
+    },
+    "keyNames": {
+      "legacyErp": "Integração de ERP legado",
+      "approvalSystem": "Sistema de aprovações (Grow)",
+      "reportAutomation": "Automação de relatórios",
+      "oldMobileApp": "aplicativo móvel antigo",
+      "newKey": "Nova chave de API"
+    },
+    "self": "eu",
+    "keyStates": {
+      "reviewNeeded": "Precisa de revisão",
+      "active": "ativo",
+      "inactive": "inativo"
+    },
+    "keyIssued": "Uma chave de API foi emitida",
+    "keyRotated": "Chave rodada",
+    "appDisconnected": "Aplicação desligada",
+    "rotateNow": "Rodar agora",
+    "webhooksTitle": "Webhooks",
+    "webhookStates": {
+      "healthy": "Operacional",
+      "retrying": "Tentando novamente",
+      "frequentFailures": "Falhas frequentes"
+    },
+    "usageTitle": "Uso (30 dias)",
+    "usage": {
+      "calls": "Chamadas (30 dias)",
+      "errorRate": "taxa de erro",
+      "latency": "Latência p95"
+    },
+    "approvedAppsTitle": "Aplicativos aprovados",
+    "noApps": "Não há aplicativos vinculados.",
+    "disconnect": "Desligar",
+    "lastUsed": {
+      "daysAgo": "Há {count} dias",
+      "hoursAgo": "Há {count} horas",
+      "monthsAgo": "Há {count} meses",
+      "justNow": "Agora mesmo",
+      "never": "—"
+    },
+    "staleKeyWarning": "A chave «{name}» não é rodada há mais de {days} dias.",
+    "milliseconds": "{count} ms",
+    "rateLimit": "Limite: {count} chamadas/mês · O excesso devolve 429",
+    "appUsers": "{count} utilizadores"
+  },
+  "composeEditor": {
+    "switchingToPlain": "A mudar para texto simples",
+    "formattingWillBeLost": "A formatação, como negrito e listas, será perdida",
+    "imageAddedAsAttachment": "Imagem adicionada como anexo",
+    "switchToRich": "Mudar para texto formatado",
+    "switchToPlain": "Mudar para texto simples",
+    "plainText": "Texto simples",
+    "richText": "Texto formatado",
+    "bold": "Negrito",
+    "italic": "Itálico",
+    "list": "Lista",
+    "insertLink": "Inserir ligação",
+    "insertImage": "Inserir imagem",
+    "emoji": "Emoji",
+    "closeEmojiMenu": "Fechar menu de emojis",
+    "chooseEmoji": "Escolher emoji",
+    "messageBody": "Corpo da mensagem"
+  },
+  "composeModal": {
+    "attachmentNote": "{count} anexos: {names}",
+    "attachmentCount": "{count} anexos",
+    "bccCount": "Inclui {count} destinatários em Bcc",
+    "rewritingTone": "A reescrever o rascunho num tom {tone}",
+    "externalRecipientWarning": "Inclui {count} destinatários externos",
+    "uploadComplete": "{size} · Carregamento concluído",
+    "schedule": {
+      "today": "Hoje às {time}",
+      "tomorrow": "Amanhã às {time}",
+      "nextMonday": "Na próxima segunda-feira às {time}"
+    },
+    "largeFilesBecomeLinks": "Arquivos grandes são automaticamente convertidos em links",
+    "fileTooLarge": "Arquivos maiores que 2 GB não podem ser anexados",
+    "sent": "Mensagem enviada",
+    "newMail": "novo e-mail",
+    "savedJustNow": "Rascunho guardado · Agora mesmo",
+    "collapse": "Reduzir",
+    "expand": "Ampliar",
+    "close": "fechar",
+    "to": "Para",
+    "removeRecipient": "remover",
+    "recipientPlaceholder": "Introduza um nome ou email…",
+    "ccAndBcc": "Cc · Bcc",
+    "cc": "Cc",
+    "ccPlaceholder": "Destinatário do CC",
+    "bcc": "Bcc",
+    "bccPlaceholder": "Destinatário Cco",
+    "subject": "Assunto",
+    "subjectPlaceholder": "Introduza um assunto",
+    "toneHint": "Depois de escolher seu tom, reescreveremos seu rascunho.",
+    "tones": {
+      "polite": "Educado",
+      "concise": "Conciso",
+      "english": "Em inglês"
+    },
+    "externalRecipientBody": "Verifique novamente se as informações internas não estão sendo enviadas externamente.",
+    "reviewRecipients": "Rever destinatários",
+    "bodyPlaceholder": "Escreva a mensagem",
+    "largeFileLinkSuffix": " · Ligação para ficheiro grande",
+    "removeAttachment": "Remover anexos",
+    "chooseAttachments": "Escolher anexos",
+    "dropFiles": "Arraste e solte arquivos",
+    "attachmentLimits": "Ficheiros com mais de 25 MB tornam-se ligações · Máximo 2 GB",
+    "send": "enviar",
+    "scheduleSend": "Agendar",
+    "closeScheduleMenu": "Fechar menu de agendamento",
+    "scheduleTimes": "Horas de envio agendado",
+    "scheduled": "Envio da mensagem agendado",
+    "attachFile": "Anexar arquivo",
+    "tlsEncrypted": "Criptografia de saída (TLS)",
+    "delete": "Excluir",
+    "discardTitle": "Sair sem guardar?",
+    "discardDescription": "A mensagem inacabada permanece nos Rascunhos.",
+    "continueEditing": "Continuar a escrever",
+    "saveDraft": "Guardar rascunho",
+    "discardWithoutSaving": "Descartar sem guardar",
+    "draftSaved": "Guardado nos Rascunhos"
+  },
+  "themeCustomizer": {
+    "title": "Personalizar tema",
+    "close": "Fechar",
+    "designThemes": "Temas de design",
+    "colorsTitle": "Cores",
+    "primaryColor": "Cor principal",
+    "accentColor": "Cor de destaque",
+    "screenMode": "Modo de apresentação",
+    "schemes": {
+      "light": "Claro",
+      "dark": "Escuro",
+      "system": "Sistema"
+    },
+    "typography": "Tipografia",
+    "fonts": {
+      "sans": "Predefinido (Sans)",
+      "serif": "Serif",
+      "mono": "Monoespaçado",
+      "rounded": "Arredondado"
+    },
+    "layout": "Disposição",
+    "listDensity": "Densidade da lista",
+    "densities": {
+      "comfortable": "Espaçoso",
+      "compact": "Compacto"
+    },
+    "sidebarPosition": "Posição da barra lateral",
+    "sides": {
+      "left": "Esquerda",
+      "right": "Direita"
+    },
+    "corners": "Cantos",
+    "radii": {
+      "sharp": "Angulares",
+      "rounded": "Arredondados",
+      "pill": "Em pílula"
+    },
+    "defaults": "Valores predefinidos",
+    "cancel": "Cancelar",
+    "publish": "Publicar",
+    "colors": {
+      "blue": "Azul",
+      "indigo": "Índigo",
+      "teal": "Verde-azulado",
+      "green": "Verde",
+      "rose": "Rosa",
+      "purple": "Roxo",
+      "orange": "Laranja",
+      "yellow": "Amarelo",
+      "pink": "Rosa vivo",
+      "cyan": "Ciano",
+      "lime": "Lima",
+      "gray": "Cinzento"
+    },
+    "presets": {
+      "broadsheet": "Serif editorial com cores de processo ciano e magenta",
+      "classical": "Serif clássico elegante em tons de bronze",
+      "industry": "Estilo utilitário contido em azul-aço",
+      "modernist": "Grelha Bauhaus angular em vermelho-alaranjado vivo",
+      "nocturne": "Estilo de aplicação escuro com detalhes azul-violeta",
+      "organic": "Estilo suave e arredondado em terracota e sálvia"
+    }
+  },
+  "searchPage": {
+    "results": "Resultados da pesquisa",
+    "allResults": "Todos os resultados",
+    "resultCount": "{count} resultados",
+    "syntaxHelp": "Ajuda da sintaxe de pesquisa",
+    "syntaxHelpShortcut": "Ajuda da sintaxe de pesquisa (?)",
+    "filters": "Filtros",
+    "sortBy": "Ordenar por",
+    "resultList": "Lista de resultados da pesquisa",
+    "noResults": "Nenhum resultado encontrado.",
+    "peopleCount": "{count} pessoas",
+    "itemCount": "{count} itens",
+    "searchFilters": "Filtros de pesquisa",
+    "narrowResults": "Refinar resultados",
+    "examples": "Exemplos de pesquisa",
+    "groups": {
+      "mail": "E-mails",
+      "file": "Anexos",
+      "person": "Pessoas"
+    },
+    "facets": {
+      "period": "Período",
+      "folder": "Pasta",
+      "attachmentType": "Tipo de anexo",
+      "label": "Marcador"
+    },
+    "facetRows": {
+      "today": "Hoje",
+      "lastSevenDays": "Últimos 7 dias",
+      "lastSixMonths": "Últimos 6 meses",
+      "all": "Todos",
+      "inbox": "Caixa de entrada",
+      "sent": "Enviados",
+      "pendingApproval": "Aguardando aprovação",
+      "archive": "Arquivo",
+      "pdf": "PDF",
+      "xls": "Planilhas",
+      "doc": "Documentos",
+      "img": "Imagens",
+      "budgetFinance": "Orçamento · Finanças",
+      "projectAtlas": "Projeto Atlas",
+      "confidential": "Confidencial"
+    },
+    "chips": {
+      "hasAttachment": "Com anexos",
+      "recentSixMonths": "Últimos 6 meses"
+    },
+    "sort": {
+      "relevance": "Mais relevantes",
+      "newest": "Mais recentes",
+      "sender": "Remetente"
+    },
+    "saved": {
+      "senderAttachments": "Anexos de {name}",
+      "inboxBudget": "Orçamento na caixa de entrada",
+      "pdfFiles": "Anexos PDF"
+    }
+  },
+  "searchSyntax": {
+    "title": "Sintaxe de pesquisa",
+    "description": "Condições aceitas pelos dados de exemplo deste modelo.",
+    "close": "Fechar",
+    "people": "Pessoas · Escopo",
+    "content": "Conteúdo · Status",
+    "rulesTitle": "Regras de combinação",
+    "recipesTitle": "Combinações comuns",
+    "operators": {
+      "fromSender": "E-mails e anexos de {name}",
+      "inFolder": "Resultados na caixa de entrada",
+      "subject": "Palavra no assunto",
+      "exactPhrase": "Pesquisar uma frase exata",
+      "hasAttachment": "E-mails e arquivos com anexos",
+      "filename": "Anexo com extensão específica"
+    },
+    "rules": {
+      "allTerms": "Todas as palavras e condições devem corresponder.",
+      "quotedPhrase": "Use aspas duplas em frases com espaços.",
+      "unsupportedOperator": "Operadores não suportados não retornam resultados."
+    },
+    "recipes": {
+      "senderAttachments": "Anexos de {name}",
+      "inboxBudget": "Resultados sobre orçamento na caixa de entrada",
+      "pdfFiles": "Resultados com anexos PDF"
+    }
+  },
+  "accessibilityReport": {
+    "title": "Relatório de acessibilidade · KWCAG 2.2",
+    "sectionLabel": "Relatório de acessibilidade",
+    "passSummary": "Aprovados {passed} / {total}",
+    "auditNote": "Critérios para o setor público · autoavaliação em {date}",
+    "checklist": "Itens de verificação",
+    "contrastHeading": "Verificação de contraste",
+    "colorPair": "{role} {foreground} / fundo {background}",
+    "focusTouchHeading": "Foco · Alvos de toque",
+    "focusState": "Estado de foco",
+    "touchTarget": "Mínimo de 44 × 44 px · botões móveis, abas e linhas (filtros: 34 px)",
+    "focusRing": "O anel de foco usa contorno de 2 px com deslocamento de 3 px e aparece apenas com o teclado (:focus-visible).",
+    "assistiveTest": "Teste de tecnologia assistiva",
+    "mailListNote": "A lista de e-mails é lida como tabela e o estado não lido também é comunicado em texto.",
+    "states": {
+      "pass": "Aprovado",
+      "inProgress": "Em andamento",
+      "largeOnly": "Apenas texto grande"
+    },
+    "colors": {
+      "body": "Texto principal",
+      "secondary": "Texto secundário",
+      "accent": "Destaque",
+      "muted": "Texto discreto"
+    },
+    "checks": {
+      "keyboard": "Totalmente operável por teclado",
+      "focus": "Foco visível",
+      "contrast": "Contraste do texto de pelo menos 4.5:1",
+      "color": "Informações não transmitidas apenas por cor",
+      "altText": "Texto alternativo",
+      "tableHeaders": "Estrutura e cabeçalhos de tabelas",
+      "errors": "Identificação e recuperação de erros",
+      "zoom": "Ampliação do texto para 200%",
+      "timing": "Limites de tempo ajustáveis"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "Calendário mensal",
+    "timeView": "Eventos por horário",
+    "mobileView": "Calendário móvel",
+    "todaySummary": "{todayCount} hoje · {weekCount} nesta semana",
+    "createEvent": "Criar evento",
+    "detectedEvent": "Evento detectado no e-mail",
+    "detectedDescription": "“{title}”: um evento foi encontrado em um e-mail de {personName}.",
+    "addToCalendar": "Adicionar ao calendário",
+    "dismiss": "Ignorar",
+    "noEvents": "Nenhum evento nesta data."
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "Navegação",
+      "global": "Global",
+      "list": "Lista",
+      "mail": "Ações de e-mail",
+      "compose": "Redação",
+      "reply": "Resposta",
+      "search": "Pesquisa",
+      "admin": "Administração"
+    },
+    "actions": {
+      "inbox": "Caixa de entrada",
+      "sent": "Enviados",
+      "drafts": "Rascunhos",
+      "pendingApprovals": "Aprovações pendentes",
+      "calendar": "Calendário",
+      "contacts": "Contatos",
+      "commandSearch": "Pesquisa · Paleta de comandos",
+      "compose": "Escrever novo e-mail",
+      "notifications": "Central de notificações",
+      "shortcutHelp": "Ajuda dos atalhos",
+      "settings": "Configurações",
+      "collapseSidebar": "Recolher barra lateral",
+      "nextPrevious": "Próximo · Anterior",
+      "open": "Abrir",
+      "select": "Selecionar",
+      "selectAll": "Selecionar tudo",
+      "toggleRead": "Lido · Não lido",
+      "star": "Marcar como importante",
+      "archive": "Arquivar",
+      "delete": "Excluir",
+      "reportSpam": "Denunciar spam",
+      "snooze": "Adiar",
+      "addLabel": "Adicionar marcador",
+      "moveToFolder": "Mover para pasta",
+      "send": "Enviar",
+      "saveDraft": "Salvar rascunho",
+      "scheduleSend": "Agendar envio",
+      "attachFile": "Adicionar anexo",
+      "addRecipient": "Adicionar destinatário",
+      "closeWindow": "Fechar janela",
+      "reply": "Responder",
+      "replyAll": "Responder a todos",
+      "forward": "Encaminhar",
+      "collapseQuote": "Recolher texto citado",
+      "viewOriginal": "Ver original",
+      "openSearch": "Abrir pesquisa",
+      "syntaxHelp": "Ajuda da sintaxe",
+      "searchWithinResults": "Pesquisar nos resultados",
+      "resetFilters": "Redefinir filtros",
+      "switchTab": "Alternar aba",
+      "searchTable": "Pesquisar na tabela",
+      "exportSelected": "Exportar selecionados",
+      "refresh": "Atualizar"
+    },
+    "title": "Atalhos de teclado",
+    "printEdition": "GXWebMail · Lista completa para impressão · {edition}",
+    "openWith": "Pressione <key>?</key> para abrir esta página",
+    "windowsModifier": "No Windows, use Ctrl em vez de ⌘",
+    "footerNote": "Você pode desativar os atalhos em Configurações · Acessibilidade. Eles não funcionam durante a digitação."
+  },
+  "securityPage": {
+    "title": "Segurança da conta",
+    "scoreSummary": "Pontuação de segurança {score} / {total} · {count} melhorias",
+    "passwordAge": "Senha alterada há {days} dias",
+    "mfaHeading": "Autenticação de dois fatores",
+    "backupCodeNote": "{unused} de {total} códigos de backup não usados · Guarde-os em segurança",
+    "passwordSsoHeading": "Senha · SSO",
+    "appPasswordNotice": "{count} senhas de aplicativo são usadas para IMAP. Clientes modernos aceitam OAuth.",
+    "sessionsHeading": "Dispositivos conectados · Sessões",
+    "logoutAll": "Sair de todos",
+    "logout": "Sair",
+    "recentActivity": "Atividade de segurança recente",
+    "sessionRevoked": "Sessão encerrada",
+    "openAction": "Abrindo {action} para {method}",
+    "reissueTitle": "Gerar novos códigos de backup?",
+    "reissueDescription": "Os {count} códigos atuais serão invalidados imediatamente e {count} novos códigos serão emitidos.",
+    "reissueSuccess": "Códigos de backup gerados novamente",
+    "reissueSuccessDetail": "{count} novos códigos · Guarde-os em segurança",
+    "logoutAllTitle": "Sair de todos os outros dispositivos?",
+    "logoutAllDescription": "Todas as sessões, exceto a deste dispositivo, serão encerradas imediatamente.",
+    "logoutAllSuccess": "Sessões encerradas em todos os outros dispositivos",
+    "mfaNames": {
+      "totp": "Aplicativo autenticador (TOTP)",
+      "securityKey": "Chave de segurança (FIDO2)",
+      "sms": "Mensagem SMS",
+      "emailCode": "Código por e-mail"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail} · Cadastrado em {date}",
+      "securityKey": "{detail} · Toque sem impressão digital",
+      "sms": "{detail}",
+      "emailCode": "E-mail pessoal {detail}"
+    },
+    "authNames": {
+      "password": "Senha",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "Senha de aplicativo"
+    },
+    "authDescriptions": {
+      "password": "Alterada há {age} dias · A política exige troca a cada {cycle} dias",
+      "sso": "Login com conta corporativa · Provisionamento automático",
+      "appPassword": "Usada por {count} clientes IMAP"
+    },
+    "badges": {
+      "primary": "Principal",
+      "currentDevice": "Dispositivo atual",
+      "appPassword": "Senha de aplicativo",
+      "needsReview": "Revisão necessária"
+    },
+    "states": {
+      "active": "Ativo",
+      "backup": "Backup",
+      "unused": "Não usado",
+      "caution": "Atenção",
+      "connected": "Conectado",
+      "review": "Revisão necessária"
+    },
+    "actions": {
+      "reset": "Redefinir",
+      "manage": "Gerenciar",
+      "change": "Alterar",
+      "configure": "Configurar",
+      "view": "Ver",
+      "reissue": "Gerar novamente"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "Seul · {ip} · Rede corporativa",
+        "when": "Ativo"
+      },
+      "iphone": {
+        "meta": "Seul · LTE",
+        "when": "Há 12 minutos"
+      },
+      "windows": {
+        "meta": "Seongnam · PC do escritório",
+        "when": "Ontem às 18:22"
+      },
+      "ipad": {
+        "meta": "Seul · Wi-Fi de casa",
+        "when": "Há 3 dias"
+      },
+      "outlook": {
+        "meta": "Seul · Senha de aplicativo",
+        "when": "Há 6 dias"
+      },
+      "ubuntu": {
+        "meta": "Osaka, Japão · Local desconhecido",
+        "when": "Há 8 dias"
+      }
+    },
+    "events": {
+      "osakaLogin": "Login de novo dispositivo em Osaka",
+      "securityKeyRegistered": "Chave de segurança registrada (YubiKey 5C)",
+      "backupCodesUsed": "3 códigos de backup usados"
+    },
+    "when": {
+      "eightDays": "Há 8 dias",
+      "threeWeeks": "Há 3 semanas",
+      "oneMonth": "Há 1 mês"
+    }
+  },
+  "quarantinePage": {
+    "title": "Quarentena",
+    "itemCount": "{count} mensagens",
+    "autoDelete": "Exclusão automática após {days} dias",
+    "listLabel": "Lista de e-mails em quarentena",
+    "categoryLabel": "Categoria de quarentena",
+    "selectMail": "Selecionar e-mail em quarentena: {subject}",
+    "selectPrompt": "Selecione uma mensagem.",
+    "backToList": "Voltar à lista de quarentena",
+    "release": "Mover para a caixa de entrada",
+    "requestAllowSender": "Solicitar liberação do remetente",
+    "delete": "Excluir",
+    "approvalRequired": "A liberação ocorre após aprovação da equipe de segurança",
+    "released": "Movido para a caixa de entrada",
+    "allowRequested": "Liberação do remetente solicitada",
+    "deleted": "Mensagem excluída permanentemente",
+    "recipients": "Enviado para {count} pessoas da {team}",
+    "hrTeam": "equipe de RH",
+    "riskBadge": "{kind} · Risco {score}",
+    "spoofedDomainTitle": "O domínio do remetente imita o da organização",
+    "reasonTitle": "Motivo da quarentena ({kind}): {reason}",
+    "spoofedDomainBody": "Enviado de {domain}, que imita {trustedDomain}. O link leva a uma página externa de login. Não abra; recomenda-se excluir.",
+    "riskBody": "Em quarentena com pontuação de risco {score}. Confira remetente e assunto antes de agir.",
+    "lookupDomain": "Consultar domínio do remetente",
+    "lookupResult": "Resultado da consulta do domínio",
+    "domainRisk": "{domain} · Reputação arriscada",
+    "evidenceHeading": "Evidências da detecção",
+    "riskScore": "Pontuação de risco {score}",
+    "safePreviewHeading": "Prévia segura (somente texto)",
+    "blockedLinks": "{count} link bloqueado.",
+    "aiWarning": "Avisos autênticos de RH são enviados somente pelo sistema interno de aprovação.",
+    "noPreview": "Não há prévia do corpo desta mensagem.",
+    "deleteTitle": "Excluir esta mensagem permanentemente?",
+    "deleteDescription": "A exclusão de “{subject}” não pode ser desfeita.",
+    "deletePermanently": "Excluir permanentemente",
+    "kinds": {
+      "all": "Todos",
+      "spam": "Spam",
+      "phishing": "Phishing",
+      "malware": "Malware"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "Domínio semelhante · Link externo de login",
+      "bulkNoUnsubscribe": "Envio em massa · Sem opção de cancelamento",
+      "executableAttachment": "Anexo executável detectado",
+      "spoofedDomainCredentials": "Domínio semelhante · Solicitação de credenciais",
+      "bulkPattern": "Padrão de envio em massa",
+      "spfFailure": "Falha no SPF",
+      "spoofedDomainPayment": "Domínio semelhante · Solicitação de dados de pagamento"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "Autenticação do domínio remetente",
+        "detail": "Falha no SPF · Sem assinatura DKIM · Rejeição DMARC"
+      },
+      "typosquatting": {
+        "name": "Domínio semelhante (typosquatting)",
+        "detail": "gxsoft-kr.net — distância de edição 1"
+      },
+      "bodyLink": {
+        "name": "Link no corpo",
+        "detail": "1 página externa de login · Hospedagem já denunciada"
+      },
+      "sendingPattern": {
+        "name": "Padrão de envio",
+        "detail": "Mesmo conteúdo enviado a 14 contas ao mesmo tempo"
+      },
+      "attachment": {
+        "name": "Anexo",
+        "detail": "Sem anexo"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "Meus calendários",
+    "roomAvailability": "Disponibilidade de salas · Hoje",
+    "capacity": "{count} pessoas",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "today": "Hoje",
+    "schedule": "Agenda do calendário",
+    "close": "Fechar",
+    "title": "Título",
+    "titlePlaceholder": "Ex.: reunião inicial com parceiro",
+    "date": "Data",
+    "start": "Início",
+    "end": "Fim",
+    "calendar": "Calendário",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "eventCreated": "Evento criado",
+    "views": {
+      "day": "Dia",
+      "week": "Semana",
+      "month": "Mês"
+    },
+    "categories": {
+      "personal": "Meu calendário",
+      "team": "Equipe de estratégia",
+      "executive": "Calendário executivo (somente leitura)",
+      "room": "Reservas de salas",
+      "holiday": "Feriados da Coreia do Sul"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "Sala de reunião 5B",
+        "amenity": "Projetor · vídeo",
+        "status": "Disponível"
+      },
+      "room3a": {
+        "name": "Sala de reunião 3A",
+        "amenity": "Quadro branco",
+        "status": "Ocupada às 15:00"
+      },
+      "auditorium": {
+        "name": "Sala de conferências",
+        "amenity": "Equipamento de transmissão",
+        "status": "Reservada o dia todo"
+      },
+      "focus": {
+        "name": "Sala de foco",
+        "amenity": "Chamada individual",
+        "status": "Disponível"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "Ignorar",
+    "previous": "Anterior",
+    "finish": "Concluir",
+    "next": "Próximo",
+    "getStarted": "Começar",
+    "close": "Fechar",
+    "progress": "{done} / {total} concluídos",
+    "minutes": "{count} min",
+    "steps": {
+      "compose": {
+        "title": "Comece escrevendo um e-mail",
+        "body": "Use o botão Escrever no canto superior esquerdo para criar uma nova mensagem."
+      },
+      "search": {
+        "title": "Pesquise de qualquer lugar",
+        "body": "Encontre e-mails, pessoas e anexos em um só lugar. Você também pode usar filtros como from:alex."
+      },
+      "theme": {
+        "title": "Personalize o tema",
+        "body": "Ajuste cores, fontes e layout para sua organização na personalização do tema."
+      },
+      "tools": {
+        "title": "Calendário · Contatos · Aprovações",
+        "body": "Abra calendário, contatos e aprovações diretamente pela barra lateral."
+      },
+      "quarantine": {
+        "title": "Verifique a quarentena",
+        "body": "Mensagens suspeitas são isoladas automaticamente e podem ser vistas com segurança."
+      },
+      "ready": {
+        "title": "Tudo pronto",
+        "body": "Conclua a configuração de assinatura, respostas automáticas e atalhos em Configurações."
+      }
+    },
+    "checklist": {
+      "avatar": "Adicionar foto de perfil",
+      "signature": "Criar assinatura",
+      "twoFactor": "Ativar autenticação de dois fatores",
+      "mobileApp": "Instalar o app móvel",
+      "importMail": "Importar e-mails existentes"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "Nenhum contato novo para importar",
+    "duplicateNotice": "Contatos com o mesmo endereço de e-mail foram ignorados.",
+    "imported": "{count} contatos importados",
+    "duplicatesSkipped": "{count} duplicados ignorados",
+    "failed": "Não foi possível importar os contatos",
+    "errors": {
+      "fileTooLarge": "Escolha um arquivo menor que 2 MiB.",
+      "unclosedQuote": "Há aspas não fechadas no CSV.",
+      "missingRows": "O CSV precisa de um cabeçalho e pelo menos uma linha de contato.",
+      "missingNameColumn": "O CSV precisa de uma coluna de nome.",
+      "tooManyContacts": "Você pode importar até 500 contatos de uma vez.",
+      "missingCsvName": "A linha {row} do CSV não tem nome.",
+      "invalidVcard": "Nenhuma entrada vCard válida foi encontrada.",
+      "missingVcardName": "A entrada vCard {row} não tem nome.",
+      "unsupportedFile": "Apenas arquivos CSV ou vCard (.vcf) podem ser importados.",
+      "unknown": "Selecione o arquivo novamente."
+    }
+  },
+  "contactsPage": {
+    "title": "Contatos",
+    "orgChart": "Organograma",
+    "orgSearchPlaceholder": "Nome · Departamento",
+    "orgSearchLabel": "Pesquisar nomes e departamentos",
+    "noResults": "Nenhum resultado.",
+    "myContacts": "Meus contatos",
+    "contactSummary": "{count} contatos pessoais · {recent} coletados recentemente",
+    "importTooltip": "Importar CSV · vCard",
+    "importing": "Importando…",
+    "import": "Importar",
+    "addContact": "Adicionar contato",
+    "searchPlaceholder": "Nome · Empresa · E-mail",
+    "searchLabel": "Pesquisar nomes, empresas e e-mails",
+    "mail": "E-mail",
+    "companyPosition": "Empresa · Cargo",
+    "group": "Grupo",
+    "noMatchingContacts": "Nenhum contato corresponde aos critérios.",
+    "selectContact": "Selecionar contato: {name} · {email}",
+    "removeFavorite": "Remover {name} dos favoritos",
+    "addFavorite": "Adicionar {name} aos favoritos",
+    "selectPrompt": "Selecione um contato.",
+    "editContact": "Editar contato",
+    "nameRequired": "Digite um nome.",
+    "save": "Salvar",
+    "cancelChanges": "Descartar alterações",
+    "delete": "Excluir",
+    "saved": "Contato salvo",
+    "newContact": "Novo contato",
+    "contactAdded": "Novo contato adicionado",
+    "enterDetails": "Digite os detalhes",
+    "mobileContacts": "Contatos móveis",
+    "backToList": "Voltar à lista",
+    "myCount": "Meus contatos: {count}",
+    "importContacts": "Importar contatos",
+    "importingContacts": "Importando contatos",
+    "viewContact": "Ver contato: {name}",
+    "groups": {
+      "all": "Todos",
+      "starred": "Favoritos",
+      "external": "Parceiros externos",
+      "purchasing": "Contatos de compras",
+      "advisor": "Consultores",
+      "personal": "Pessoal"
+    },
+    "fields": {
+      "name": "Nome",
+      "company": "Empresa",
+      "title": "Cargo · Departamento",
+      "email": "E-mail",
+      "mobile": "Celular",
+      "phone": "Telefone comercial",
+      "memo": "Notas"
+    },
+    "teamSummary": "{parent} › {team} · {count} pessoas",
+    "teamCount": "{team} · {count} pessoas",
+    "peopleCount": "{count} pessoas",
+    "openTeamCompose": "Abrindo uma mensagem para toda a equipe",
+    "mailTeam": "Enviar e-mail à equipe",
+    "vcardExported": "vCard exportado",
+    "exportVcard": "Exportar vCard",
+    "teamEmpty": "Esta equipe ainda não tem integrantes cadastrados.",
+    "selectMember": "Selecione um integrante.",
+    "openCompose": "Abrindo composição de e-mail",
+    "composeMail": "Escrever e-mail",
+    "openSchedule": "Abrindo agendamento",
+    "scheduleMeeting": "Agendar reunião",
+    "recentMail": "E-mails recentes",
+    "noHistory": "Sem histórico.",
+    "presence": {
+      "working": "Trabalhando · Escritório",
+      "away": "Ausente",
+      "offline": "Offline"
+    },
+    "approvalLines": {
+      "directorCeo": "Chefia de divisão → Diretoria",
+      "leadDirector": "Liderança de equipe → Chefia de divisão"
+    },
+    "profile": {
+      "email": "E-mail",
+      "workPhone": "Telefone comercial",
+      "mobile": "Celular",
+      "organization": "Organização",
+      "joined": "Data de admissão",
+      "approvalLine": "Fluxo de aprovação"
+    }
+  },
+  "filesPage": {
+    "title": "Anexos",
+    "summary": "{count} anexos de e-mail · {used} · {links} links grandes ativos",
+    "search": "Pesquisar arquivos e remetentes",
+    "gridView": "Visualização em grade",
+    "listView": "Visualização em lista",
+    "filters": "Filtros de anexos",
+    "type": "Tipo",
+    "period": "Período",
+    "storage": "Armazenamento {used} / {total}",
+    "storageHint": "Limpe {count} anexos grandes para liberar {amount}.",
+    "fileType": "Tipo de arquivo",
+    "filePeriod": "Período do arquivo",
+    "recentAttachments": "Anexos recentes",
+    "itemCount": "{count} itens",
+    "noResults": "Nenhum resultado.",
+    "attachmentSummary": "Resumo dos anexos",
+    "largeLinks": "Links grandes",
+    "downloads": "{count} downloads",
+    "cleanupTitle": "Sugestão de limpeza",
+    "cleanupDescription": "{count} anexos acima de {threshold} com mais de {years} anos. Mantenha o corpo do e-mail e exclua apenas os anexos para liberar {amount}.",
+    "cleanupOpen": "Abrir a lista de {count} anexos para limpeza",
+    "cleanupEstimate": "Espaço estimado: {amount}",
+    "reviewList": "Revisar lista",
+    "downloading": "Baixando arquivo",
+    "system": "Sistema",
+    "types": {
+      "all": "Todos",
+      "document": "Documentos",
+      "spreadsheet": "Planilhas",
+      "presentation": "Apresentações",
+      "image": "Imagens",
+      "archive": "Arquivos compactados",
+      "other": "Outros"
+    },
+    "periods": {
+      "last7": "Últimos 7 dias",
+      "last30": "Últimos 30 dias",
+      "thisYear": "Este ano",
+      "all": "Todo o período"
+    },
+    "sorts": {
+      "latest": "Mais recentes",
+      "size": "Tamanho",
+      "sender": "Remetente"
+    },
+    "linkStates": {
+      "active": "Ativo",
+      "expiring": "Perto do vencimento",
+      "expired": "Vencido"
+    },
+    "expiry": {
+      "days": "Restam {count} dias",
+      "tomorrow": "Vence amanhã",
+      "expired": "Vencido"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "{amount} por ano",
+    "title": "Aprovações",
+    "myTurnCount": "{count} aguardando minha ação",
+    "documentList": "Documentos de aprovação",
+    "approvalStatus": "Status da aprovação",
+    "selectDocument": "Selecionar documento: {title}",
+    "emptyStatus": "Nenhum documento com este status.",
+    "selectPrompt": "Selecione um documento.",
+    "backToList": "Voltar às aprovações",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "holdRequested": "Solicitação de espera e parecer enviada",
+    "holdAndRequest": "Aguardar · Solicitar parecer",
+    "documentMeta": "Documento {number} · Reter por {years} anos",
+    "detailedAuthor": "Enviado por {author} (CTO) · {date} · Conversa de e-mail vinculada",
+    "briefAuthor": "Enviado por {author} · {number} · {due}",
+    "requestedAmount": "Valor solicitado",
+    "approvalChain": "Fluxo de aprovação",
+    "approvedOn": "Aprovado em {date}",
+    "requestDetails": "Detalhes da solicitação",
+    "aiComparison": "Em comparação com {count} solicitações semelhantes, o preço unitário está {percent}% abaixo da média. Esta versão incorpora os comentários da equipe financeira.",
+    "noDetailedRecord": "O fluxo de aprovação e os detalhes não estão incluídos nos dados de exemplo.",
+    "commentsHistory": "Comentários · Histórico",
+    "noComments": "Ainda não há comentários.",
+    "commentPlaceholder": "Deixe um comentário… (Enter para publicar)",
+    "approvalComment": "Comentário da aprovação",
+    "approveQuestion": "Aprovar esta solicitação?",
+    "rejectQuestion": "Rejeitar esta solicitação?",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · Será marcada como rejeitada.",
+    "approvedToast": "Solicitação aprovada",
+    "rejectedToast": "Solicitação rejeitada",
+    "automaticCheck": "Verificação automática",
+    "automaticCheckBody": "A proposta anexada corresponde ao valor solicitado. O código orçamentário IT-CAPEX-26H1 tem saldo suficiente.",
+    "tabs": {
+      "mine": "Minha vez",
+      "drafts": "Rascunhos",
+      "inProgress": "Em andamento",
+      "completed": "Concluídas"
+    },
+    "types": {
+      "budget": "Orçamento",
+      "contract": "Contrato",
+      "purchase": "Compra",
+      "hr": "RH",
+      "expense": "Despesa",
+      "policy": "Política"
+    },
+    "due": {
+      "today": "Vence hoje",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "Em andamento",
+      "completed": "Concluída",
+      "approved": "Minha aprovação concluída",
+      "rejected": "Rejeitada"
+    },
+    "roles": {
+      "drafter": "Envio · CTO",
+      "reviewer": "Análise · Líder",
+      "finance": "Consulta · Finanças",
+      "approver": "Aprovação · Eu",
+      "final": "Aprovação final"
+    },
+    "chainDetails": {
+      "done": "Concluído",
+      "pending": "Aguardando",
+      "upcoming": "Previsto",
+      "approved": "Minha aprovação concluída",
+      "rejected": "Rejeitada"
+    }
   }
 }

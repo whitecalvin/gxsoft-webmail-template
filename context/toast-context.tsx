@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useTranslations } from "next-intl";
 import type { ToastItem, ToastTone } from "@/types/overlay";
 
 // Global toast/snackbar queue, rendered by components/toast/ToastStack.
@@ -42,6 +43,7 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 export function ToastProvider({ children }: { children: ReactNode }) {
+  const t = useTranslations("common");
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const timers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
@@ -84,7 +86,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     error: (title, opts) => push("error", title, opts),
     info: (title, opts) => push("info", title, opts),
     undo: (title, onAction, opts) =>
-      push("undo", title, { ...opts, actionLabel: "실행취소", onAction }),
+      push("undo", title, { ...opts, actionLabel: t("undo"), onAction }),
     dismiss,
   };
 

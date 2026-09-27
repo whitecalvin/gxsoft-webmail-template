@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "메뉴 열기",
     "searchPlaceholder": "메일 검색",
+    "closeSearch": "검색 닫기",
     "clearSearch": "검색어 지우기",
     "tour": "둘러보기",
     "notifications": "알림"
@@ -41,6 +42,8 @@
     "trash": "휴지통"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "본문으로 건너뛰기",
     "navigation": "업무 메뉴",
     "mailboxGroup": "메일함",
     "collaborationGroup": "협업",
@@ -75,6 +78,8 @@
     "sessionExtend": "계속 사용"
   },
   "mailList": {
+    "noSubject": "(제목 없음)",
+    "yesterday": "어제",
     "searchResultsFor": "\"{query}\" 검색 결과",
     "countUnit": "{count}통",
     "noSearchResults": "검색 결과가 없습니다.",
@@ -119,11 +124,13 @@
     "delete": "삭제",
     "edit": "편집",
     "close": "닫기",
+    "undo": "실행취소",
     "back": "뒤로",
     "deleteForever": "영구 삭제",
     "sendAnyway": "그래도 보내기"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "메일로 돌아가기",
     "title": "공용 편지함",
     "summary": "담당 편지함 {mailboxes}개 · 예약 {scheduled}건 · 템플릿 {templates}개",
@@ -185,5 +192,3157 @@
     "runAction": "실행",
     "expiryPrefix": "이 링크는 ",
     "expirySuffix": "됩니다."
+  },
+  "settingsSystem": {
+    "title": "설정",
+    "navigationLabel": "설정 메뉴",
+    "groups": {
+      "general": "일반",
+      "mail": "메일",
+      "management": "메일 관리",
+      "account": "계정"
+    },
+    "nav": {
+      "locale": "언어 및 지역",
+      "theme": "테마 및 화면",
+      "accessibility": "접근성",
+      "signature": "작성 및 서명",
+      "inbox-display": "받은편지함 및 읽기",
+      "sending": "보내기 및 답장",
+      "away": "부재중 자동응답",
+      "notifications": "알림",
+      "labels": "라벨",
+      "filters": "필터 및 자동 분류",
+      "blocked-senders": "차단된 발신자",
+      "account": "계정 및 발신 주소",
+      "security": "보안 및 로그인",
+      "integrations": "연동 서비스",
+      "shortcuts": "단축키"
+    },
+    "unsaved": {
+      "title": "저장하지 않은 변경 사항이 있습니다",
+      "description": "이 페이지를 나가면 변경 사항이 사라집니다.",
+      "leave": "변경 사항 버리기",
+      "stay": "계속 편집"
+    },
+    "common": {
+      "save": "저장",
+      "cancel": "취소",
+      "reset": "기본값 복원",
+      "saved": "저장됨",
+      "unsaved": "저장하지 않은 변경 사항",
+      "savedToast": "설정을 저장했습니다",
+      "all": "전체",
+      "edit": "수정",
+      "delete": "삭제",
+      "preview": "미리보기",
+      "done": "완료",
+      "settings": "설정",
+      "current": "현재 기기",
+      "connected": "연결됨",
+      "disconnected": "연결 안 됨",
+      "syncFailed": "동기화 실패",
+      "neverSynced": "동기화 기록 없음",
+      "lastSync": "마지막 동기화: {value}",
+      "lastActive": "마지막 활동: {value}",
+      "passwordChanged": "마지막 변경: {value}",
+      "messageCount": "메일 {count}개",
+      "remainingCount": "{count}개 남음"
+    },
+    "empty": {
+      "items": "표시할 항목이 없습니다"
+    },
+    "descriptions": {
+      "locale": "메일에 표시되는 언어, 날짜, 시간대 형식을 관리합니다.",
+      "theme": "업무 화면의 디자인 테마와 레이아웃을 설정합니다.",
+      "accessibility": "읽기 편의와 키보드·보조 기술 사용 환경을 조정합니다.",
+      "signature": "발신 정보와 메일 서명, 작성 기본값을 관리합니다.",
+      "signatureList": "새 메일과 답장에 사용할 서명을 선택합니다.",
+      "inbox": "메일 목록과 읽기 화면의 표시 방식을 설정합니다.",
+      "sending": "답장, 인용, 자동 저장과 발송 기본값을 설정합니다.",
+      "away": "지정된 기간에 자동으로 보낼 응답을 설정합니다.",
+      "notifications": "메일 종류와 채널별 알림 방식을 설정합니다.",
+      "labels": "메일 분류에 사용하는 라벨을 만들고 순서를 관리합니다.",
+      "filters": "조건에 맞는 메일을 자동으로 분류하고 처리합니다.",
+      "blockedSenders": "수신을 차단할 이메일 주소와 도메인을 관리합니다.",
+      "account": "표시 이름, 회신 주소와 발신 별칭을 관리합니다.",
+      "security": "2단계 인증과 로그인된 기기를 관리합니다.",
+      "twoFactor": "로그인 시 추가 인증 단계로 계정을 보호합니다.",
+      "integrations": "캘린더, 결재와 외부 서비스 연결을 관리합니다.",
+      "shortcuts": "키보드 단축키를 활성화하고 원하는 키로 변경합니다."
+    },
+    "sections": {
+      "languageRegion": "언어 및 지역 형식",
+      "themePreset": "디자인 테마",
+      "appearance": "화면 모양",
+      "readability": "읽기 및 탐색",
+      "senderDefaults": "발신 기본값",
+      "signatures": "서명",
+      "inboxLayout": "목록 및 읽기 화면",
+      "replyDefaults": "작성 및 답장 기본값",
+      "awaySchedule": "자동응답 일정과 메시지",
+      "notificationChannels": "알림 채널",
+      "notificationRules": "메일 종류별 알림",
+      "quietHours": "방해 금지 시간",
+      "labels": "라벨 목록",
+      "filters": "필터 규칙",
+      "blockedSenders": "차단 목록",
+      "accountIdentity": "계정 정보",
+      "aliases": "발신 별칭",
+      "authentication": "인증",
+      "sessions": "로그인된 기기",
+      "recentActivity": "최근 로그인 활동",
+      "integrations": "연동 목록",
+      "shortcuts": "단축키 목록"
+    },
+    "fields": {
+      "displayLanguage": "표시 언어",
+      "timezone": "시간대",
+      "dateFormat": "날짜 형식",
+      "timeFormat": "시간 형식",
+      "weekStart": "주 시작일",
+      "colorScheme": "화면 모드",
+      "density": "목록 밀도",
+      "radius": "모서리 스타일",
+      "sidebarPosition": "사이드바 위치",
+      "sidebarCollapsed": "사이드바를 접힌 상태로 시작",
+      "fontScale": "글자 크기",
+      "highContrast": "고대비 모드",
+      "reduceMotion": "모션 효과 줄이기",
+      "enhancedFocus": "포커스 표시 강화",
+      "screenReaderDetails": "스크린 리더 상세 설명",
+      "keyboardNavigation": "키보드 탐색 보조",
+      "senderName": "보내는 이름",
+      "senderAddress": "기본 발신 주소",
+      "defaultFont": "기본 글꼴",
+      "undoSend": "전송 취소 시간",
+      "defaultSignature": "기본 서명",
+      "signatureOnNew": "새 메일에 서명 사용",
+      "signatureOnReply": "답장과 전달에 서명 사용",
+      "signatureName": "서명 이름",
+      "signatureContent": "서명 내용",
+      "previewPane": "미리보기 창",
+      "conversationView": "대화형 보기",
+      "markRead": "읽음 처리 시점",
+      "remoteImages": "외부 이미지",
+      "pageSize": "페이지당 메일 수",
+      "mailDateFormat": "메일 날짜 표시",
+      "unreadStyle": "읽지 않은 메일 강조",
+      "defaultReply": "기본 답장 방식",
+      "quoteStyle": "원문 포함 방식",
+      "requestReceipt": "수신 확인 요청",
+      "scheduleDefault": "예약 발송 기본값",
+      "autosaveSeconds": "자동 저장 주기",
+      "composeMode": "작성 형식",
+      "defaultCc": "기본 참조",
+      "defaultBcc": "기본 숨은 참조",
+      "awayEnabled": "부재중 자동응답 사용",
+      "startDate": "시작일",
+      "endDate": "종료일",
+      "subject": "제목",
+      "internalMessage": "내부 사용자 메시지",
+      "externalMessage": "외부 사용자 메시지",
+      "contactsOnly": "연락처에만 외부 응답",
+      "browserNotifications": "브라우저 알림",
+      "emailNotifications": "이메일 요약 알림",
+      "notificationSound": "알림 소리",
+      "quietStart": "시작 시간",
+      "quietEnd": "종료 시간",
+      "weekendNotifications": "주말에도 알림",
+      "labelVisible": "메일 목록에 표시",
+      "labelName": "라벨 이름",
+      "labelColor": "라벨 색상",
+      "filterEnabled": "필터 활성화",
+      "filterName": "필터 이름",
+      "condition": "조건",
+      "conditionValue": "조건 값",
+      "action": "동작",
+      "actionValue": "동작 값",
+      "senderOrDomain": "이메일 주소 또는 도메인",
+      "displayName": "표시 이름",
+      "primaryEmail": "기본 이메일",
+      "replyTo": "회신 주소",
+      "newAlias": "새 발신 별칭",
+      "twoFactor": "2단계 인증",
+      "backupCodes": "백업 코드",
+      "password": "비밀번호",
+      "currentPassword": "현재 비밀번호",
+      "newPassword": "새 비밀번호",
+      "confirmPassword": "새 비밀번호 확인",
+      "autoSync": "자동 동기화",
+      "shortcutsEnabled": "키보드 단축키 사용"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "서울 (GMT+9)",
+        "Asia_Tokyo": "도쿄 (GMT+9)",
+        "Asia_Shanghai": "상하이 (GMT+8)",
+        "Europe_London": "런던",
+        "America_New_York": "뉴욕",
+        "America_Los_Angeles": "로스앤젤레스"
+      },
+      "dateFormat": {
+        "locale": "지역 형식",
+        "iso": "연-월-일",
+        "long": "전체 날짜"
+      },
+      "timeFormat": {
+        "12": "12시간",
+        "24": "24시간"
+      },
+      "weekStart": {
+        "sunday": "일요일",
+        "monday": "월요일"
+      },
+      "colorScheme": {
+        "light": "라이트",
+        "dark": "다크",
+        "system": "시스템"
+      },
+      "density": {
+        "comfortable": "여유롭게",
+        "compact": "압축"
+      },
+      "radius": {
+        "sharp": "각지게",
+        "rounded": "둥글게",
+        "pill": "알약형"
+      },
+      "sidebarPosition": {
+        "left": "왼쪽",
+        "right": "오른쪽"
+      },
+      "font": {
+        "sans": "산세리프",
+        "serif": "세리프",
+        "mono": "고정폭"
+      },
+      "seconds": "{value}초",
+      "previewPane": {
+        "right": "오른쪽",
+        "bottom": "아래",
+        "off": "사용 안 함"
+      },
+      "markRead": {
+        "immediate": "즉시",
+        "2seconds": "2초 후",
+        "manual": "직접 처리"
+      },
+      "remoteImages": {
+        "always": "항상 표시",
+        "contacts": "연락처만 표시",
+        "never": "표시 안 함"
+      },
+      "pageSize": {
+        "25": "25개",
+        "50": "50개",
+        "100": "100개"
+      },
+      "mailDateFormat": {
+        "relative": "상대 날짜",
+        "short": "간단한 날짜",
+        "full": "전체 날짜"
+      },
+      "unreadStyle": {
+        "bold": "굵게",
+        "highlight": "배경 강조",
+        "dot": "표시점"
+      },
+      "defaultReply": {
+        "reply": "답장",
+        "replyAll": "전체 답장"
+      },
+      "quoteStyle": {
+        "inline": "인라인 인용",
+        "below": "답장 아래에 원문",
+        "none": "원문 제외"
+      },
+      "scheduleDefault": {
+        "off": "사용 안 함",
+        "nextMorning": "다음 날 오전",
+        "custom": "마지막 설정 유지"
+      },
+      "autosaveSeconds": {
+        "15": "15초",
+        "30": "30초",
+        "60": "1분"
+      },
+      "composeMode": {
+        "html": "서식 있는 메일",
+        "plain": "일반 텍스트"
+      },
+      "notificationMode": {
+        "instant": "즉시 알림",
+        "digest": "1시간 요약",
+        "off": "알림 없음"
+      },
+      "filterField": {
+        "from": "보낸 사람",
+        "to": "받는 사람",
+        "subject": "제목",
+        "body": "본문",
+        "attachment": "첨부 파일",
+        "size": "메일 크기"
+      },
+      "filterAction": {
+        "move": "폴더로 이동",
+        "label": "라벨 적용",
+        "star": "중요 표시",
+        "read": "읽음 처리",
+        "forward": "전달",
+        "delete": "삭제"
+      },
+      "senderType": {
+        "email": "이메일",
+        "domain": "도메인"
+      }
+    },
+    "notificationTypes": {
+      "important": "중요 메일",
+      "general": "일반 메일",
+      "approval": "결재 요청",
+      "mention": "멘션",
+      "shared": "공용 편지함"
+    },
+    "actions": {
+      "addSignature": "서명 추가",
+      "editSignature": "서명 수정",
+      "addLabel": "라벨 추가",
+      "editLabel": "라벨 수정",
+      "moveUp": "위로 이동",
+      "moveDown": "아래로 이동",
+      "addFilter": "필터 추가",
+      "editFilter": "필터 수정",
+      "test": "테스트",
+      "search": "검색",
+      "block": "차단",
+      "unblock": "차단 해제",
+      "add": "추가",
+      "regenerate": "재발급",
+      "changePassword": "비밀번호 변경",
+      "logoutOthers": "다른 기기 모두 로그아웃",
+      "logout": "로그아웃",
+      "sync": "동기화",
+      "connect": "연결",
+      "disconnect": "연결 해제",
+      "testNotification": "테스트 알림",
+      "viewShortcutReference": "전체 단축키 보기"
+    },
+    "errors": {
+      "dateRange": "종료일은 시작일 이후여야 합니다.",
+      "duplicateLabel": "같은 이름의 라벨이 이미 있습니다.",
+      "invalidSender": "올바른 이메일 주소 또는 도메인을 입력하세요.",
+      "duplicateSender": "이미 차단된 주소입니다.",
+      "invalidEmail": "올바른 이메일 주소를 입력하세요.",
+      "requiredName": "표시 이름을 입력하세요.",
+      "duplicateAlias": "이미 등록된 발신 주소입니다.",
+      "shortcutConflict": "{action} 단축키와 충돌합니다.",
+      "passwordRequired": "현재 비밀번호를 입력하세요.",
+      "passwordLength": "새 비밀번호는 8자 이상이어야 합니다.",
+      "passwordMismatch": "새 비밀번호가 일치하지 않습니다."
+    },
+    "preview": {
+      "unreadSubject": "읽지 않은 메일 제목",
+      "unreadBody": "목록 표시 설정을 여기에서 미리 확인할 수 있습니다.",
+      "conversationCount": "대화에 메일 {count}개"
+    },
+    "confirm": {
+      "deleteSignature": "이 서명을 삭제할까요?",
+      "deleteLabel": "이 라벨을 삭제할까요?",
+      "deleteFilter": "이 필터를 삭제할까요?",
+      "deleteAlias": "이 발신 별칭을 삭제할까요?",
+      "unblockSender": "차단을 해제할까요?",
+      "disconnect": "서비스 연결을 해제할까요?",
+      "codes": "백업 코드를 다시 발급할까요?",
+      "all": "다른 모든 기기에서 로그아웃할까요?",
+      "session": "이 기기에서 로그아웃할까요?"
+    },
+    "toast": {
+      "labelDeleted": "라벨을 삭제했습니다",
+      "filterDeleted": "필터를 삭제했습니다",
+      "filterMatched": "테스트 메일이 필터 조건과 일치합니다",
+      "aliasDeleted": "발신 별칭을 삭제했습니다",
+      "senderBlocked": "발신자를 차단 목록에 추가했습니다",
+      "senderUnblocked": "발신자 차단을 해제했습니다",
+      "codesRegenerated": "백업 코드를 재발급했습니다",
+      "sessionsRevoked": "다른 기기에서 모두 로그아웃했습니다",
+      "sessionRevoked": "기기에서 로그아웃했습니다",
+      "passwordChanged": "비밀번호를 변경했습니다",
+      "syncComplete": "동기화를 완료했습니다",
+      "integrationConnected": "서비스를 연결했습니다",
+      "integrationDisconnected": "서비스 연결을 해제했습니다",
+      "testNotification": "GXWebMail 테스트 알림입니다"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "회사 캘린더",
+        "approval": "전자결재",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "일정 읽기 및 쓰기",
+        "approval": "결재 요청 동기화 및 처리",
+        "slack": "중요 메일 알림 전송",
+        "drive": "첨부 파일을 링크로 전송"
+      }
+    },
+    "shortcutActions": {
+      "compose": "새 메일 작성",
+      "search": "메일 검색",
+      "inbox": "받은편지함으로 이동",
+      "archive": "보관",
+      "delete": "삭제",
+      "reply": "답장",
+      "forward": "전달"
+    }
+  },
+  "adminNav": {
+    "backToMail": "메일로 돌아가기",
+    "singleTenant": "이 조직은 gxsoft.co.kr 테넌트 하나뿐입니다",
+    "tenant": "테넌트",
+    "systemMail": "시스템 메일 · 인쇄 · 오류",
+    "organizationSetup": "조직 설치 마법사",
+    "systemStatus": "시스템 상태",
+    "allServicesHealthy": "모든 서비스 정상",
+    "queueStatus": "MTA 큐 지연 0.4s · 마지막 점검 2분 전",
+    "tabs": {
+      "dash": "개요",
+      "users": "계정 · 사용자",
+      "policy": "도메인 · 정책",
+      "security": "보안 · 스팸",
+      "flow": "메일 흐름 규칙",
+      "groups": "그룹 · 메일링리스트",
+      "audit": "감사 로그",
+      "backup": "백업 · 보관",
+      "reports": "리포트 · 내보내기",
+      "migration": "메일함 이전",
+      "brand": "브랜딩",
+      "api": "API · 웹훅",
+      "billing": "요금 · 라이선스"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "인사팀 문의",
+        "initials": "인사"
+      },
+      "recruit": {
+        "name": "채용 지원 접수",
+        "initials": "채용"
+      },
+      "support": {
+        "name": "글로벌 고객지원",
+        "initials": "지원"
+      },
+      "press": {
+        "name": "홍보 · 언론",
+        "initials": "홍보"
+      },
+      "office": {
+        "name": "대표이사 비서",
+        "initials": "비서"
+      },
+      "invoice": {
+        "name": "세금계산서 접수",
+        "initials": "세금"
+      }
+    },
+    "roles": {
+      "manager": "전체 관리",
+      "reply": "읽기 · 답장",
+      "readOnly": "읽기 전용",
+      "delegate": "위임 발신"
+    },
+    "delegateNote": "한지우 (대리: 인사팀 문의)",
+    "scheduleWhen": {
+      "today": "오늘 18:00",
+      "sep5": "9월 5일 09:00",
+      "sep8": "9월 8일 08:30",
+      "sep14": "9월 14일 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "조정 대기",
+      "scheduled": "예약됨",
+      "recurring": "매주 월요일"
+    },
+    "templates": {
+      "approval": "결재 반려 안내",
+      "quote": "외부 견적 요청",
+      "awayKorean": "부재중 자동응답 (국문)",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "회의 일정 조율"
+    },
+    "templateScope": {
+      "shared": "공용",
+      "private": "개인"
+    },
+    "templateEdited": {
+      "aug21": "8월 21일",
+      "jul30": "7월 30일",
+      "sep1": "9월 1일",
+      "jun12": "6월 12일"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "비밀번호 재설정",
+      "accountInvite": "신규 계정 초대",
+      "twoFactor": "2단계 인증 코드",
+      "newDevice": "새 기기 로그인 알림",
+      "quarantineDigest": "격리 메일 요약 (일간)",
+      "storageWarning": "용량 임계 경고",
+      "approvalRequest": "결재 요청 알림",
+      "awayNotice": "부재중 자동응답 안내",
+      "largeLinkExpiry": "대용량 링크 만료 예고",
+      "accountSuspended": "계정 정지 통보",
+      "migrationComplete": "마이그레이션 완료",
+      "maintenance": "서비스 점검 공지"
+    },
+    "printMeta": {
+      "from": "보낸사람",
+      "to": "받은사람",
+      "date": "날짜",
+      "thread": "스레드"
+    },
+    "printOptions": {
+      "header": {
+        "name": "헤더 · 페이지 번호",
+        "desc": "인쇄물 상단에 발신 정보 표시"
+      },
+      "metadata": {
+        "name": "메타 정보",
+        "desc": "보낸사람 · 받는사람 · 날짜 포함"
+      },
+      "quotes": {
+        "name": "인용문 펼치기",
+        "desc": "이전 답장 내용을 모두 인쇄"
+      },
+      "attachments": {
+        "name": "첨부 목록",
+        "desc": "첨부 파일명과 크기 표시"
+      },
+      "remoteImages": {
+        "name": "원격 이미지",
+        "desc": "외부 이미지를 인쇄에 포함"
+      },
+      "confidential": {
+        "name": "기밀 표기",
+        "desc": "'사내 기밀' 워터마크 추가"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "찾을 수 없음",
+        "title": "이 메일을 찾을 수 없습니다",
+        "body": "삭제되었거나 다른 메일함으로 옮겨졌을 수 있습니다. 휴지통에는 30일간 보관됩니다.",
+        "action": "받은편지함으로",
+        "alt": "휴지통 검색",
+        "foot": "문제가 계속되면 IT 운영팀에 문의하세요."
+      },
+      "forbidden": {
+        "label": "권한 없음",
+        "title": "이 화면에 접근할 권한이 없습니다",
+        "body": "관리자 콘솔의 요금 · 계약 영역은 조직 관리자만 볼 수 있습니다. 필요하다면 권한을 요청하세요.",
+        "meta": "요청 로그 ID: acl-7741-b2",
+        "action": "권한 요청",
+        "alt": "돌아가기",
+        "foot": "요청은 조직 관리자 2명에게 전달됩니다."
+      },
+      "maintenance": {
+        "label": "점검 중",
+        "title": "정기 점검을 진행하고 있습니다",
+        "body": "메일 수신은 정상적으로 계속되며, 점검이 끝나면 모두 배달됩니다. 웹 접속만 일시 중단됩니다.",
+        "meta": "예상 완료 2026-09-05 02:00 KST",
+        "action": "상태 페이지",
+        "alt": "알림 받기",
+        "foot": "긴급 문의 02-2000-1000 (24시간)"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "알림",
+    "markAllRead": "모두 읽음",
+    "all": "전체",
+    "approval": "결재",
+    "mention": "멘션",
+    "empty": "알림이 없습니다.",
+    "openCenter": "알림 센터 열기",
+    "items": {
+      "n1": {
+        "avatar": "박",
+        "title": "결재 요청 · 박서준",
+        "body": "2026 상반기 클라우드 인프라 증설 예산 검토 — 내 차례입니다",
+        "time": "방금"
+      },
+      "n2": {
+        "avatar": "최",
+        "title": "멘션 · 최민서",
+        "body": "아틀라스 3차 스프린트 리뷰 회의록에서 회원님을 언급했습니다",
+        "time": "12분 전"
+      },
+      "n3": {
+        "avatar": "이",
+        "title": "결재 승인됨 · 이수민",
+        "body": "9월 정기 워크샵 예산안이 승인되었습니다",
+        "time": "38분 전"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "새 메일 3통",
+        "body": "이수민, Jira, 최민서로부터 새 메일이 도착했습니다",
+        "time": "1시간 전"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "저장 공간 82% 사용 중",
+        "body": "18.2GB / 50GB · 대용량 첨부파일을 정리해 보세요",
+        "time": "3시간 전"
+      },
+      "n6": {
+        "avatar": "강",
+        "title": "멘션 · 강태윤",
+        "body": "QA 체크리스트 댓글에서 회원님을 언급했습니다",
+        "time": "어제"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "일시",
+      "location": "장소",
+      "organizer": "주최",
+      "recurrence": "반복"
+    },
+    "states": {
+      "accept": "참석",
+      "tentative": "미정",
+      "decline": "불참",
+      "noResponse": "응답 없음"
+    },
+    "rsvpQuestion": "참석하시겠습니까?",
+    "viewEvent": "일정 보기",
+    "viewEventNotice": "캘린더에서 일정을 확인합니다",
+    "suggestTime": "다른 시간 제안",
+    "suggestTimeNotice": "다른 시간을 주최자에게 제안합니다",
+    "leaveMemo": "메모 남기기",
+    "leaveMemoNotice": "메모 작성 화면을 엽니다",
+    "attendeeStatus": "참석 현황",
+    "host": "주최",
+    "briefing": "AI 브리핑",
+    "briefingBody": "지난 스프린트 리뷰에서 논의된 GPU 노드 증설 건의 최종 검토가 이번 회의 안건에 포함되어 있습니다.",
+    "relatedMailNotice": "관련 메일 검색 결과로 이동합니다",
+    "viewRelatedMail": "관련 메일 3건 보기",
+    "responseRecorded": "{choice}(으)로 응답했습니다",
+    "attendeeSummary": "{count}명 중 {responded}명 응답",
+    "conflict": "이 시간에 <strong>{event}</strong>가 겹칩니다."
+  },
+  "auth": {
+    "common": {
+      "email": "이메일 주소",
+      "password": "비밀번호",
+      "terms": "이용약관",
+      "privacy": "개인정보 처리방침",
+      "termsNotice": "이용약관을 엽니다",
+      "privacyNotice": "개인정보 처리방침을 엽니다",
+      "setupWizard": "서버 설치 마법사",
+      "noAccount": "계정이 없으신가요?",
+      "haveAccount": "이미 계정이 있으신가요?",
+      "signIn": "로그인",
+      "signUp": "회원가입",
+      "procurementNotice": "© 2026 GXWebMail. 공공·교육기관 조달 등록 제품.",
+      "eyebrow": "기업용 메일 플랫폼"
+    },
+    "login": {
+      "title": "다시 만나 반갑습니다",
+      "description": "회사 계정으로 로그인하세요. SSO를 사용하는 조직은 아래 버튼으로 바로 접속할 수 있습니다.",
+      "passwordPlaceholder": "비밀번호를 입력하세요",
+      "rememberMe": "로그인 상태 유지",
+      "forgotPassword": "비밀번호 찾기",
+      "resetNotice": "비밀번호 재설정 메일을 보냅니다",
+      "enterEmailFirst": "이메일을 먼저 입력하세요",
+      "missingCredentials": "이메일과 비밀번호를 모두 입력해 주세요.",
+      "submitting": "로그인 중...",
+      "ssoButton": "조직 계정 (SAML) 으로 계속",
+      "ssoNotice": "SAML SSO 로그인 화면으로 이동합니다",
+      "ssoContact": "조직 관리자에게 문의하세요",
+      "twoFactorHint": "2단계 인증이 활성화된 계정입니다. 로그인 후 OTP 6자리를 입력하세요.",
+      "tagline": "하루 12만 통의 메일을 흔들림 없이 처리합니다",
+      "uptime": "가동률 SLA",
+      "largeAttachments": "대용량 첨부",
+      "certified": "인증 획득"
+    },
+    "signup": {
+      "title": "계정을 만들어 보세요",
+      "description": "조직 이메일로 가입하면 관리자가 승인 후 계정을 활성화합니다.",
+      "name": "이름",
+      "namePlaceholder": "홍길동",
+      "passwordPlaceholder": "8자 이상 입력하세요",
+      "confirmPassword": "비밀번호 확인",
+      "confirmPlaceholder": "비밀번호를 한 번 더 입력하세요",
+      "consentLabel": "이용약관 및 개인정보 처리방침 동의",
+      "requiredFields": "모든 필수 항목을 입력해 주세요.",
+      "passwordMismatch": "비밀번호가 일치하지 않습니다.",
+      "consentRequired": "이용약관 및 개인정보 처리방침에 동의해 주세요.",
+      "submitting": "가입 처리 중...",
+      "submit": "가입하기",
+      "productIntro": "제품 소개",
+      "tagline": "팀 전체가 하나의 받은편지함으로 일합니다",
+      "benefits": {
+        "brandedWorkspace": "조직에 맞춘 브랜드와 업무 환경",
+        "integratedTools": "캘린더 · 주소록 · 결재 통합",
+        "secureOperations": "ISMS-P 기준의 안전한 메일 운영"
+      },
+      "consent": "<terms>이용약관</terms> 및 <privacy>개인정보 처리방침</privacy>에 동의합니다."
+    }
+  },
+  "setup": {
+    "sidebarLabel": "설치 단계",
+    "brand": "Mailwave 메일 서버",
+    "title": "설치 마법사",
+    "introduction": "서버 설치가 끝났습니다. 일곱 단계를 마치면 사용자가 바로 메일을 쓸 수 있습니다.",
+    "done": "완료",
+    "inProgress": "진행",
+    "serverInfo": "서버 mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "설치 안내 문서 열기",
+    "guideNotice": "설치 안내 문서를 새 탭에서 엽니다",
+    "settingsLabel": "설치 설정",
+    "back": "뒤로",
+    "finish": "설치 완료 · 로그인",
+    "copy": "복사",
+    "copied": "값을 복사했습니다",
+    "checkAgain": "다시 테스트",
+    "checking": "테스트 중...",
+    "dnsCheckAgain": "DNS 다시 검사",
+    "dnsChecking": "검사 중...",
+    "dbRecheckNotice": "데이터베이스 연결을 다시 테스트합니다",
+    "dbRecheckSuccess": "연결 테스트를 통과했습니다",
+    "dnsRecheckNotice": "DNS 레코드를 다시 검사합니다",
+    "dnsRecheckSuccess": "DNS 검사를 완료했습니다",
+    "inviteSentNotice": "초대 메일을 발송했습니다",
+    "inviteSent": "발송 완료",
+    "inviteButton": "초대 메일 발송",
+    "inviteTargetHeading": "초대 대상",
+    "steps": {
+      "license": {
+        "name": "라이선스 · 관리자 계정",
+        "description": "{seats, number}석 · 관리자 {admins, number}명 등록"
+      },
+      "database": {
+        "name": "데이터베이스 연결",
+        "description": "PostgreSQL 16 · 스키마 42개"
+      },
+      "organization": {
+        "name": "조직 · 도메인 등록",
+        "description": "gxsoft.co.kr · 부서 42개 가져옴"
+      },
+      "dns": {
+        "name": "도메인 · DNS 확인",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "메일 저장소 · 백업",
+        "description": "저장 경로 · 일 1회 백업"
+      },
+      "security": {
+        "name": "보안 정책",
+        "description": "스팸 · DLP · 2단계 인증"
+      },
+      "invitations": {
+        "name": "사용자 초대",
+        "description": "초대 메일 발송 · 첫 로그인"
+      }
+    },
+    "license": {
+      "description": "라이선스 키를 입력하고 최초 관리자 계정을 만듭니다.",
+      "fields": {
+        "key": "라이선스 키",
+        "adminName": "관리자 이름",
+        "adminEmail": "관리자 이메일",
+        "adminPassword": "관리자 비밀번호"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "호스트",
+        "port": "포트",
+        "database": "데이터베이스",
+        "schema": "스키마",
+        "account": "계정",
+        "password": "비밀번호",
+        "sslMode": "SSL 모드",
+        "connectionPool": "커넥션 풀"
+      },
+      "poolValue": "최대 40 · 유휴 5",
+      "testTitle": "연결 테스트",
+      "states": {
+        "passed": "통과",
+        "warning": "주의"
+      },
+      "checks": {
+        "connection": {
+          "name": "연결",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "버전",
+          "detail": "PostgreSQL 16.2 · 최소 14 이상"
+        },
+        "permissions": {
+          "name": "권한",
+          "detail": "CREATE · ALTER · INDEX 확인"
+        },
+        "charset": {
+          "name": "문자셋 · 정렬",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "타임존",
+          "detail": "Asia/Seoul · UTC 권장"
+        }
+      }
+    },
+    "organization": {
+      "description": "조직 정보와 기본 도메인을 등록합니다.",
+      "fields": {
+        "name": "조직명",
+        "domain": "대표 도메인",
+        "contact": "담당자 이메일"
+      },
+      "hrImportNotice": "HR 조직도(그로우)에서 부서 42개를 자동으로 가져올 수 있습니다."
+    },
+    "dns": {
+      "headers": {
+        "type": "유형",
+        "host": "호스트",
+        "value": "값",
+        "status": "상태"
+      },
+      "states": {
+        "verified": "확인됨",
+        "propagating": "전파 중",
+        "missing": "미설정"
+      }
+    },
+    "storage": {
+      "description": "메일 데이터 저장 경로와 백업 주기를 설정합니다.",
+      "fields": {
+        "path": "저장 경로",
+        "frequency": "백업 주기",
+        "retention": "보관 기간"
+      },
+      "frequencyValue": "일 1회 · 04:00",
+      "retentionValue": "3년"
+    },
+    "security": {
+      "description": "기본 보안 정책을 설정합니다. 나중에 관리자 콘솔에서 조정할 수 있습니다.",
+      "policies": {
+        "spam": "스팸 · 피싱 자동 격리",
+        "dlp": "DLP 기밀 문서 차단",
+        "twoFactor": "관리자 2단계 인증 필수",
+        "externalWarning": "외부 메일 경고 배너"
+      }
+    },
+    "invitations": {
+      "description": "직원들에게 초대 메일을 발송합니다. CSV로 가져온 {count, number}명에게 첫 로그인 안내가 전송됩니다."
+    },
+    "firstRun": "첫 실행",
+    "stepCounter": "{step} / {total} 단계",
+    "progressLabel": "진행률 {progress}%",
+    "nextStep": "다음 · {name}",
+    "checkSummary": "마지막 테스트 방금 · {passed}개 중 {total}개 통과",
+    "dnsSummary": "마지막 검사 2분 전 · {verified}개 중 {total}개 확인",
+    "countSummary": "{passed}개 중 {total}개 통과",
+    "dnsCountSummary": "{verified}개 중 {total}개 확인",
+    "inviteTarget": "{count, number}명 · {domain}",
+    "inviteSentCount": "{count, number}명에게 전송 완료",
+    "dbNotice": "다음을 누르면 스키마 테이블 42개를 만들고 초기 데이터를 넣습니다(약 40초). 기존 데이터가 있다면 설치를 중단하고 <strong>기존 스키마 이어쓰기</strong> 여부를 먼저 묻습니다.",
+    "dnsNotice": "DNS 전파는 최대 24시간 걸립니다. DKIM과 DMARC는 지금 건너뛰고 다음 단계로 넘어갈 수 있습니다. 나중에 <strong>관리자 · 도메인 · 정책</strong>에서 확인하세요. 두 레코드가 없으면 외부 서버가 발신 메일을 스팸으로 분류할 수 있습니다."
+  },
+  "adminOnboarding": {
+    "title": "조직 설치 마법사",
+    "dnsDelayNotice": "DNS 반영에 최대 48시간이 걸릴 수 있습니다. 그동안 기존 메일 서버는 계속 동작합니다.",
+    "dnsTitle": "DNS 레코드 등록",
+    "copyAll": "전체 복사",
+    "copiedNotice": "DNS 레코드를 모두 복사했습니다",
+    "recheck": "다시 확인",
+    "checking": "확인 중...",
+    "recheckNotice": "DNS 레코드를 다시 확인합니다",
+    "recheckSuccess": "DNS 확인을 완료했습니다",
+    "csvTitle": "계정 일괄 등록",
+    "csvSelectNotice": "CSV 파일 선택 창을 엽니다",
+    "csvSelect": "CSV 파일을 드래그하거나 선택하세요",
+    "csvColumns": "이름 · 이메일 · 부서 · 직급 열 필요",
+    "migrationTitle": "기존 메일 마이그레이션",
+    "migrationImap": "IMAP 기타",
+    "migrationPending": "대기 중",
+    "migrationNotice": "IMAP 동기화는 전환 후에도 7일간 유지되어 누락을 방지합니다.",
+    "continueLater": "나중에 계속하기",
+    "next": "다음 · 계정 만들기",
+    "nextNotice": "계정 만들기 단계로 이동합니다",
+    "headers": {
+      "type": "타입",
+      "host": "호스트",
+      "value": "값",
+      "priority": "우선순위",
+      "status": "상태"
+    },
+    "dnsStates": {
+      "verified": "확인됨",
+      "pending": "대기 중",
+      "unregistered": "미등록"
+    },
+    "steps": {
+      "organization": {
+        "name": "조직 정보",
+        "description": "회사명 · 대표 도메인 · 담당자"
+      },
+      "domain": {
+        "name": "도메인 연결",
+        "description": "MX · SPF · DKIM 레코드 등록"
+      },
+      "accounts": {
+        "name": "계정 만들기",
+        "description": "CSV 일괄 등록 · HR 조직도 연동"
+      },
+      "migration": {
+        "name": "메일 마이그레이션",
+        "description": "기존 서버에서 메일 이관"
+      },
+      "policy": {
+        "name": "정책 적용",
+        "description": "보안 · 보존 · DLP 기본값"
+      },
+      "cutover": {
+        "name": "전환 · 검수",
+        "description": "MX 최종 전환 및 발송 테스트"
+      }
+    },
+    "subtitle": "{domain} · {step}단계 진행 중 · 예상 소요 {minutes}분",
+    "recordCount": "{count, number}건",
+    "verifiedCount": "{total, number}건 중 {verified, number}건 확인",
+    "csvSummary": "{rows, number}행 검증 완료 · 중복 {duplicates, number}건 자동 병합",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "조직 전체 메일 처리 현황",
+        "cta": "리포트 내보내기"
+      },
+      "users": {
+        "sub": "{count, number}개 계정 관리",
+        "cta": "계정 추가"
+      },
+      "policy": {
+        "sub": "발신 도메인과 보안 정책",
+        "cta": "정책 저장"
+      },
+      "security": {
+        "sub": "차단 · 격리 로그 및 탐지 현황",
+        "cta": "규칙 추가"
+      },
+      "flow": {
+        "sub": "조직 전체에 적용되는 자동 처리 규칙",
+        "cta": "규칙 추가"
+      },
+      "groups": {
+        "sub": "배포 리스트와 공유 메일함",
+        "cta": "그룹 만들기"
+      },
+      "audit": {
+        "sub": "모든 관리 작업의 변경 불가 기록",
+        "cta": "CSV 내보내기"
+      },
+      "backup": {
+        "sub": "스냅샷과 법적 보존 현황",
+        "cta": "지금 백업"
+      },
+      "reports": {
+        "sub": "사용자 정의 리포트 생성",
+        "cta": "새 리포트"
+      },
+      "migration": {
+        "sub": "다른 메일 시스템에서 이관 진행 현황",
+        "cta": "배치 추가"
+      },
+      "brand": {
+        "sub": "조직 아이덴티티와 로그인 화면",
+        "cta": "게시"
+      },
+      "api": {
+        "sub": "외부 연동 키와 이벤트 구독",
+        "cta": "키 발급"
+      },
+      "billing": {
+        "sub": "구독 및 결제 관리",
+        "cta": "청구서 보기"
+      }
+    },
+    "ranges": {
+      "today": "오늘",
+      "last7": "최근 7일",
+      "last30": "최근 30일",
+      "last90": "최근 90일"
+    },
+    "rangeLabel": "기간 선택",
+    "actionNotice": "{action} 화면으로 이동합니다"
+  },
+  "adminMobile": {
+    "menuLabel": "관리자 메뉴",
+    "backToMenu": "관리자 메뉴로",
+    "actionPreview": "미리보기 동작입니다",
+    "executeAction": "{action} 실행",
+    "screens": {
+      "dash": {
+        "navLabel": "개요",
+        "title": "관리자",
+        "sub": "gxsoft.co.kr · 실시간",
+        "footerText": "전체 리포트는 데스크톱에서 확인하세요",
+        "chips": {
+          "chip0": "오늘",
+          "chip1": "7일",
+          "chip2": "30일"
+        },
+        "rows": {
+          "throughput": {
+            "name": "일 처리량",
+            "meta": "{count}",
+            "line3": "전일 대비 {growth}"
+          },
+          "blocked": {
+            "name": "차단 · 격리",
+            "line3": "격리 {quarantined}건 · 위험 높음 {highRisk}"
+          },
+          "queue": {
+            "name": "발송 큐",
+            "line3": "재시도 {retry} · 실패 {failed}"
+          },
+          "deliveryDelay": {
+            "name": "평균 배달 지연",
+            "meta": "{seconds}초",
+            "line3": "SLA {slaSeconds}초 이내",
+            "tag": "정상"
+          },
+          "needsAttention": {
+            "name": "확인 필요 {items}건",
+            "line3": "MTA-STS 미적용 · 용량 임계 {threshold}건",
+            "tag": "보기"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "계정",
+        "title": "계정",
+        "sub": "{total}개 · 정지 {suspended} · 비활성 {inactive}",
+        "footerText": "스와이프로 정지 · 길게 눌러 비밀번호 초기화",
+        "footerBtn": "정지",
+        "chips": {
+          "chip0": "전체",
+          "chip1": "정지",
+          "chip2": "비활성"
+        },
+        "action": "계정 검색",
+        "rows": {
+          "jiwoo": {
+            "tag": "정상",
+            "line3": "전략기획팀 · {usage}"
+          },
+          "seojun": {
+            "tag": "정상",
+            "line3": "인프라팀 · {usage}"
+          },
+          "jaeho": {
+            "tag": "용량",
+            "line3": "영업팀 · {usage}"
+          },
+          "temporary": {
+            "tag": "정지",
+            "line3": "미지정 · {days}일 미접속"
+          },
+          "serin": {
+            "tag": "정상",
+            "line3": "대표이사실 · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "보안",
+        "title": "보안",
+        "sub": "최근 {days}일 · 조치 대기 {pending}건",
+        "footerText": "규칙 변경은 데스크톱에서만 가능합니다",
+        "chips": {
+          "chip0": "전체",
+          "chip1": "높음"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "비정상 로그인 시도",
+            "line2": "오사카, 일본 · {blocked}건 차단",
+            "line3": "{days}일 전 · 조치 완료"
+          },
+          "phishing": {
+            "name": "피싱 캠페인 탐지",
+            "line2": "유사 도메인 gxsott.co.kr",
+            "line3": "오늘 {time} · 격리 {quarantined}건",
+            "tag": "대기"
+          },
+          "dlp": {
+            "name": "DLP 차단",
+            "line2": "실행 파일 첨부 발송 시도",
+            "line3": "어제 · {cases}건"
+          },
+          "spf": {
+            "name": "SPF 실패 급증",
+            "line3": "어제 · 평판 {score}점",
+            "tag": "대기"
+          },
+          "appPassword": {
+            "name": "앱 비밀번호 사용",
+            "line2": "IMAP 클라이언트 {clients}개",
+            "line3": "{days}일 전 · 검토 권장"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "격리 검토",
+        "title": "격리 검토",
+        "sub": "{total}건 · 위험 높음 {highRisk}건",
+        "footerText": "일괄 삭제는 감사 로그에 기록됩니다",
+        "footerBtn": "일괄 삭제",
+        "chips": {
+          "chip0": "높음",
+          "chip1": "스팸",
+          "chip2": "전체"
+        },
+        "rows": {
+          "alert": {
+            "line3": "수신자 {recipients}명 · 유사 도메인",
+            "tag": "삭제"
+          },
+          "invoice": {
+            "line3": "수신자 {recipients}명 · 실행 파일",
+            "tag": "삭제"
+          },
+          "newsletter": {
+            "line3": "수신자 {recipients}명 · SPF 실패",
+            "tag": "보류"
+          },
+          "recruitment": {
+            "line3": "수신자 {recipients}명 · 첫 수신",
+            "tag": "복원"
+          },
+          "billing": {
+            "line3": "수신자 {recipients}명 · 정상 가능성",
+            "tag": "복원"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "서비스 상태",
+        "title": "서비스 상태",
+        "sub": "모든 서비스 정상",
+        "footerText": "점검 배너는 전 사용자에게 표시됩니다",
+        "action": "공지 추가",
+        "rows": {
+          "mail": {
+            "name": "메일 수신 · 발송",
+            "line3": "가동률 {availability} ({days}일)",
+            "tag": "정상"
+          },
+          "webClient": {
+            "name": "웹 클라이언트",
+            "line3": "p95 응답 {latency}ms",
+            "tag": "정상"
+          },
+          "protocols": {
+            "line3": "연결 {connections}개",
+            "tag": "정상"
+          },
+          "migration": {
+            "name": "메일함 이전",
+            "line3": "배치 {batches}개 진행 · 대역폭 제한",
+            "tag": "지연"
+          },
+          "maintenance": {
+            "name": "예정된 점검",
+            "line2": "{date} {start} – {end}",
+            "line3": "배너 게시 중 · 수신은 계속",
+            "tag": "게시"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "그룹",
+        "title": "그룹",
+        "sub": "{total}개 · 메일링 {mailing}",
+        "footerText": "멤버 편집은 길게 눌러 선택하세요",
+        "chips": {
+          "chip0": "전체",
+          "chip1": "부서",
+          "chip2": "메일링"
+        },
+        "action": "그룹 추가",
+        "rows": {
+          "strategy": {
+            "meta": "{count}명",
+            "line3": "strategy · 부서 그룹"
+          },
+          "infrastructure": {
+            "meta": "{count}명",
+            "line3": "infra · 부서 그룹"
+          },
+          "allStaff": {
+            "meta": "{count}명",
+            "tag": "제한",
+            "line3": "all · 발신 제한"
+          },
+          "sales": {
+            "meta": "{count}명",
+            "line3": "sales1 · 부서 그룹"
+          },
+          "aurora": {
+            "meta": "{count}명",
+            "tag": "임시",
+            "line3": "aurora · 임시 · 12월 만료"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "도메인 · 정책",
+        "title": "도메인 · 정책",
+        "sub": "{domains}개 도메인 · 조치 {actions}건",
+        "footerText": "정책 변경은 데스크톱에서만 가능합니다",
+        "chips": {
+          "chip0": "도메인",
+          "chip1": "인증"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "주 도메인 · SPF · DKIM · DMARC",
+            "tag": "정상"
+          },
+          "mailDomain": {
+            "line3": "발송 전용 · 평판 {score}점",
+            "tag": "경고"
+          },
+          "aliasDomain": {
+            "line3": "별칭 · 수신 전달",
+            "tag": "정상"
+          },
+          "dmarc": {
+            "line3": "p=quarantine · 리포트 주 1회",
+            "name": "DMARC 정책"
+          },
+          "mtaSts": {
+            "line3": "권장 · 중간자 공격 차단",
+            "tag": "조치",
+            "name": "MTA-STS 미적용"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "감사 로그",
+        "title": "감사 로그",
+        "sub": "최근 {hours}시간 · {events}건",
+        "footerText": "로그는 7년 보관 · 내보내기는 데스크톱",
+        "chips": {
+          "chip0": "전체",
+          "chip1": "권한",
+          "chip2": "삭제"
+        },
+        "action": "로그 검색",
+        "rows": {
+          "grantRole": {
+            "name": "관리자 권한 부여",
+            "line2": "오세린 → 박서준",
+            "line3": "IP 10.2.14.8 · 웹 콘솔"
+          },
+          "removeDelegate": {
+            "name": "메일함 위임 해제",
+            "line2": "shared-hr · 한지우"
+          },
+          "bulkDelete": {
+            "name": "일괄 삭제 실행",
+            "tag": "중요",
+            "line2": "격리 메일 {count}건",
+            "line3": "박서준 · 되돌릴 수 없음"
+          },
+          "editPolicy": {
+            "name": "정책 수정",
+            "meta": "어제",
+            "line2": "DLP 실행 파일 차단 ON",
+            "line3": "오세린"
+          },
+          "issueApiKey": {
+            "name": "API 키 발급",
+            "meta": "어제",
+            "line3": "인프라팀 · 만료 {days}일"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "백업",
+        "title": "백업",
+        "sub": "일 {frequency}회 · 최근 성공 {lastSuccess}",
+        "footerText": "복원은 데스크톱 콘솔에서 요청하세요",
+        "chips": {
+          "chip0": "작업",
+          "chip1": "복원"
+        },
+        "rows": {
+          "full": {
+            "name": "전체 백업",
+            "line3": "{used} TB · {minutes}분 소요",
+            "tag": "성공"
+          },
+          "incremental": {
+            "name": "증분 백업",
+            "meta": "매시",
+            "line3": "최근 {successes}회 연속 성공",
+            "tag": "성공"
+          },
+          "restoreTest": {
+            "name": "복원 테스트",
+            "meta": "{days}일 전",
+            "line3": "분기 1회 권장 · 기한 임박",
+            "tag": "권장"
+          },
+          "retention": {
+            "name": "보존 정책",
+            "line3": "메일 {mailYears}년 · 감사 로그 {auditYears}년"
+          },
+          "storage": {
+            "name": "스토리지 사용",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "요금",
+        "title": "요금",
+        "sub": "{month} 청구 예정 {amount}",
+        "footerText": "세금계산서는 등록 메일로 발송됩니다",
+        "chips": {
+          "chip0": "이번 달",
+          "chip1": "지난 달"
+        },
+        "rows": {
+          "seats": {
+            "name": "사용 좌석",
+            "line3": "계약 {contracted}석 · 여유 {available}석"
+          },
+          "storage": {
+            "name": "추가 스토리지",
+            "line3": "{amount} · 월 정액"
+          },
+          "archive": {
+            "name": "아카이브 보관",
+            "line3": "{amount} · {years}년 보존"
+          },
+          "augustInvoice": {
+            "name": "8월 청구",
+            "line3": "결제 완료 · {date}",
+            "tag": "완료"
+          },
+          "cardExpiry": {
+            "name": "카드 만료 임박",
+            "line3": "법인카드 ****4821 · 11월 만료",
+            "tag": "조치"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "브랜딩",
+        "title": "브랜딩",
+        "sub": "로고 · 색상 · 서명",
+        "footerText": "변경은 승인 후 전사에 적용됩니다",
+        "chips": {
+          "chip0": "적용",
+          "chip1": "초안"
+        },
+        "rows": {
+          "logo": {
+            "name": "로고",
+            "line3": "SVG · 라이트 · 다크 등록",
+            "tag": "적용"
+          },
+          "accent": {
+            "name": "강조 색상",
+            "line3": "로그인 · 버튼 · 링크에 반영",
+            "tag": "적용"
+          },
+          "signature": {
+            "name": "메일 서명 템플릿",
+            "line3": "부서별 {types}종 · 자동 삽입"
+          },
+          "loginBackground": {
+            "name": "로그인 배경",
+            "line3": "이미지 미등록 · 기본 사용",
+            "tag": "초안"
+          },
+          "senderName": {
+            "name": "시스템 메일 발신자명",
+            "line3": "GXSOFT 메일 · no-reply"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "키 {keys}개 · 호출 {calls}/일",
+        "footerText": "키 값은 발급 시 한 번만 표시됩니다",
+        "chips": {
+          "chip0": "키",
+          "chip1": "웹훅"
+        },
+        "action": "API 키 추가",
+        "rows": {
+          "hrSync": {
+            "line3": "읽기 · 계정 · 최근 호출 {minutes}분 전",
+            "tag": "활성"
+          },
+          "billingSync": {
+            "line3": "읽기 · 사용량 · 만료 {days}일",
+            "tag": "활성"
+          },
+          "legacyImport": {
+            "line3": "쓰기 · 만료 {days}일 · 회전 권장",
+            "tag": "만료"
+          },
+          "quarantineWebhook": {
+            "name": "웹훅 · 격리 알림"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/분",
+            "line3": "초과 시 429 · 재시도 권장",
+            "name": "레이트 리밋"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "승인 흐름",
+        "title": "승인 흐름",
+        "sub": "대기 {pending}건 · 평균 {averageHours}시간",
+        "footerText": "모바일에서는 승인 · 반려만 가능합니다",
+        "footerBtn": "승인",
+        "chips": {
+          "chip0": "대기",
+          "chip1": "완료"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "대량 발송 승인",
+            "line2": "전사 공지 · {people}명",
+            "line3": "요청 한지우 · {hours}시간 전",
+            "tag": "대기"
+          },
+          "externalShare": {
+            "name": "외부 공유 예외",
+            "line2": "partner-corp.kr 첨부 허용",
+            "line3": "요청 영업1팀 · {hours}시간 전",
+            "tag": "대기"
+          },
+          "deleteAccount": {
+            "name": "계정 삭제",
+            "line2": "temp-001 · 데이터 파기",
+            "line3": "요청 인프라팀 · 어제",
+            "tag": "대기"
+          },
+          "dlpException": {
+            "name": "정책 예외 · DLP",
+            "line2": "실행 파일 1회 발송",
+            "line3": "승인 완료 · 오세린",
+            "tag": "완료"
+          },
+          "approvalTemplate": {
+            "name": "결재선 템플릿",
+            "line3": "{step}단계 · 부서장 → 정보보안 → 대표"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "리포트",
+        "title": "리포트",
+        "sub": "주간 · {month} {week}주",
+        "footerText": "PDF 내보내기는 데스크톱에서 가능합니다",
+        "chips": {
+          "chip0": "주간",
+          "chip1": "월간"
+        },
+        "rows": {
+          "traffic": {
+            "name": "수발신 추이",
+            "line3": "수신 {received} · 발송 {sent}"
+          },
+          "spamBlock": {
+            "name": "스팸 차단률",
+            "line3": "오탐 신고 {reports}건",
+            "tag": "정상"
+          },
+          "userActivity": {
+            "name": "사용자 활성도",
+            "line3": "주 {days}일 이상 접속 {people}명"
+          },
+          "storageGrowth": {
+            "name": "저장 용량 증가",
+            "line3": "주 평균 · 임계 예상 {months}개월"
+          },
+          "scheduled": {
+            "name": "예약 리포트",
+            "meta": "{reports}건",
+            "line3": "{weekday} {time} · 경영진 발송"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "마이그레이션",
+        "title": "마이그레이션",
+        "sub": "배치 {batches}개 진행 · {progress}",
+        "footerText": "중단 · 재시도는 데스크톱 콘솔에서",
+        "chips": {
+          "chip0": "진행",
+          "chip1": "완료",
+          "chip2": "실패"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "{migrated}/{total} 계정 · 남은 {hours}시간 {minutes}분",
+            "name": "배치 07 · 영업본부"
+          },
+          "researchBatch": {
+            "line3": "{migrated}/{total} 계정 · 대역폭 제한",
+            "name": "배치 08 · 연구소"
+          },
+          "overseasBatch": {
+            "line3": "{migrated}/{total} 계정 · 시차 대기",
+            "name": "배치 09 · 해외지사"
+          },
+          "failedBatch": {
+            "line3": "메일함 용량 초과 · 재시도 필요",
+            "tag": "실패",
+            "name": "배치 06 · 실패 {failures}건"
+          },
+          "completedBatches": {
+            "line3": "검증 통과 · 원본 보관 {days}일",
+            "tag": "완료",
+            "name": "배치 01–05 완료"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "메일 처리량",
+    "received": "수신",
+    "sent": "발신",
+    "blocked": "차단",
+    "authTitle": "인증 상태",
+    "alertsTitle": "확인이 필요한 항목",
+    "openAlerts": "확인이 필요한 항목 전체 목록을 엽니다",
+    "all": "전체",
+    "funnelTitle": "배달 퍼널 (오늘)",
+    "averageDelay": "평균 배달 지연",
+    "reputationTitle": "도메인 평판",
+    "queueTitle": "발송 큐",
+    "live": "실시간",
+    "kpis": {
+      "processed": "오늘 처리 메일",
+      "activeAccounts": "활성 계정",
+      "blockedRate": "스팸 차단율",
+      "deliveryDelay": "평균 전달 지연"
+    },
+    "authStatus": {
+      "normal": "정상",
+      "quarantine": "격리 정책",
+      "notApplied": "미적용"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "MTA-STS 정책 미적용",
+        "desc": "sub.gxsoft.co.kr 도메인에 TLS 강제 정책이 없습니다."
+      },
+      "quota": {
+        "title": "용량 임계 계정 8건",
+        "desc": "90% 초과 계정에 자동 알림이 발송되었습니다."
+      }
+    },
+    "funnel": {
+      "attempted": "수신 시도",
+      "blocked": "스팸 · 악성 차단",
+      "quarantined": "격리 보류",
+      "delivered": "정상 배달",
+      "bounced": "반송 · 실패"
+    },
+    "queueStats": {
+      "pending": "대기 중",
+      "retrying": "재시도",
+      "failed": "실패"
+    },
+    "queueState": {
+      "sending": "발송 중",
+      "completed": "완료",
+      "pending": "대기"
+    },
+    "reputationMetrics": "스팸 {spam} · 반송 {bounce}",
+    "itemCount": "{count, number}건"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "이름 · 계정 · 부서 검색",
+    "allDepartments": "부서 전체",
+    "allRoles": "권한 전체",
+    "allStatuses": "상태 전체",
+    "selectAll": "전체 선택",
+    "moreActions": "더 보기",
+    "resumeAccount": "정지 해제",
+    "suspendAccount": "계정 정지",
+    "deleteAccount": "계정 삭제",
+    "suspendedToast": "계정을 정지했습니다",
+    "resumedToast": "계정 정지를 해제했습니다",
+    "deletedToast": "계정이 삭제되었습니다",
+    "bulkSuspend": "일괄 정지",
+    "clearSelection": "선택 해제",
+    "columns": {
+      "user": "사용자",
+      "department": "부서 · 직위",
+      "role": "권한",
+      "quota": "용량",
+      "lastSeen": "마지막 접속",
+      "status": "상태"
+    },
+    "departments": {
+      "strategy": "전략기획팀",
+      "infrastructure": "인프라팀",
+      "finance": "재무팀",
+      "platform": "플랫폼개발팀",
+      "qa": "QA팀",
+      "system": "시스템"
+    },
+    "departmentFilter": "부서 필터",
+    "roleFilter": "권한 필터",
+    "statusFilter": "상태 필터",
+    "positions": {
+      "deputy": "차장",
+      "principal": "책임",
+      "lead": "팀장",
+      "senior": "수석",
+      "serviceAccount": "서비스 계정"
+    },
+    "roles": {
+      "superAdmin": "최고관리자",
+      "departmentAdmin": "부서관리자",
+      "auditor": "감사 담당자",
+      "api": "API",
+      "member": "일반 사용자"
+    },
+    "statuses": {
+      "active": "활성",
+      "overQuota": "용량 초과",
+      "suspended": "정지"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "방금 전",
+    "selectedCount": "{count, number}명 선택됨",
+    "summary": "총 {total, number}개 계정 · {suspended, number} 정지",
+    "bulkSuspendedToast": "{count, number}개 계정을 정지했습니다",
+    "selectUser": "{name} 선택",
+    "deleteTitle": "{name} 계정을 삭제할까요?",
+    "deleteDescription": "메일함과 첨부파일 전체({quota})가 함께 삭제됩니다. 확인을 위해 이메일 주소를 입력하세요."
+  },
+  "adminPolicy": {
+    "domainsTitle": "도메인",
+    "sendLimitsTitle": "발송 제한",
+    "mailPolicyTitle": "메일 정책",
+    "aiTitle": "AI 기능 배포 범위",
+    "aiDescription": "요약·작성 도움 기능을 조직 단위로 단계 배포합니다. 본문은 국내 리전에서만 처리되며 학습에 사용되지 않습니다.",
+    "syncStarted": "HR 조직도 동기화를 시작합니다",
+    "syncCompleted": "조직도 동기화를 완료했습니다",
+    "syncing": "동기화 중...",
+    "syncNow": "지금 동기화",
+    "justNow": "방금",
+    "domainTags": {
+      "primary": "기본",
+      "alias": "별칭",
+      "needsReview": "확인 필요"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "1인 시간당 발신",
+        "value": "{value, number}통"
+      },
+      "attachmentMb": {
+        "name": "1회 첨부 용량",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "대용량 링크 보관",
+        "value": "{value, number}일"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "외부 발신 도메인 인증 강제",
+        "desc": "SPF·DKIM 실패 메일을 수신 거부합니다."
+      },
+      "ext": {
+        "name": "외부 메일 경고 배너",
+        "desc": "조직 외부에서 온 메일 본문 상단에 배너를 표시합니다."
+      },
+      "dlp": {
+        "name": "기밀 문서 외부 전송 차단 (DLP)",
+        "desc": "'기밀' 라벨이 붙은 첨부의 외부 발송을 차단합니다."
+      },
+      "retain": {
+        "name": "메일 보관 3년 · 삭제 후 30일 복구",
+        "desc": "공공기관 기록물 관리 지침에 맞춘 보존 기간입니다."
+      },
+      "sandbox": {
+        "name": "첨부 파일 샌드박스 검사",
+        "desc": "실행 파일·매크로 문서를 격리 환경에서 먼저 실행합니다."
+      }
+    },
+    "rollout": {
+      "engineering": "기술본부",
+      "strategyFinance": "전략기획 · 재무",
+      "remaining": "그 외 전사"
+    },
+    "rolloutState": {
+      "deployed": "전체 배포",
+      "beta": "베타",
+      "pending": "대기"
+    },
+    "verifiedCount": "{count, number}개 확인됨",
+    "peopleCount": "{count, number}명",
+    "todayAt": "오늘 {time}",
+    "syncSummary": "HR 시스템(그로우) 조직도를 매일 03:00에 동기화합니다. 마지막 동기화 {lastSync} · {count, number}명",
+    "domainMeta": {
+      "primary": "계정 {count, number} · MX 정상 · {registered} 등록",
+      "alias": "계정 {count, number} · 글로벌 발신 전용",
+      "review": "계정 {count, number} · MTA-STS 정책 없음"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "차단 · 격리 로그",
+    "exportStarted": "CSV 내보내기를 시작했습니다",
+    "exportCsv": "CSV 내보내기",
+    "empty": "해당 조건의 로그가 없습니다.",
+    "kpis": {
+      "blocked": "차단 (7일)",
+      "quarantine": "격리 대기",
+      "phishing": "피싱 판정",
+      "accuracy": "탐지 정확도"
+    },
+    "filters": {
+      "all": "전체",
+      "spam": "스팸",
+      "phishing": "피싱",
+      "malware": "멀웨어"
+    },
+    "columns": {
+      "time": "시각",
+      "sender": "발신자",
+      "subjectReason": "제목 · 판정 근거",
+      "recipient": "수신자",
+      "score": "점수",
+      "action": "조치"
+    },
+    "actions": {
+      "blocked": "차단",
+      "quarantined": "격리",
+      "released": "해제",
+      "passed": "통과"
+    },
+    "recipients": {
+      "allStaff": "전사",
+      "purchasing": "구매팀",
+      "multiple": "다수"
+    },
+    "rowCount": "{count, number}건",
+    "reasons": {
+      "similarDomain": "피싱 의심 도메인 유사",
+      "executable": "실행파일 탐지",
+      "spoofedDomain": "스푸핑 도메인"
+    }
+  },
+  "adminFlow": {
+    "title": "규칙",
+    "reorder": "순서 변경",
+    "reorderToast": "규칙 순서 변경 모드로 전환합니다",
+    "added": "규칙을 추가했습니다",
+    "createTitle": "규칙 만들기",
+    "add": "규칙 추가",
+    "runSimulation": "시뮬레이션 실행",
+    "simulationCompleted": "시뮬레이션을 완료했습니다",
+    "fields": {
+      "scope": "적용 대상",
+      "condition": "조건 (IF)",
+      "action": "동작 (THEN)"
+    },
+    "values": {
+      "allOrganization": "전체 조직"
+    },
+    "rules": {
+      "executive": {
+        "name": "임원 메일 우선 전달",
+        "condition": "받는사람 = 임원 그룹",
+        "action": "즉시 전달 + 중요 표시"
+      },
+      "confidential": {
+        "name": "외부→기밀 라벨 첨부 차단",
+        "condition": "라벨 = 기밀, 수신자 외부",
+        "action": "발송 차단"
+      },
+      "largeAttachment": {
+        "name": "대용량 첨부 링크 전환",
+        "condition": "첨부 > 10MB",
+        "action": "드라이브 링크로 전환"
+      },
+      "recruitment": {
+        "name": "채용 메일 인사팀 참조 추가",
+        "condition": "제목에 [채용] 포함",
+        "action": "인사팀 참조 추가"
+      },
+      "foreignIp": {
+        "name": "해외 IP 발신 격리",
+        "condition": "발신 IP 국가 ≠ KR",
+        "action": "격리 검사"
+      },
+      "formerEmployee": {
+        "name": "퇴직자 메일 전달",
+        "condition": "수신자 = 퇴직 계정",
+        "action": "후임자에게 전달"
+      },
+      "newsletter": {
+        "name": "뉴스레터 벌크 분류",
+        "condition": "벌크 발신 헤더 감지",
+        "action": "'뉴스레터' 라벨"
+      },
+      "new": {
+        "name": "새 규칙",
+        "condition": "발신자 도메인 = ...",
+        "action": "라벨 지정"
+      }
+    },
+    "evaluationOrder": "위에서 아래 순서로 평가 · {count, number}건 활성",
+    "hitCount": "{count, number}건",
+    "ruleOrdinal": "{count, number}번째 규칙",
+    "simulationIntro": "최근 7일 트래픽에 새 규칙을 적용해 영향 범위를 미리 확인합니다.",
+    "simulationScope": "적용 대상 {count, number}건",
+    "simulationFalsePositive": "오탐 예상 {count, number}건",
+    "ifLabel": "조건"
+  },
+  "adminGroups": {
+    "created": "그룹을 만들었습니다",
+    "approved": "발송을 승인했습니다",
+    "rejected": "발송을 거부했습니다",
+    "searchPlaceholder": "그룹 주소 · 이름 검색",
+    "noResults": "검색 결과가 없습니다.",
+    "createTitle": "그룹 만들기",
+    "create": "그룹 생성",
+    "pendingModeration": "조정 대기",
+    "noPending": "대기 중인 항목이 없습니다.",
+    "approve": "승인",
+    "reject": "거부",
+    "newGroupName": "새 그룹",
+    "currentUser": "나",
+    "nameOrEmail": "이름 또는 이메일",
+    "columns": {
+      "address": "그룹 주소",
+      "typeOwner": "유형 · 소유자",
+      "members": "멤버",
+      "externalSenders": "외부 발신",
+      "moderation": "조정"
+    },
+    "fields": {
+      "address": "그룹 주소",
+      "type": "유형",
+      "addMembers": "멤버 추가",
+      "externalSenders": "외부 발신"
+    },
+    "types": {
+      "distribution": "배포 리스트",
+      "security": "보안 그룹",
+      "shared": "공유 메일함"
+    },
+    "external": {
+      "allowed": "허용",
+      "blocked": "차단"
+    },
+    "moderation": {
+      "required": "조정 필수",
+      "autoReply": "자동 회신",
+      "none": "없음"
+    },
+    "summary": "그룹 {groups, number}개 · 메일링리스트 {lists, number}개",
+    "queueMeta": "{mailbox} · {age} · 발신: {sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "관리자 · 대상 · 액션 검색",
+    "noResults": "조건에 맞는 로그가 없습니다.",
+    "detailTitle": "감사 로그 상세",
+    "jsonComingSoon": "JSON 뷰어는 준비 중입니다",
+    "viewJson": "JSON 보기",
+    "revert": "되돌리기",
+    "revertTitle": "이 변경을 되돌릴까요?",
+    "reverted": "변경 사항을 되돌렸습니다",
+    "filters": {
+      "admin": "관리자",
+      "action": "액션",
+      "range": "기간",
+      "all": "전체"
+    },
+    "ranges": {
+      "last7": "최근 7일",
+      "last30": "최근 30일",
+      "last90": "최근 90일",
+      "all": "전체 기간"
+    },
+    "columns": {
+      "time": "시각",
+      "admin": "관리자",
+      "action": "액션",
+      "targetChange": "대상 · 변경 내용",
+      "result": "결과"
+    },
+    "fields": {
+      "time": "시각",
+      "admin": "관리자",
+      "action": "액션",
+      "target": "대상",
+      "ip": "IP",
+      "result": "결과"
+    },
+    "actions": {
+      "policyChanged": "정책 변경",
+      "accountSuspended": "계정 정지",
+      "logViewed": "로그 조회",
+      "quotaChanged": "용량 변경",
+      "orgSynced": "조직도 동기화",
+      "adminLogin": "관리자 로그인",
+      "domainAdded": "도메인 추가",
+      "accountsCreated": "계정 생성",
+      "quarantineReleased": "격리 해제",
+      "permissionChanged": "권한 변경",
+      "backupRestored": "백업 복구"
+    },
+    "results": {
+      "success": "성공",
+      "blocked": "차단",
+      "failed": "실패"
+    },
+    "summary": "{count, number}건 · 보존 5년 · 변경 불가 저장소",
+    "viewEntry": "{action} · {target} 상세 보기",
+    "revertDescription": "{target}에 적용된 {action} 작업을 이전 상태로 되돌립니다.",
+    "internalIp": "내부망",
+    "adminNames": {
+      "system": "시스템",
+      "unknown": "알 수 없음"
+    },
+    "targets": {
+      "mtaSts": "{name} · MTA-STS 활성화",
+      "suspended": "{name} (QA팀)",
+      "viewedAudit": "감사 로그 · 최근 7일",
+      "quotaChanged": "{name} 본인 · 50 GB → 100 GB",
+      "orgSynced": "HR 시스템 → {count, number}명",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "신입사원 {count, number}명 일괄 생성",
+      "quarantineReleased": "메일 {count, number}건 · {name}",
+      "permissionChanged": "{name} → 감사 권한 부여",
+      "restoreFailed": "{name} 메일함 · {date} 스냅샷"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "보관 정책",
+    "restoreTitle": "복구 작업",
+    "legalHoldTitle": "법적 보존 (Legal Hold)",
+    "viewTargets": "대상 보기",
+    "kpis": {
+      "lastBackup": {
+        "label": "최근 백업",
+        "value": "{value}",
+        "note": "소요 {value}분 · 성공"
+      },
+      "storage": {
+        "label": "보관 용량",
+        "value": "{value} TB",
+        "note": "전월 대비 +{value} GB"
+      },
+      "recoveryWindow": {
+        "label": "복구 가능 시점",
+        "value": "{value}일",
+        "note": "일 1회 스냅샷 · {value}년"
+      },
+      "activeRestores": {
+        "label": "진행 중 복구",
+        "value": "{value}건",
+        "note": "예상 완료 {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "전사 기본 보관",
+        "scope": "전 직원"
+      },
+      "executive": {
+        "name": "임원 · 결재 문서",
+        "scope": "임원진"
+      },
+      "publicContracts": {
+        "name": "공공 계약 기록물",
+        "scope": "계약 관련 라벨"
+      },
+      "formerEmployees": {
+        "name": "퇴직자 메일박스",
+        "scope": "퇴직 계정"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "자동 삭제",
+      "undeletable": "삭제 불가",
+      "immutable": "변경 불가 보관",
+      "adminAccess": "관리자 열람"
+    },
+    "mailboxKinds": {
+      "personal": "메일함",
+      "shared": "공유함"
+    },
+    "jobStates": {
+      "restoring": "복구 중",
+      "completed": "완료",
+      "pending": "대기",
+      "failed": "실패"
+    },
+    "years": "{count, number}년",
+    "jobName": "{owner} {kind} · {date}",
+    "jobMeta": {
+      "restoring": "예상 완료 {time}",
+      "completed": "{count, number}분 전 완료",
+      "pending": "대기열 {count, number}번째",
+      "failed": "저장소 인증 오류 · 재시도 필요"
+    },
+    "legalHoldDescription": "진행 중인 감사 {audits, number}건에 대해 계정 {accounts, number}개의 삭제가 차단되어 있습니다.",
+    "legalHoldToast": "법적 보존 대상 계정 {count, number}개를 엽니다",
+    "activeAudits": "진행 중인 감사 {count, number}건"
+  },
+  "adminReports": {
+    "createTitle": "리포트 만들기",
+    "includedColumns": "포함할 열",
+    "formatLabel": "형식",
+    "schedule": "예약",
+    "export": "내보내기",
+    "scheduledToast": "정기 리포트로 예약합니다",
+    "exportStarted": "리포트 내보내기를 시작했습니다",
+    "exportPolicyTitle": "내보내기 정책",
+    "recentExportsTitle": "최근 내보내기",
+    "scheduledReportsTitle": "정기 리포트",
+    "notAvailable": "-",
+    "fields": {
+      "type": "리포트 종류",
+      "range": "기간",
+      "scope": "범위",
+      "groupBy": "그룹화"
+    },
+    "values": {
+      "sentReport": "발송 리포트",
+      "last7": "최근 7일",
+      "allOrganization": "전체 조직",
+      "daily": "일별"
+    },
+    "reportColumns": {
+      "sender": "보낸사람",
+      "recipient": "받는사람",
+      "subject": "제목",
+      "time": "시각",
+      "size": "크기",
+      "attachmentCount": "첨부 수",
+      "deliveryStatus": "배달 상태",
+      "filterVerdict": "필터 판정",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "리포트",
+      "requestedBy": "요청자",
+      "size": "크기",
+      "completed": "완료",
+      "status": "상태"
+    },
+    "exportPolicy": {
+      "metadataOnly": "내보내기는 메타데이터만 포함하며 본문은 포함되지 않습니다.",
+      "auditedApproval": "모든 내보내기는 감사 로그에 기록되고 관리자 승인이 필요합니다.",
+      "autoDelete": "생성된 파일은 7일 후 자동으로 삭제됩니다.",
+      "splitLarge": "100만 행을 초과하면 자동으로 여러 파일로 분할됩니다."
+    },
+    "exportStates": {
+      "completed": "완료",
+      "generating": "생성 중",
+      "expired": "만료됨",
+      "failed": "실패"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "지난주",
+      "unavailable": "-"
+    },
+    "limits": "최대 {days, number}일 · 최대 {rows, number}행",
+    "estimate": "예상 {rows, number}행 · 약 {size} MB",
+    "exportToastDetail": "{format} · 예상 {rows, number}행",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient} ({count, number})",
+    "cadence": {
+      "monthlyFirst": "매월 {day, number}일 {time}",
+      "weeklyMonday": "매주 {weekday} {time}",
+      "quarterlyFirst": "분기 첫날 {time}",
+      "daily": "매일 {time}",
+      "monthly25": "매월 {day, number}일"
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "배치별 진행",
+    "throughputTitle": "처리량 (최근 12시간)",
+    "errorsTitle": "실패 · 건너뜀",
+    "retryAll": "전체 재시도",
+    "retryStarted": "실패 · 건너뜀 항목을 다시 시도합니다",
+    "noErrors": "재시도 대기 중인 항목이 없습니다.",
+    "kpis": {
+      "accounts": {
+        "label": "이관 완료 계정",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "이관 메일",
+        "value": "{value}통",
+        "note": "+{value} (24h)"
+      },
+      "rate": {
+        "label": "평균 속도",
+        "value": "{value} 통/분",
+        "note": "SLA {value} 이상"
+      },
+      "failed": {
+        "label": "실패 · 보류",
+        "value": "{value}통",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "배치",
+      "accounts": "계정",
+      "progress": "진행",
+      "remaining": "남은 시간",
+      "status": "상태"
+    },
+    "sources": {
+      "otherImap": "IMAP 기타",
+      "mixed": "혼합"
+    },
+    "states": {
+      "completed": "완료",
+      "inProgress": "진행 중",
+      "pending": "대기",
+      "retrying": "재시도 중"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "사서함 용량 초과",
+        "detail": "대상 계정 저장 공간 부족"
+      },
+      "corruptedSource": {
+        "reason": "원본 항목 손상",
+        "detail": "읽을 수 없는 메일 항목"
+      },
+      "unsupportedAttachment": {
+        "reason": "지원하지 않는 첨부",
+        "detail": "형식 변환 실패"
+      },
+      "duplicate": {
+        "reason": "중복 감지",
+        "detail": "이미 이관된 항목 건너뜀"
+      },
+      "permissionDenied": {
+        "reason": "권한 거부",
+        "detail": "원본 서버 접근 권한 없음"
+      }
+    },
+    "batchLimits": "동시 실행 {parallel, number} · 대역폭 제한 {bandwidth, number} Mbps",
+    "batchName": "배치 {number, number}",
+    "minutesRemaining": "{count, number}분",
+    "throughputSummary": "평균 {average, number} 통/분 · 피크 {peak, number}",
+    "itemCount": "{count, number}건",
+    "syncNotice": "전환 후 {days, number}일간 원본 서버와 IMAP 동기화가 유지되므로, 실패 항목은 언제든 다시 가져올 수 있습니다."
+  },
+  "adminBrand": {
+    "identityTitle": "조직 아이덴티티",
+    "openLogoPicker": "로고 파일 선택 창을 엽니다",
+    "replaceLogo": "로고 교체",
+    "replace": "교체",
+    "fields": {
+      "organizationName": "조직 표시명",
+      "senderLabel": "메일 발신자 표기",
+      "supportContact": "지원 연락처"
+    },
+    "brandColor": "브랜드 색",
+    "selectColor": "브랜드 색 {color} 선택",
+    "colorAppliesTo": "로그인 화면 · 시스템 메일에 적용",
+    "signatureTitle": "전사 서명 템플릿",
+    "toggles": {
+      "sig": "전 직원 서명 강제",
+      "disclaimer": "외부 메일에 면책 문구 추가",
+      "logo": "로고를 서명에 포함"
+    },
+    "loginPreviewTitle": "로그인 화면 미리보기",
+    "companyEmail": "회사 이메일",
+    "continue": "계속",
+    "signInWithSso": "회사 계정(SSO)으로 로그인",
+    "previewCustomizationHint": "배경 이미지와 문구는 조직별로 교체할 수 있습니다.",
+    "openBackgroundPicker": "배경 이미지 선택 창을 엽니다",
+    "replaceBackground": "배경 교체",
+    "openCopyEditor": "문구 편집 화면을 엽니다",
+    "editCopy": "문구 편집",
+    "published": "브랜딩 변경사항을 게시했습니다",
+    "publish": "게시"
+  },
+  "adminBilling": {
+    "currentPlan": "현재 요금제",
+    "enterpriseAnnual": "Enterprise 연간",
+    "planPeriod": "{start} ~ {end} · 자동 갱신",
+    "openPlanChange": "요금제 변경 화면으로 이동합니다",
+    "changePlan": "요금제 변경",
+    "seatUsage": "좌석 사용",
+    "seatsUsed": "{used} / {total}석",
+    "seatEstimate": "잔여 {remaining}석 · {months}개월 내 소진 예상",
+    "nextBilling": "다음 청구",
+    "nextBillingDetails": "{date} 청구 예정 · 세금계산서 발행",
+    "openPaymentMethods": "결제 수단 관리 화면으로 이동합니다",
+    "managePaymentMethods": "결제 수단 관리",
+    "licensesTitle": "라이선스 구성",
+    "licenses": {
+      "enterpriseMail": "Enterprise 메일 (50 GB)",
+      "aiAssistance": "AI 요약 · 작성 도움",
+      "archive": "아카이브 · eDiscovery",
+      "largeAttachments": "대용량 첨부 (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "기본 요금제",
+      "addon": "부가 기능",
+      "included": "포함"
+    },
+    "seatCount": "{count}석",
+    "included": "—",
+    "pricePerMonth": "{amount}/월",
+    "contractNotice": "공공기관 조달 계약(제3자 단가) 적용 중 · 계약번호 {number}",
+    "invoicesTitle": "청구 내역",
+    "columns": {
+      "number": "번호",
+      "date": "날짜",
+      "amount": "금액",
+      "status": "상태"
+    },
+    "invoiceStates": {
+      "scheduled": "예정",
+      "paid": "결제 완료",
+      "underReview": "검토 중"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "API 키",
+    "issueKey": "키 발급",
+    "columns": {
+      "name": "이름",
+      "key": "키",
+      "scopes": "권한",
+      "lastUsed": "마지막 사용",
+      "status": "상태"
+    },
+    "keyNames": {
+      "legacyErp": "레거시 ERP 연동",
+      "approvalSystem": "결재 시스템 (그로우)",
+      "reportAutomation": "리포트 자동화",
+      "oldMobileApp": "구 모바일 앱",
+      "newKey": "새 API 키"
+    },
+    "self": "나",
+    "keyStates": {
+      "reviewNeeded": "검토 필요",
+      "active": "활성",
+      "inactive": "비활성"
+    },
+    "keyIssued": "API 키를 발급했습니다",
+    "keyRotated": "키를 회전했습니다",
+    "appDisconnected": "연동을 해제했습니다",
+    "rotateNow": "지금 회전",
+    "webhooksTitle": "웹훅",
+    "webhookStates": {
+      "healthy": "정상",
+      "retrying": "재시도 중",
+      "frequentFailures": "실패 다발"
+    },
+    "usageTitle": "사용량 (30일)",
+    "usage": {
+      "calls": "호출 (30일)",
+      "errorRate": "오류율",
+      "latency": "p95 지연"
+    },
+    "approvedAppsTitle": "승인된 앱",
+    "noApps": "연동된 앱이 없습니다.",
+    "disconnect": "해제",
+    "lastUsed": {
+      "daysAgo": "{count}일 전",
+      "hoursAgo": "{count}시간 전",
+      "monthsAgo": "{count}개월 전",
+      "justNow": "방금 전",
+      "never": "—"
+    },
+    "staleKeyWarning": "'{name}' 키가 {days}일 이상 회전되지 않았습니다.",
+    "milliseconds": "{count}ms",
+    "rateLimit": "한도 {count}회 호출/월 · 초과 시 429 응답",
+    "appUsers": "{count}명"
+  },
+  "composeEditor": {
+    "switchingToPlain": "일반 텍스트로 전환합니다",
+    "formattingWillBeLost": "굵게 · 목록 등 서식은 사라집니다",
+    "imageAddedAsAttachment": "이미지가 첨부파일로 추가됩니다",
+    "switchToRich": "서식 있는 텍스트로 전환",
+    "switchToPlain": "일반 텍스트로 전환",
+    "plainText": "일반 텍스트",
+    "richText": "서식 있는 텍스트",
+    "bold": "굵게",
+    "italic": "기울임",
+    "list": "목록",
+    "insertLink": "링크 삽입",
+    "insertImage": "이미지 삽입",
+    "emoji": "이모지",
+    "closeEmojiMenu": "이모지 메뉴 닫기",
+    "chooseEmoji": "이모지 선택",
+    "messageBody": "메일 본문"
+  },
+  "composeModal": {
+    "attachmentNote": "첨부파일 {count}개: {names}",
+    "attachmentCount": "첨부 {count}개",
+    "bccCount": "숨은참조 {count}명 포함",
+    "rewritingTone": "“{tone}” 어조로 다시 쓰는 중입니다",
+    "externalRecipientWarning": "외부 수신자 {count}명이 포함돼 있습니다",
+    "uploadComplete": "{size} · 업로드 완료",
+    "schedule": {
+      "today": "오늘 {time}",
+      "tomorrow": "내일 {time}",
+      "nextMonday": "다음 주 월요일 {time}"
+    },
+    "largeFilesBecomeLinks": "대용량 파일은 링크로 자동 전환됩니다",
+    "fileTooLarge": "최대 2GB를 초과하는 파일은 첨부할 수 없습니다",
+    "sent": "메일을 보냈습니다",
+    "newMail": "새 메일",
+    "savedJustNow": "임시저장 · 방금",
+    "collapse": "축소",
+    "expand": "확대",
+    "close": "닫기",
+    "to": "받는 사람",
+    "removeRecipient": "제거",
+    "recipientPlaceholder": "이름 또는 이메일 입력…",
+    "ccAndBcc": "참조 · 숨은참조",
+    "cc": "참조",
+    "ccPlaceholder": "참조 수신자",
+    "bcc": "숨은참조",
+    "bccPlaceholder": "숨은참조 수신자",
+    "subject": "제목",
+    "subjectPlaceholder": "제목을 입력하세요",
+    "toneHint": "톤을 선택하면 초안을 다시 씁니다.",
+    "tones": {
+      "polite": "정중하게",
+      "concise": "간결하게",
+      "english": "영문으로"
+    },
+    "externalRecipientBody": "사내 정보는 외부로 발송되지 않도록 다시 확인해 주세요.",
+    "reviewRecipients": "수신자 확인",
+    "bodyPlaceholder": "내용을 입력하세요",
+    "largeFileLinkSuffix": " · 대용량 링크",
+    "removeAttachment": "첨부파일 제거",
+    "chooseAttachments": "첨부 파일 선택",
+    "dropFiles": "파일을 끌어다 놓으세요",
+    "attachmentLimits": "25 MB 초과 시 대용량 링크로 자동 전환 · 최대 2 GB",
+    "send": "보내기",
+    "scheduleSend": "예약",
+    "closeScheduleMenu": "예약 메뉴 닫기",
+    "scheduleTimes": "예약 발송 시간",
+    "scheduled": "예약 발송으로 등록되었습니다",
+    "attachFile": "파일 첨부",
+    "tlsEncrypted": "발신 암호화 (TLS)",
+    "delete": "삭제",
+    "discardTitle": "저장하지 않고 나갈까요?",
+    "discardDescription": "작성 중인 메일은 임시보관함에 남습니다.",
+    "continueEditing": "계속 작성",
+    "saveDraft": "임시 저장",
+    "discardWithoutSaving": "저장 안 함",
+    "draftSaved": "임시보관함에 저장되었습니다"
+  },
+  "themeCustomizer": {
+    "title": "테마 사용자 정의",
+    "close": "닫기",
+    "designThemes": "디자인 테마",
+    "colorsTitle": "색상",
+    "primaryColor": "기본 색상",
+    "accentColor": "강조 색상",
+    "screenMode": "화면 모드",
+    "schemes": {
+      "light": "라이트",
+      "dark": "다크",
+      "system": "시스템"
+    },
+    "typography": "타이포그래피",
+    "fonts": {
+      "sans": "기본 (Sans)",
+      "serif": "세리프",
+      "mono": "모노스페이스",
+      "rounded": "라운드"
+    },
+    "layout": "레이아웃",
+    "listDensity": "목록 밀도",
+    "densities": {
+      "comfortable": "여유롭게",
+      "compact": "압축"
+    },
+    "sidebarPosition": "사이드바 위치",
+    "sides": {
+      "left": "왼쪽",
+      "right": "오른쪽"
+    },
+    "corners": "모서리",
+    "radii": {
+      "sharp": "각짐",
+      "rounded": "둥글게",
+      "pill": "알약형"
+    },
+    "defaults": "기본값",
+    "cancel": "취소",
+    "publish": "게시",
+    "colors": {
+      "blue": "블루",
+      "indigo": "인디고",
+      "teal": "틸",
+      "green": "그린",
+      "rose": "로즈",
+      "purple": "퍼플",
+      "orange": "오렌지",
+      "yellow": "옐로",
+      "pink": "핑크",
+      "cyan": "시안",
+      "lime": "라임",
+      "gray": "그레이"
+    },
+    "presets": {
+      "broadsheet": "신문 조판 감성의 세리프, 시안·마젠타 프로세스 컬러",
+      "classical": "고전적인 세리프와 브론즈 톤의 우아한 스타일",
+      "industry": "스틸 블루 톤의 절제된 유틸리티 스타일",
+      "modernist": "바우하우스풍 각진 그리드와 강렬한 레드-오렌지",
+      "nocturne": "블루퍼플 액센트의 다크 모드 앱 스타일",
+      "organic": "따뜻한 테라코타·세이지 톤의 부드럽고 둥근 스타일"
+    }
+  },
+  "searchPage": {
+    "results": "검색 결과",
+    "allResults": "전체 검색 결과",
+    "resultCount": "결과 {count}건",
+    "syntaxHelp": "검색 문법 도움말",
+    "syntaxHelpShortcut": "검색 문법 도움말 (?)",
+    "filters": "필터",
+    "sortBy": "정렬 기준",
+    "resultList": "검색 결과 목록",
+    "noResults": "검색 결과가 없습니다.",
+    "peopleCount": "{count}명",
+    "itemCount": "{count}건",
+    "searchFilters": "검색 필터",
+    "narrowResults": "검색 조건 좁히기",
+    "examples": "검색 예시",
+    "groups": {
+      "mail": "메일",
+      "file": "첨부 파일",
+      "person": "사람"
+    },
+    "facets": {
+      "period": "기간",
+      "folder": "폴더",
+      "attachmentType": "첨부 유형",
+      "label": "라벨"
+    },
+    "facetRows": {
+      "today": "오늘",
+      "lastSevenDays": "최근 7일",
+      "lastSixMonths": "최근 6개월",
+      "all": "전체",
+      "inbox": "받은편지함",
+      "sent": "보낸편지함",
+      "pendingApproval": "결재 대기",
+      "archive": "보관함",
+      "pdf": "PDF",
+      "xls": "엑셀",
+      "doc": "문서",
+      "img": "이미지",
+      "budgetFinance": "예산 · 재무",
+      "projectAtlas": "프로젝트 아틀라스",
+      "confidential": "기밀"
+    },
+    "chips": {
+      "hasAttachment": "첨부 있음",
+      "recentSixMonths": "최근 6개월"
+    },
+    "sort": {
+      "relevance": "관련도순",
+      "newest": "최신순",
+      "sender": "보낸사람순"
+    },
+    "saved": {
+      "senderAttachments": "{name}의 첨부 메일",
+      "inboxBudget": "받은편지함의 예산",
+      "pdfFiles": "PDF 첨부 파일"
+    }
+  },
+  "searchSyntax": {
+    "title": "검색 문법",
+    "description": "현재 템플릿의 예시 데이터에서 지원하는 검색 조건입니다.",
+    "close": "닫기",
+    "people": "사람 · 대상",
+    "content": "내용 · 상태",
+    "rulesTitle": "조합 규칙",
+    "recipesTitle": "자주 쓰는 조합",
+    "operators": {
+      "fromSender": "{name}이 보낸 메일과 첨부 파일",
+      "inFolder": "받은편지함에 있는 결과",
+      "subject": "제목에 포함된 단어",
+      "exactPhrase": "일치하는 문구 검색",
+      "hasAttachment": "첨부가 있는 메일·파일",
+      "filename": "특정 확장자의 첨부"
+    },
+    "rules": {
+      "allTerms": "여러 단어와 조건은 모두 일치하는 결과만 보여줍니다.",
+      "quotedPhrase": "띄어쓰기가 있는 문구는 큰따옴표로 묶습니다.",
+      "unsupportedOperator": "지원하지 않는 연산자는 결과를 반환하지 않습니다."
+    },
+    "recipes": {
+      "senderAttachments": "{name}의 첨부 결과",
+      "inboxBudget": "받은편지함의 예산 관련 결과",
+      "pdfFiles": "PDF 첨부가 있는 결과"
+    }
+  },
+  "accessibilityReport": {
+    "title": "접근성 명세 · KWCAG 2.2",
+    "sectionLabel": "접근성 명세",
+    "passSummary": "통과 {passed} / {total}",
+    "auditNote": "공공기관 납품 기준 · 자체 점검 {date}",
+    "checklist": "점검 항목",
+    "contrastHeading": "명암비 검증",
+    "colorPair": "{role} {foreground} / 배경 {background}",
+    "focusTouchHeading": "포커스 · 터치 영역",
+    "focusState": "포커스 상태",
+    "touchTarget": "최소 44 × 44 px · 모바일 버튼 · 탭 · 목록 행 (필터 칩 34px)",
+    "focusRing": "포커스 링은 2px 액센트 외곽선 + 3px 오프셋으로 통일하며, 키보드 사용 시에만 표시됩니다 (:focus-visible).",
+    "assistiveTest": "보조 기술 테스트",
+    "mailListNote": "메일 목록은 표 구조로 읽히며, 읽지 않음 상태는 텍스트로도 전달됩니다.",
+    "states": {
+      "pass": "통과",
+      "inProgress": "보완 중",
+      "largeOnly": "대형만"
+    },
+    "colors": {
+      "body": "본문",
+      "secondary": "보조",
+      "accent": "액센트",
+      "muted": "보조"
+    },
+    "checks": {
+      "keyboard": "키보드만으로 전체 조작",
+      "focus": "포커스 표시",
+      "contrast": "본문 명암비 4.5:1 이상",
+      "color": "색만으로 정보 전달 금지",
+      "altText": "대체 텍스트",
+      "tableHeaders": "표 구조 · 헤더 연결",
+      "errors": "오류 안내 · 복구",
+      "zoom": "텍스트 200% 확대",
+      "timing": "동작 시간 조절"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "월간 캘린더",
+    "timeView": "시간대별 일정",
+    "mobileView": "모바일 캘린더",
+    "todaySummary": "오늘 {todayCount}건 · 이번 주 {weekCount}건",
+    "createEvent": "일정 만들기",
+    "detectedEvent": "메일에서 감지된 일정",
+    "detectedDescription": "‘{title}’ — {personName}님의 메일에서 일정을 찾았습니다.",
+    "addToCalendar": "캘린더에 추가",
+    "dismiss": "무시",
+    "noEvents": "이 날짜에는 일정이 없습니다."
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "이동",
+      "global": "전역",
+      "list": "목록",
+      "mail": "메일 처리",
+      "compose": "작성",
+      "reply": "답장",
+      "search": "검색",
+      "admin": "관리자"
+    },
+    "actions": {
+      "inbox": "받은편지함",
+      "sent": "보낸편지함",
+      "drafts": "임시보관",
+      "pendingApprovals": "결재 대기",
+      "calendar": "캘린더",
+      "contacts": "주소록",
+      "commandSearch": "검색 · 명령 팔레트",
+      "compose": "새 메일 쓰기",
+      "notifications": "알림 센터",
+      "shortcutHelp": "단축키 도움말",
+      "settings": "설정",
+      "collapseSidebar": "사이드바 접기",
+      "nextPrevious": "다음 · 이전",
+      "open": "열기",
+      "select": "선택",
+      "selectAll": "전체 선택",
+      "toggleRead": "읽음 · 안 읽음",
+      "star": "중요 표시",
+      "archive": "보관",
+      "delete": "삭제",
+      "reportSpam": "스팸 신고",
+      "snooze": "나중에 알림",
+      "addLabel": "라벨 붙이기",
+      "moveToFolder": "다른 함으로",
+      "send": "보내기",
+      "saveDraft": "임시 저장",
+      "scheduleSend": "예약 발송",
+      "attachFile": "첨부 추가",
+      "addRecipient": "받는 사람 추가",
+      "closeWindow": "창 닫기",
+      "reply": "답장",
+      "replyAll": "전체 답장",
+      "forward": "전달",
+      "collapseQuote": "인용 접기",
+      "viewOriginal": "원문 보기",
+      "openSearch": "검색창 열기",
+      "syntaxHelp": "문법 도움말",
+      "searchWithinResults": "결과 안에서 재검색",
+      "resetFilters": "필터 초기화",
+      "switchTab": "탭 이동",
+      "searchTable": "표 검색",
+      "exportSelected": "선택 항목 내보내기",
+      "refresh": "새로고침"
+    },
+    "title": "키보드 단축키",
+    "printEdition": "GXWebMail · 인쇄용 전체 목록 · {edition}",
+    "openWith": "화면에서는 <key>?</key>로 열립니다",
+    "windowsModifier": "Windows에서는 ⌘ 대신 Ctrl을 사용합니다",
+    "footerNote": "단축키는 설정 · 접근성에서 끌 수 있습니다. 입력 중에는 동작하지 않습니다."
+  },
+  "securityPage": {
+    "title": "계정 보안",
+    "scoreSummary": "보안 점수 {score} / {total} · 개선 {count}건",
+    "passwordAge": "마지막 비밀번호 변경 {days}일 전",
+    "mfaHeading": "2단계 인증",
+    "backupCodeNote": "백업 코드 {total}개 중 {unused}개 미사용 · 안전한 곳에 보관하세요",
+    "passwordSsoHeading": "비밀번호 · SSO",
+    "appPasswordNotice": "앱 비밀번호 {count}개가 IMAP 접속에 사용 중입니다. 최신 클라이언트는 OAuth를 지원합니다.",
+    "sessionsHeading": "로그인 기기 · 세션",
+    "logoutAll": "전체 로그아웃",
+    "logout": "로그아웃",
+    "recentActivity": "최근 보안 활동",
+    "sessionRevoked": "세션을 로그아웃했습니다",
+    "openAction": "{method} {action} 화면으로 이동합니다",
+    "reissueTitle": "백업 코드를 재발급할까요?",
+    "reissueDescription": "기존 백업 코드 {count}개는 즉시 무효화되고, 새 코드 {count}개가 발급됩니다.",
+    "reissueSuccess": "백업 코드가 재발급되었습니다",
+    "reissueSuccessDetail": "새 코드 {count}개 · 안전한 곳에 보관하세요",
+    "logoutAllTitle": "다른 모든 기기에서 로그아웃할까요?",
+    "logoutAllDescription": "현재 기기를 제외한 모든 세션이 즉시 종료됩니다.",
+    "logoutAllSuccess": "다른 모든 기기에서 로그아웃했습니다",
+    "mfaNames": {
+      "totp": "인증 앱 (TOTP)",
+      "securityKey": "보안 키 (FIDO2)",
+      "sms": "SMS 문자",
+      "emailCode": "이메일 코드"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail} · 등록 {date}",
+      "securityKey": "{detail} · 지문 없이 탭",
+      "sms": "{detail}",
+      "emailCode": "개인 메일 {detail}"
+    },
+    "authNames": {
+      "password": "비밀번호",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "앱 비밀번호"
+    },
+    "authDescriptions": {
+      "password": "{age}일 전 변경 · 정책상 {cycle}일마다 변경 필요",
+      "sso": "회사 계정으로 로그인 · 자동 프로비저닝",
+      "appPassword": "IMAP 클라이언트 {count}개에서 사용 중"
+    },
+    "badges": {
+      "primary": "기본",
+      "currentDevice": "현재 기기",
+      "appPassword": "앱 비밀번호",
+      "needsReview": "확인 필요"
+    },
+    "states": {
+      "active": "사용 중",
+      "backup": "백업용",
+      "unused": "미사용",
+      "caution": "주의",
+      "connected": "연결됨",
+      "review": "검토 필요"
+    },
+    "actions": {
+      "reset": "재설정",
+      "manage": "관리",
+      "change": "변경",
+      "configure": "설정",
+      "view": "보기",
+      "reissue": "재발급"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "서울 · {ip} · 사내망",
+        "when": "활성"
+      },
+      "iphone": {
+        "meta": "서울 · LTE",
+        "when": "12분 전"
+      },
+      "windows": {
+        "meta": "성남 · 사무실 PC",
+        "when": "어제 18:22"
+      },
+      "ipad": {
+        "meta": "서울 · 자택 Wi-Fi",
+        "when": "3일 전"
+      },
+      "outlook": {
+        "meta": "서울 · 앱 비밀번호",
+        "when": "6일 전"
+      },
+      "ubuntu": {
+        "meta": "오사카, 일본 · 처음 보는 위치",
+        "when": "8일 전"
+      }
+    },
+    "events": {
+      "osakaLogin": "오사카에서 새 기기 로그인 성공",
+      "securityKeyRegistered": "보안 키 등록됨 (YubiKey 5C)",
+      "backupCodesUsed": "백업 코드 3개 사용됨"
+    },
+    "when": {
+      "eightDays": "8일 전",
+      "threeWeeks": "3주 전",
+      "oneMonth": "1개월 전"
+    }
+  },
+  "quarantinePage": {
+    "title": "격리함",
+    "itemCount": "{count}건",
+    "autoDelete": "{days}일 후 자동 삭제",
+    "listLabel": "격리 메일 목록",
+    "categoryLabel": "격리 분류",
+    "selectMail": "격리 메일 선택: {subject}",
+    "selectPrompt": "메일을 선택하세요.",
+    "backToList": "격리 목록으로 돌아가기",
+    "release": "받은편지함으로 이동",
+    "requestAllowSender": "발신자 허용 요청",
+    "delete": "삭제",
+    "approvalRequired": "해제는 보안팀 승인 후 적용됩니다",
+    "released": "받은편지함으로 이동했습니다",
+    "allowRequested": "발신자 허용 요청을 보냈습니다",
+    "deleted": "메일이 영구 삭제되었습니다",
+    "recipients": "수신 {team} {count}명",
+    "hrTeam": "인사팀",
+    "riskBadge": "{kind} · 위험 {score}",
+    "spoofedDomainTitle": "발신 도메인이 사내 도메인을 모방하고 있습니다",
+    "reasonTitle": "{kind} 격리 사유: {reason}",
+    "spoofedDomainBody": "{trustedDomain}을 모방한 {domain}에서 발송되었습니다. 본문 링크는 외부 로그인 페이지로 연결됩니다. 열지 말고 삭제를 권장합니다.",
+    "riskBody": "위험 점수 {score}점으로 격리되었습니다. 발신자와 제목을 확인한 뒤 처리하세요.",
+    "lookupDomain": "발신 도메인 조회",
+    "lookupResult": "발신 도메인 조회 결과",
+    "domainRisk": "{domain} · 평판 위험",
+    "evidenceHeading": "판정 근거",
+    "riskScore": "위험 점수 {score}점",
+    "safePreviewHeading": "안전 미리보기 (텍스트 전용)",
+    "blockedLinks": "링크 {count}개가 차단되었습니다.",
+    "aiWarning": "인사팀 실제 공지는 사내 결재 시스템으로만 발송됩니다.",
+    "noPreview": "이 메일의 본문 미리보기는 제공되지 않습니다.",
+    "deleteTitle": "메일을 영구 삭제할까요?",
+    "deleteDescription": "“{subject}” 메일을 삭제하면 되돌릴 수 없습니다.",
+    "deletePermanently": "영구 삭제",
+    "kinds": {
+      "all": "전체",
+      "spam": "스팸",
+      "phishing": "피싱",
+      "malware": "멀웨어"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "유사 도메인 · 외부 로그인 링크",
+      "bulkNoUnsubscribe": "벌크 발신 · 목록 해제 없음",
+      "executableAttachment": "실행 파일 첨부 탐지",
+      "spoofedDomainCredentials": "유사 도메인 · 자격증명 요청",
+      "bulkPattern": "벌크 발신 패턴",
+      "spfFailure": "SPF 실패",
+      "spoofedDomainPayment": "유사 도메인 · 결제 정보 요청"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "발신 도메인 인증",
+        "detail": "SPF 실패 · DKIM 서명 없음 · DMARC reject 대상"
+      },
+      "typosquatting": {
+        "name": "유사 도메인 (typosquatting)",
+        "detail": "gxsoft-kr.net — 편집거리 1"
+      },
+      "bodyLink": {
+        "name": "본문 링크",
+        "detail": "외부 로그인 페이지 1건 · 신고 이력 있는 호스팅"
+      },
+      "sendingPattern": {
+        "name": "발신 패턴",
+        "detail": "동일 본문 14개 계정 동시 발송"
+      },
+      "attachment": {
+        "name": "첨부 파일",
+        "detail": "첨부 없음"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "내 캘린더",
+    "roomAvailability": "회의실 예약 현황 · 오늘",
+    "capacity": "{count}인",
+    "previous": "이전",
+    "next": "다음",
+    "today": "오늘",
+    "schedule": "캘린더 일정",
+    "close": "닫기",
+    "title": "제목",
+    "titlePlaceholder": "예: 파트너사 킥오프 미팅",
+    "date": "날짜",
+    "start": "시작",
+    "end": "종료",
+    "calendar": "캘린더",
+    "cancel": "취소",
+    "create": "만들기",
+    "eventCreated": "일정을 만들었습니다",
+    "views": {
+      "day": "일",
+      "week": "주",
+      "month": "월"
+    },
+    "categories": {
+      "personal": "내 일정",
+      "team": "전략기획팀",
+      "executive": "임원 일정 (읽기)",
+      "room": "회의실 예약",
+      "holiday": "대한민국 공휴일"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "회의실 5B",
+        "amenity": "프로젝터 · 화상",
+        "status": "예약 가능"
+      },
+      "room3a": {
+        "name": "회의실 3A",
+        "amenity": "화이트보드",
+        "status": "15:00 사용 중"
+      },
+      "auditorium": {
+        "name": "대회의실",
+        "amenity": "중계 장비",
+        "status": "종일 예약"
+      },
+      "focus": {
+        "name": "포커스룸",
+        "amenity": "1인 통화",
+        "status": "예약 가능"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "건너뛰기",
+    "previous": "이전",
+    "finish": "완료",
+    "next": "다음",
+    "getStarted": "시작하기",
+    "close": "닫기",
+    "progress": "{done} / {total} 완료",
+    "minutes": "{count}분",
+    "steps": {
+      "compose": {
+        "title": "편지쓰기부터 시작해 보세요",
+        "body": "왼쪽 위 편지쓰기 버튼으로 새 메일을 작성할 수 있습니다."
+      },
+      "search": {
+        "title": "검색은 어디서든",
+        "body": "메일 · 사람 · 첨부를 한 곳에서 찾습니다. from:박서준처럼 조건을 붙일 수도 있습니다."
+      },
+      "theme": {
+        "title": "테마를 자유롭게 바꿔보세요",
+        "body": "테마 커스터마이징에서 색상, 폰트, 레이아웃을 조직에 맞게 바꿀 수 있습니다."
+      },
+      "tools": {
+        "title": "캘린더 · 주소록 · 결재",
+        "body": "사이드바에서 캘린더, 주소록, 결재 문서함으로 바로 이동할 수 있습니다."
+      },
+      "quarantine": {
+        "title": "격리함도 확인하세요",
+        "body": "의심스러운 메일은 자동으로 격리되며, 안전 미리보기로 내용을 확인할 수 있습니다."
+      },
+      "ready": {
+        "title": "준비되셨습니다",
+        "body": "설정에서 서명, 자동응답, 단축키를 마저 설정하면 끝입니다."
+      }
+    },
+    "checklist": {
+      "avatar": "프로필 사진 등록",
+      "signature": "서명 만들기",
+      "twoFactor": "2단계 인증 켜기",
+      "mobileApp": "모바일 앱 설치",
+      "importMail": "기존 메일 가져오기"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "가져올 새 연락처가 없습니다",
+    "duplicateNotice": "같은 이메일의 연락처는 건너뛰었습니다.",
+    "imported": "연락처 {count}명을 가져왔습니다",
+    "duplicatesSkipped": "중복 {count}명 건너뜀",
+    "failed": "연락처를 가져오지 못했습니다",
+    "errors": {
+      "fileTooLarge": "2 MiB 이하 파일을 선택해 주세요.",
+      "unclosedQuote": "CSV의 따옴표가 닫히지 않았습니다.",
+      "missingRows": "CSV에 헤더와 연락처 행이 필요합니다.",
+      "missingNameColumn": "CSV에 이름(name) 열이 필요합니다.",
+      "tooManyContacts": "한 번에 최대 500명까지 가져올 수 있습니다.",
+      "missingCsvName": "CSV {row}행에 이름이 없습니다.",
+      "invalidVcard": "올바른 vCard 항목이 없습니다.",
+      "missingVcardName": "vCard {row}번째 항목에 이름이 없습니다.",
+      "unsupportedFile": "CSV 또는 vCard(.vcf) 파일만 가져올 수 있습니다.",
+      "unknown": "파일을 다시 선택해 주세요."
+    }
+  },
+  "contactsPage": {
+    "title": "주소록",
+    "orgChart": "조직도",
+    "orgSearchPlaceholder": "이름 · 부서",
+    "orgSearchLabel": "이름 · 부서 검색",
+    "noResults": "검색 결과가 없습니다.",
+    "myContacts": "내 주소록",
+    "contactSummary": "개인 {count}명 · 최근 자동 수집 {recent}명",
+    "importTooltip": "CSV · vCard 가져오기",
+    "importing": "가져오는 중…",
+    "import": "가져오기",
+    "addContact": "연락처 추가",
+    "searchPlaceholder": "이름 · 회사 · 메일",
+    "searchLabel": "이름 · 회사 · 메일 검색",
+    "mail": "메일",
+    "companyPosition": "회사 · 직위",
+    "group": "그룹",
+    "noMatchingContacts": "조건에 맞는 연락처가 없습니다.",
+    "selectContact": "연락처 선택: {name} · {email}",
+    "removeFavorite": "{name} 즐겨찾기 해제",
+    "addFavorite": "{name} 즐겨찾기 추가",
+    "selectPrompt": "연락처를 선택하세요.",
+    "editContact": "연락처 편집",
+    "nameRequired": "이름을 입력해 주세요.",
+    "save": "저장",
+    "cancelChanges": "변경 취소",
+    "delete": "삭제",
+    "saved": "연락처를 저장했습니다",
+    "newContact": "새 연락처",
+    "contactAdded": "새 연락처를 추가했습니다",
+    "enterDetails": "정보를 입력해 주세요",
+    "mobileContacts": "모바일 주소록",
+    "backToList": "목록으로",
+    "myCount": "내 연락처 {count}명",
+    "importContacts": "연락처 가져오기",
+    "importingContacts": "연락처 가져오는 중",
+    "viewContact": "연락처 보기: {name}",
+    "groups": {
+      "all": "전체",
+      "starred": "즐겨찾기",
+      "external": "외부 파트너",
+      "purchasing": "구매 담당",
+      "advisor": "자문",
+      "personal": "개인"
+    },
+    "fields": {
+      "name": "이름",
+      "company": "회사",
+      "title": "직위 · 부서",
+      "email": "이메일",
+      "mobile": "휴대전화",
+      "phone": "회사 전화",
+      "memo": "메모"
+    },
+    "teamSummary": "{parent} › {team} · {count}명",
+    "teamCount": "{team} · {count}명",
+    "peopleCount": "{count}명",
+    "openTeamCompose": "팀 전체에게 메일 쓰기 화면을 엽니다",
+    "mailTeam": "팀 전체에 메일",
+    "vcardExported": "vCard를 내보냈습니다",
+    "exportVcard": "vCard 내보내기",
+    "teamEmpty": "이 팀은 아직 구성원 정보가 등록되지 않았습니다.",
+    "selectMember": "구성원을 선택하세요.",
+    "openCompose": "메일 쓰기 화면을 엽니다",
+    "composeMail": "메일 쓰기",
+    "openSchedule": "일정 잡기 화면을 엽니다",
+    "scheduleMeeting": "일정 잡기",
+    "recentMail": "최근 주고받은 메일",
+    "noHistory": "기록이 없습니다.",
+    "presence": {
+      "working": "업무 중 · 사무실",
+      "away": "자리 비움",
+      "offline": "오프라인"
+    },
+    "approvalLines": {
+      "directorCeo": "본부장 → 대표",
+      "leadDirector": "팀장 → 본부장"
+    },
+    "profile": {
+      "email": "이메일",
+      "workPhone": "사내 전화",
+      "mobile": "휴대전화",
+      "organization": "조직",
+      "joined": "입사",
+      "approvalLine": "결재선"
+    }
+  },
+  "filesPage": {
+    "title": "첨부 파일",
+    "summary": "메일 첨부 {count}개 · {used} · 대용량 링크 {links}개 활성",
+    "search": "파일명 · 보낸사람 검색",
+    "gridView": "격자 보기",
+    "listView": "목록 보기",
+    "filters": "첨부 파일 필터",
+    "type": "종류",
+    "period": "기간",
+    "storage": "저장 공간 {used} / {total}",
+    "storageHint": "큰 첨부 {count}개를 정리하면 {amount}를 확보할 수 있습니다.",
+    "fileType": "파일 종류",
+    "filePeriod": "파일 기간",
+    "recentAttachments": "최근 첨부",
+    "itemCount": "{count}개",
+    "noResults": "검색 결과가 없습니다.",
+    "attachmentSummary": "첨부 파일 요약",
+    "largeLinks": "대용량 링크",
+    "downloads": "다운로드 {count}회",
+    "cleanupTitle": "정리 제안",
+    "cleanupDescription": "{years}년 이상 지난 {threshold} 이상 첨부 {count}개. 메일 본문은 유지하고 첨부만 삭제합니다. 총 {amount} 확보.",
+    "cleanupOpen": "정리 대상 첨부 {count}개 목록을 엽니다",
+    "cleanupEstimate": "총 {amount} 확보 예상",
+    "reviewList": "목록 검토",
+    "downloading": "파일을 다운로드합니다",
+    "system": "시스템",
+    "types": {
+      "all": "전체",
+      "document": "문서",
+      "spreadsheet": "스프레드시트",
+      "presentation": "프레젠테이션",
+      "image": "이미지",
+      "archive": "압축",
+      "other": "기타"
+    },
+    "periods": {
+      "last7": "최근 7일",
+      "last30": "최근 30일",
+      "thisYear": "올해",
+      "all": "전체 기간"
+    },
+    "sorts": {
+      "latest": "최신순",
+      "size": "크기순",
+      "sender": "보낸사람"
+    },
+    "linkStates": {
+      "active": "활성",
+      "expiring": "만료 임박",
+      "expired": "만료됨"
+    },
+    "expiry": {
+      "days": "{count}일 남음",
+      "tomorrow": "내일 만료",
+      "expired": "만료"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "연 {amount}",
+    "title": "결재 · 승인",
+    "myTurnCount": "내 차례 {count}건",
+    "documentList": "결재 문서 목록",
+    "approvalStatus": "결재 상태",
+    "selectDocument": "결재 문서 선택: {title}",
+    "emptyStatus": "이 상태의 결재 문서가 없습니다.",
+    "selectPrompt": "결재 문서를 선택하세요.",
+    "backToList": "결재 목록으로 돌아가기",
+    "approve": "승인",
+    "reject": "반려",
+    "holdRequested": "보류 · 의견 요청을 보냈습니다",
+    "holdAndRequest": "보류 · 의견 요청",
+    "documentMeta": "문서번호 {number} · 보존 {years}년",
+    "detailedAuthor": "기안 {author} (기술본부 CTO) · {date} · 메일 스레드 연동",
+    "briefAuthor": "기안 {author} · {number} · {due}",
+    "requestedAmount": "요청 금액",
+    "approvalChain": "결재선",
+    "approvedOn": "승인 {date}",
+    "requestDetails": "요청 내역",
+    "aiComparison": "유사 기안 {count}건과 비교해 단가가 평균 대비 {percent}% 낮습니다. 재무팀 이연 의견이 반영된 최신본입니다.",
+    "noDetailedRecord": "이 문서의 결재선과 요청 세부 내역은 예시 데이터에 포함되지 않았습니다.",
+    "commentsHistory": "의견 · 이력",
+    "noComments": "등록된 의견이 없습니다.",
+    "commentPlaceholder": "의견을 남기세요… (Enter로 등록)",
+    "approvalComment": "결재 의견",
+    "approveQuestion": "이 결재를 승인할까요?",
+    "rejectQuestion": "이 결재를 반려할까요?",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · 반려 상태로 변경됩니다.",
+    "approvedToast": "결재를 승인했습니다",
+    "rejectedToast": "결재를 반려했습니다",
+    "automaticCheck": "자동 점검",
+    "automaticCheckBody": "첨부 제안서와 요청 내역 금액이 일치합니다. 예산 코드 IT-CAPEX-26H1 잔액 충분.",
+    "tabs": {
+      "mine": "내 차례",
+      "drafts": "기안함",
+      "inProgress": "진행 중",
+      "completed": "완료"
+    },
+    "types": {
+      "budget": "예산",
+      "contract": "계약",
+      "purchase": "구매",
+      "hr": "인사",
+      "expense": "지출",
+      "policy": "규정"
+    },
+    "due": {
+      "today": "오늘 마감",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "진행 중",
+      "completed": "완료",
+      "approved": "내 승인 완료",
+      "rejected": "반려 완료"
+    },
+    "roles": {
+      "drafter": "기안 · CTO",
+      "reviewer": "검토 · 팀장",
+      "finance": "협조 · 재무팀장",
+      "approver": "결재 · 나",
+      "final": "최종 승인"
+    },
+    "chainDetails": {
+      "done": "완료",
+      "pending": "대기 중",
+      "upcoming": "예정",
+      "approved": "내 승인 완료",
+      "rejected": "반려 완료"
+    }
   }
 }

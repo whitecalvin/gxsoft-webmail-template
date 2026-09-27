@@ -138,7 +138,7 @@ export function MailProvider({ children }: { children: ReactNode }) {
       from: CURRENT_USER,
       to: splitAddrs(draft.to),
       ...(cc.length > 0 ? { cc } : {}),
-      subject: draft.subject || "(제목 없음)",
+      subject: draft.subject.trim(),
       preview: draft.body.slice(0, 80),
       body: draft.body.split("\n").filter((line) => line.length > 0),
       receivedAt: now,

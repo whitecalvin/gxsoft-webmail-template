@@ -3,27 +3,33 @@
 // Admin Console > Domain & Policy tab: verified sending domains, send-rate
 // limits, org-wide mail policy toggles, and the AI-feature rollout plan.
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { RefreshCw } from "lucide-react";
 import { AI_ROLLOUT, DOMAINS, POLICY_TOGGLES, SEND_LIMITS } from "@/lib/mock-admin";
 import { AdminCard, AdminSwitch, Pill } from "../primitives";
 import { useToast } from "@/context/toast-context";
 
 export function PolicyTab() {
+  const t = useTranslations("adminPolicy");
+  const locale = useLocale();
   const toast = useToast();
   const [toggles, setToggles] = useState(POLICY_TOGGLES);
   const [syncing, setSyncing] = useState(false);
-  const [lastSync, setLastSync] = useState("오늘 03:02");
+  const [syncedNow, setSyncedNow] = useState(false);
+  const dateFormatter = new Intl.DateTimeFormat(locale, { year: "numeric", month: "2-digit", timeZone: "UTC" });
+  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
+  const lastSync = syncedNow ? t("justNow") : t("todayAt", { time: timeFormatter.format(new Date(Date.UTC(2026, 8, 1, 3, 2))) });
 
   const toggle = (key: string) =>
     setToggles((prev) => prev.map((t) => (t.key === key ? { ...t, on: !t.on } : t)));
 
   const syncNow = () => {
     setSyncing(true);
-    toast.info("HR 조직도 동기화를 시작합니다");
+    toast.info(t("syncStarted"));
     window.setTimeout(() => {
       setSyncing(false);
-      setLastSync("방금");
-      toast.success("조직도 동기화를 완료했습니다", { sub: "1,284명" });
+      setSyncedNow(true);
+      toast.success(t("syncCompleted"), { sub: t("peopleCount", { count: 1284 }) });
     }, 800);
   };
 
@@ -31,17 +37,21 @@ export function PolicyTab() {
     <div className="grid flex-1 grid-cols-2 gap-4 overflow-y-auto p-7">
       <div className="flex flex-col gap-4">
         <AdminCard
-          title="도메인"
-          action={<Pill label="3개 확인됨" tone="success" />}
+          title={t("domainsTitle")}
+          action={<Pill label={t("verifiedCount", { count: DOMAINS.length })} tone="success" />}
         >
           <div className="flex flex-col gap-2.5">
             {DOMAINS.map((d) => (
               <div key={d.name} className="rounded-lg border border-(--border-app) p-3">
                 <div className="flex items-center gap-2">
                   <p className="text-xs font-bold">{d.name}</p>
-                  <Pill label={d.tag} tone={d.ok ? "info" : "danger"} />
+                  <Pill label={t(`domainTags.${d.tag}`)} tone={d.ok ? "info" : "danger"} />
                 </div>
-                <p className="mt-1 text-[11px] text-(--text-muted)">{d.meta}</p>
+                <p className="mt-1 text-[11px] text-(--text-muted)">
+                  {d.id === "primary"
+                    ? t("domainMeta.primary", { count: d.accountCount, registered: dateFormatter.format(new Date(Date.UTC(d.registered!.year, d.registered!.month - 1, 1))) })
+                    : t(`domainMeta.${d.id}`, { count: d.accountCount })}
+                </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {d.checks.map((c) => (
                     <Pill key={c} label={c} tone="success" />
@@ -55,12 +65,12 @@ export function PolicyTab() {
           </div>
         </AdminCard>
 
-        <AdminCard title="발송 제한">
+        <AdminCard title={t("sendLimitsTitle")}>
           <div className="flex flex-col gap-2">
             {SEND_LIMITS.map((l) => (
-              <div key={l.name} className="flex items-center justify-between rounded-lg border border-(--border-app) px-3 py-2 text-xs">
-                <span className="text-(--text-muted)">{l.name}</span>
-                <span className="font-semibold">{l.value} ▾</span>
+              <div key={l.id} className="flex items-center justify-between rounded-lg border border-(--border-app) px-3 py-2 text-xs">
+                <span className="text-(--text-muted)">{t(`sendLimits.${l.id}.name`)}</span>
+                <span className="font-semibold">{t(`sendLimits.${l.id}.value`, { value: l.value })} ▾</span>
               </div>
             ))}
           </div>
@@ -68,19 +78,19 @@ export function PolicyTab() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <AdminCard title="메일 정책">
+        <AdminCard title={t("mailPolicyTitle")}>
           <div className="flex flex-col gap-3">
-            {toggles.map((t) => (
-              <div key={t.key} className="flex items-start gap-3">
+            {toggles.map((policy) => (
+              <div key={policy.key} className="flex items-start gap-3">
                 <button
                   type="button"
-                  onClick={() => toggle(t.key)}
+                  onClick={() => toggle(policy.key)}
                   className="min-w-0 flex-1 text-left"
                 >
-                  <p className="text-xs font-semibold">{t.name}</p>
-                  <p className="text-[11px] text-(--text-muted)">{t.desc}</p>
+                  <p className="text-xs font-semibold">{t(`toggles.${policy.key}.name`)}</p>
+                  <p className="text-[11px] text-(--text-muted)">{t(`toggles.${policy.key}.desc`)}</p>
                 </button>
-                <AdminSwitch label={t.name} on={t.on} onToggle={() => toggle(t.key)} />
+                <AdminSwitch label={t(`toggles.${policy.key}.name`)} on={policy.on} onToggle={() => toggle(policy.key)} />
               </div>
             ))}
           </div>
@@ -91,19 +101,19 @@ export function PolicyTab() {
             <span className="flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold text-white" style={{ backgroundColor: "#2B4BF2" }}>
               AI
             </span>
-            <h3 className="text-[13px] font-bold text-white">AI 기능 배포 범위</h3>
+            <h3 className="text-[13px] font-bold text-white">{t("aiTitle")}</h3>
           </div>
           <p className="text-[11.5px] leading-relaxed text-white/60">
-            요약·작성 도움 기능을 조직 단위로 단계 배포합니다. 본문은 국내 리전에서만 처리되며 학습에 사용되지 않습니다.
+            {t("aiDescription")}
           </p>
           <div className="mt-3 flex flex-col gap-2">
             {AI_ROLLOUT.map((r) => (
-              <div key={r.name} className="flex items-center justify-between rounded-lg bg-white/6 px-3 py-2 text-xs">
+              <div key={r.id} className="flex items-center justify-between rounded-lg bg-white/6 px-3 py-2 text-xs">
                 <div>
-                  <p className="font-semibold text-white">{r.name}</p>
-                  <p className="text-[10.5px] text-white/50">{r.count}</p>
+                  <p className="font-semibold text-white">{t(`rollout.${r.id}`)}</p>
+                  <p className="text-[10.5px] text-white/50">{t("peopleCount", { count: r.count })}</p>
                 </div>
-                <Pill label={r.state} tone={r.tone} />
+                <Pill label={t(`rolloutState.${r.state}`)} tone={r.tone} />
               </div>
             ))}
           </div>
@@ -111,7 +121,7 @@ export function PolicyTab() {
 
         <AdminCard className="bg-[#FBF9F4]! border-[#EBE4D6]!">
           <p className="text-xs leading-relaxed text-foreground">
-            HR 시스템(그로우) 조직도를 매일 03:00에 동기화합니다. 마지막 동기화 {lastSync} · 1,284명
+            {t("syncSummary", { lastSync, count: 1284 })}
           </p>
           <button
             type="button"
@@ -120,7 +130,7 @@ export function PolicyTab() {
             className="mt-2 flex items-center gap-1.5 rounded-lg border border-[#DDD3B8] bg-white px-3 py-1.5 text-xs font-semibold disabled:opacity-60"
           >
             <RefreshCw size={12} className={syncing ? "animate-spin" : undefined} />
-            {syncing ? "동기화 중..." : "지금 동기화"}
+            {t(syncing ? "syncing" : "syncNow")}
           </button>
         </AdminCard>
       </div>

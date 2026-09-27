@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
+import { useSheetFocus } from "./use-sheet-focus";
 
 // Mobile-only bottom sheet for picking one of several options (e.g. "move
 // to folder"). BottomSheetRow renders each selectable option inside it.
@@ -13,18 +14,23 @@ export function BottomSheet({
   onClose: () => void;
   children: ReactNode;
 }) {
+  const titleId = useId();
+  const panelRef = useSheetFocus(onClose);
   return (
     <div
-      className="fixed inset-0 z-80 flex items-end justify-center lg:hidden"
-      style={{ backgroundColor: "rgba(20,22,30,.42)" }}
+      className="fixed inset-0 z-(--layer-modal) flex items-end justify-center bg-(--overlay-backdrop) lg:hidden"
       onClick={onClose}
     >
       <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md rounded-t-2xl bg-background pb-[max(10px,env(safe-area-inset-bottom))] pt-2.5 text-foreground"
+        className="w-full max-w-md rounded-t-2xl bg-background pb-[max(10px,env(safe-area-inset-bottom))] pt-2.5 text-foreground outline-none"
       >
-        <div className="mx-auto mb-2.5 h-1 w-9 rounded-full bg-[#DEDED8]" />
-        <p className="px-4.5 pb-2.5 text-[13.5px] font-bold">{title}</p>
+        <div className="mx-auto mb-2.5 h-1 w-9 rounded-full bg-(--text-muted)" />
+        <h2 id={titleId} className="px-4.5 pb-2.5 text-[13.5px] font-bold">{title}</h2>
         {children}
       </div>
     </div>

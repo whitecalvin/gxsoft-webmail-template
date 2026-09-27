@@ -20,6 +20,7 @@
   "topBar": {
     "openMenu": "Menü öffnen",
     "searchPlaceholder": "E-Mails durchsuchen",
+    "closeSearch": "Suche schließen",
     "clearSearch": "Suche löschen",
     "tour": "Tour starten",
     "notifications": "Benachrichtigungen"
@@ -41,6 +42,8 @@
     "trash": "Papierkorb"
   },
   "workspaceSidebar": {
+    "storageUsage": "{used} MiB / {limit} GiB",
+    "skipToContent": "Zum Inhalt springen",
     "navigation": "Arbeitsbereichsnavigation",
     "mailboxGroup": "Postfächer",
     "collaborationGroup": "Zusammenarbeit",
@@ -75,6 +78,8 @@
     "sessionExtend": "Angemeldet bleiben"
   },
   "mailList": {
+    "noSubject": "(Kein Betreff)",
+    "yesterday": "Gestern",
     "searchResultsFor": "Ergebnisse für „{query}“",
     "countUnit": "{count}",
     "noSearchResults": "Keine Ergebnisse gefunden.",
@@ -119,11 +124,13 @@
     "delete": "Löschen",
     "edit": "Bearbeiten",
     "close": "Schließen",
+    "undo": "rückgängig machen",
     "back": "Zurück",
     "deleteForever": "Endgültig löschen",
     "sendAnyway": "Trotzdem senden"
   },
   "mailboxesPage": {
+    "recipientCount": "{recipient} ({count, number})",
     "backToMail": "Zurück zur Post",
     "title": "Gemeinsame Postfächer",
     "summary": "Verwaltete Postfächer {mailboxes} · Geplant {scheduled} · Vorlagen {templates}",
@@ -185,5 +192,3157 @@
     "runAction": "Ausführen",
     "expiryPrefix": "Dieser Link ",
     "expirySuffix": "."
+  },
+  "settingsSystem": {
+    "title": "Einstellungen",
+    "navigationLabel": "Einstellungsmenü",
+    "groups": {
+      "general": "allgemein",
+      "mail": "Post",
+      "management": "E-Mail-Verwaltung",
+      "account": "Konto"
+    },
+    "nav": {
+      "locale": "Sprache und Region",
+      "theme": "Thema und Darstellung",
+      "accessibility": "Zugänglichkeit",
+      "signature": "Verfassen und Signaturen",
+      "inbox-display": "Posteingang und Lesen",
+      "sending": "Senden und Antworten",
+      "away": "Automatische Antwort bei Abwesenheit",
+      "notifications": "Benachrichtigung",
+      "labels": "Etikett",
+      "filters": "Filter und automatische Sortierung",
+      "blocked-senders": "Blockierte Absender",
+      "account": "Konto und Absenderadressen",
+      "security": "Sicherheit und Anmeldung",
+      "integrations": "Integrationen",
+      "shortcuts": "Tastenkombination"
+    },
+    "unsaved": {
+      "title": "Sie haben nicht gespeicherte Änderungen",
+      "description": "Ihre Änderungen gehen verloren, wenn Sie diese Seite verlassen.",
+      "leave": "Änderungen verwerfen",
+      "stay": "Weiter bearbeiten"
+    },
+    "common": {
+      "save": "speichern",
+      "cancel": "Abbrechen",
+      "reset": "Standardeinstellungen wiederherstellen",
+      "saved": "Gespeichert",
+      "unsaved": "Nicht gespeicherte Änderungen",
+      "savedToast": "Einstellungen gespeichert",
+      "all": "alle",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "preview": "Vorschau",
+      "done": "erledigt",
+      "settings": "Einstellungen",
+      "current": "aktuelles Gerät",
+      "connected": "verbunden",
+      "disconnected": "Nicht verbunden",
+      "syncFailed": "Synchronisierung fehlgeschlagen",
+      "neverSynced": "Noch nie synchronisiert",
+      "lastSync": "Zuletzt synchronisiert: {value}",
+      "lastActive": "Zuletzt aktiv: {value}",
+      "passwordChanged": "Zuletzt geändert: {value}",
+      "messageCount": "{count} Nachrichten",
+      "remainingCount": "Noch {count}"
+    },
+    "empty": {
+      "items": "Keine Elemente zum Anzeigen"
+    },
+    "descriptions": {
+      "locale": "Verwalten Sie Sprache, Datum und Zeitzonenformat für E-Mails.",
+      "theme": "Konfigurieren Sie Design, Thema und Layout des Arbeitsbereichs.",
+      "accessibility": "Passen Sie Lesbarkeit, Tastatur und Einstellungen für Hilfstechnologien an.",
+      "signature": "Verwalten Sie Absenderinformationen, E-Mail-Signaturen und Standardwerte für das Verfassen.",
+      "signatureList": "Wählen Sie Signaturen für neue Nachrichten und Antworten.",
+      "inbox": "Konfigurieren Sie die Darstellung der Nachrichtenliste und der Leseansicht.",
+      "sending": "Legen Sie Standardwerte für Antworten, Zitate, automatisches Speichern und Senden fest.",
+      "away": "Konfigurieren Sie automatische Antworten für einen bestimmten Zeitraum.",
+      "notifications": "Konfigurieren Sie Benachrichtigungen nach Nachrichtentyp und Kanal.",
+      "labels": "Erstellen Sie Labels zum Organisieren von E-Mails und verwalten Sie deren Reihenfolge.",
+      "filters": "Organisieren und verarbeiten Sie Nachrichten, die den Bedingungen entsprechen, automatisch.",
+      "blockedSenders": "Verwalten Sie blockierte E-Mail-Adressen und Domains.",
+      "account": "Verwalten Sie Anzeigenamen, Antwortadresse und Absenderaliase.",
+      "security": "Verwalten Sie die Zwei-Faktor-Authentifizierung und angemeldete Geräte.",
+      "twoFactor": "Schützen Sie Ihr Konto bei der Anmeldung mit einem zusätzlichen Verifizierungsschritt.",
+      "integrations": "Verwalten Sie Verbindungen zu Kalender, Genehmigungen und externen Diensten.",
+      "shortcuts": "Aktivieren Sie Tastenkürzel und passen Sie deren Tasten an."
+    },
+    "sections": {
+      "languageRegion": "Sprach- und Regionsformate",
+      "themePreset": "Design-Thema",
+      "appearance": "Darstellung",
+      "readability": "Lesen und Navigation",
+      "senderDefaults": "Ausgehender Standard",
+      "signatures": "Unterschrift",
+      "inboxLayout": "Listen- und Leseansicht",
+      "replyDefaults": "Standardwerte für Verfassen und Antworten",
+      "awaySchedule": "Zeitplan und Nachrichten für automatische Antworten",
+      "notificationChannels": "Benachrichtigungskanäle",
+      "notificationRules": "Benachrichtigungen nach Nachrichtentyp",
+      "quietHours": "Ruhezeiten",
+      "labels": "Labelliste",
+      "filters": "Filterregeln",
+      "blockedSenders": "Sperrliste",
+      "accountIdentity": "Kontoinformationen",
+      "aliases": "Absenderaliase",
+      "authentication": "Zertifizierung",
+      "sessions": "Angemeldetes Gerät",
+      "recentActivity": "Letzte Anmeldeaktivitäten",
+      "integrations": "Integrationsliste",
+      "shortcuts": "Liste der Tastenkürzel"
+    },
+    "fields": {
+      "displayLanguage": "Anzeigesprache",
+      "timezone": "Zeitzone",
+      "dateFormat": "Datumsformat",
+      "timeFormat": "Zeitformat",
+      "weekStart": "Startdatum der Woche",
+      "colorScheme": "Bildschirmmodus",
+      "density": "Listendichte",
+      "radius": "Eckenstil",
+      "sidebarPosition": "Position der Seitenleiste",
+      "sidebarCollapsed": "Mit eingeklappter Seitenleiste starten",
+      "fontScale": "Textgröße",
+      "highContrast": "Modus mit hohem Kontrast",
+      "reduceMotion": "Bewegung reduzieren",
+      "enhancedFocus": "Deutlichere Fokusmarkierungen",
+      "screenReaderDetails": "Ausführliche Beschreibungen für Screenreader",
+      "keyboardNavigation": "Unterstützung bei der Tastaturnavigation",
+      "senderName": "Sendename",
+      "senderAddress": "Standard-Sendeadresse",
+      "defaultFont": "Standardschriftart",
+      "undoSend": "Zeitraum zum Rückgängigmachen des Sendens",
+      "defaultSignature": "Standardsignatur",
+      "signatureOnNew": "Signatur in neuen Nachrichten verwenden",
+      "signatureOnReply": "Signatur in Antworten und Weiterleitungen verwenden",
+      "signatureName": "Signaturname",
+      "signatureContent": "Signaturinhalt",
+      "previewPane": "Vorschaufenster",
+      "conversationView": "Unterhaltungsansicht",
+      "markRead": "Zeitpunkt zum Markieren als gelesen",
+      "remoteImages": "Externe Bilder",
+      "pageSize": "Nachrichten pro Seite",
+      "mailDateFormat": "Anzeige des Nachrichtendatums",
+      "unreadStyle": "Ungelesene Nachrichten hervorheben",
+      "defaultReply": "Standardantwortaktion",
+      "quoteStyle": "Zitierstil",
+      "requestReceipt": "Lesebestätigung anfordern",
+      "scheduleDefault": "Standard für geplantes Senden",
+      "autosaveSeconds": "Intervall für automatisches Speichern",
+      "composeMode": "Verfassungsformat",
+      "defaultCc": "Standard-Cc",
+      "defaultBcc": "Standard-Bcc",
+      "awayEnabled": "Abwesenheitsantwort aktivieren",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "subject": "Titel",
+      "internalMessage": "Nachricht für interne Benutzer",
+      "externalMessage": "Nachricht für externe Benutzer",
+      "contactsOnly": "Extern nur Kontakten antworten",
+      "browserNotifications": "Browserbenachrichtigungen",
+      "emailNotifications": "E-Mail-Zusammenfassungen",
+      "notificationSound": "Benachrichtigungston",
+      "quietStart": "Startzeit",
+      "quietEnd": "Endzeit",
+      "weekendNotifications": "Auch am Wochenende benachrichtigen",
+      "labelVisible": "In der Nachrichtenliste anzeigen",
+      "labelName": "Labelname",
+      "labelColor": "Labelfarbe",
+      "filterEnabled": "Filter aktivieren",
+      "filterName": "Filtername",
+      "condition": "Zustand",
+      "conditionValue": "Bedingungswert",
+      "action": "Aktion",
+      "actionValue": "Aktionswert",
+      "senderOrDomain": "E-Mail-Adresse oder Domain",
+      "displayName": "Anzeigename",
+      "primaryEmail": "Primäre E-Mail-Adresse",
+      "replyTo": "Antwortadresse",
+      "newAlias": "Neuer Absenderalias",
+      "twoFactor": "Bestätigung in zwei Schritten",
+      "backupCodes": "Sicherungscodes",
+      "password": "Passwort",
+      "currentPassword": "Aktuelles Passwort",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Neues Passwort bestätigen",
+      "autoSync": "Automatische Synchronisierung",
+      "shortcutsEnabled": "Tastenkürzel aktivieren"
+    },
+    "options": {
+      "timezones": {
+        "Asia_Seoul": "Seoul (GMT+9)",
+        "Asia_Tokyo": "Tokio (GMT+9)",
+        "Asia_Shanghai": "Shanghai (GMT+8)",
+        "Europe_London": "London",
+        "America_New_York": "New York",
+        "America_Los_Angeles": "Los Angeles"
+      },
+      "dateFormat": {
+        "locale": "Regionsformat",
+        "iso": "Jahr-Monat-Tag",
+        "long": "Vollständiges Datum"
+      },
+      "timeFormat": {
+        "12": "12 Stunden",
+        "24": "24 Stunden"
+      },
+      "weekStart": {
+        "sunday": "Sonntag",
+        "monday": "Montag"
+      },
+      "colorScheme": {
+        "light": "Licht",
+        "dark": "dunkel",
+        "system": "System"
+      },
+      "density": {
+        "comfortable": "gemächlich",
+        "compact": "Komprimierung"
+      },
+      "radius": {
+        "sharp": "Eckig",
+        "rounded": "rund",
+        "pill": "Pillentyp"
+      },
+      "sidebarPosition": {
+        "left": "links",
+        "right": "richtig"
+      },
+      "font": {
+        "sans": "Serifenlos",
+        "serif": "Serife",
+        "mono": "Nichtproportional"
+      },
+      "seconds": "{value} Sekunden",
+      "previewPane": {
+        "right": "richtig",
+        "bottom": "Unten",
+        "off": "Aus"
+      },
+      "markRead": {
+        "immediate": "sofort",
+        "2seconds": "Nach 2 Sekunden",
+        "manual": "Manuell"
+      },
+      "remoteImages": {
+        "always": "Immer anzeigen",
+        "contacts": "Nur für Kontakte anzeigen",
+        "never": "Nie anzeigen"
+      },
+      "pageSize": {
+        "25": "25 Elemente",
+        "50": "50 Elemente",
+        "100": "100 Elemente"
+      },
+      "mailDateFormat": {
+        "relative": "Relatives Datum",
+        "short": "Kurzes Datum",
+        "full": "Vollständiges Datum"
+      },
+      "unreadStyle": {
+        "bold": "Fett",
+        "highlight": "Hervorgehobener Hintergrund",
+        "dot": "Anzeigepunkt"
+      },
+      "defaultReply": {
+        "reply": "Antwort",
+        "replyAll": "Allen antworten"
+      },
+      "quoteStyle": {
+        "inline": "Inline-Zitat",
+        "below": "Originalnachricht unter der Antwort",
+        "none": "Originalnachricht ausschließen"
+      },
+      "scheduleDefault": {
+        "off": "Aus",
+        "nextMorning": "Am nächsten Morgen",
+        "custom": "Letzte Einstellung beibehalten"
+      },
+      "autosaveSeconds": {
+        "15": "15 Sekunden",
+        "30": "30 Sekunden",
+        "60": "1 Minute"
+      },
+      "composeMode": {
+        "html": "Formatierter Text",
+        "plain": "Klartext"
+      },
+      "notificationMode": {
+        "instant": "Sofortige Benachrichtigung",
+        "digest": "1-stündige Zusammenfassung",
+        "off": "Keine Benachrichtigung"
+      },
+      "filterField": {
+        "from": "Absender",
+        "to": "Empfänger",
+        "subject": "Titel",
+        "body": "Nachrichtentext",
+        "attachment": "Anhang",
+        "size": "Nachrichtengröße"
+      },
+      "filterAction": {
+        "move": "In Ordner verschieben",
+        "label": "Label anwenden",
+        "star": "wichtiges Zeichen",
+        "read": "Als gelesen markieren",
+        "forward": "weitergeben",
+        "delete": "Löschen"
+      },
+      "senderType": {
+        "email": "E-Mail",
+        "domain": "Domäne"
+      }
+    },
+    "notificationTypes": {
+      "important": "wichtige Post",
+      "general": "normale Post",
+      "approval": "Genehmigungsanfragen",
+      "mention": "Erwähnung",
+      "shared": "Freigegebene Postfächer"
+    },
+    "actions": {
+      "addSignature": "Signatur hinzufügen",
+      "editSignature": "Signatur bearbeiten",
+      "addLabel": "Label hinzufügen",
+      "editLabel": "Label bearbeiten",
+      "moveUp": "Nach oben verschieben",
+      "moveDown": "Nach unten verschieben",
+      "addFilter": "Filter hinzufügen",
+      "editFilter": "Filter bearbeiten",
+      "test": "Testen",
+      "search": "suchen",
+      "block": "blockieren",
+      "unblock": "Blockierung aufheben",
+      "add": "Hinzufügen",
+      "regenerate": "Neuauflage",
+      "changePassword": "Passwort ändern",
+      "logoutOthers": "Von allen anderen Geräten abmelden",
+      "logout": "abmelden",
+      "sync": "Synchronisieren",
+      "connect": "Verbindung",
+      "disconnect": "Trennen",
+      "testNotification": "Testbenachrichtigung",
+      "viewShortcutReference": "Alle Tastenkürzel anzeigen"
+    },
+    "errors": {
+      "dateRange": "Das Enddatum muss nach dem Startdatum liegen.",
+      "duplicateLabel": "Ein Label mit diesem Namen ist bereits vorhanden.",
+      "invalidSender": "Geben Sie eine gültige E-Mail-Adresse oder Domain ein.",
+      "duplicateSender": "Diese Adresse ist bereits blockiert.",
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "requiredName": "Geben Sie einen Anzeigenamen ein.",
+      "duplicateAlias": "Diese Absenderadresse ist bereits registriert.",
+      "shortcutConflict": "Steht im Konflikt mit dem Tastenkürzel {action}.",
+      "passwordRequired": "Geben Sie Ihr aktuelles Passwort ein.",
+      "passwordLength": "Das neue Passwort muss mindestens 8 Zeichen lang sein.",
+      "passwordMismatch": "Die neuen Passwörter stimmen nicht überein."
+    },
+    "preview": {
+      "unreadSubject": "Betreff ungelesener Nachrichten",
+      "unreadBody": "Hier können Sie die Einstellungen der Listenanzeige in der Vorschau prüfen.",
+      "conversationCount": "{count} Nachrichten in der Unterhaltung"
+    },
+    "confirm": {
+      "deleteSignature": "Diese Signatur löschen?",
+      "deleteLabel": "Dieses Label löschen?",
+      "deleteFilter": "Diesen Filter löschen?",
+      "deleteAlias": "Diesen Absenderalias löschen?",
+      "unblockSender": "Blockierung dieses Absenders aufheben?",
+      "disconnect": "Verbindung zu diesem Dienst trennen?",
+      "codes": "Sicherungscodes neu erstellen?",
+      "all": "Von allen anderen Geräten abmelden?",
+      "session": "Von diesem Gerät abmelden?"
+    },
+    "toast": {
+      "labelDeleted": "Label gelöscht",
+      "filterDeleted": "Filter gelöscht",
+      "filterMatched": "Die Testnachricht entspricht den Filterbedingungen",
+      "aliasDeleted": "Absenderalias gelöscht",
+      "senderBlocked": "Absender zur Sperrliste hinzugefügt",
+      "senderUnblocked": "Absender nicht mehr blockiert",
+      "codesRegenerated": "Sicherungscodes neu erstellt",
+      "sessionsRevoked": "Von allen anderen Geräten abgemeldet",
+      "sessionRevoked": "Vom Gerät abgemeldet",
+      "passwordChanged": "Passwort geändert",
+      "syncComplete": "Synchronisierung abgeschlossen",
+      "integrationConnected": "Dienst verbunden",
+      "integrationDisconnected": "Dienst getrennt",
+      "testNotification": "Dies ist eine GXWebMail-Testbenachrichtigung"
+    },
+    "integrations": {
+      "names": {
+        "calendar": "Unternehmenskalender",
+        "approval": "Genehmigungssystem",
+        "slack": "Slack",
+        "drive": "Google Drive"
+      },
+      "scopes": {
+        "calendar": "Termine lesen und schreiben",
+        "approval": "Genehmigungsanfragen synchronisieren und bearbeiten",
+        "slack": "Benachrichtigungen für wichtige Nachrichten senden",
+        "drive": "Anhänge als Links senden"
+      }
+    },
+    "shortcutActions": {
+      "compose": "Neue Nachricht verfassen",
+      "search": "E-Mails durchsuchen",
+      "inbox": "Gehen Sie zu Ihrem Posteingang",
+      "archive": "Lagerung",
+      "delete": "Löschen",
+      "reply": "Antwort",
+      "forward": "weitergeben"
+    }
+  },
+  "adminNav": {
+    "backToMail": "Zurück zur Post",
+    "singleTenant": "Diese Organisation hat nur einen Mandanten: gxsoft.co.kr",
+    "tenant": "Mieter",
+    "systemMail": "Systemmail · Drucken · Fehler",
+    "organizationSetup": "Organisations-Setup-Assistent",
+    "systemStatus": "Systemstatus",
+    "allServicesHealthy": "Alle Dienste normal",
+    "queueStatus": "MTA-Warteschlangenverzögerung 0,4 Sekunden · Zuletzt überprüft vor 2 Minuten",
+    "tabs": {
+      "dash": "Übersicht",
+      "users": "Konto · Benutzer",
+      "policy": "Domäne · Richtlinie",
+      "security": "Sicherheit · Spam",
+      "flow": "Regeln für den Nachrichtenfluss",
+      "groups": "Gruppe/Mailingliste",
+      "audit": "Audit-Protokoll",
+      "backup": "Sichern/Archivieren",
+      "reports": "Bericht · Export",
+      "migration": "Postfachübertragung",
+      "brand": "Branding",
+      "api": "API · Webhook",
+      "billing": "Gebühren/Lizenz"
+    }
+  },
+  "mailboxesMock": {
+    "shared": {
+      "hr": {
+        "name": "Kontaktieren Sie das Personalteam",
+        "initials": "Grüße"
+      },
+      "recruit": {
+        "name": "Empfang von Bewerbungsunterlagen",
+        "initials": "Rekrutierung"
+      },
+      "support": {
+        "name": "Globaler Kundensupport",
+        "initials": "Unterstützung"
+      },
+      "press": {
+        "name": "Öffentlichkeitsarbeit/Medien",
+        "initials": "Förderung"
+      },
+      "office": {
+        "name": "CEO-Sekretär",
+        "initials": "Sekretärin"
+      },
+      "invoice": {
+        "name": "Einreichung der Steuerrechnung",
+        "initials": "Steuer"
+      }
+    },
+    "roles": {
+      "manager": "volle Leitung",
+      "reply": "Lesen · Antworten",
+      "readOnly": "Nur lesen",
+      "delegate": "Delegierter Versand"
+    },
+    "delegateNote": "Jiwoo Han (stellvertretender Manager: Anfrage beim Personalteam)",
+    "scheduleWhen": {
+      "today": "Heute 18:00",
+      "sep5": "5. September 09:00",
+      "sep8": "8. September 08:30",
+      "sep14": "14. September 10:00"
+    },
+    "scheduleStatus": {
+      "adjustment": "warten auf Anpassung",
+      "scheduled": "reserviert",
+      "recurring": "jeden Montag"
+    },
+    "templates": {
+      "approval": "Informationen zur Zahlungsrückgabe",
+      "quote": "Externe Angebotsanfrage",
+      "awayKorean": "Automatische Reaktion bei Abwesenheit (Koreanisch)",
+      "awayEnglish": "Out of office (EN)",
+      "meeting": "Koordination des Besprechungsplans"
+    },
+    "templateScope": {
+      "shared": "öffentlich",
+      "private": "persönlich"
+    },
+    "templateEdited": {
+      "aug21": "21. August",
+      "jul30": "30. Juli",
+      "sep1": "1. September",
+      "jun12": "12. Juni"
+    }
+  },
+  "adminSystemMock": {
+    "templates": {
+      "passwordReset": "Passwort zurücksetzen",
+      "accountInvite": "Neues Konto einladen",
+      "twoFactor": "2-stufiger Bestätigungscode",
+      "newDevice": "Benachrichtigung über die Anmeldung eines neuen Geräts",
+      "quarantineDigest": "Quarantäne-Mail-Zusammenfassung (täglich)",
+      "storageWarning": "Warnung vor kritischer Kapazität",
+      "approvalRequest": "Benachrichtigung über die Zahlungsanforderung",
+      "awayNotice": "Informationen zur automatischen Abwesenheitsnotiz",
+      "largeLinkExpiry": "Hinweis zum Ablauf der Verbindung mit hoher Kapazität",
+      "accountSuspended": "Hinweis zur Kontosperrung",
+      "migrationComplete": "Migration abgeschlossen",
+      "maintenance": "Service-Wartungshinweis"
+    },
+    "printMeta": {
+      "from": "Von",
+      "to": "Empfänger",
+      "date": "Datum",
+      "thread": "Thread"
+    },
+    "printOptions": {
+      "header": {
+        "name": "Kopfzeile · Seitenzahl",
+        "desc": "Sendeinformationen oben auf den Ausdrucken anzeigen"
+      },
+      "metadata": {
+        "name": "Metainformationen",
+        "desc": "Enthält Absender, Empfänger und Datum"
+      },
+      "quotes": {
+        "name": "Angebot erweitern",
+        "desc": "Alle vorherigen Antworten drucken"
+      },
+      "attachments": {
+        "name": "beigefügte Liste",
+        "desc": "Name und Größe der Anhangdatei anzeigen"
+      },
+      "remoteImages": {
+        "name": "Remote-Bild",
+        "desc": "Fügen Sie externe Bilder in den Druck ein"
+      },
+      "confidential": {
+        "name": "Vertrauliche Notation",
+        "desc": "Wasserzeichen „Unternehmen vertraulich“ hinzugefügt"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "label": "nicht gefunden",
+        "title": "Ich kann diese E-Mail nicht finden",
+        "body": "Möglicherweise wurde es gelöscht oder in ein anderes Postfach verschoben. Es bleibt 30 Tage lang im Papierkorb.",
+        "action": "in Ihren Posteingang",
+        "alt": "Suche im Papierkorb",
+        "foot": "Wenn das Problem weiterhin besteht, wenden Sie sich an IT Operations."
+      },
+      "forbidden": {
+        "label": "Keine Erlaubnis",
+        "title": "Sie haben keine Berechtigung, auf diesen Bildschirm zuzugreifen",
+        "body": "Der Bereich „Preise und Vereinbarungen“ der Admin-Konsole ist nur für Organisationsadministratoren sichtbar. Bitten Sie ggf. um Erlaubnis.",
+        "meta": "Anforderungsprotokoll-ID: acl-7741-b2",
+        "action": "Erlaubnisanfrage",
+        "alt": "Geh zurück",
+        "foot": "Ihre Anfrage wird an zwei Organisationsadministratoren weitergeleitet."
+      },
+      "maintenance": {
+        "label": "Unter Wartung",
+        "title": "Wir führen regelmäßige Kontrollen durch",
+        "body": "Der Postempfang läuft wie gewohnt weiter und alle Post werden zugestellt, sobald die Wartungsarbeiten abgeschlossen sind. Lediglich der Webzugriff ist gesperrt.",
+        "meta": "Voraussichtliche Fertigstellung: 05.09.2026, 02:00 Uhr KST",
+        "action": "Statusseite",
+        "alt": "Erhalten Sie Benachrichtigungen",
+        "foot": "Notfallanfrage 02-2000-1000 (24 Stunden)"
+      }
+    }
+  },
+  "notificationCenter": {
+    "title": "Benachrichtigung",
+    "markAllRead": "Alles lesen",
+    "all": "alle",
+    "approval": "Genehmigungen",
+    "mention": "Erwähnung",
+    "empty": "Es liegen keine Benachrichtigungen vor.",
+    "openCenter": "Öffnen Sie das Benachrichtigungscenter",
+    "items": {
+      "n1": {
+        "avatar": "Parken",
+        "title": "Antrag auf Genehmigung · Seojun Park",
+        "body": "Überprüfung des Budgets für den Ausbau der Cloud-Infrastruktur für das erste Halbjahr 2026 – Ich bin dran",
+        "time": "gerade jetzt"
+      },
+      "n2": {
+        "avatar": "Choi",
+        "title": "Erwähnung · Choi Min-seo",
+        "body": "Sie wurden im Atlas 3rd Sprint Review-Protokoll erwähnt.",
+        "time": "Vor 12 Minuten"
+      },
+      "n3": {
+        "avatar": "Dies",
+        "title": "Zahlung genehmigt · Su-min Lee",
+        "body": "Budget für regulären September-Workshop genehmigt",
+        "time": "Vor 38 Minuten"
+      },
+      "n4": {
+        "avatar": "G",
+        "title": "3 neue E-Mails",
+        "body": "Es ist eine neue E-Mail von Su-min Lee, Jira und Min-seo Choi eingetroffen",
+        "time": "Vor 1 Stunde"
+      },
+      "n5": {
+        "avatar": "!",
+        "title": "82 % Speicherplatz genutzt",
+        "body": "18,2 GB / 50 GB · Organisieren Sie große Anhänge",
+        "time": "Vor 3 Stunden"
+      },
+      "n6": {
+        "avatar": "Fluss",
+        "title": "Erwähnung · Taeyoon Kang",
+        "body": "Ich habe Sie im Kommentar zur QA-Checkliste erwähnt",
+        "time": "gestern"
+      }
+    }
+  },
+  "meetingInvite": {
+    "labels": {
+      "dateTime": "Datum und Uhrzeit",
+      "location": "Ort",
+      "organizer": "Organisator",
+      "recurrence": "Wiederholung"
+    },
+    "states": {
+      "accept": "Zusage",
+      "tentative": "Vielleicht",
+      "decline": "Absage",
+      "noResponse": "Keine Antwort"
+    },
+    "rsvpQuestion": "Möchten Sie dabei sein?",
+    "viewEvent": "Zeitplan ansehen",
+    "viewEventNotice": "Überprüfen Sie Ihren Zeitplan im Kalender",
+    "suggestTime": "Schlagen Sie ein anderes Mal vor",
+    "suggestTimeNotice": "Schlagen Sie dem Veranstalter einen anderen Termin vor",
+    "leaveMemo": "Hinterlassen Sie eine Notiz",
+    "leaveMemoNotice": "Öffnen Sie den Bildschirm zum Erstellen von Notizen",
+    "attendeeStatus": "Anwesenheitsstatus",
+    "host": "gehostet von",
+    "briefing": "KI-Briefing",
+    "briefingBody": "Die abschließende Überprüfung der GPU-Knotenerweiterung, die im letzten Sprint-Review besprochen wurde, ist in der Tagesordnung dieser Sitzung enthalten.",
+    "relatedMailNotice": "Gehen Sie zu verwandten E-Mail-Suchergebnissen",
+    "viewRelatedMail": "Sehen Sie sich 3 verwandte E-Mails an",
+    "responseRecorded": "Antwort erfasst: {choice}",
+    "attendeeSummary": "{responded} von {count} haben geantwortet",
+    "conflict": "<strong>{event}</strong> überschneidet sich mit diesem Termin."
+  },
+  "auth": {
+    "common": {
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "terms": "Nutzungsbedingungen",
+      "privacy": "Datenschutzrichtlinie",
+      "termsNotice": "Offene Nutzungsbedingungen",
+      "privacyNotice": "Datenschutzrichtlinie öffnen",
+      "setupWizard": "Serverinstallationsassistent",
+      "noAccount": "Sie haben noch kein Konto?",
+      "haveAccount": "Sie haben bereits ein Konto?",
+      "signIn": "Anmelden",
+      "signUp": "Registrieren",
+      "procurementNotice": "© 2026 GXWebMail. Produkte, die zur Beschaffung durch öffentliche Einrichtungen und Bildungseinrichtungen registriert sind.",
+      "eyebrow": "E-Mail-Plattform für Unternehmen"
+    },
+    "login": {
+      "title": "Schön, Sie wiederzusehen",
+      "description": "Melden Sie sich mit Ihrem Arbeitskonto an. Organisationen, die SSO nutzen, können über die Schaltfläche unten direkt darauf zugreifen.",
+      "passwordPlaceholder": "Bitte geben Sie Ihr Passwort ein",
+      "rememberMe": "Bleiben Sie eingeloggt",
+      "forgotPassword": "Finden Sie Ihr Passwort",
+      "resetNotice": "Senden Sie eine E-Mail zum Zurücksetzen des Passworts",
+      "enterEmailFirst": "Bitte geben Sie zuerst Ihre E-Mail-Adresse ein",
+      "missingCredentials": "Bitte geben Sie sowohl E-Mail als auch Passwort ein.",
+      "submitting": "Anmelden...",
+      "ssoButton": "Weiter mit Organisationskonten (SAML)",
+      "ssoNotice": "Gehen Sie zum SAML-SSO-Anmeldebildschirm",
+      "ssoContact": "Wenden Sie sich an den Administrator Ihrer Organisation",
+      "twoFactorHint": "Für dieses Konto ist die Bestätigung in zwei Schritten aktiviert. Geben Sie nach der Anmeldung Ihr 6-stelliges OTP ein.",
+      "tagline": "120.000 Nachrichten pro Tag zuverlässig verarbeiten",
+      "uptime": "Verfügbarkeits-SLA",
+      "largeAttachments": "Großer Anhang",
+      "certified": "Erhalten Sie eine Zertifizierung"
+    },
+    "signup": {
+      "title": "Erstellen Sie ein Konto",
+      "description": "Wenn Sie sich mit der E-Mail-Adresse Ihrer Organisation anmelden, wird Ihr Administrator Ihr Konto genehmigen und aktivieren.",
+      "name": "Namen",
+      "namePlaceholder": "Hong Gil-dong",
+      "passwordPlaceholder": "Bitte geben Sie mindestens 8 Zeichen ein",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmPlaceholder": "Bitte geben Sie Ihr Passwort erneut ein",
+      "consentLabel": "Den Nutzungsbedingungen und der Datenschutzrichtlinie zustimmen",
+      "requiredFields": "Bitte füllen Sie alle erforderlichen Felder aus.",
+      "passwordMismatch": "Passwort stimmt nicht überein.",
+      "consentRequired": "Bitte stimmen Sie den Nutzungsbedingungen und Datenschutzbestimmungen zu.",
+      "submitting": "Konto wird erstellt...",
+      "submit": "Melden Sie sich an",
+      "productIntro": "Produktübersicht",
+      "tagline": "Ihr gesamtes Team arbeitet mit einem gemeinsamen Posteingang",
+      "benefits": {
+        "brandedWorkspace": "Marke und Arbeitsbereich für Ihre Organisation",
+        "integratedTools": "Integrierter Kalender, Kontakte und Genehmigungen",
+        "secureOperations": "Sicherer E-Mail-Betrieb gemäß ISMS-P"
+      },
+      "consent": "Ich stimme den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zu."
+    }
+  },
+  "setup": {
+    "sidebarLabel": "Einrichtungsschritte",
+    "brand": "Mailwave-Mailserver",
+    "title": "Installationsassistent",
+    "introduction": "Die Serverinstallation ist abgeschlossen. Nach Abschluss von sieben Schritten können Benutzer sofort mit dem Verfassen von E-Mails beginnen.",
+    "done": "erledigt",
+    "inProgress": "Fortschritt",
+    "serverInfo": "Server mail.gxsoft.co.kr · v2.4.1",
+    "guideButton": "Öffnen Sie das Installationsanleitungsdokument",
+    "guideNotice": "Öffnen Sie das Dokument mit den Installationsanweisungen in einem neuen Tab",
+    "settingsLabel": "Installationseinstellungen",
+    "back": "zurück",
+    "finish": "Installation abgeschlossen · Anmelden",
+    "copy": "kopieren",
+    "copied": "habe den Wert kopiert",
+    "checkAgain": "nochmal testen",
+    "checking": "Testen...",
+    "dnsCheckAgain": "DNS-Überprüfung erneut",
+    "dnsChecking": "Überprüfen...",
+    "dbRecheckNotice": "Testen Sie Ihre Datenbankverbindung erneut",
+    "dbRecheckSuccess": "Verbindungstest bestanden",
+    "dnsRecheckNotice": "Überprüfen Sie Ihre DNS-Einträge erneut",
+    "dnsRecheckSuccess": "DNS-Prüfung abgeschlossen",
+    "inviteSentNotice": "Eine Einladungs-E-Mail wurde gesendet",
+    "inviteSent": "Versand abgeschlossen",
+    "inviteButton": "Einladungs-E-Mail senden",
+    "inviteTargetHeading": "Einladung dazu",
+    "steps": {
+      "license": {
+        "name": "Lizenz · Administratorkonto",
+        "description": "{seats, number} Plätze · {admins, number} Administrator"
+      },
+      "database": {
+        "name": "Datenbankverbindung",
+        "description": "PostgreSQL 16 · 42 Schemata"
+      },
+      "organization": {
+        "name": "Organisation/Domain-Registrierung",
+        "description": "gxsoft.co.kr · 42 Abteilungen importiert"
+      },
+      "dns": {
+        "name": "Domänen-/DNS-Überprüfung",
+        "description": "MX · SPF · DKIM · DMARC"
+      },
+      "storage": {
+        "name": "E-Mail-Speicherung/Sicherung",
+        "description": "Speicherpfad · Einmal täglich sichern"
+      },
+      "security": {
+        "name": "Sicherheitspolitik",
+        "description": "Spam · DLP · Zweistufige Authentifizierung"
+      },
+      "invitations": {
+        "name": "Benutzereinladung",
+        "description": "Einladungs-E-Mail gesendet · Erster Login"
+      }
+    },
+    "license": {
+      "description": "Geben Sie Ihren Lizenzschlüssel ein und erstellen Sie Ihr erstes Administratorkonto.",
+      "fields": {
+        "key": "Lizenzschlüssel",
+        "adminName": "Administratorname",
+        "adminEmail": "Administrator-E-Mail",
+        "adminPassword": "Administratorkennwort"
+      }
+    },
+    "database": {
+      "fields": {
+        "host": "Gastgeber",
+        "port": "Hafen",
+        "database": "Datenbank",
+        "schema": "Schema",
+        "account": "Konto",
+        "password": "Passwort",
+        "sslMode": "SSL-Modus",
+        "connectionPool": "Verbindungspool"
+      },
+      "poolValue": "Max. 40 · Leerlauf 5",
+      "testTitle": "Verbindungstest",
+      "states": {
+        "passed": "Bestanden",
+        "warning": "Vorsicht"
+      },
+      "checks": {
+        "connection": {
+          "name": "Verbindung",
+          "detail": "12ms · TLS 1.3"
+        },
+        "version": {
+          "name": "Version",
+          "detail": "PostgreSQL 16.2 · Mindestens 14 oder höher"
+        },
+        "permissions": {
+          "name": "Erlaubnis",
+          "detail": "Aktivieren Sie CREATE · ALTER · INDEX"
+        },
+        "charset": {
+          "name": "Zeichensatz/Sortierung",
+          "detail": "UTF8 · C.UTF-8"
+        },
+        "timezone": {
+          "name": "Zeitzone",
+          "detail": "Asien/Seoul · UTC empfohlen"
+        }
+      }
+    },
+    "organization": {
+      "description": "Registrieren Sie Ihre Organisationsinformationen und Ihre primäre Domäne.",
+      "fields": {
+        "name": "Name der Organisation",
+        "domain": "repräsentative Domäne",
+        "contact": "Kontakt-E-Mail"
+      },
+      "hrImportNotice": "Sie können 42 Abteilungen automatisch aus dem HR-Organigramm importieren (Grow)."
+    },
+    "dns": {
+      "headers": {
+        "type": "Typ",
+        "host": "Gastgeber",
+        "value": "Wert",
+        "status": "Status"
+      },
+      "states": {
+        "verified": "Bestätigt",
+        "propagating": "Verbreitung",
+        "missing": "Nicht festgelegt"
+      }
+    },
+    "storage": {
+      "description": "Legen Sie den Speicherpfad und den Sicherungszyklus für E-Mail-Daten fest.",
+      "fields": {
+        "path": "Pfad speichern",
+        "frequency": "Backup-Zyklus",
+        "retention": "Speicherdauer"
+      },
+      "frequencyValue": "Einmal täglich · 04:00 Uhr",
+      "retentionValue": "3 Jahre"
+    },
+    "security": {
+      "description": "Legen Sie die Standardsicherheitsrichtlinie fest. Sie können dies später in der Administratorkonsole anpassen.",
+      "policies": {
+        "spam": "Automatische Quarantäne von Spam und Phishing",
+        "dlp": "DLP-Blockierung vertraulicher Dokumente",
+        "twoFactor": "Zweistufige Administratorauthentifizierung erforderlich",
+        "externalWarning": "Externes E-Mail-Benachrichtigungsbanner"
+      }
+    },
+    "invitations": {
+      "description": "Senden Sie Einladungen an Mitarbeiter. {count, number} aus CSV importierte Personen erhalten Anweisungen zur ersten Anmeldung."
+    },
+    "firstRun": "Erster Start",
+    "stepCounter": "Schritt {step} von {total}",
+    "progressLabel": "{progress} % abgeschlossen",
+    "nextStep": "Weiter · {name}",
+    "checkSummary": "Zuletzt gerade getestet · {passed} von {total} bestanden",
+    "dnsSummary": "Zuletzt vor 2 Minuten geprüft · {verified} von {total} bestätigt",
+    "countSummary": "{passed} von {total} bestanden",
+    "dnsCountSummary": "{verified} von {total} bestätigt",
+    "inviteTarget": "{count, number} Personen · {domain}",
+    "inviteSentCount": "An {count, number} Personen gesendet",
+    "dbNotice": "Im nächsten Schritt werden 42 Schematabellen erstellt und Anfangsdaten eingefügt (etwa 40 Sekunden). Falls die Datenbank bereits Daten enthält, wird gefragt, ob das <strong>bestehende Schema weiterverwendet</strong> werden soll.",
+    "dnsNotice": "Die DNS-Weitergabe kann bis zu 24 Stunden dauern. DKIM und DMARC können vorerst übersprungen werden. Prüfen Sie sie später unter <strong>Admin · Domains · Richtlinien</strong>. Ohne beide Einträge können externe Server ausgehende E-Mails als Spam einstufen."
+  },
+  "adminOnboarding": {
+    "title": "Organisations-Setup-Assistent",
+    "dnsDelayNotice": "Die DNS-Reflexion kann bis zu 48 Stunden dauern. In der Zwischenzeit wird der bestehende Mailserver weiter betrieben.",
+    "dnsTitle": "Registrieren Sie DNS-Einträge",
+    "copyAll": "alles kopieren",
+    "copiedNotice": "Alle DNS-Einträge kopiert",
+    "recheck": "schau nochmal nach",
+    "checking": "Überprüfen...",
+    "recheckNotice": "Überprüfen Sie Ihre DNS-Einträge erneut",
+    "recheckSuccess": "DNS-Überprüfung abgeschlossen",
+    "csvTitle": "Massenkontoregistrierung",
+    "csvSelectNotice": "Öffnen Sie das CSV-Dateiauswahlfenster",
+    "csvSelect": "Ziehen Sie die CSV-Datei oder wählen Sie sie aus",
+    "csvColumns": "Spalten „Name“, „E-Mail“, „Abteilung“ und „Rang“ erforderlich",
+    "migrationTitle": "Vorhandene E-Mails migrieren",
+    "migrationImap": "IMAP Andere",
+    "migrationPending": "warten",
+    "migrationNotice": "Die IMAP-Synchronisierung bleibt nach der Konvertierung 7 Tage lang bestehen, um sicherzustellen, dass nichts übersehen wird.",
+    "continueLater": "Fahren Sie später fort",
+    "next": "Weiter · Erstellen Sie ein Konto",
+    "nextNotice": "Gehen Sie zu den Schritten zur Kontoerstellung",
+    "headers": {
+      "type": "Typ",
+      "host": "Gastgeber",
+      "value": "Wert",
+      "priority": "Priorität",
+      "status": "Status"
+    },
+    "dnsStates": {
+      "verified": "Bestätigt",
+      "pending": "Ausstehend",
+      "unregistered": "Nicht eingerichtet"
+    },
+    "steps": {
+      "organization": {
+        "name": "Informationen zur Organisation",
+        "description": "Firmenname, repräsentative Domain, verantwortliche Person"
+      },
+      "domain": {
+        "name": "Domänenverbindung",
+        "description": "MX · SPF · DKIM-Datensatzregistrierung"
+      },
+      "accounts": {
+        "name": "Erstellen Sie ein Konto",
+        "description": "CSV-Batch-Registrierung und HR-Organigramm-Integration"
+      },
+      "migration": {
+        "name": "E-Mail-Migration",
+        "description": "E-Mails vom vorhandenen Server migrieren"
+      },
+      "policy": {
+        "name": "Richtlinie anwenden",
+        "description": "Sicherheit · Aufbewahrung · DLP-Standards"
+      },
+      "cutover": {
+        "name": "Umbau/Inspektion",
+        "description": "Endgültige MX-Konvertierung und Versandtests"
+      }
+    },
+    "subtitle": "{domain} · Schritt {step} läuft · Etwa {minutes} Min.",
+    "recordCount": "{count, number} Einträge",
+    "verifiedCount": "{verified, number} von {total, number} bestätigt",
+    "csvSummary": "{rows, number} Zeilen geprüft · {duplicates, number} Duplikate zusammengeführt",
+    "migrationCounts": "{completed, number} / {total, number}"
+  },
+  "adminHeader": {
+    "heads": {
+      "dash": {
+        "sub": "Organisationsweiter E-Mail-Verarbeitungsstatus",
+        "cta": "Bericht exportieren"
+      },
+      "users": {
+        "sub": "{count, number} Konten verwalten",
+        "cta": "Konto hinzufügen"
+      },
+      "policy": {
+        "sub": "Senden von Domänen- und Sicherheitsrichtlinien",
+        "cta": "Richtlinie speichern"
+      },
+      "security": {
+        "sub": "Blockierungs-/Quarantäneprotokoll und Erkennungsstatus",
+        "cta": "Regel hinzufügen"
+      },
+      "flow": {
+        "sub": "Automatisierte Verarbeitungsregeln, die für Ihr gesamtes Unternehmen gelten",
+        "cta": "Regel hinzufügen"
+      },
+      "groups": {
+        "sub": "Verteilerliste und gemeinsames Postfach",
+        "cta": "Erstellen Sie eine Gruppe"
+      },
+      "audit": {
+        "sub": "Unveränderliche Aufzeichnung aller Verwaltungsaufgaben",
+        "cta": "CSV-Export"
+      },
+      "backup": {
+        "sub": "Snapshots und Legal Hold-Status",
+        "cta": "Machen Sie jetzt ein Backup"
+      },
+      "reports": {
+        "sub": "Erstellen Sie benutzerdefinierte Berichte",
+        "cta": "neuer Bericht"
+      },
+      "migration": {
+        "sub": "Status des Migrationsfortschritts von anderen E-Mail-Systemen",
+        "cta": "Charge hinzufügen"
+      },
+      "brand": {
+        "sub": "Organisationsidentität und Anmeldebildschirm",
+        "cta": "Beitrag"
+      },
+      "api": {
+        "sub": "Externer Integrationsschlüssel und Event-Abonnement",
+        "cta": "Schlüsselausgabe"
+      },
+      "billing": {
+        "sub": "Abonnement- und Zahlungsverwaltung",
+        "cta": "Sehen Sie sich Ihre Rechnung an"
+      }
+    },
+    "ranges": {
+      "today": "heute",
+      "last7": "Letzte 7 Tage",
+      "last30": "Letzte 30 Tage",
+      "last90": "Letzte 90 Tage"
+    },
+    "rangeLabel": "Zeitraum",
+    "actionNotice": "{action} wird geöffnet"
+  },
+  "adminMobile": {
+    "menuLabel": "Administratormenü",
+    "backToMenu": "Zurück zum Administratormenü",
+    "actionPreview": "Diese Aktion ist eine Vorschau",
+    "executeAction": "{action} ausführen",
+    "screens": {
+      "dash": {
+        "navLabel": "Übersicht",
+        "title": "Manager",
+        "sub": "gxsoft.co.kr · Echtzeit",
+        "footerText": "Sehen Sie sich den vollständigen Bericht auf Ihrem Desktop an",
+        "chips": {
+          "chip0": "heute",
+          "chip1": "7 Tage",
+          "chip2": "30 Tage"
+        },
+        "rows": {
+          "throughput": {
+            "name": "Arbeitsdurchsatz",
+            "meta": "{count}",
+            "line3": "{growth} im Vergleich zum Vortag"
+          },
+          "blocked": {
+            "name": "Sperren/Quarantäne",
+            "line3": "Isolation {quarantined} Fälle Hohes Risiko {highRisk}"
+          },
+          "queue": {
+            "name": "Versandwarteschlange",
+            "line3": "Wiederholen Sie den Versuch {retry} · Fehler {failed}"
+          },
+          "deliveryDelay": {
+            "name": "durchschnittliche Lieferverzögerung",
+            "meta": "{seconds} Sekunden",
+            "line3": "SLA innerhalb von {slaSeconds} Sekunden",
+            "tag": "normal"
+          },
+          "needsAttention": {
+            "name": "{items} Punkte müssen bestätigt werden",
+            "line3": "MTA-STS nicht angewendet · Kapazitätsschwelle {threshold} Fälle",
+            "tag": "Ansicht"
+          }
+        }
+      },
+      "users": {
+        "navLabel": "Konto",
+        "title": "Konto",
+        "sub": "{total} · gesperrt {suspended} · inaktiv {inactive}",
+        "footerText": "Zum Stoppen wischen / zum Zurücksetzen des Passworts lange drücken",
+        "footerBtn": "hör auf",
+        "chips": {
+          "chip0": "alle",
+          "chip1": "hör auf",
+          "chip2": "inaktiv"
+        },
+        "action": "Konten suchen",
+        "rows": {
+          "jiwoo": {
+            "tag": "normal",
+            "line3": "Strategisches Planungsteam · {usage}"
+          },
+          "seojun": {
+            "tag": "normal",
+            "line3": "Infrastrukturteam · {usage}"
+          },
+          "jaeho": {
+            "tag": "Kapazität",
+            "line3": "Vertriebsteam · {usage}"
+          },
+          "temporary": {
+            "tag": "hör auf",
+            "line3": "Nicht spezifiziert · {days} Tage lang kein Zugriff"
+          },
+          "serin": {
+            "tag": "normal",
+            "line3": "Büro des CEO · {usage}"
+          }
+        }
+      },
+      "security": {
+        "navLabel": "Sicherheit",
+        "title": "Sicherheit",
+        "sub": "Letzte {days} Tage · {pending} Fälle, in denen noch Maßnahmen anhängig sind",
+        "footerText": "Regeländerungen sind nur auf dem Desktop möglich",
+        "chips": {
+          "chip0": "alle",
+          "chip1": "hoch"
+        },
+        "rows": {
+          "unusualLogin": {
+            "name": "Ungewöhnlicher Anmeldeversuch",
+            "line2": "Osaka, Japan · {blocked} blockiert",
+            "line3": "Vor {days} Tagen · Aktion abgeschlossen"
+          },
+          "phishing": {
+            "name": "Erkennung von Phishing-Kampagnen",
+            "line2": "Ähnliche Domain gxsott.co.kr",
+            "line3": "Heute {time} · {quarantined} Fälle in Quarantäne",
+            "tag": "warten"
+          },
+          "dlp": {
+            "name": "DLP-Blockierung",
+            "line2": "Versuchen Sie, einen ausführbaren Dateianhang zu senden",
+            "line3": "Gestern · {cases} Fälle"
+          },
+          "spf": {
+            "name": "SPF-Ausfälle nehmen zu",
+            "line3": "Gestern · Reputation {score} Punkte",
+            "tag": "warten"
+          },
+          "appPassword": {
+            "name": "App-Passwort verwenden",
+            "line2": "{clients} IMAP-Clients",
+            "line3": "Vor {days} Tagen · Bewertung empfohlen"
+          }
+        }
+      },
+      "quarantine": {
+        "navLabel": "Quarantäneüberprüfung",
+        "title": "Quarantäneüberprüfung",
+        "sub": "{total} Fälle · {highRisk} Hochrisikofälle",
+        "footerText": "Massenlöschungen werden im Audit-Log protokolliert",
+        "footerBtn": "Massenlöschung",
+        "chips": {
+          "chip0": "hoch",
+          "chip1": "Spam",
+          "chip2": "alle"
+        },
+        "rows": {
+          "alert": {
+            "line3": "{recipients} Empfänger · Ähnliche Domains",
+            "tag": "Löschen"
+          },
+          "invoice": {
+            "line3": "{recipients} Empfänger · Ausführbare Datei",
+            "tag": "Löschen"
+          },
+          "newsletter": {
+            "line3": "{recipients} Empfänger · SPF-Fehler",
+            "tag": "halten"
+          },
+          "recruitment": {
+            "line3": "{recipients} Empfänger · Erster Empfänger",
+            "tag": "wiederherstellen"
+          },
+          "billing": {
+            "line3": "{recipients} Empfänger · Wahrscheinlich normal",
+            "tag": "wiederherstellen"
+          }
+        }
+      },
+      "status": {
+        "navLabel": "Servicestatus",
+        "title": "Servicestatus",
+        "sub": "Alle Dienste normal",
+        "footerText": "Das Wartungsbanner ist für alle Benutzer sichtbar",
+        "action": "Mitteilung hinzufügen",
+        "rows": {
+          "mail": {
+            "name": "Empfangen und Versenden von Post",
+            "line3": "Betriebsrate {availability} ({days} Tage)",
+            "tag": "normal"
+          },
+          "webClient": {
+            "name": "Web-Client",
+            "line3": "p95-Antwort {latency} ms",
+            "tag": "normal"
+          },
+          "protocols": {
+            "line3": "{connections} Verbindungen",
+            "tag": "normal"
+          },
+          "migration": {
+            "name": "Postfachübertragung",
+            "line3": "{batches} Chargen in Bearbeitung. Bandbreite begrenzt",
+            "tag": "Verzögerung"
+          },
+          "maintenance": {
+            "name": "geplante Wartung",
+            "line2": "{date} {start} – {end} Uhr",
+            "line3": "Banner wird aufgehängt · Empfang geht weiter",
+            "tag": "Beitrag"
+          }
+        }
+      },
+      "groups": {
+        "navLabel": "Gruppe",
+        "title": "Gruppe",
+        "sub": "{total} · Mailing {mailing}",
+        "footerText": "Um ein Mitglied zu bearbeiten, halten Sie es gedrückt, um es auszuwählen",
+        "chips": {
+          "chip0": "alle",
+          "chip1": "Abteilung",
+          "chip2": "Mailing"
+        },
+        "action": "Gruppe hinzufügen",
+        "rows": {
+          "strategy": {
+            "meta": "{count}Personen",
+            "line3": "Strategie · Abteilungsgruppe"
+          },
+          "infrastructure": {
+            "meta": "{count}Personen",
+            "line3": "Infra·Abteilungsgruppe"
+          },
+          "allStaff": {
+            "meta": "{count}Personen",
+            "tag": "Grenze",
+            "line3": "alle · Sendebeschränkungen"
+          },
+          "sales": {
+            "meta": "{count}Personen",
+            "line3": "sales1 · Abteilungsgruppe"
+          },
+          "aurora": {
+            "meta": "{count}Personen",
+            "tag": "vorübergehend",
+            "line3": "Aurora · Vorübergehend · Läuft im Dezember ab"
+          }
+        }
+      },
+      "policy": {
+        "navLabel": "Domäne · Richtlinie",
+        "title": "Domäne · Richtlinie",
+        "sub": "{domains} Domänen, {actions} Aktion",
+        "footerText": "Richtlinienänderungen sind nur auf dem Desktop möglich",
+        "chips": {
+          "chip0": "Domäne",
+          "chip1": "Zertifizierung"
+        },
+        "rows": {
+          "primaryDomain": {
+            "line3": "Primäre Domain · SPF · DKIM · DMARC",
+            "tag": "normal"
+          },
+          "mailDomain": {
+            "line3": "Nur Versand · Reputation {score} Punkte",
+            "tag": "Warnung"
+          },
+          "aliasDomain": {
+            "line3": "Alias / Weiterleitung empfangen",
+            "tag": "normal"
+          },
+          "dmarc": {
+            "line3": "p=Quarantäne · Einmal pro Woche melden",
+            "name": "DMARC-Richtlinie"
+          },
+          "mtaSts": {
+            "line3": "Empfohlen · Blockieren Sie Man-in-the-Middle-Angriffe",
+            "tag": "Aktion",
+            "name": "MTA-STS nicht anwendbar"
+          }
+        }
+      },
+      "audit": {
+        "navLabel": "Audit-Protokoll",
+        "title": "Audit-Protokoll",
+        "sub": "Letzte {hours} Stunden · {events} Fälle",
+        "footerText": "Protokolle werden 7 Jahre lang aufbewahrt und auf den Desktop exportiert",
+        "chips": {
+          "chip0": "alle",
+          "chip1": "Erlaubnis",
+          "chip2": "Löschen"
+        },
+        "action": "Protokolle durchsuchen",
+        "rows": {
+          "grantRole": {
+            "name": "Gewähren Sie Administratorrechte",
+            "line2": "Oh Se-rin → Park Seo-joon",
+            "line3": "IP 10.2.14.8 · Webkonsole"
+          },
+          "removeDelegate": {
+            "name": "Deaktivieren Sie die Postfachdelegierung",
+            "line2": "shared-hr · Jiwoo Han"
+          },
+          "bulkDelete": {
+            "name": "Führen Sie den Batch-Löschvorgang aus",
+            "tag": "wichtig",
+            "line2": "{count} Quarantäne-E-Mails",
+            "line3": "Park Seo-joon · Es gibt kein Zurück"
+          },
+          "editPolicy": {
+            "name": "Richtlinie ändern",
+            "meta": "gestern",
+            "line2": "DLP-Blockierung ausführbarer Dateien ist aktiviert",
+            "line3": "Oceline"
+          },
+          "issueApiKey": {
+            "name": "Ausgabe des API-Schlüssels",
+            "meta": "gestern",
+            "line3": "Infrastrukturteam · Läuft {days} Tage ab"
+          }
+        }
+      },
+      "backup": {
+        "navLabel": "Sicherung",
+        "title": "Sicherung",
+        "sub": "{frequency} Mal pro Tag · Letzte erfolgreiche Sicherung {lastSuccess}",
+        "footerText": "Fordern Sie eine Wiederherstellung über Ihre Desktop-Konsole an",
+        "chips": {
+          "chip0": "Arbeit",
+          "chip1": "wiederherstellen"
+        },
+        "rows": {
+          "full": {
+            "name": "Vollständige Sicherung",
+            "line3": "{used} TB · {minutes} Minuten",
+            "tag": "Erfolg"
+          },
+          "incremental": {
+            "name": "Inkrementelles Backup",
+            "meta": "Brei",
+            "line3": "Die letzten {successes} Erfolge in Folge",
+            "tag": "Erfolg"
+          },
+          "restoreTest": {
+            "name": "Wiederherstellungstest",
+            "meta": "Vor {days} Tagen",
+            "line3": "Einmal im Quartal empfohlen · Die Frist steht unmittelbar bevor",
+            "tag": "empfohlen"
+          },
+          "retention": {
+            "name": "Aufbewahrungsrichtlinie",
+            "line3": "E-Mail {mailYears} Jahre · Prüfprotokoll {auditYears} Jahre"
+          },
+          "storage": {
+            "name": "Speichernutzung",
+            "line3": "{used} / {total}"
+          }
+        }
+      },
+      "billing": {
+        "navLabel": "Gebühr",
+        "title": "Gebühr",
+        "sub": "Voraussichtliche Rechnung im {month}: {amount}",
+        "footerText": "Die Steuerrechnung wird an Ihre registrierte E-Mail-Adresse gesendet.",
+        "chips": {
+          "chip0": "diesen Monat",
+          "chip1": "letzten Monat"
+        },
+        "rows": {
+          "seats": {
+            "name": "gebrauchter Sitz",
+            "line3": "{contracted} vertraglich vereinbarte Sitzplätze, {available} freie Sitzplätze"
+          },
+          "storage": {
+            "name": "zusätzlicher Speicher",
+            "line3": "{amount} · Monatliche Pauschalgebühr"
+          },
+          "archive": {
+            "name": "Archivspeicher",
+            "line3": "{amount} · {years} Jahre Aufbewahrung"
+          },
+          "augustInvoice": {
+            "name": "Abrechnung im August",
+            "line3": "Zahlung abgeschlossen · {date}",
+            "tag": "erledigt"
+          },
+          "cardExpiry": {
+            "name": "Kartenablauf steht unmittelbar bevor",
+            "line3": "Firmenkarte ****4821 · Läuft im November ab",
+            "tag": "Aktion"
+          }
+        }
+      },
+      "brand": {
+        "navLabel": "Branding",
+        "title": "Branding",
+        "sub": "Logo, Farbe, Signatur",
+        "footerText": "Änderungen werden nach der Genehmigung auf Ihre Transkription angewendet",
+        "chips": {
+          "chip0": "Bewerben",
+          "chip1": "Entwurf"
+        },
+        "rows": {
+          "logo": {
+            "name": "Logo",
+            "line3": "SVG · Hell · Dunkle Registrierung",
+            "tag": "Bewerben"
+          },
+          "accent": {
+            "name": "Akzentfarbe",
+            "line3": "Wird in Login, Schaltfläche und Link widergespiegelt",
+            "tag": "Bewerben"
+          },
+          "signature": {
+            "name": "E-Mail-Signatur-Vorlage",
+            "line3": "{types} Typen nach Abteilung · Automatische Einfügung"
+          },
+          "loginBackground": {
+            "name": "Login-Hintergrund",
+            "line3": "Bild nicht registriert/Standardverwendung",
+            "tag": "Entwurf"
+          },
+          "senderName": {
+            "name": "Name des System-E-Mail-Absenders",
+            "line3": "GXSOFT Mail · keine Antwort"
+          }
+        }
+      },
+      "api": {
+        "navLabel": "API",
+        "title": "API",
+        "sub": "{keys} Schlüssel · {calls} Anrufe/Tag",
+        "footerText": "Schlüsselwerte erscheinen nur einmal bei der Ausgabe",
+        "chips": {
+          "chip0": "Schlüssel",
+          "chip1": "Webhook"
+        },
+        "action": "API-Schlüssel hinzufügen",
+        "rows": {
+          "hrSync": {
+            "line3": "Lesen · Konto · Letzter Anruf vor {minutes} Minuten",
+            "tag": "aktiv"
+          },
+          "billingSync": {
+            "line3": "Lesevorgänge · Nutzung · Ablauf {days} Tage",
+            "tag": "aktiv"
+          },
+          "legacyImport": {
+            "line3": "Schreiben · Läuft nach {days} Tagen ab · Rotation empfohlen",
+            "tag": "läuft ab"
+          },
+          "quarantineWebhook": {
+            "name": "Webhook · Quarantänebenachrichtigung"
+          },
+          "rateLimit": {
+            "meta": "{perMinute}/min",
+            "line3": "429 bei Überschreitung · Wiederholen empfohlen",
+            "name": "Tarifbegrenzung"
+          }
+        }
+      },
+      "approval": {
+        "navLabel": "Genehmigungsablauf",
+        "title": "Genehmigungsablauf",
+        "sub": "{pending} Wartefälle, durchschnittlich {averageHours} Stunden",
+        "footerText": "Auf Mobilgeräten sind nur Genehmigung und Ablehnung möglich.",
+        "footerBtn": "Zustimmung",
+        "chips": {
+          "chip0": "warten",
+          "chip1": "erledigt"
+        },
+        "rows": {
+          "bulkSend": {
+            "name": "Zugelassen für den Massenversand",
+            "line2": "Unternehmensweite Bekanntmachung · {people} Personen",
+            "line3": "Anfrage Jiwoo Han · vor {hours} Stunden",
+            "tag": "warten"
+          },
+          "externalShare": {
+            "name": "Ausnahme für externe Freigabe",
+            "line2": "Anhang von partner-corp.kr zulassen",
+            "line3": "Vertriebsteam anfordern 1 · vor {hours} Stunden",
+            "tag": "warten"
+          },
+          "deleteAccount": {
+            "name": "Konto löschen",
+            "line2": "temp-001 · Datenvernichtung",
+            "line3": "Infrastruktur-Team anfordern · Gestern",
+            "tag": "warten"
+          },
+          "dlpException": {
+            "name": "Richtlinienausnahmen · DLP",
+            "line2": "Ausführbare Datei einmal senden",
+            "line3": "Zugelassen · Oserin",
+            "tag": "erledigt"
+          },
+          "approvalTemplate": {
+            "name": "Vorlage für eine Genehmigungslinie",
+            "line3": "Schritt {step} · Abteilungsleiter → Informationssicherheit → Beauftragter"
+          }
+        }
+      },
+      "reports": {
+        "navLabel": "Bericht",
+        "title": "Bericht",
+        "sub": "Wöchentlich · Woche {week} im {month}",
+        "footerText": "Der PDF-Export ist auf dem Desktop verfügbar",
+        "chips": {
+          "chip0": "wöchentlich",
+          "chip1": "monatlich"
+        },
+        "rows": {
+          "traffic": {
+            "name": "Eingehender/ausgehender Trend",
+            "line3": "Empfang: {received}, Gesendet: {sent}"
+          },
+          "spamBlock": {
+            "name": "Spam-Blockierungsrate",
+            "line3": "{reports} falsch positive Berichte",
+            "tag": "normal"
+          },
+          "userActivity": {
+            "name": "Benutzeraktivität",
+            "line3": "{people} Personen haben sich an mehr als {days} Tagen in der Woche angemeldet"
+          },
+          "storageGrowth": {
+            "name": "Erhöhte Speicherkapazität",
+            "line3": "Wöchentlicher Durchschnitt/kritisch erwartet {months} Monate"
+          },
+          "scheduled": {
+            "name": "Reservierungsbericht",
+            "meta": "{reports} Fälle",
+            "line3": "{weekday} {time} · Gesendet durch das Management"
+          }
+        }
+      },
+      "migration": {
+        "navLabel": "Migration",
+        "title": "Migration",
+        "sub": "{batches} Chargen in Bearbeitung {progress}",
+        "footerText": "Abbrechen und über die Desktop-Konsole erneut versuchen",
+        "chips": {
+          "chip0": "Fortschritt",
+          "chip1": "erledigt",
+          "chip2": "Misserfolg"
+        },
+        "rows": {
+          "salesBatch": {
+            "line3": "Konto {migrated}/{total} · {hours} Stunde und {minutes} Minuten verbleibend",
+            "name": "Charge 07 · Vertriebszentrale"
+          },
+          "researchBatch": {
+            "line3": "Bandbreitenbeschränkungen für {migrated}/{total}-Konten",
+            "name": "Charge 08 · Labor"
+          },
+          "overseasBatch": {
+            "line3": "{migrated}/{total} Konto · Zeitverzögerter Standby",
+            "name": "Platzierung 09 · Auslandsniederlassung"
+          },
+          "failedBatch": {
+            "line3": "Die Postfachkapazität wurde überschritten / Wiederholung erforderlich",
+            "tag": "Misserfolg",
+            "name": "Charge 06 · {failures} Fehler"
+          },
+          "completedBatches": {
+            "line3": "Verifizierung bestanden · Original {days} Tage aufbewahrt",
+            "tag": "erledigt",
+            "name": "Charge 01–05 abgeschlossen"
+          }
+        }
+      }
+    }
+  },
+  "adminDashboard": {
+    "throughputTitle": "E-Mail-Durchsatz",
+    "received": "erhalten",
+    "sent": "Ausgehend",
+    "blocked": "blockieren",
+    "authTitle": "Authentifizierungsstatus",
+    "alertsTitle": "Elemente, die einer Bestätigung bedürfen",
+    "openAlerts": "Öffnen Sie die vollständige Liste der Elemente, die bestätigt werden müssen",
+    "all": "alle",
+    "funnelTitle": "Liefertrichter (heute)",
+    "averageDelay": "durchschnittliche Lieferverzögerung",
+    "reputationTitle": "Domain-Reputation",
+    "queueTitle": "Versandwarteschlange",
+    "live": "Echtzeit",
+    "kpis": {
+      "processed": "Verarbeiten Sie Ihre Post noch heute",
+      "activeAccounts": "aktives Konto",
+      "blockedRate": "Spam-Blockierungsrate",
+      "deliveryDelay": "durchschnittliche Lieferverzögerung"
+    },
+    "authStatus": {
+      "normal": "normal",
+      "quarantine": "Quarantänerichtlinie",
+      "notApplied": "Nicht angewendet"
+    },
+    "alerts": {
+      "mtaSts": {
+        "title": "MTA-STS-Richtlinie wurde nicht angewendet",
+        "desc": "Die Domäne sub.gxsoft.co.kr verfügt über keine TLS-Durchsetzungsrichtlinie."
+      },
+      "quota": {
+        "title": "8 kapazitätskritische Konten",
+        "desc": "An Konten, die 90 % übersteigen, wurde eine automatische Benachrichtigung gesendet."
+      }
+    },
+    "funnel": {
+      "attempted": "Empfangsversuch",
+      "blocked": "Spam und böswillige Blockierung",
+      "quarantined": "Quarantäne in der Warteschleife",
+      "delivered": "normale Lieferung",
+      "bounced": "Rückgabe/Misserfolg"
+    },
+    "queueStats": {
+      "pending": "warten",
+      "retrying": "Versuchen Sie es erneut",
+      "failed": "Misserfolg"
+    },
+    "queueState": {
+      "sending": "Versand",
+      "completed": "erledigt",
+      "pending": "warten"
+    },
+    "reputationMetrics": "Spam {spam} · Unzustellbar {bounce}",
+    "itemCount": "{count, number} Einträge"
+  },
+  "adminUsers": {
+    "searchPlaceholder": "Suche nach Name/Konto/Abteilung",
+    "allDepartments": "gesamte Abteilung",
+    "allRoles": "volle Autorität",
+    "allStatuses": "Zustand voll",
+    "selectAll": "Alles auswählen",
+    "moreActions": "Mehr sehen",
+    "resumeAccount": "auftauen",
+    "suspendAccount": "Konto gesperrt",
+    "deleteAccount": "Konto löschen",
+    "suspendedToast": "Das Konto wurde gesperrt",
+    "resumedToast": "Die Kontosperrung wurde aufgehoben",
+    "deletedToast": "Ihr Konto wurde gelöscht",
+    "bulkSuspend": "Chargenstopp",
+    "clearSelection": "Abwählen",
+    "columns": {
+      "user": "Benutzer",
+      "department": "Abteilung / Position",
+      "role": "Erlaubnis",
+      "quota": "Kapazität",
+      "lastSeen": "letzter Zugriff",
+      "status": "Status"
+    },
+    "departments": {
+      "strategy": "Strategisches Planungsteam",
+      "infrastructure": "Infrastruktur-Team",
+      "finance": "Finanzteam",
+      "platform": "Plattformentwicklungsteam",
+      "qa": "QA-Team",
+      "system": "System"
+    },
+    "departmentFilter": "Abteilungsfilter",
+    "roleFilter": "Rollenfilter",
+    "statusFilter": "Statusfilter",
+    "positions": {
+      "deputy": "Stellvertretende Leitung",
+      "principal": "Fachverantwortliche/r",
+      "lead": "Teamleitung",
+      "senior": "Senior",
+      "serviceAccount": "Dienstkonto"
+    },
+    "roles": {
+      "superAdmin": "Hauptadministrator",
+      "departmentAdmin": "Abteilungsadministrator",
+      "auditor": "Prüfer",
+      "api": "API",
+      "member": "Benutzer"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "overQuota": "Speicherlimit überschritten",
+      "suspended": "Gesperrt"
+    },
+    "quotaValue": "{used} / {limit} GB",
+    "justNow": "Gerade eben",
+    "selectedCount": "{count, number} ausgewählt",
+    "summary": "{total, number} Konten · {suspended, number} gesperrt",
+    "bulkSuspendedToast": "{count, number} Konten gesperrt",
+    "selectUser": "{name} auswählen",
+    "deleteTitle": "Konto von {name} löschen?",
+    "deleteDescription": "Das gesamte Postfach und alle Anhänge ({quota}) werden ebenfalls gelöscht. Zur Bestätigung die E-Mail-Adresse eingeben."
+  },
+  "adminPolicy": {
+    "domainsTitle": "Domäne",
+    "sendLimitsTitle": "Versandbeschränkungen",
+    "mailPolicyTitle": "E-Mail-Richtlinie",
+    "aiTitle": "Bereitstellungsumfang der KI-Funktion",
+    "aiDescription": "Schrittweise Verteilung der Zusammenfassungs-/Schreibhilfefunktion an jede Organisationseinheit. Der Körper wird nur im heimischen Bereich verarbeitet und nicht für Trainingszwecke verwendet.",
+    "syncStarted": "Beginnen Sie mit der Synchronisierung Ihres HR-Organigramms",
+    "syncCompleted": "Die Synchronisierung des Organigramms ist abgeschlossen",
+    "syncing": "Synchronisierung...",
+    "syncNow": "Jetzt synchronisieren",
+    "justNow": "gerade jetzt",
+    "domainTags": {
+      "primary": "einfach",
+      "alias": "Alias",
+      "needsReview": "Bestätigung erforderlich"
+    },
+    "sendLimits": {
+      "perHour": {
+        "name": "Versand pro Person und Stunde",
+        "value": "{value, number} Nachrichten"
+      },
+      "attachmentMb": {
+        "name": "Einmalige Anlagekapazität",
+        "value": "{value, number} MB"
+      },
+      "linkDays": {
+        "name": "Großer Linkspeicher",
+        "value": "{value, number} Tage"
+      }
+    },
+    "toggles": {
+      "spf": {
+        "name": "Erzwingen Sie die Authentifizierung der externen sendenden Domäne",
+        "desc": "Abonnieren Sie E-Mails zu SPF/DKIM-Fehlern."
+      },
+      "ext": {
+        "name": "Externes E-Mail-Benachrichtigungsbanner",
+        "desc": "Zeigen Sie oben im Nachrichtentext von Nachrichten von außerhalb Ihrer Organisation ein Banner an."
+      },
+      "dlp": {
+        "name": "Externe Übertragung vertraulicher Dokumente blockieren (DLP)",
+        "desc": "Blockiert das externe Senden von Anhängen mit der Kennzeichnung „Vertraulich“."
+      },
+      "retain": {
+        "name": "E-Mail-Speicherung für 3 Jahre, Wiederherstellung 30 Tage nach Löschung",
+        "desc": "Hierbei handelt es sich um einen Aufbewahrungszeitraum, der den Richtlinien für die Datenverwaltung öffentlicher Einrichtungen entspricht."
+      },
+      "sandbox": {
+        "name": "Inspektion der Sandbox des Anhangs",
+        "desc": "Führen Sie ausführbare Dateien und Makrodokumente zunächst in einer isolierten Umgebung aus."
+      }
+    },
+    "rollout": {
+      "engineering": "Technologiezentrale",
+      "strategyFinance": "Strategische Planung · Finanzen",
+      "remaining": "andere Krieger"
+    },
+    "rolloutState": {
+      "deployed": "Vollständige Bereitstellung",
+      "beta": "Beta",
+      "pending": "warten"
+    },
+    "verifiedCount": "{count, number} bestätigt",
+    "peopleCount": "{count, number} Personen",
+    "todayAt": "Heute um {time}",
+    "syncSummary": "Das HR-System (Grow) synchronisiert das Organigramm täglich um 03:00. Letzte Synchronisierung: {lastSync} · {count, number} Personen",
+    "domainMeta": {
+      "primary": "{count, number} Konten · MX normal · Registriert {registered}",
+      "alias": "{count, number} Konten · Nur globaler Versand",
+      "review": "{count, number} Konten · Keine MTA-STS-Richtlinie"
+    }
+  },
+  "adminSecurity": {
+    "logTitle": "Block-/Quarantäneprotokoll",
+    "exportStarted": "CSV-Export gestartet",
+    "exportCsv": "CSV-Export",
+    "empty": "Für diesen Zustand sind keine Protokolle vorhanden.",
+    "kpis": {
+      "blocked": "Blockiert (7 Tage)",
+      "quarantine": "Ausstehende Quarantäne",
+      "phishing": "Phishing erkannt",
+      "accuracy": "Erkennungsgenauigkeit"
+    },
+    "filters": {
+      "all": "alle",
+      "spam": "Spam",
+      "phishing": "Phishing",
+      "malware": "Schadsoftware"
+    },
+    "columns": {
+      "time": "Zeit",
+      "sender": "Absender",
+      "subjectReason": "Betreff · Erkennungsgrund",
+      "recipient": "Empfänger",
+      "score": "Bewertung",
+      "action": "Aktion"
+    },
+    "actions": {
+      "blocked": "Blockiert",
+      "quarantined": "In Quarantäne",
+      "released": "Freigegeben",
+      "passed": "Zugelassen"
+    },
+    "recipients": {
+      "allStaff": "Alle Mitarbeitenden",
+      "purchasing": "Einkaufsteam",
+      "multiple": "Mehrere Empfänger"
+    },
+    "rowCount": "{count, number} Einträge",
+    "reasons": {
+      "similarDomain": "Phishing-Verdacht: ähnliche Domain",
+      "executable": "Ausführbare Datei erkannt",
+      "spoofedDomain": "Gefälschte Domain"
+    }
+  },
+  "adminFlow": {
+    "title": "Regeln",
+    "reorder": "Reihenfolge ändern",
+    "reorderToast": "Wechseln Sie in den Modus zum Ändern der Regelreihenfolge",
+    "added": "Regel hinzugefügt",
+    "createTitle": "Erstellen Sie Regeln",
+    "add": "Regel hinzufügen",
+    "runSimulation": "Simulation ausführen",
+    "simulationCompleted": "Simulation abgeschlossen",
+    "fields": {
+      "scope": "Anwendbar auf",
+      "condition": "Bedingung (IF)",
+      "action": "Aktion (DANN)"
+    },
+    "values": {
+      "allOrganization": "gesamte Organisation"
+    },
+    "rules": {
+      "executive": {
+        "name": "Vorrangige Zustellung von E-Mails an Führungskräfte",
+        "condition": "Empfänger = Führungsgruppe",
+        "action": "Sofortige Lieferung + Wichtige Kennzeichnung"
+      },
+      "confidential": {
+        "name": "Extern→Anhang vertraulicher Etiketten blockieren",
+        "condition": "Bezeichnung = Vertraulich, Empfänger extern",
+        "action": "Senden blockieren"
+      },
+      "largeAttachment": {
+        "name": "Wechseln Sie große Anhangslinks",
+        "condition": "Anhang > 10 MB",
+        "action": "Wechseln Sie zu Drive Link"
+      },
+      "recruitment": {
+        "name": "Fügen Sie der Einstellungs-E-Mail die Referenz des HR-Teams hinzu",
+        "condition": "Fügen Sie [Rekrutierung] in den Titel ein",
+        "action": "HR-Referenz hinzufügen"
+      },
+      "foreignIp": {
+        "name": "Quarantäne von IP-Übertragungen ins Ausland",
+        "condition": "Sendendes IP-Land ≠ KR",
+        "action": "Quarantänetests"
+      },
+      "formerEmployee": {
+        "name": "Leiten Sie Post an Rentner weiter",
+        "condition": "Empfänger = Rentenkonto",
+        "action": "an den Nachfolger weitergegeben"
+      },
+      "newsletter": {
+        "name": "Newsletter-Massensortierung",
+        "condition": "Massenerkennung ausgehender Header",
+        "action": "Etikett „Newsletter“."
+      },
+      "new": {
+        "name": "neue Regeln",
+        "condition": "Absenderdomäne = ...",
+        "action": "Beschriftung"
+      }
+    },
+    "evaluationOrder": "Von oben nach unten ausgewertet · {count, number} aktiv",
+    "hitCount": "{count, number} Treffer",
+    "ruleOrdinal": "Regel {count, number}",
+    "simulationIntro": "Prüfen Sie die Auswirkungen einer neuen Regel anhand des Datenverkehrs der letzten 7 Tage.",
+    "simulationScope": "{count, number} betroffen",
+    "simulationFalsePositive": "{count, number} erwartete Fehlalarme",
+    "ifLabel": "WENN"
+  },
+  "adminGroups": {
+    "created": "Eine Gruppe erstellt",
+    "approved": "Nachricht zum Versand freigegeben",
+    "rejected": "Nachricht abgelehnt",
+    "searchPlaceholder": "Suche nach Gruppenadresse/-name",
+    "noResults": "Keine Suchergebnisse.",
+    "createTitle": "Erstellen Sie eine Gruppe",
+    "create": "Gruppe erstellen",
+    "pendingModeration": "Ausstehende Freigaben",
+    "noPending": "Keine Einträge warten auf Freigabe.",
+    "approve": "Freigeben",
+    "reject": "Ablehnen",
+    "newGroupName": "neue Gruppe",
+    "currentUser": "ich",
+    "nameOrEmail": "Name oder E-Mail",
+    "columns": {
+      "address": "Gruppenadresse",
+      "typeOwner": "Typ/Eigentümer",
+      "members": "Mitglieder",
+      "externalSenders": "Externe Absender",
+      "moderation": "Moderation"
+    },
+    "fields": {
+      "address": "Gruppenadresse",
+      "type": "Typ",
+      "addMembers": "Mitglied hinzufügen",
+      "externalSenders": "Externe Absender"
+    },
+    "types": {
+      "distribution": "Verteilerliste",
+      "security": "Sicherheitsgruppe",
+      "shared": "gemeinsames Postfach"
+    },
+    "external": {
+      "allowed": "Erlaubt",
+      "blocked": "Blockiert"
+    },
+    "moderation": {
+      "required": "Freigabe erforderlich",
+      "autoReply": "Automatische Antwort",
+      "none": "Keine"
+    },
+    "summary": "{groups, number} Gruppen · {lists, number} Verteilerlisten",
+    "queueMeta": "{mailbox} · {age} · Von: {sender}"
+  },
+  "adminAudit": {
+    "searchPlaceholder": "Administrator · Ziel · Aktionssuche",
+    "noResults": "Es gibt keine Protokolle, die die Bedingungen erfüllen.",
+    "detailTitle": "Details zum Audit-Protokoll",
+    "jsonComingSoon": "Der JSON-Viewer ist in Vorbereitung",
+    "viewJson": "JSON anzeigen",
+    "revert": "zurücksetzen",
+    "revertTitle": "Soll ich diese Änderung rückgängig machen?",
+    "reverted": "Änderung rückgängig gemacht",
+    "filters": {
+      "admin": "Administrator",
+      "action": "Aktion",
+      "range": "Zeitraum",
+      "all": "alle"
+    },
+    "ranges": {
+      "last7": "Letzte 7 Tage",
+      "last30": "Letzte 30 Tage",
+      "last90": "Letzte 90 Tage",
+      "all": "gesamten Zeitraum"
+    },
+    "columns": {
+      "time": "Zeit",
+      "admin": "Administrator",
+      "action": "Aktion",
+      "targetChange": "Ziel-/Änderungsdetails",
+      "result": "Ergebnis"
+    },
+    "fields": {
+      "time": "Zeit",
+      "admin": "Administrator",
+      "action": "Aktion",
+      "target": "Ziel",
+      "ip": "IP",
+      "result": "Ergebnis"
+    },
+    "actions": {
+      "policyChanged": "Politikwechsel",
+      "accountSuspended": "Konto gesperrt",
+      "logViewed": "Protokollabfrage",
+      "quotaChanged": "Kapazitätsänderung",
+      "orgSynced": "Organigramm-Synchronisierung",
+      "adminLogin": "Administrator-Login",
+      "domainAdded": "Domäne hinzufügen",
+      "accountsCreated": "Konto erstellen",
+      "quarantineReleased": "Entlassung aus der Quarantäne",
+      "permissionChanged": "Berechtigungen ändern",
+      "backupRestored": "Backup-Wiederherstellung"
+    },
+    "results": {
+      "success": "Erfolg",
+      "blocked": "Blockiert",
+      "failed": "Fehlgeschlagen"
+    },
+    "summary": "{count, number} Einträge · 5 Jahre Aufbewahrung · unveränderlicher Speicher",
+    "viewEntry": "Details anzeigen: {action} · {target}",
+    "revertDescription": "Den Zustand vor {action} für {target} wiederherstellen.",
+    "internalIp": "Internes Netzwerk",
+    "adminNames": {
+      "system": "System",
+      "unknown": "Unbekannt"
+    },
+    "targets": {
+      "mtaSts": "{name} · MTA-STS aktiviert",
+      "suspended": "{name} (QA-Team)",
+      "viewedAudit": "Auditprotokoll · letzte 7 Tage",
+      "quotaChanged": "Konto von {name} · 50 GB → 100 GB",
+      "orgSynced": "HR-System → {count, number} Personen",
+      "loginBlocked": "{name}",
+      "domainAdded": "{name}",
+      "accountsCreated": "{count, number} Mitarbeiterkonten gesammelt erstellt",
+      "quarantineReleased": "{count, number} Nachrichten · {name}",
+      "permissionChanged": "{name} → Auditberechtigung erteilt",
+      "restoreFailed": "Postfach von {name} · Sicherung vom {date}"
+    }
+  },
+  "adminBackup": {
+    "retentionTitle": "Aufbewahrungsrichtlinien",
+    "restoreTitle": "Wiederherstellungen",
+    "legalHoldTitle": "Legal Hold",
+    "viewTargets": "Betroffene Konten anzeigen",
+    "kpis": {
+      "lastBackup": {
+        "label": "letzte Sicherung",
+        "value": "{value}",
+        "note": "Dauer {value} Min. · erfolgreich"
+      },
+      "storage": {
+        "label": "Speicherkapazität",
+        "value": "{value} TB",
+        "note": "+{value} GB zum Vormonat"
+      },
+      "recoveryWindow": {
+        "label": "Wann kann ich mich erholen?",
+        "value": "{value} Tage",
+        "note": "Tägliche Sicherung · {value} Jahre"
+      },
+      "activeRestores": {
+        "label": "Wiederherstellung läuft",
+        "value": "{value} Aufträge",
+        "note": "Voraussichtlich fertig {value}"
+      }
+    },
+    "policies": {
+      "default": {
+        "name": "Standardaufbewahrung der Organisation",
+        "scope": "Alle Mitarbeitenden"
+      },
+      "executive": {
+        "name": "Führungskräfte und Genehmigungsdokumente",
+        "scope": "Führungskräfte"
+      },
+      "publicContracts": {
+        "name": "Öffentliche Vertragsunterlagen",
+        "scope": "Vertragsbezogene Kennzeichnungen"
+      },
+      "formerEmployees": {
+        "name": "Postfächer ehemaliger Mitarbeitender",
+        "scope": "Konten ehemaliger Mitarbeitender"
+      }
+    },
+    "policyModes": {
+      "autoDelete": "automatische Löschung",
+      "undeletable": "Kann nicht gelöscht werden",
+      "immutable": "unveränderlicher Speicher",
+      "adminAccess": "Ansicht durch Administrator"
+    },
+    "mailboxKinds": {
+      "personal": "Postfach",
+      "shared": "gemeinsames Postfach"
+    },
+    "jobStates": {
+      "restoring": "Wird wiederhergestellt",
+      "completed": "Abgeschlossen",
+      "pending": "Ausstehend",
+      "failed": "Fehlgeschlagen"
+    },
+    "years": "{count, number} Jahre",
+    "jobName": "{kind} von {owner} · {date}",
+    "jobMeta": {
+      "restoring": "Voraussichtlich fertig {time}",
+      "completed": "Vor {count, number} Min. abgeschlossen",
+      "pending": "Warteschlangenplatz {count, number}",
+      "failed": "Speicherauthentifizierung fehlgeschlagen · erneuter Versuch nötig"
+    },
+    "legalHoldDescription": "Für {accounts, number} Konten ist die Löschung wegen {audits, number} laufender Prüfungen gesperrt.",
+    "legalHoldToast": "{count, number} Konten mit rechtlicher Aufbewahrung öffnen",
+    "activeAudits": "{count, number} laufende Prüfungen"
+  },
+  "adminReports": {
+    "createTitle": "Bericht erstellen",
+    "includedColumns": "Einzuschließende Spalten",
+    "formatLabel": "formatieren",
+    "schedule": "Planen",
+    "export": "exportieren",
+    "scheduledToast": "Als regelmäßigen Bericht geplant",
+    "exportStarted": "Der Berichtsexport wurde gestartet",
+    "exportPolicyTitle": "Exportrichtlinie",
+    "recentExportsTitle": "Letzte Exporte",
+    "scheduledReportsTitle": "Geplante Berichte",
+    "notAvailable": "-",
+    "fields": {
+      "type": "Berichtstyp",
+      "range": "Zeitraum",
+      "scope": "Geltungsbereich",
+      "groupBy": "Gruppierung"
+    },
+    "values": {
+      "sentReport": "Versandbericht",
+      "last7": "Letzte 7 Tage",
+      "allOrganization": "gesamte Organisation",
+      "daily": "täglich"
+    },
+    "reportColumns": {
+      "sender": "Von",
+      "recipient": "Empfänger",
+      "subject": "Betreff",
+      "time": "Zeit",
+      "size": "Größe",
+      "attachmentCount": "Anzahl der Anhänge",
+      "deliveryStatus": "Lieferstatus",
+      "filterVerdict": "Filterentscheidung",
+      "ip": "IP"
+    },
+    "exportColumns": {
+      "report": "Bericht",
+      "requestedBy": "Anforderer",
+      "size": "Größe",
+      "completed": "Abgeschlossen",
+      "status": "Status"
+    },
+    "exportPolicy": {
+      "metadataOnly": "Der Export umfasst nur Metadaten und keinen Text.",
+      "auditedApproval": "Alle Exporte werden im Audit-Protokoll aufgezeichnet und erfordern die Genehmigung des Administrators.",
+      "autoDelete": "Erstellte Dateien werden nach 7 Tagen automatisch gelöscht.",
+      "splitLarge": "Wenn es 1 Million Zeilen überschreitet, wird es automatisch in mehrere Dateien aufgeteilt."
+    },
+    "exportStates": {
+      "completed": "Abgeschlossen",
+      "generating": "Wird erstellt",
+      "expired": "abgelaufen",
+      "failed": "Fehlgeschlagen"
+    },
+    "exportWhen": {
+      "pending": "-",
+      "lastWeek": "letzte Woche",
+      "unavailable": "-"
+    },
+    "limits": "Bis zu {days, number} Tage · bis zu {rows, number} Zeilen",
+    "estimate": "Etwa {rows, number} Zeilen · ca. {size} MB",
+    "exportToastDetail": "{format} · ca. {rows, number} Zeilen",
+    "dateRange": "{from} – {to}",
+    "megabytes": "{value} MB",
+    "recipientCount": "{recipient} ({count, number})",
+    "cadence": {
+      "monthlyFirst": "Monatlich am {day, number}. um {time}",
+      "weeklyMonday": "Jeden {weekday} um {time}",
+      "quarterlyFirst": "Am ersten Quartalstag um {time}",
+      "daily": "Täglich um {time}",
+      "monthly25": "Monatlich am {day, number}."
+    }
+  },
+  "adminMigration": {
+    "batchProgressTitle": "Fortschritt pro Charge",
+    "throughputTitle": "Durchsatz (letzte 12 Stunden)",
+    "errorsTitle": "Fehlgeschlagen · übersprungen",
+    "retryAll": "Alle erneut versuchen",
+    "retryStarted": "Fehlgeschlagene und übersprungene Einträge werden erneut versucht",
+    "noErrors": "Es sind keine Elemente vorhanden, die auf einen erneuten Versuch warten.",
+    "kpis": {
+      "accounts": {
+        "label": "Migrierte Konten",
+        "value": "{value} / {total}",
+        "note": "{value}"
+      },
+      "messages": {
+        "label": "Migrierte Nachrichten",
+        "value": "{value} Nachrichten",
+        "note": "+{value} (24 Std.)"
+      },
+      "rate": {
+        "label": "Durchschnittsgeschwindigkeit",
+        "value": "{value} Nachr./Min.",
+        "note": "SLA mindestens {value}"
+      },
+      "failed": {
+        "label": "Fehlgeschlagen/Ausstehend",
+        "value": "{value} Nachrichten",
+        "note": "{value}"
+      }
+    },
+    "columns": {
+      "batch": "Stapel",
+      "accounts": "Konten",
+      "progress": "Fortschritt",
+      "remaining": "verbleibende Zeit",
+      "status": "Status"
+    },
+    "sources": {
+      "otherImap": "IMAP Andere",
+      "mixed": "gemischt"
+    },
+    "states": {
+      "completed": "Abgeschlossen",
+      "inProgress": "In Bearbeitung",
+      "pending": "Ausstehend",
+      "retrying": "Erneuter Versuch läuft"
+    },
+    "errors": {
+      "quotaExceeded": {
+        "reason": "Das Postfach überschreitet die Kapazität",
+        "detail": "Der Speicherplatz des Zielkontos ist knapp"
+      },
+      "corruptedSource": {
+        "reason": "Beschädigung des Originalartikels",
+        "detail": "Unlesbare E-Mail-Nachricht"
+      },
+      "unsupportedAttachment": {
+        "reason": "Anhänge werden nicht unterstützt",
+        "detail": "Die Formatkonvertierung ist fehlgeschlagen"
+      },
+      "duplicate": {
+        "reason": "Duplikaterkennung",
+        "detail": "Bereits übertragene Elemente überspringen"
+      },
+      "permissionDenied": {
+        "reason": "Erlaubnis verweigert",
+        "detail": "Kein Zugriff auf den Quellserver"
+      }
+    },
+    "batchLimits": "{parallel, number} gleichzeitig · Bandbreitenlimit {bandwidth, number} Mbit/s",
+    "batchName": "Stapel {number, number}",
+    "minutesRemaining": "{count, number} Min.",
+    "throughputSummary": "Durchschnitt {average, number} Nachr./Min. · Spitze {peak, number}",
+    "itemCount": "{count, number} Einträge",
+    "syncNotice": "Die IMAP-Synchronisierung mit dem Quellserver läuft nach der Migration noch {days, number} Tage. Fehlgeschlagene Einträge können jederzeit erneut importiert werden."
+  },
+  "adminBrand": {
+    "identityTitle": "Organisationsidentität",
+    "openLogoPicker": "Dateiauswahl für das Logo öffnen",
+    "replaceLogo": "Logo ersetzen",
+    "replace": "Ersetzen",
+    "fields": {
+      "organizationName": "Anzeigename der Organisation",
+      "senderLabel": "Absendername für E-Mails",
+      "supportContact": "Supportkontakt"
+    },
+    "brandColor": "Markenfarbe",
+    "selectColor": "Markenfarbe {color} auswählen",
+    "colorAppliesTo": "Gilt für Anmeldeseite und System-E-Mails",
+    "signatureTitle": "Signaturvorlage für die gesamte Organisation",
+    "toggles": {
+      "sig": "Signatur für alle Mitarbeitenden vorschreiben",
+      "disclaimer": "Externen E-Mails einen Haftungshinweis hinzufügen",
+      "logo": "Logo in Signaturen einfügen"
+    },
+    "loginPreviewTitle": "Vorschau der Anmeldeseite",
+    "companyEmail": "Geschäftliche E-Mail",
+    "continue": "Weiter",
+    "signInWithSso": "Mit dem Geschäftskonto anmelden (SSO)",
+    "previewCustomizationHint": "Hintergrundbild und Text können je Organisation angepasst werden.",
+    "openBackgroundPicker": "Dateiauswahl für das Hintergrundbild öffnen",
+    "replaceBackground": "Hintergrund ersetzen",
+    "openCopyEditor": "Texteditor öffnen",
+    "editCopy": "Text bearbeiten",
+    "published": "Markenänderungen veröffentlicht",
+    "publish": "Veröffentlichen"
+  },
+  "adminBilling": {
+    "currentPlan": "Aktueller Tarif",
+    "enterpriseAnnual": "Enterprise jährlich",
+    "planPeriod": "{start} – {end} · Automatische Verlängerung",
+    "openPlanChange": "Tarifwechsel öffnen",
+    "changePlan": "Tarif wechseln",
+    "seatUsage": "Lizenzplätze",
+    "seatsUsed": "{used} / {total} Plätze",
+    "seatEstimate": "{remaining} Plätze verfügbar · Voraussichtlich in {months} Monaten ausgeschöpft",
+    "nextBilling": "Nächste Rechnung",
+    "nextBillingDetails": "Geplant für {date} · Steuerrechnung wird ausgestellt",
+    "openPaymentMethods": "Zahlungsmethoden öffnen",
+    "managePaymentMethods": "Zahlungsmethoden verwalten",
+    "licensesTitle": "Lizenzübersicht",
+    "licenses": {
+      "enterpriseMail": "Enterprise Mail (50 GB)",
+      "aiAssistance": "KI-Zusammenfassungen und Schreibhilfe",
+      "archive": "Archiv und eDiscovery",
+      "largeAttachments": "Große Anhänge (2 GB)"
+    },
+    "licenseNotes": {
+      "basePlan": "Basistarif",
+      "addon": "Zusatzfunktion",
+      "included": "Enthalten"
+    },
+    "seatCount": "{count} Plätze",
+    "included": "—",
+    "pricePerMonth": "{amount}/Monat",
+    "contractNotice": "Öffentlicher Beschaffungsvertrag (Drittanbieter-Einheitspreis) gilt · Vertragsnr. {number}",
+    "invoicesTitle": "Rechnungsverlauf",
+    "columns": {
+      "number": "Nummer",
+      "date": "Datum",
+      "amount": "Betrag",
+      "status": "Status"
+    },
+    "invoiceStates": {
+      "scheduled": "Geplant",
+      "paid": "Bezahlt",
+      "underReview": "In Prüfung"
+    }
+  },
+  "adminApi": {
+    "keysTitle": "API-Schlüssel",
+    "issueKey": "Schlüssel erstellen",
+    "columns": {
+      "name": "Name",
+      "key": "Schlüssel",
+      "scopes": "Berechtigungen",
+      "lastUsed": "letzte Verwendung",
+      "status": "Status"
+    },
+    "keyNames": {
+      "legacyErp": "Legacy-ERP-Integration",
+      "approvalSystem": "Freigabesystem (Grow)",
+      "reportAutomation": "Berichtsautomatisierung",
+      "oldMobileApp": "alte mobile App",
+      "newKey": "Neuer API-Schlüssel"
+    },
+    "self": "ich",
+    "keyStates": {
+      "reviewNeeded": "Muss überprüft werden",
+      "active": "aktiv",
+      "inactive": "inaktiv"
+    },
+    "keyIssued": "Ein API-Schlüssel wurde ausgestellt",
+    "keyRotated": "Schlüssel rotiert",
+    "appDisconnected": "App-Verbindung getrennt",
+    "rotateNow": "Jetzt rotieren",
+    "webhooksTitle": "Webhook",
+    "webhookStates": {
+      "healthy": "Funktionsfähig",
+      "retrying": "Wird erneut versucht",
+      "frequentFailures": "Häufige Fehler"
+    },
+    "usageTitle": "Nutzung (30 Tage)",
+    "usage": {
+      "calls": "Aufrufe (30 Tage)",
+      "errorRate": "Fehlerquote",
+      "latency": "p95-Latenz"
+    },
+    "approvedAppsTitle": "Genehmigte Apps",
+    "noApps": "Es sind keine verknüpften Apps vorhanden.",
+    "disconnect": "Trennen",
+    "lastUsed": {
+      "daysAgo": "vor {count} Tagen",
+      "hoursAgo": "vor {count} Stunden",
+      "monthsAgo": "vor {count} Monaten",
+      "justNow": "Gerade eben",
+      "never": "—"
+    },
+    "staleKeyWarning": "Der Schlüssel „{name}“ wurde seit über {days} Tagen nicht rotiert.",
+    "milliseconds": "{count} ms",
+    "rateLimit": "Limit: {count} Aufrufe/Monat · Danach Antwort 429",
+    "appUsers": "{count} Nutzer"
+  },
+  "composeEditor": {
+    "switchingToPlain": "Wechsel zu reinem Text",
+    "formattingWillBeLost": "Formatierungen wie Fett und Listen gehen verloren",
+    "imageAddedAsAttachment": "Bild als Anhang hinzugefügt",
+    "switchToRich": "Zu formatiertem Text wechseln",
+    "switchToPlain": "Zu reinem Text wechseln",
+    "plainText": "Reiner Text",
+    "richText": "Formatierter Text",
+    "bold": "Fett",
+    "italic": "Kursiv",
+    "list": "Liste",
+    "insertLink": "Link einfügen",
+    "insertImage": "Bild einfügen",
+    "emoji": "Emoji",
+    "closeEmojiMenu": "Emoji-Menü schließen",
+    "chooseEmoji": "Emoji auswählen",
+    "messageBody": "Nachrichtentext"
+  },
+  "composeModal": {
+    "attachmentNote": "{count} Anhänge: {names}",
+    "attachmentCount": "{count} Anhänge",
+    "bccCount": "{count} Bcc-Empfänger enthalten",
+    "rewritingTone": "Entwurf wird im Stil „{tone}“ umgeschrieben",
+    "externalRecipientWarning": "{count} externe Empfänger enthalten",
+    "uploadComplete": "{size} · Upload abgeschlossen",
+    "schedule": {
+      "today": "Heute um {time}",
+      "tomorrow": "Morgen um {time}",
+      "nextMonday": "Nächsten Montag um {time}"
+    },
+    "largeFilesBecomeLinks": "Große Dateien werden automatisch in Links umgewandelt",
+    "fileTooLarge": "Dateien, die größer als 2 GB sind, können nicht angehängt werden",
+    "sent": "Nachricht gesendet",
+    "newMail": "Neue Nachricht",
+    "savedJustNow": "Entwurf gespeichert · Gerade eben",
+    "collapse": "Verkleinern",
+    "expand": "Vergrößern",
+    "close": "schließen",
+    "to": "An",
+    "removeRecipient": "entfernen",
+    "recipientPlaceholder": "Name oder E-Mail eingeben…",
+    "ccAndBcc": "Cc · Bcc",
+    "cc": "Cc",
+    "ccPlaceholder": "CC-Empfänger",
+    "bcc": "Bcc",
+    "bccPlaceholder": "Bcc-Empfänger",
+    "subject": "Betreff",
+    "subjectPlaceholder": "Betreff eingeben",
+    "toneHint": "Sobald Sie Ihren Ton gewählt haben, schreiben wir Ihren Entwurf neu.",
+    "tones": {
+      "polite": "Höflich",
+      "concise": "Prägnant",
+      "english": "Englisch"
+    },
+    "externalRecipientBody": "Bitte stellen Sie sicher, dass interne Informationen nicht nach außen gesendet werden.",
+    "reviewRecipients": "Empfänger prüfen",
+    "bodyPlaceholder": "Nachricht schreiben",
+    "largeFileLinkSuffix": " · Link für große Datei",
+    "removeAttachment": "Anhänge entfernen",
+    "chooseAttachments": "Anhänge auswählen",
+    "dropFiles": "Dateien per Drag-and-Drop verschieben",
+    "attachmentLimits": "Dateien über 25 MB werden zu Links · Maximal 2 GB",
+    "send": "senden",
+    "scheduleSend": "Planen",
+    "closeScheduleMenu": "Zeitplanmenü schließen",
+    "scheduleTimes": "Sendezeiten planen",
+    "scheduled": "Nachricht zum Senden eingeplant",
+    "attachFile": "Datei anhängen",
+    "tlsEncrypted": "Ausgehende Verschlüsselung (TLS)",
+    "delete": "Löschen",
+    "discardTitle": "Ohne Speichern schließen?",
+    "discardDescription": "Ihre unfertige Nachricht bleibt unter Entwürfe.",
+    "continueEditing": "Weiter bearbeiten",
+    "saveDraft": "Entwurf speichern",
+    "discardWithoutSaving": "Nicht speichern",
+    "draftSaved": "Unter Entwürfe gespeichert"
+  },
+  "themeCustomizer": {
+    "title": "Design anpassen",
+    "close": "Schließen",
+    "designThemes": "Designvorlagen",
+    "colorsTitle": "Farben",
+    "primaryColor": "Primärfarbe",
+    "accentColor": "Akzentfarbe",
+    "screenMode": "Anzeigemodus",
+    "schemes": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "typography": "Typografie",
+    "fonts": {
+      "sans": "Standard (Sans)",
+      "serif": "Serif",
+      "mono": "Monospace",
+      "rounded": "Abgerundet"
+    },
+    "layout": "Layout",
+    "listDensity": "Listendichte",
+    "densities": {
+      "comfortable": "Geräumig",
+      "compact": "Kompakt"
+    },
+    "sidebarPosition": "Position der Seitenleiste",
+    "sides": {
+      "left": "Links",
+      "right": "Rechts"
+    },
+    "corners": "Ecken",
+    "radii": {
+      "sharp": "Kantig",
+      "rounded": "Abgerundet",
+      "pill": "Pillenform"
+    },
+    "defaults": "Standardwerte",
+    "cancel": "Abbrechen",
+    "publish": "Veröffentlichen",
+    "colors": {
+      "blue": "Blau",
+      "indigo": "Indigo",
+      "teal": "Petrol",
+      "green": "Grün",
+      "rose": "Rosa",
+      "purple": "Violett",
+      "orange": "Orange",
+      "yellow": "Gelb",
+      "pink": "Pink",
+      "cyan": "Cyan",
+      "lime": "Limette",
+      "gray": "Grau"
+    },
+    "presets": {
+      "broadsheet": "Redaktionelle Serifenschrift mit Cyan und Magenta",
+      "classical": "Elegante klassische Serifenschrift in Bronzetönen",
+      "industry": "Zurückhaltender Utility-Stil in Stahlblau",
+      "modernist": "Kantiges Bauhaus-Raster in kräftigem Rotorange",
+      "nocturne": "Dunkler App-Stil mit blauvioletten Akzenten",
+      "organic": "Weicher, runder Stil in Terrakotta und Salbeigrün"
+    }
+  },
+  "searchPage": {
+    "results": "Suchergebnisse",
+    "allResults": "Alle Suchergebnisse",
+    "resultCount": "{count} Ergebnisse",
+    "syntaxHelp": "Hilfe zur Suchsyntax",
+    "syntaxHelpShortcut": "Hilfe zur Suchsyntax (?)",
+    "filters": "Filter",
+    "sortBy": "Sortieren nach",
+    "resultList": "Liste der Suchergebnisse",
+    "noResults": "Keine Suchergebnisse gefunden.",
+    "peopleCount": "{count} Personen",
+    "itemCount": "{count} Einträge",
+    "searchFilters": "Suchfilter",
+    "narrowResults": "Ergebnisse eingrenzen",
+    "examples": "Suchbeispiele",
+    "groups": {
+      "mail": "E-Mails",
+      "file": "Anhänge",
+      "person": "Personen"
+    },
+    "facets": {
+      "period": "Zeitraum",
+      "folder": "Ordner",
+      "attachmentType": "Anhangstyp",
+      "label": "Label"
+    },
+    "facetRows": {
+      "today": "Heute",
+      "lastSevenDays": "Letzte 7 Tage",
+      "lastSixMonths": "Letzte 6 Monate",
+      "all": "Alle",
+      "inbox": "Posteingang",
+      "sent": "Gesendet",
+      "pendingApproval": "Genehmigung ausstehend",
+      "archive": "Archiv",
+      "pdf": "PDF",
+      "xls": "Tabellen",
+      "doc": "Dokumente",
+      "img": "Bilder",
+      "budgetFinance": "Budget · Finanzen",
+      "projectAtlas": "Projekt Atlas",
+      "confidential": "Vertraulich"
+    },
+    "chips": {
+      "hasAttachment": "Mit Anhängen",
+      "recentSixMonths": "Letzte 6 Monate"
+    },
+    "sort": {
+      "relevance": "Relevanz",
+      "newest": "Neueste zuerst",
+      "sender": "Absender"
+    },
+    "saved": {
+      "senderAttachments": "Anhänge von {name}",
+      "inboxBudget": "Budget im Posteingang",
+      "pdfFiles": "PDF-Anhänge"
+    }
+  },
+  "searchSyntax": {
+    "title": "Suchsyntax",
+    "description": "Suchbedingungen, die von den Beispieldaten dieser Vorlage unterstützt werden.",
+    "close": "Schließen",
+    "people": "Personen · Bereich",
+    "content": "Inhalt · Status",
+    "rulesTitle": "Kombinationsregeln",
+    "recipesTitle": "Häufige Kombinationen",
+    "operators": {
+      "fromSender": "E-Mails und Anhänge von {name}",
+      "inFolder": "Ergebnisse im Posteingang",
+      "subject": "Wort im Betreff",
+      "exactPhrase": "Exakte Wortgruppe suchen",
+      "hasAttachment": "E-Mails und Dateien mit Anhängen",
+      "filename": "Anhang mit bestimmter Dateiendung"
+    },
+    "rules": {
+      "allTerms": "Alle Wörter und Bedingungen müssen übereinstimmen.",
+      "quotedPhrase": "Ausdrücke mit Leerzeichen in doppelte Anführungszeichen setzen.",
+      "unsupportedOperator": "Nicht unterstützte Operatoren liefern keine Ergebnisse."
+    },
+    "recipes": {
+      "senderAttachments": "Anhänge von {name}",
+      "inboxBudget": "Budgetergebnisse im Posteingang",
+      "pdfFiles": "Ergebnisse mit PDF-Anhängen"
+    }
+  },
+  "accessibilityReport": {
+    "title": "Barrierefreiheitsbericht · KWCAG 2.2",
+    "sectionLabel": "Barrierefreiheitsbericht",
+    "passSummary": "Bestanden {passed} / {total}",
+    "auditNote": "Lieferkriterien für öffentliche Stellen · Selbstprüfung am {date}",
+    "checklist": "Prüfpunkte",
+    "contrastHeading": "Kontrastprüfung",
+    "colorPair": "{role} {foreground} / Hintergrund {background}",
+    "focusTouchHeading": "Fokus · Berührungsziele",
+    "focusState": "Fokuszustand",
+    "touchTarget": "Mindestens 44 × 44 px · mobile Schaltflächen, Tabs und Listenzeilen (Filter-Chips: 34 px)",
+    "focusRing": "Der Fokusring hat eine 2-px-Akzentkontur mit 3 px Abstand und erscheint nur bei Tastatureingabe (:focus-visible).",
+    "assistiveTest": "Tests mit Hilfstechnologien",
+    "mailListNote": "Die E-Mail-Liste wird als Tabelle gelesen; der Ungelesen-Status wird auch als Text vermittelt.",
+    "states": {
+      "pass": "Bestanden",
+      "inProgress": "In Bearbeitung",
+      "largeOnly": "Nur Großschrift"
+    },
+    "colors": {
+      "body": "Fließtext",
+      "secondary": "Sekundärtext",
+      "accent": "Akzent",
+      "muted": "Gedämpfter Text"
+    },
+    "checks": {
+      "keyboard": "Vollständig per Tastatur bedienbar",
+      "focus": "Sichtbarer Fokus",
+      "contrast": "Textkontrast mindestens 4.5:1",
+      "color": "Information nicht nur durch Farbe vermittelt",
+      "altText": "Alternativtext",
+      "tableHeaders": "Tabellenstruktur und Überschriften",
+      "errors": "Fehlererkennung und Behebung",
+      "zoom": "Textvergrößerung auf 200 %",
+      "timing": "Anpassbare Zeitlimits"
+    }
+  },
+  "calendarGrid": {
+    "monthView": "Monatskalender",
+    "timeView": "Termine nach Uhrzeit",
+    "mobileView": "Mobiler Kalender",
+    "todaySummary": "{todayCount} heute · {weekCount} diese Woche",
+    "createEvent": "Termin erstellen",
+    "detectedEvent": "Termin in E-Mail erkannt",
+    "detectedDescription": "„{title}“ – ein Termin wurde in einer E-Mail von {personName} gefunden.",
+    "addToCalendar": "Zum Kalender hinzufügen",
+    "dismiss": "Ignorieren",
+    "noEvents": "Keine Termine an diesem Tag."
+  },
+  "shortcutReference": {
+    "groups": {
+      "navigation": "Navigation",
+      "global": "Global",
+      "list": "Liste",
+      "mail": "E-Mail-Aktionen",
+      "compose": "Verfassen",
+      "reply": "Antworten",
+      "search": "Suche",
+      "admin": "Administration"
+    },
+    "actions": {
+      "inbox": "Posteingang",
+      "sent": "Gesendet",
+      "drafts": "Entwürfe",
+      "pendingApprovals": "Ausstehende Genehmigungen",
+      "calendar": "Kalender",
+      "contacts": "Kontakte",
+      "commandSearch": "Suche · Befehlspalette",
+      "compose": "Neue E-Mail verfassen",
+      "notifications": "Benachrichtigungszentrale",
+      "shortcutHelp": "Hilfe zu Tastenkombinationen",
+      "settings": "Einstellungen",
+      "collapseSidebar": "Seitenleiste einklappen",
+      "nextPrevious": "Nächste · Vorherige",
+      "open": "Öffnen",
+      "select": "Auswählen",
+      "selectAll": "Alle auswählen",
+      "toggleRead": "Gelesen · Ungelesen",
+      "star": "Als wichtig markieren",
+      "archive": "Archivieren",
+      "delete": "Löschen",
+      "reportSpam": "Als Spam melden",
+      "snooze": "Zurückstellen",
+      "addLabel": "Label hinzufügen",
+      "moveToFolder": "In Ordner verschieben",
+      "send": "Senden",
+      "saveDraft": "Entwurf speichern",
+      "scheduleSend": "Versand planen",
+      "attachFile": "Anhang hinzufügen",
+      "addRecipient": "Empfänger hinzufügen",
+      "closeWindow": "Fenster schließen",
+      "reply": "Antworten",
+      "replyAll": "Allen antworten",
+      "forward": "Weiterleiten",
+      "collapseQuote": "Zitat einklappen",
+      "viewOriginal": "Original anzeigen",
+      "openSearch": "Suche öffnen",
+      "syntaxHelp": "Syntaxhilfe",
+      "searchWithinResults": "In Ergebnissen suchen",
+      "resetFilters": "Filter zurücksetzen",
+      "switchTab": "Tab wechseln",
+      "searchTable": "Tabelle durchsuchen",
+      "exportSelected": "Auswahl exportieren",
+      "refresh": "Aktualisieren"
+    },
+    "title": "Tastenkombinationen",
+    "printEdition": "GXWebMail · Vollständige Druckliste · {edition}",
+    "openWith": "Mit <key>?</key> diese Seite öffnen",
+    "windowsModifier": "Unter Windows Ctrl statt ⌘ verwenden",
+    "footerNote": "Tastenkombinationen lassen sich unter Einstellungen · Barrierefreiheit deaktivieren. Während der Eingabe sind sie inaktiv."
+  },
+  "securityPage": {
+    "title": "Kontosicherheit",
+    "scoreSummary": "Sicherheitswert {score} / {total} · {count} Verbesserungen",
+    "passwordAge": "Passwort zuletzt vor {days} Tagen geändert",
+    "mfaHeading": "Zwei-Faktor-Authentifizierung",
+    "backupCodeNote": "{unused} von {total} Backup-Codes unbenutzt · Sicher aufbewahren",
+    "passwordSsoHeading": "Passwort · SSO",
+    "appPasswordNotice": "{count} App-Passwörter werden für IMAP verwendet. Moderne Clients unterstützen OAuth.",
+    "sessionsHeading": "Angemeldete Geräte · Sitzungen",
+    "logoutAll": "Alle abmelden",
+    "logout": "Abmelden",
+    "recentActivity": "Letzte Sicherheitsaktivitäten",
+    "sessionRevoked": "Sitzung abgemeldet",
+    "openAction": "Aktion {action} für {method} wird geöffnet",
+    "reissueTitle": "Backup-Codes neu ausstellen?",
+    "reissueDescription": "Die bisherigen {count} Backup-Codes werden sofort ungültig und {count} neue Codes ausgestellt.",
+    "reissueSuccess": "Backup-Codes neu ausgestellt",
+    "reissueSuccessDetail": "{count} neue Codes · Sicher aufbewahren",
+    "logoutAllTitle": "Von allen anderen Geräten abmelden?",
+    "logoutAllDescription": "Alle Sitzungen außer dieser werden sofort beendet.",
+    "logoutAllSuccess": "Von allen anderen Geräten abgemeldet",
+    "mfaNames": {
+      "totp": "Authenticator-App (TOTP)",
+      "securityKey": "Sicherheitsschlüssel (FIDO2)",
+      "sms": "SMS",
+      "emailCode": "E-Mail-Code"
+    },
+    "mfaDescriptions": {
+      "totp": "{detail} · Registriert am {date}",
+      "securityKey": "{detail} · Antippen ohne Fingerabdruck",
+      "sms": "{detail}",
+      "emailCode": "Private E-Mail {detail}"
+    },
+    "authNames": {
+      "password": "Passwort",
+      "sso": "SSO (Azure AD)",
+      "appPassword": "App-Passwort"
+    },
+    "authDescriptions": {
+      "password": "Vor {age} Tagen geändert · Richtlinie verlangt Wechsel alle {cycle} Tage",
+      "sso": "Anmeldung mit Firmenkonto · Automatische Bereitstellung",
+      "appPassword": "Von {count} IMAP-Clients verwendet"
+    },
+    "badges": {
+      "primary": "Primär",
+      "currentDevice": "Aktuelles Gerät",
+      "appPassword": "App-Passwort",
+      "needsReview": "Prüfung erforderlich"
+    },
+    "states": {
+      "active": "Aktiv",
+      "backup": "Backup",
+      "unused": "Nicht verwendet",
+      "caution": "Achtung",
+      "connected": "Verbunden",
+      "review": "Prüfung erforderlich"
+    },
+    "actions": {
+      "reset": "Zurücksetzen",
+      "manage": "Verwalten",
+      "change": "Ändern",
+      "configure": "Einrichten",
+      "view": "Anzeigen",
+      "reissue": "Neu ausstellen"
+    },
+    "sessions": {
+      "mac": {
+        "meta": "Seoul · {ip} · Firmennetzwerk",
+        "when": "Aktiv"
+      },
+      "iphone": {
+        "meta": "Seoul · LTE",
+        "when": "Vor 12 Minuten"
+      },
+      "windows": {
+        "meta": "Seongnam · Büro-PC",
+        "when": "Gestern 18:22"
+      },
+      "ipad": {
+        "meta": "Seoul · Heim-WLAN",
+        "when": "Vor 3 Tagen"
+      },
+      "outlook": {
+        "meta": "Seoul · App-Passwort",
+        "when": "Vor 6 Tagen"
+      },
+      "ubuntu": {
+        "meta": "Osaka, Japan · Unbekannter Standort",
+        "when": "Vor 8 Tagen"
+      }
+    },
+    "events": {
+      "osakaLogin": "Anmeldung eines neuen Geräts aus Osaka",
+      "securityKeyRegistered": "Sicherheitsschlüssel registriert (YubiKey 5C)",
+      "backupCodesUsed": "3 Backup-Codes verwendet"
+    },
+    "when": {
+      "eightDays": "Vor 8 Tagen",
+      "threeWeeks": "Vor 3 Wochen",
+      "oneMonth": "Vor 1 Monat"
+    }
+  },
+  "quarantinePage": {
+    "title": "Quarantäne",
+    "itemCount": "{count} Nachrichten",
+    "autoDelete": "Automatische Löschung nach {days} Tagen",
+    "listLabel": "Liste quarantänisierter E-Mails",
+    "categoryLabel": "Quarantänekategorie",
+    "selectMail": "Quarantäne-E-Mail auswählen: {subject}",
+    "selectPrompt": "Wählen Sie eine Nachricht aus.",
+    "backToList": "Zurück zur Quarantäneliste",
+    "release": "In Posteingang verschieben",
+    "requestAllowSender": "Freigabe des Absenders beantragen",
+    "delete": "Löschen",
+    "approvalRequired": "Freigabe erfolgt nach Genehmigung durch das Sicherheitsteam",
+    "released": "In den Posteingang verschoben",
+    "allowRequested": "Freigabe des Absenders beantragt",
+    "deleted": "Nachricht endgültig gelöscht",
+    "recipients": "An {count} Personen im {team} gesendet",
+    "hrTeam": "HR-Team",
+    "riskBadge": "{kind} · Risiko {score}",
+    "spoofedDomainTitle": "Absenderdomain ahmt die Domain Ihrer Organisation nach",
+    "reasonTitle": "Grund für {kind}-Quarantäne: {reason}",
+    "spoofedDomainBody": "Gesendet von {domain}, das {trustedDomain} nachahmt. Der Link führt zu einer externen Anmeldeseite. Nicht öffnen; Löschen wird empfohlen.",
+    "riskBody": "Mit Risikowert {score} quarantänisiert. Prüfen Sie vor einer Aktion Absender und Betreff.",
+    "lookupDomain": "Absenderdomain prüfen",
+    "lookupResult": "Ergebnis der Domainprüfung",
+    "domainRisk": "{domain} · Riskante Reputation",
+    "evidenceHeading": "Prüfnachweise",
+    "riskScore": "Risikowert {score}",
+    "safePreviewHeading": "Sichere Vorschau (nur Text)",
+    "blockedLinks": "{count} Link blockiert.",
+    "aiWarning": "Echte HR-Mitteilungen werden nur über das interne Genehmigungssystem versendet.",
+    "noPreview": "Für diese Nachricht ist keine Textvorschau verfügbar.",
+    "deleteTitle": "Diese Nachricht endgültig löschen?",
+    "deleteDescription": "Das Löschen von „{subject}“ kann nicht rückgängig gemacht werden.",
+    "deletePermanently": "Endgültig löschen",
+    "kinds": {
+      "all": "Alle",
+      "spam": "Spam",
+      "phishing": "Phishing",
+      "malware": "Malware"
+    },
+    "reasons": {
+      "spoofedDomainExternalLogin": "Ähnliche Domain · Externer Anmeldelink",
+      "bulkNoUnsubscribe": "Massenversand · Keine Abmeldeoption",
+      "executableAttachment": "Ausführbarer Anhang erkannt",
+      "spoofedDomainCredentials": "Ähnliche Domain · Zugangsdaten angefordert",
+      "bulkPattern": "Massenversandmuster",
+      "spfFailure": "SPF fehlgeschlagen",
+      "spoofedDomainPayment": "Ähnliche Domain · Zahlungsdaten angefordert"
+    },
+    "checks": {
+      "domainAuth": {
+        "name": "Authentifizierung der Absenderdomain",
+        "detail": "SPF fehlgeschlagen · Keine DKIM-Signatur · DMARC-Ablehnung"
+      },
+      "typosquatting": {
+        "name": "Ähnliche Domain (Typosquatting)",
+        "detail": "gxsoft-kr.net — Editierdistanz 1"
+      },
+      "bodyLink": {
+        "name": "Link im Nachrichtentext",
+        "detail": "1 externe Anmeldeseite · Bereits gemeldeter Host"
+      },
+      "sendingPattern": {
+        "name": "Versandmuster",
+        "detail": "Gleicher Inhalt gleichzeitig an 14 Konten gesendet"
+      },
+      "attachment": {
+        "name": "Anhang",
+        "detail": "Kein Anhang"
+      }
+    }
+  },
+  "calendarPage": {
+    "myCalendars": "Meine Kalender",
+    "roomAvailability": "Besprechungsräume · Heute",
+    "capacity": "{count} Personen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "today": "Heute",
+    "schedule": "Kalendertermine",
+    "close": "Schließen",
+    "title": "Titel",
+    "titlePlaceholder": "z. B. Auftaktmeeting mit Partnern",
+    "date": "Datum",
+    "start": "Beginn",
+    "end": "Ende",
+    "calendar": "Kalender",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "eventCreated": "Termin erstellt",
+    "views": {
+      "day": "Tag",
+      "week": "Woche",
+      "month": "Monat"
+    },
+    "categories": {
+      "personal": "Mein Kalender",
+      "team": "Strategieteam",
+      "executive": "Vorstandskalender (nur lesen)",
+      "room": "Raumbuchungen",
+      "holiday": "Feiertage in Südkorea"
+    },
+    "rooms": {
+      "room5b": {
+        "name": "Besprechungsraum 5B",
+        "amenity": "Projektor · Video",
+        "status": "Verfügbar"
+      },
+      "room3a": {
+        "name": "Besprechungsraum 3A",
+        "amenity": "Whiteboard",
+        "status": "Um 15:00 belegt"
+      },
+      "auditorium": {
+        "name": "Konferenzraum",
+        "amenity": "Übertragungstechnik",
+        "status": "Ganztägig reserviert"
+      },
+      "focus": {
+        "name": "Fokusraum",
+        "amenity": "Einzelanruf",
+        "status": "Verfügbar"
+      }
+    }
+  },
+  "productTour": {
+    "skip": "Überspringen",
+    "previous": "Zurück",
+    "finish": "Fertig",
+    "next": "Weiter",
+    "getStarted": "Erste Schritte",
+    "close": "Schließen",
+    "progress": "{done} / {total} erledigt",
+    "minutes": "{count} Min.",
+    "steps": {
+      "compose": {
+        "title": "Beginnen Sie mit einer E-Mail",
+        "body": "Mit der Schaltfläche „Verfassen“ oben links schreiben Sie eine neue Nachricht."
+      },
+      "search": {
+        "title": "Überall suchen",
+        "body": "Finden Sie E-Mails, Personen und Anhänge an einem Ort. Auch Filter wie from:alex sind möglich."
+      },
+      "theme": {
+        "title": "Gestalten Sie Ihr Design",
+        "body": "Passen Sie Farben, Schriften und Layout unter „Design anpassen“ an Ihre Organisation an."
+      },
+      "tools": {
+        "title": "Kalender · Kontakte · Freigaben",
+        "body": "Öffnen Sie Kalender, Kontakte und Freigaben direkt über die Seitenleiste."
+      },
+      "quarantine": {
+        "title": "Quarantäne prüfen",
+        "body": "Verdächtige Nachrichten werden automatisch isoliert und lassen sich sicher in der Vorschau prüfen."
+      },
+      "ready": {
+        "title": "Alles bereit",
+        "body": "Richten Sie in den Einstellungen noch Signatur, automatische Antworten und Tastenkürzel ein."
+      }
+    },
+    "checklist": {
+      "avatar": "Profilfoto hinzufügen",
+      "signature": "Signatur erstellen",
+      "twoFactor": "Zwei-Faktor-Authentifizierung aktivieren",
+      "mobileApp": "Mobile App installieren",
+      "importMail": "Vorhandene E-Mails importieren"
+    }
+  },
+  "contactImport": {
+    "noNewContacts": "Keine neuen Kontakte zum Importieren",
+    "duplicateNotice": "Kontakte mit derselben E-Mail-Adresse wurden übersprungen.",
+    "imported": "{count} Kontakte importiert",
+    "duplicatesSkipped": "{count} Duplikate übersprungen",
+    "failed": "Kontakte konnten nicht importiert werden",
+    "errors": {
+      "fileTooLarge": "Wählen Sie eine Datei unter 2 MiB.",
+      "unclosedQuote": "Ein Anführungszeichen in der CSV-Datei wurde nicht geschlossen.",
+      "missingRows": "Die CSV-Datei benötigt eine Kopfzeile und mindestens einen Kontakt.",
+      "missingNameColumn": "Die CSV-Datei benötigt eine Namensspalte.",
+      "tooManyContacts": "Sie können höchstens 500 Kontakte auf einmal importieren.",
+      "missingCsvName": "In CSV-Zeile {row} fehlt der Name.",
+      "invalidVcard": "Keine gültigen vCard-Einträge gefunden.",
+      "missingVcardName": "In vCard-Eintrag {row} fehlt der Name.",
+      "unsupportedFile": "Es können nur CSV- oder vCard-Dateien (.vcf) importiert werden.",
+      "unknown": "Bitte wählen Sie die Datei erneut aus."
+    }
+  },
+  "contactsPage": {
+    "title": "Kontakte",
+    "orgChart": "Organigramm",
+    "orgSearchPlaceholder": "Name · Abteilung",
+    "orgSearchLabel": "Namen und Abteilungen suchen",
+    "noResults": "Keine Suchergebnisse.",
+    "myContacts": "Meine Kontakte",
+    "contactSummary": "{count} persönliche Kontakte · {recent} kürzlich erfasst",
+    "importTooltip": "CSV · vCard importieren",
+    "importing": "Import läuft…",
+    "import": "Importieren",
+    "addContact": "Kontakt hinzufügen",
+    "searchPlaceholder": "Name · Firma · E-Mail",
+    "searchLabel": "Namen, Firmen und E-Mails suchen",
+    "mail": "E-Mail",
+    "companyPosition": "Firma · Position",
+    "group": "Gruppe",
+    "noMatchingContacts": "Keine passenden Kontakte gefunden.",
+    "selectContact": "Kontakt auswählen: {name} · {email}",
+    "removeFavorite": "{name} aus Favoriten entfernen",
+    "addFavorite": "{name} zu Favoriten hinzufügen",
+    "selectPrompt": "Wählen Sie einen Kontakt.",
+    "editContact": "Kontakt bearbeiten",
+    "nameRequired": "Geben Sie einen Namen ein.",
+    "save": "Speichern",
+    "cancelChanges": "Änderungen verwerfen",
+    "delete": "Löschen",
+    "saved": "Kontakt gespeichert",
+    "newContact": "Neuer Kontakt",
+    "contactAdded": "Neuer Kontakt hinzugefügt",
+    "enterDetails": "Geben Sie die Details ein",
+    "mobileContacts": "Mobile Kontakte",
+    "backToList": "Zurück zur Liste",
+    "myCount": "Meine Kontakte: {count}",
+    "importContacts": "Kontakte importieren",
+    "importingContacts": "Kontakte werden importiert",
+    "viewContact": "Kontakt anzeigen: {name}",
+    "groups": {
+      "all": "Alle",
+      "starred": "Favoriten",
+      "external": "Externe Partner",
+      "purchasing": "Einkaufskontakte",
+      "advisor": "Berater",
+      "personal": "Privat"
+    },
+    "fields": {
+      "name": "Name",
+      "company": "Firma",
+      "title": "Position · Abteilung",
+      "email": "E-Mail",
+      "mobile": "Mobiltelefon",
+      "phone": "Telefon geschäftlich",
+      "memo": "Notizen"
+    },
+    "teamSummary": "{parent} › {team} · {count} Personen",
+    "teamCount": "{team} · {count} Personen",
+    "peopleCount": "{count} Personen",
+    "openTeamCompose": "E-Mail an das gesamte Team wird geöffnet",
+    "mailTeam": "Team anschreiben",
+    "vcardExported": "vCard exportiert",
+    "exportVcard": "vCard exportieren",
+    "teamEmpty": "Für dieses Team sind noch keine Mitglieder eingetragen.",
+    "selectMember": "Wählen Sie ein Teammitglied.",
+    "openCompose": "E-Mail-Verfassen wird geöffnet",
+    "composeMail": "E-Mail verfassen",
+    "openSchedule": "Terminplanung wird geöffnet",
+    "scheduleMeeting": "Besprechung planen",
+    "recentMail": "Letzte E-Mails",
+    "noHistory": "Kein Verlauf.",
+    "presence": {
+      "working": "Bei der Arbeit · Büro",
+      "away": "Abwesend",
+      "offline": "Offline"
+    },
+    "approvalLines": {
+      "directorCeo": "Bereichsleitung → Geschäftsführung",
+      "leadDirector": "Teamleitung → Bereichsleitung"
+    },
+    "profile": {
+      "email": "E-Mail",
+      "workPhone": "Telefon geschäftlich",
+      "mobile": "Mobiltelefon",
+      "organization": "Organisation",
+      "joined": "Eintrittsdatum",
+      "approvalLine": "Freigabekette"
+    }
+  },
+  "filesPage": {
+    "title": "Anhänge",
+    "summary": "{count} E-Mail-Anhänge · {used} · {links} große Links aktiv",
+    "search": "Dateinamen und Absender suchen",
+    "gridView": "Rasteransicht",
+    "listView": "Listenansicht",
+    "filters": "Anhangfilter",
+    "type": "Typ",
+    "period": "Zeitraum",
+    "storage": "Speicher {used} / {total}",
+    "storageHint": "Bereinigen Sie {count} große Anhänge, um {amount} freizugeben.",
+    "fileType": "Dateityp",
+    "filePeriod": "Dateizeitraum",
+    "recentAttachments": "Letzte Anhänge",
+    "itemCount": "{count} Elemente",
+    "noResults": "Keine Suchergebnisse.",
+    "attachmentSummary": "Anhangübersicht",
+    "largeLinks": "Große Links",
+    "downloads": "{count} Downloads",
+    "cleanupTitle": "Bereinigungsvorschlag",
+    "cleanupDescription": "{count} Anhänge über {threshold}, älter als {years} Jahre. E-Mail-Text behalten und nur Anhänge löschen, um {amount} freizugeben.",
+    "cleanupOpen": "Liste mit {count} zu bereinigenden Anhängen öffnen",
+    "cleanupEstimate": "Voraussichtlich frei: {amount}",
+    "reviewList": "Liste prüfen",
+    "downloading": "Datei wird heruntergeladen",
+    "system": "System",
+    "types": {
+      "all": "Alle",
+      "document": "Dokumente",
+      "spreadsheet": "Tabellen",
+      "presentation": "Präsentationen",
+      "image": "Bilder",
+      "archive": "Archive",
+      "other": "Sonstige"
+    },
+    "periods": {
+      "last7": "Letzte 7 Tage",
+      "last30": "Letzte 30 Tage",
+      "thisYear": "Dieses Jahr",
+      "all": "Gesamter Zeitraum"
+    },
+    "sorts": {
+      "latest": "Neueste",
+      "size": "Größe",
+      "sender": "Absender"
+    },
+    "linkStates": {
+      "active": "Aktiv",
+      "expiring": "Läuft bald ab",
+      "expired": "Abgelaufen"
+    },
+    "expiry": {
+      "days": "Noch {count} Tage",
+      "tomorrow": "Läuft morgen ab",
+      "expired": "Abgelaufen"
+    }
+  },
+  "approvalsPage": {
+    "annualAmount": "{amount} pro Jahr",
+    "title": "Freigaben",
+    "myTurnCount": "{count} bei mir",
+    "documentList": "Freigabedokumente",
+    "approvalStatus": "Freigabestatus",
+    "selectDocument": "Freigabe auswählen: {title}",
+    "emptyStatus": "Keine Dokumente mit diesem Status.",
+    "selectPrompt": "Wählen Sie ein Freigabedokument.",
+    "backToList": "Zurück zur Freigabeliste",
+    "approve": "Freigeben",
+    "reject": "Ablehnen",
+    "holdRequested": "Zurückgestellt und Stellungnahme angefordert",
+    "holdAndRequest": "Zurückstellen · Stellungnahme anfordern",
+    "documentMeta": "Dokument {number} · Aufbewahrung {years} Jahre",
+    "detailedAuthor": "Eingereicht von {author} (CTO) · {date} · E-Mail-Verlauf verknüpft",
+    "briefAuthor": "Eingereicht von {author} · {number} · {due}",
+    "requestedAmount": "Beantragter Betrag",
+    "approvalChain": "Freigabekette",
+    "approvedOn": "Freigegeben am {date}",
+    "requestDetails": "Antragsdetails",
+    "aiComparison": "Im Vergleich zu {count} ähnlichen Anträgen liegt der Stückpreis {percent}% unter dem Durchschnitt. Die Stellungnahme des Finanzteams ist berücksichtigt.",
+    "noDetailedRecord": "Freigabekette und Antragsdetails sind in den Beispieldaten nicht enthalten.",
+    "commentsHistory": "Kommentare · Verlauf",
+    "noComments": "Noch keine Kommentare.",
+    "commentPlaceholder": "Kommentar eingeben… (Enter zum Senden)",
+    "approvalComment": "Freigabekommentar",
+    "approveQuestion": "Diesen Antrag freigeben?",
+    "rejectQuestion": "Diesen Antrag ablehnen?",
+    "approveDescription": "{title} · {amount}",
+    "rejectDescription": "{title} · Wird als abgelehnt markiert.",
+    "approvedToast": "Antrag freigegeben",
+    "rejectedToast": "Antrag abgelehnt",
+    "automaticCheck": "Automatische Prüfung",
+    "automaticCheckBody": "Der beigefügte Vorschlag entspricht dem beantragten Betrag. Budgetcode IT-CAPEX-26H1 weist genug Mittel auf.",
+    "tabs": {
+      "mine": "Bei mir",
+      "drafts": "Entwürfe",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen"
+    },
+    "types": {
+      "budget": "Budget",
+      "contract": "Vertrag",
+      "purchase": "Einkauf",
+      "hr": "Personal",
+      "expense": "Ausgabe",
+      "policy": "Richtlinie"
+    },
+    "due": {
+      "today": "Heute fällig",
+      "d2": "D-2",
+      "d3": "D-3",
+      "d5": "D-5",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "approved": "Meine Freigabe abgeschlossen",
+      "rejected": "Abgelehnt"
+    },
+    "roles": {
+      "drafter": "Eingereicht · CTO",
+      "reviewer": "Prüfung · Teamleitung",
+      "finance": "Mitwirkung · Finanzleitung",
+      "approver": "Freigabe · Ich",
+      "final": "Endfreigabe"
+    },
+    "chainDetails": {
+      "done": "Erledigt",
+      "pending": "Wartet",
+      "upcoming": "Geplant",
+      "approved": "Meine Freigabe abgeschlossen",
+      "rejected": "Abgelehnt"
+    }
   }
 }

@@ -8,21 +8,23 @@ import { CustomizerPanel } from "@/components/customizer/CustomizerPanel";
 import { ComposeModal } from "@/components/compose/ComposeModal";
 import { useTheme } from "@/context/theme-context";
 import { useWorkspaceSidebar } from "@/context/workspace-sidebar-context";
+import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
 
 const DRAWER_TRANSITION_MS = 300;
 
 export interface WorkspaceLayoutProps {
   children: ReactNode;
   title?: ReactNode;
+  titleAsHeading?: boolean;
   headerActions?: ReactNode;
   onOpenTour?: () => void;
   onToggleDelegate?: () => void;
   showGlobalSearch?: boolean;
-  showMobilePageContext?: boolean;
+  showMobilePageContext?: boolean | "tablet";
   className?: string;
 }
 
-export function WorkspaceLayout({ children, title, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch = false, showMobilePageContext = true, className = "" }: WorkspaceLayoutProps) {
+export function WorkspaceLayout({ children, title, titleAsHeading = true, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch = false, showMobilePageContext = true, className = "" }: WorkspaceLayoutProps) {
   const tSidebar = useTranslations("workspaceSidebar");
   const { draft } = useTheme();
   const { collapsed, toggleCollapsed } = useWorkspaceSidebar();
@@ -34,11 +36,7 @@ export function WorkspaceLayout({ children, title, headerActions, onOpenTour, on
 
   useEffect(() => {
     if (!drawerMounted) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    return lockBodyScroll();
   }, [drawerMounted]);
 
   useEffect(() => {
@@ -64,9 +62,15 @@ export function WorkspaceLayout({ children, title, headerActions, onOpenTour, on
   const closeDrawer = () => {
     setDrawerOpen(false);
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.reduceMotion === "true") {
+      setDrawerMounted(false);
+      if (!document.querySelector("[data-compose-dialog]")) menuButtonRef.current?.focus();
+      closeTimerRef.current = null;
+      return;
+    }
     closeTimerRef.current = window.setTimeout(() => {
       setDrawerMounted(false);
-      menuButtonRef.current?.focus();
+      if (!document.querySelector("[data-compose-dialog]")) menuButtonRef.current?.focus();
       closeTimerRef.current = null;
     }, DRAWER_TRANSITION_MS);
   };
@@ -95,19 +99,22 @@ export function WorkspaceLayout({ children, title, headerActions, onOpenTour, on
 
   return (
     <>
-      <div className={`flex h-dvh w-full overflow-hidden bg-background text-foreground ${draft.sidebarPosition === "right" ? "xl:flex-row-reverse" : "xl:flex-row"}`}>
-        <div className={`relative z-30 hidden h-full shrink-0 xl:block ${draft.sidebarPosition === "right" ? "border-l" : "border-r"} border-(--border-app)`}>
+      <a href="#workspace-main" className="sr-only fixed left-3 top-3 z-(--layer-tooltip) rounded-(--radius-app) bg-background px-4 py-2 text-sm font-semibold text-foreground shadow-(--shadow-panel) focus:not-sr-only">
+        {tSidebar("skipToContent")}
+      </a>
+      <div className={`workspace-density flex h-dvh w-full overflow-hidden bg-background text-foreground ${draft.sidebarPosition === "right" ? "xl:flex-row-reverse" : "xl:flex-row"}`}>
+        <div className={`relative hidden h-full shrink-0 xl:block ${draft.sidebarPosition === "right" ? "border-l" : "border-r"} border-(--border-app)`}>
           <WorkspaceSidebar collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
         </div>
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <TopBar title={title} actions={headerActions} menuButtonRef={menuButtonRef} onMenuClick={openDrawer} onOpenTour={onOpenTour} onToggleDelegate={onToggleDelegate} showGlobalSearch={showGlobalSearch} showMobilePageContext={showMobilePageContext} />
-          <main id="workspace-main" className={`min-h-0 min-w-0 flex-1 ${className}`}>{children}</main>
+          <TopBar title={title} titleAsHeading={titleAsHeading} actions={headerActions} menuButtonRef={menuButtonRef} onMenuClick={openDrawer} menuOpen={drawerOpen} onOpenTour={onOpenTour} onToggleDelegate={onToggleDelegate} showGlobalSearch={showGlobalSearch} showMobilePageContext={showMobilePageContext} showDesktopBrand={collapsed} />
+          <main id="workspace-main" tabIndex={-1} className={`min-h-0 min-w-0 flex-1 ${className}`}>{children}</main>
         </div>
       </div>
       {drawerMounted ? (
-        <div className="fixed inset-0 z-50 xl:hidden">
+        <div className="fixed inset-0 z-(--layer-drawer) xl:hidden">
           <button type="button" className={`absolute inset-0 bg-black/45 transition-opacity duration-300 ease-out motion-reduce:transition-none ${drawerOpen ? "opacity-100" : "opacity-0"}`} onClick={closeDrawer} aria-label={tSidebar("closeMenu")} />
-          <div ref={drawerRef} role="dialog" aria-modal="true" aria-label={tSidebar("navigation")} onKeyDown={handleDrawerKeyDown} className={`relative h-full w-fit transform-gpu transition-transform duration-300 ease-out will-change-transform motion-reduce:transition-none ${drawerOpen ? "translate-x-0" : "-translate-x-full"}`}>
+          <div id="workspace-navigation-drawer" ref={drawerRef} role="dialog" aria-modal="true" aria-label={tSidebar("navigation")} onKeyDown={handleDrawerKeyDown} className={`relative h-full w-fit transform-gpu transition-transform duration-300 ease-out will-change-transform motion-reduce:transition-none ${draft.sidebarPosition === "right" ? "ml-auto" : ""} ${drawerOpen ? "translate-x-0" : draft.sidebarPosition === "right" ? "translate-x-full" : "-translate-x-full"}`}>
             <WorkspaceSidebar mobile onClose={closeDrawer} />
           </div>
         </div>

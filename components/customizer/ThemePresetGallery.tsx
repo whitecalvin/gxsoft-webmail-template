@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { THEME_PRESETS } from "@/lib/theme-presets";
 import type { ThemeSettings } from "@/types/theme";
 
@@ -19,6 +20,7 @@ export function ThemePresetGallery({
   draft: ThemeSettings;
   onSelect: (settings: Partial<ThemeSettings>) => void;
 }) {
+  const t = useTranslations("themeCustomizer");
   return (
     <div className="grid grid-cols-1 gap-3">
       {THEME_PRESETS.map((preset) => {
@@ -28,6 +30,7 @@ export function ThemePresetGallery({
             key={preset.id}
             type="button"
             onClick={() => onSelect(preset.settings)}
+            aria-pressed={isActive}
             className={`flex items-center gap-3 rounded-(--radius-app) border p-3 text-left transition ${
               isActive
                 ? "border-(--color-primary) bg-(--color-primary)/5"
@@ -39,11 +42,11 @@ export function ThemePresetGallery({
               <div className="flex items-center gap-1.5">
                 <span className="text-sm font-semibold">{preset.label}</span>
                 {isActive && (
-                  <Check size={14} className="text-(--color-primary)" />
+                  <Check size={14} className="text-(--color-primary-ink)" />
                 )}
               </div>
               <p className="mt-0.5 text-xs leading-snug text-(--text-muted)">
-                {preset.description}
+                {t(`presets.${preset.id}`)}
               </p>
             </div>
           </button>

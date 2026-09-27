@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Archive,
   CalendarDays,
@@ -40,14 +40,14 @@ const FOLDER_ICONS: Record<FolderId, LucideIcon> = {
   trash: Trash2,
 };
 
-const STORAGE_USAGE: Record<FolderId, string> = {
-  inbox: "0 MiB / 10 GiB",
-  starred: "0 MiB / 10 GiB",
-  drafts: "0 MiB / 10 GiB",
-  sent: "1.3 MiB / 10 GiB",
-  archive: "624 MiB / 10 GiB",
-  spam: "0 MiB / 10 GiB",
-  trash: "0 MiB / 10 GiB",
+const STORAGE_USAGE_MIB: Record<FolderId, number> = {
+  inbox: 0,
+  starred: 0,
+  drafts: 0,
+  sent: 1.3,
+  archive: 624,
+  spam: 0,
+  trash: 0,
 };
 
 const SIDEBAR_GROUPS = [
@@ -79,15 +79,15 @@ const SIDEBAR_GROUPS = [
 
 const NAV_STYLE: Record<LayoutStyle, { active: string; idle: string }> = {
   classic: {
-    active: "bg-(--color-primary)/10 font-semibold text-(--color-primary)",
+    active: "bg-(--color-primary)/10 font-semibold text-(--color-primary-ink)",
     idle: "text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/5",
   },
   card: {
-    active: "bg-background font-semibold text-(--color-primary) shadow-sm",
+    active: "bg-background font-semibold text-(--color-primary-ink) shadow-sm",
     idle: "text-(--text-muted) hover:bg-background/70",
   },
   minimal: {
-    active: "bg-black/3 font-semibold text-(--color-primary) dark:bg-white/5",
+    active: "bg-black/3 font-semibold text-(--color-primary-ink) dark:bg-white/5",
     idle: "text-(--text-muted) hover:text-foreground",
   },
 };
@@ -109,6 +109,7 @@ function isToolActive(pathname: string, href: string) {
 }
 
 export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, onToggleCollapsed }: WorkspaceSidebarProps) {
+  const locale = useLocale();
   const tFolder = useTranslations("sidebar");
   const tSidebar = useTranslations("workspaceSidebar");
   const tProfile = useTranslations("profileMenu");
@@ -119,6 +120,7 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
   const compact = collapsed && !mobile;
   const navStyle = NAV_STYLE[draft.layoutStyle];
   const sidebarOnRight = draft.sidebarPosition === "right" && !mobile;
+  const storageNumber = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
 
   const openFolder = (folder: FolderId) => {
     setActiveFolder(folder);
@@ -139,13 +141,13 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
 
   return (
     <aside
-      className={`relative flex h-full shrink-0 flex-col bg-background transition-[width] duration-200 ${
+      className={`relative flex h-full shrink-0 flex-col bg-background transition-[width] duration-200 motion-reduce:transition-none ${mobile ? "pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]" : ""} ${
         mobile ? "w-62.5 max-w-[calc(100vw-2rem)] shadow-2xl" : compact ? "w-18" : "w-62.5"
       }`}
     >
       <div className="relative flex h-14 shrink-0 items-center px-3">
         <Link href="/" onClick={onClose} className={`flex min-w-0 items-center ${compact ? "justify-center" : "gap-3"}`} aria-label="GXWebMail">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius-app) bg-(--color-primary) font-bold text-white">G</span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius-app) bg-(--color-primary-solid) font-bold text-white">G</span>
           {!compact ? <span className="truncate text-lg font-semibold">GXWebMail</span> : null}
         </Link>
         {mobile ? (
@@ -157,13 +159,13 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
           <button
             type="button"
             onClick={onToggleCollapsed}
-            className={`absolute top-1/2 z-40 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-(--border-app) bg-background text-(--text-muted) shadow-md transition-[color,background-color,box-shadow,transform] duration-200 hover:scale-110 hover:bg-(--surface-muted) hover:text-foreground hover:shadow-lg active:scale-95 ${sidebarOnRight ? "-left-4" : "-right-4"}`}
+            className={`absolute top-1/2 z-(--layer-sidebar-toggle) flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-(--border-app) bg-background text-(--text-muted) shadow-md transition-[color,background-color,box-shadow,transform] duration-200 hover:scale-110 hover:bg-(--surface-muted) hover:text-foreground hover:shadow-lg active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100 ${sidebarOnRight ? "-left-4" : "-right-4"}`}
             aria-label={compact ? tSidebar("expand") : tSidebar("collapse")}
             title={compact ? tSidebar("expand") : tSidebar("collapse")}
           >
             <ChevronLeft
               size={17}
-              className={`transition-transform duration-200 ${
+              className={`transition-transform duration-200 motion-reduce:transition-none ${
                 sidebarOnRight
                   ? compact ? "rotate-0" : "rotate-180"
                   : compact ? "rotate-180" : "rotate-0"
@@ -176,11 +178,12 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
       <div className="px-3 pb-4 pt-3">
         <button
           type="button"
+          data-compose-trigger
           onClick={() => {
             openCompose();
             onClose?.();
           }}
-          className={`flex w-full items-center justify-center rounded-(--radius-app) bg-(--color-primary) py-3 font-semibold text-white transition hover:brightness-110 ${compact ? "px-0" : "gap-2 px-4"}`}
+          className={`flex w-full items-center justify-center rounded-(--radius-app) bg-(--color-primary-solid) py-3 font-semibold text-white transition hover:brightness-110 ${compact ? "px-0" : "gap-2 px-4"}`}
           aria-label={tFolder("compose")}
           title={compact ? tFolder("compose") : undefined}
         >
@@ -204,6 +207,7 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
                     type="button"
                     onClick={() => openFolder(folder.id)}
                     className={`flex w-full items-center rounded-(--radius-app) py-2.5 text-sm transition ${compact ? "justify-center px-0" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
+                    style={{ paddingBlock: "calc(0.625rem * var(--density-scale))" }}
                     aria-current={active ? "page" : undefined}
                     aria-label={compact ? label : undefined}
                     title={compact ? label : undefined}
@@ -213,9 +217,9 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
                       <>
                         <span className="min-w-0 flex-1 text-left">
                           <span className="block truncate font-medium">{label}</span>
-                          <span className="block truncate text-[10px] font-normal text-(--text-muted)">{STORAGE_USAGE[folder.id]}</span>
+                          <span className="block truncate text-[10px] font-normal text-(--text-muted)">{tSidebar("storageUsage", { used: storageNumber.format(STORAGE_USAGE_MIB[folder.id]), limit: storageNumber.format(10) })}</span>
                         </span>
-                        {count > 0 ? <span className="min-w-6 rounded-full bg-(--color-primary) px-1.5 py-0.5 text-center text-xs text-white">{count}</span> : null}
+                        {count > 0 ? <span className="min-w-6 rounded-full bg-(--color-primary-solid) px-1.5 py-0.5 text-center text-xs text-white">{count}</span> : null}
                       </>
                     ) : count > 0 ? <span className="sr-only">{count}</span> : null}
                   </button>
@@ -249,6 +253,7 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
                       href={tool.href}
                       onClick={onClose}
                       className={`flex items-center rounded-(--radius-app) py-2.5 text-sm transition ${compact ? "justify-center px-0" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
+                      style={{ paddingBlock: "calc(0.625rem * var(--density-scale))" }}
                       aria-current={active ? "page" : undefined}
                       aria-label={compact ? label : undefined}
                       title={compact ? label : undefined}
