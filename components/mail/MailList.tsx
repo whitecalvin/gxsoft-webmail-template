@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { MoreHorizontal, Star, Trash2 } from "lucide-react";
 import { useMail } from "@/context/mail-context";
 import { useTheme } from "@/context/theme-context";
@@ -25,6 +26,7 @@ const FOLDER_DOT: Record<FolderId, string> = {
   archive: "#3B7A94",
   spam: "#B4740F",
   trash: "#C0433B",
+  custom: "#3B7A94",
 };
 
 const CONTAINER_STYLE: Record<LayoutStyle, string> = {
@@ -67,7 +69,10 @@ function itemClass(style: LayoutStyle, isActive: boolean) {
 
 export function MailList() {
   const t = useTranslations("mailList");
+  const tAuth = useTranslations("auth.common");
   const tFolder = useTranslations("sidebar");
+  const tWorkspace = useTranslations("workspaceSidebar");
+  const tService = useTranslations("liveService");
   const formatMailTimestamp = useMailTimestamp();
   const {
     visibleEmails,
@@ -78,6 +83,16 @@ export function MailList() {
     moveToFolder,
     permanentlyDelete,
     activeFolder,
+    activeCustomMailboxName,
+    mode,
+    loadStatus,
+    pagePosition,
+    pageTotal,
+    pageLimit,
+    setPagePosition,
+    retryLoad,
+    mutationStatus,
+    pendingMutationIds,
   } = useMail();
   const { draft } = useTheme();
   const toast = useToast();
@@ -86,7 +101,9 @@ export function MailList() {
   const [moveSheetEmail, setMoveSheetEmail] = useState<Email | null>(null);
   const style = draft.layoutStyle;
 
-  const folderLabel = tFolder(activeFolder);
+  const folderLabel = activeFolder === "custom"
+    ? activeCustomMailboxName ?? tWorkspace("mailboxGroup")
+    : tFolder(activeFolder);
 
   // Trashing an already-trashed email means permanent delete (with a
   // confirm dialog); trashing anything else is reversible via an undo toast.
@@ -95,6 +112,7 @@ export function MailList() {
       setPendingPermDelete(email);
       return;
     }
+    if (mode === "live") { moveToTrash(email.id); return; }
     const previousFolder = email.folder;
     moveToTrash(email.id);
     toast.undo(t("movedToTrash"), () => moveToFolder(email.id, previousFolder));
@@ -111,12 +129,36 @@ export function MailList() {
       >
         <h2 id="mail-list-heading" className="inline text-sm font-semibold">{folderLabel}</h2>
         <span className="ml-2 font-normal text-(--text-muted)">
-          {t("countUnit", { count: visibleEmails.length })}
+          {t("countUnit", { count: mode === "live" ? loadStatus === "ready" ? pageTotal : 0 : visibleEmails.length })}
         </span>
       </header>
 
+      {mode === "live" && mutationStatus ? (
+        <p role="alert" className="border-b border-(--border-app) px-4 py-2 text-xs text-(--status-danger)">{tService(mutationStatus)}</p>
+      ) : null}
+
       <ul className={`flex-1 overflow-y-auto ${LIST_STYLE[style]}`}>
-        {visibleEmails.length === 0 && (
+        {mode === "live" && loadStatus !== "ready" ? (
+          <li role={loadStatus === "loading" ? "status" : "alert"} className="p-6 text-center text-sm text-(--text-muted)">
+            <p>{t(({
+              loading: "liveLoading",
+              ready: "noMail",
+              unauthorized: "liveUnauthorized",
+              forbidden: "liveForbidden",
+              rateLimited: "liveRateLimited",
+              retryable: "liveRetryable",
+              unavailable: "liveUnavailable",
+            } as const)[loadStatus])}</p>
+            {loadStatus === "unauthorized" ? (
+              <Link href="/login" className="mt-3 inline-block rounded-(--radius-app) border border-(--border-app) px-3 py-1.5 text-(--color-primary)">
+                {tAuth("signIn")}
+              </Link>
+            ) : loadStatus !== "loading" ? (
+              <button type="button" onClick={retryLoad} className="mt-3 rounded-(--radius-app) border border-(--border-app) px-3 py-1.5 text-(--color-primary)">{t("liveRetry")}</button>
+            ) : null}
+          </li>
+        ) : null}
+        {loadStatus === "ready" && visibleEmails.length === 0 && (
           <li className="p-6 text-center text-sm text-(--text-muted)">
             {t("noMail")}
           </li>
@@ -135,6 +177,7 @@ export function MailList() {
               >
                 <button
                   type="button"
+                  disabled={pendingMutationIds.includes(email.id)}
                   onClick={() => toggleStar(email.id)}
                   className="-my-1.5 flex size-11 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) hover:text-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) lg:size-8"
                   aria-label={`${t("markImportant")}: ${subject}`}
@@ -185,6 +228,7 @@ export function MailList() {
                   <button
                     type="button"
                     onClick={() => handleTrashClick(email)}
+                    disabled={mode === "live" && (pendingMutationIds.includes(email.id) || email.folder === "trash")}
                     className="hidden size-8 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) opacity-0 transition hover:bg-black/5 hover:text-(--status-danger) group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) dark:hover:bg-white/10 lg:flex"
                     aria-label={`${email.folder === "trash" ? t("permanentDelete") : t("delete")}: ${subject}`}
                   >
@@ -193,6 +237,7 @@ export function MailList() {
                   <button
                     type="button"
                     onClick={() => setActionSheetEmail(email)}
+                    disabled={mode === "live" && pendingMutationIds.includes(email.id)}
                     className="flex size-11 shrink-0 items-center justify-center rounded-(--radius-app) text-(--text-muted) hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) dark:hover:bg-white/10 lg:hidden"
                     aria-label={`${t("more")}: ${subject}`}
                   >
@@ -205,6 +250,14 @@ export function MailList() {
         })}
       </ul>
 
+      {mode === "live" && loadStatus === "ready" && pageTotal > pageLimit ? (
+        <nav aria-label={folderLabel} className="flex shrink-0 items-center justify-between gap-2 border-t border-(--border-app) px-3 py-2 text-xs">
+          <button type="button" disabled={pagePosition === 0} onClick={() => setPagePosition(Math.max(0, pagePosition - pageLimit))} className="rounded-(--radius-app) px-2 py-1.5 text-(--color-primary) disabled:opacity-40">{t("livePrevious")}</button>
+          <span className="text-(--text-muted)">{Math.min(pagePosition + 1, pageTotal)}–{Math.min(pagePosition + pageLimit, pageTotal)} / {pageTotal}</span>
+          <button type="button" disabled={pagePosition + pageLimit >= pageTotal} onClick={() => setPagePosition(pagePosition + pageLimit)} className="rounded-(--radius-app) px-2 py-1.5 text-(--color-primary) disabled:opacity-40">{t("liveNext")}</button>
+        </nav>
+      ) : null}
+
       {actionSheetEmail && (
         <ActionSheet
           context={actionSheetEmail.subject || t("noSubject")}
@@ -216,14 +269,14 @@ export function MailList() {
                     label: t("restoreToInbox"),
                     onClick: () => {
                       moveToFolder(actionSheetEmail.id, "inbox");
-                      toast.success(t("restoredToInbox"));
+                      if (mode === "mock") toast.success(t("restoredToInbox"));
                     },
                   },
-                  {
+                  ...(mode === "mock" ? [{
                     label: t("permanentDelete"),
                     destructive: true,
                     onClick: () => setPendingPermDelete(actionSheetEmail),
-                  },
+                  }] : []),
                 ]
               : [
                   { label: t("moveToFolder"), onClick: () => setMoveSheetEmail(actionSheetEmail) },
@@ -235,14 +288,14 @@ export function MailList() {
 
       {moveSheetEmail && (
         <BottomSheet title={t("moveMailTitle")} onClose={() => setMoveSheetEmail(null)}>
-          {FOLDERS.filter((f) => f.id !== moveSheetEmail.folder).map((f) => (
+          {FOLDERS.filter((f) => f.id !== moveSheetEmail.folder && (mode === "mock" || ["inbox", "archive", "spam", "trash"].includes(f.id))).map((f) => (
             <BottomSheetRow
               key={f.id}
               label={tFolder(f.id)}
               dot={FOLDER_DOT[f.id]}
               onClick={() => {
                 moveToFolder(moveSheetEmail.id, f.id);
-                toast.success(t("movedTo", { folder: tFolder(f.id) }));
+                if (mode === "mock") toast.success(t("movedTo", { folder: tFolder(f.id) }));
                 setMoveSheetEmail(null);
               }}
             />

@@ -26,8 +26,9 @@ const DELEGATE_ACCOUNT = "한지우";
 export function AppShell() {
   const t = useTranslations("appShell");
   const tSidebar = useTranslations("sidebar");
+  const tWorkspace = useTranslations("workspaceSidebar");
   const router = useRouter();
-  const { selectedEmailId, clearSelection, activeFolder } = useMail();
+  const { selectedEmailId, clearSelection, activeFolder, activeCustomMailboxName, mode } = useMail();
   const toast = useToast();
   const [showTour, setShowTour] = useState(false);
   const [showMaintenance, setShowMaintenance] = useState(true);
@@ -36,8 +37,16 @@ export function AppShell() {
   const [sessionMinutesLeft, setSessionMinutesLeft] = useState<number | null>(null);
 
   const mobileView = selectedEmailId ? "reading" : "list";
+  const folderTitle = activeFolder === "custom"
+    ? activeCustomMailboxName ?? tWorkspace("mailboxGroup")
+    : tSidebar(activeFolder);
 
-  const logout = () => {
+  const logout = async () => {
+    if (mode === "live") {
+      await fetch("/api/mail/session", { method: "DELETE" }).catch(() => null);
+      router.push("/login");
+      return;
+    }
     try {
       window.localStorage.removeItem("gxmail:session");
       window.sessionStorage.removeItem(SESSION_KEY);
@@ -71,6 +80,7 @@ export function AppShell() {
   // this just tracks a timestamp in sessionStorage and logs the user out
   // client-side once it elapses, warning a few minutes beforehand.
   useEffect(() => {
+    if (mode === "live") return;
     let expiresAt: number;
     try {
       const stored = window.sessionStorage.getItem(SESSION_KEY);
@@ -93,26 +103,26 @@ export function AppShell() {
     const interval = setInterval(tick, 15000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mode]);
 
   // Only one global banner shows at a time; offline takes priority over the
   // scheduled-maintenance notice, which takes priority over the delegate banner.
   const bannerTone: GlobalBannerTone | null = !isOnline
     ? "offline"
-    : showMaintenance
-      ? "maintenance"
-      : delegateActive
+    : mode === "mock" && showMaintenance
+    ? "maintenance"
+    : mode === "mock" && delegateActive
         ? "delegate"
         : null;
 
   return (
     <>
       <WorkspaceLayout
-        title={tSidebar(activeFolder)}
+        title={folderTitle}
         showGlobalSearch
-        onOpenTour={() => setShowTour(true)}
+        onOpenTour={mode === "mock" ? () => setShowTour(true) : undefined}
         onToggleDelegate={
-          delegateActive
+          mode === "live" || delegateActive
             ? undefined
             : () => {
                 setDelegateActive(true);

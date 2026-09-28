@@ -8,6 +8,8 @@ import { CalendarSidebar } from "@/components/calendar/CalendarSidebar";
 import { CalendarTimeGrid } from "@/components/calendar/CalendarTimeGrid";
 import { CalendarMonthGrid } from "@/components/calendar/CalendarMonthGrid";
 import { CalendarMobileView } from "@/components/calendar/CalendarMobileView";
+import { LiveCalendar } from "@/components/calendar/LiveCalendar";
+import { useMail } from "@/context/mail-context";
 import { Modal } from "@/components/overlay/Modal";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { useToast } from "@/context/toast-context";
@@ -41,6 +43,11 @@ const formatHour = (h: number) =>
   `${String(Math.floor(h)).padStart(2, "0")}:${h % 1 === 0 ? "00" : "30"}`;
 
 export default function CalendarPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveCalendar /> : <MockCalendarPage />;
+}
+
+function MockCalendarPage() {
   const locale = useLocale();
   const t = useTranslations("calendarPage");
   const gridT = useTranslations("calendarGrid");

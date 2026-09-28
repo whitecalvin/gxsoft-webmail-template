@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { localeNames, type Locale } from "@/i18n/routing";
 import { useToast } from "@/context/toast-context";
+import { useMail } from "@/context/mail-context";
 
 // Mocked signup screen — validates the form client-side only, then redirects
 // to /login after a fake delay. No account is actually created anywhere.
@@ -15,6 +16,7 @@ export default function SignupPage() {
   const locale = useLocale() as Locale;
   const t = useTranslations("auth.signup");
   const common = useTranslations("auth.common");
+  const { mode } = useMail();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +27,7 @@ export default function SignupPage() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (mode !== "mock") return;
     if (!name || !email || !password) {
       setError("requiredFields");
       return;
@@ -68,13 +71,13 @@ export default function SignupPage() {
               id="signup-heading"
               className="text-[32px] font-bold leading-[1.15] tracking-[-0.035em] text-foreground sm:text-[36px]"
             >
-              {t("title")}
+              {mode === "live" ? t("liveUnavailableTitle") : t("title")}
             </h1>
             <p className="mt-3 max-w-[38ch] break-keep text-sm leading-6 text-(--text-muted)">
-              {t("description")}
+              {mode === "live" ? t("liveUnavailableDescription") : t("description")}
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-7 flex flex-col gap-3.5">
+            {mode === "live" ? <Link href="/login" className="mt-7 inline-flex min-h-12 items-center justify-center rounded-[10px] bg-(--color-primary-solid) px-5 text-sm font-semibold text-white outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring)">{common("signIn")}</Link> : <form onSubmit={handleSubmit} className="mt-7 flex flex-col gap-3.5">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-semibold text-(--text-muted)">{t("name")}</span>
                 <input type="text" value={name} onChange={(event) => setName(event.target.value)} placeholder={t("namePlaceholder")} className={inputClassName} />
@@ -128,14 +131,14 @@ export default function SignupPage() {
               >
                 {isSubmitting ? t("submitting") : t("submit")}
               </button>
-            </form>
+            </form>}
 
-            <p className="mt-6 text-sm text-(--text-muted) xl:hidden">
+            {mode === "mock" ? <p className="mt-6 text-sm text-(--text-muted) xl:hidden">
               {common("haveAccount")}{" "}
               <Link href="/login" className="rounded font-semibold text-(--color-primary) outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2">
                 {common("signIn")}
               </Link>
-            </p>
+            </p> : null}
           </section>
         </div>
 
@@ -150,9 +153,9 @@ export default function SignupPage() {
           </div>
           <div className="flex items-center justify-between gap-4 sm:justify-end">
             <span>{localeNames[locale]}</span>
-            <Link href="/setup" className="rounded font-medium outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-(--color-primary)">
+            {mode === "mock" ? <Link href="/setup" className="rounded font-medium outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-(--color-primary)">
               {common("setupWizard")}
-            </Link>
+            </Link> : null}
           </div>
         </footer>
       </main>

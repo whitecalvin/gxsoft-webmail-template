@@ -3,22 +3,27 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { X } from "lucide-react";
 import type { NotificationItem } from "@/lib/mock-notifications";
 import { containTabFocus } from "@/components/overlay/contain-tab-focus";
 
 const TABS = ["all", "approval", "mention"] as const;
 type Tab = (typeof TABS)[number];
 
-export function NotificationPopover({ id, items, onMarkAllRead, onClose }: { id: string; items: NotificationItem[]; onMarkAllRead: () => void; onClose: () => void }) {
+export function NotificationPopover({ id, items, live, onMarkAllRead, onClose }: { id: string; items: NotificationItem[]; live: boolean; onMarkAllRead: () => void; onClose: () => void }) {
   const t = useTranslations("notificationCenter");
   const [tab, setTab] = useState<Tab>("all");
   const allTabRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { allTabRef.current?.focus(); }, []);
+  useEffect(() => {
+    if (live) closeRef.current?.focus();
+    else allTabRef.current?.focus();
+  }, [live]);
 
   const filtered = items.filter((n) => tab === "all" || n.kind === tab);
-  const unreadCount = items.filter((n) => n.unread).length;
+  const unreadCount = live ? 0 : items.filter((n) => n.unread).length;
   const countFor = (kind: Tab) => (kind === "all" ? items.length : items.filter((n) => n.kind === kind).length);
 
   return (
@@ -35,7 +40,8 @@ export function NotificationPopover({ id, items, onMarkAllRead, onClose }: { id:
               {unreadCount}
             </span>
           )}
-          <button
+          {live && <button ref={closeRef} type="button" onClick={onClose} aria-label={t("close")} className="ml-auto rounded-(--radius-app) p-2 outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring)"><X size={16} /></button>}
+          {!live && <button
             type="button"
             onClick={() => { onMarkAllRead(); allTabRef.current?.focus(); }}
             disabled={unreadCount === 0}
@@ -43,9 +49,10 @@ export function NotificationPopover({ id, items, onMarkAllRead, onClose }: { id:
             style={{ color: "var(--color-primary-ink)" }}
           >
             {t("markAllRead")}
-          </button>
+          </button>}
         </div>
 
+        {live ? <p className="px-4 py-6 text-sm text-(--text-muted)">{t("liveUnavailable")}</p> : <>
         <div className="flex shrink-0 gap-1.5 border-b border-(--border-app) px-3.5 py-1.5">
           {TABS.map((kind) => (
             <button
@@ -102,6 +109,7 @@ export function NotificationPopover({ id, items, onMarkAllRead, onClose }: { id:
         >
           {t("openCenter")}
         </Link>
+        </>}
       </div>
     </>
   );

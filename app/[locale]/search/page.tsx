@@ -7,6 +7,8 @@ import { Check, FileText, HelpCircle, SlidersHorizontal } from "lucide-react";
 import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
 import { SearchSyntaxPanel } from "@/components/search/SearchSyntaxPanel";
 import { Drawer } from "@/components/overlay/Drawer";
+import { LiveMailSearch } from "@/components/search/LiveMailSearch";
+import { useMail } from "@/context/mail-context";
 import {
   SAVED_SEARCHES,
   SEARCH_CHIPS,
@@ -262,9 +264,10 @@ function SearchPageContent() {
 }
 
 export default function SearchPage() {
+  const { mode } = useMail();
   return (
     <Suspense fallback={null}>
-      <SearchPageContent />
+      {mode === "live" ? <LiveMailSearch /> : <SearchPageContent />}
     </Suspense>
   );
 }

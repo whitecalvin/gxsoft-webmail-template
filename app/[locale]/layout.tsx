@@ -15,6 +15,7 @@ import { WorkspaceSidebarProvider } from "@/context/workspace-sidebar-context";
 import { WORKSPACE_SIDEBAR_COOKIE_NAME } from "@/lib/workspace-sidebar";
 import { SettingsProvider } from "@/context/settings-context";
 import { SettingsNavigationGuard } from "@/components/settings/SettingsNavigationGuard";
+import { mailDataMode } from "@/lib/tastemail/server";
 
 const FONT_STACKS = Object.fromEntries(
   FONT_OPTIONS.map(({ value, stack }) => [value, stack])
@@ -100,7 +101,7 @@ export default async function RootLayout({
               <WorkspaceSidebarProvider
                 initialCollapsed={sidebarInitiallyCollapsed}
               >
-                <MailProvider>
+                <MailProvider mode={mailDataMode()}>
                   <SettingsProvider>
                     <ToastProvider>
                       {children}

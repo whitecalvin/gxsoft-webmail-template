@@ -30,6 +30,7 @@ interface ConfirmDialogProps {
   title: string;
   description?: string;
   confirmLabel?: string;
+  confirmDisabled?: boolean;
   cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
@@ -43,6 +44,7 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel,
+  confirmDisabled = false,
   cancelLabel,
   onConfirm,
   onCancel,
@@ -126,13 +128,13 @@ export function ConfirmDialog({
           <Button
             variant={tone === "destructive" ? "danger" : tone === "default" ? "primary" : "secondary"}
             size="sm"
-            disabled={requireTypedText ? !typedMatches : false}
+            disabled={confirmDisabled || !typedMatches}
             onClick={onConfirm}
             className={`whitespace-nowrap ${
-              requireTypedText && !typedMatches ? "" : CONFIRM_BTN_STYLE[tone]
+              confirmDisabled || !typedMatches ? "" : CONFIRM_BTN_STYLE[tone]
             }`}
             style={
-              requireTypedText && !typedMatches
+              confirmDisabled || !typedMatches
                 ? undefined
                 : tone === "default"
                   ? { backgroundColor: "var(--color-primary-solid)" }

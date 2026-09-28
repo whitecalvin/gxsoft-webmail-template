@@ -6,6 +6,7 @@ import {
   Reply,
   ReplyAll,
   Forward,
+  Pencil,
   Trash2,
   Star,
   Mail,
@@ -16,6 +17,7 @@ import { useToast } from "@/context/toast-context";
 import { useMailTimestamp } from "./useMailTimestamp";
 import { InviteCard } from "./InviteCard";
 import { InviteAttendees } from "./InviteAttendees";
+import { LiveHtmlMessageBody } from "./LiveHtmlMessageBody";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { useState } from "react";
 import type { LayoutStyle } from "@/types/theme";
@@ -44,8 +46,10 @@ const CONTENT_STYLE: Record<LayoutStyle, string> = {
 export function ReadingPane({ onBack }: { onBack?: () => void }) {
   const t = useTranslations("readingPane");
   const tList = useTranslations("mailList");
+  const tCompose = useTranslations("composeModal");
+  const tService = useTranslations("liveService");
   const formatMailTimestamp = useMailTimestamp();
-  const { selectedEmail, toggleStar, moveToTrash, moveToFolder, permanentlyDelete, openCompose } =
+  const { selectedEmail, toggleStar, moveToTrash, moveToFolder, permanentlyDelete, openCompose, mode, accountAddress, mutationStatus, pendingMutationIds } =
     useMail();
   const { draft } = useTheme();
   const toast = useToast();
@@ -68,24 +72,60 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
   // Reply/reply-all/forward all pre-fill the compose body with the original
   // message quoted below a blank line, Gmail-style.
   const quoted = `\n\n${t("originalMessageHeader")}\n${email.from.name} <${email.from.email}>\n${email.body.join("\n")}`;
+  const parentMessageId = email.messageId?.at(-1);
+  const replyHeaders = parentMessageId ? {
+    inReplyTo: [parentMessageId],
+    references: [...new Set([...(email.references ?? []), parentMessageId])].slice(-100),
+  } : {};
+  const otherRecipients = (addresses: string[]) => [...new Map(addresses
+    .filter((address) => address && address.toLowerCase() !== accountAddress?.toLowerCase())
+    .map((address) => [address.toLowerCase(), address])).values()];
+  const replyAddress = mode === "live" ? email.replyTo || email.from.email : email.from.email;
+  const ownedReplyAddress = mode === "live" && (email.folder === "sent" ||
+    replyAddress.toLowerCase() === accountAddress?.toLowerCase());
+  const replyRecipient = ownedReplyAddress
+    ? otherRecipients(email.to)[0] || replyAddress
+    : replyAddress;
+  const replyAllTo = mode === "live" ? [replyRecipient] : otherRecipients([email.from.email, ...email.to]);
+  const replyAllCc = otherRecipients(mode === "live" ? [...email.to, ...(email.cc ?? [])] : email.cc ?? [])
+    .filter((address) => !replyAllTo.some((to) => to.toLowerCase() === address.toLowerCase()));
+  const editingDraft = mode === "live" && email.folder === "drafts";
+
+  const handleEditDraft = () => {
+    openCompose({
+      fromAddress: email.from.email,
+      to: email.to.join(", "),
+      cc: (email.cc ?? []).join(", "),
+      bcc: (email.bcc ?? []).join(", "),
+      subject: email.subject,
+      body: email.bodyText ?? email.body.join("\n\n"),
+      inReplyTo: email.inReplyTo ?? [],
+      references: email.references ?? [],
+      attachments: (email.attachments ?? []).map(({ blobId, name, type, size }) => ({ blobId, name, type, size })),
+      previousDraftId: email.id,
+    });
+  };
 
   const handleReply = () => {
     openCompose({
-      to: email.from.email,
+      to: replyRecipient,
       subject: email.subject.startsWith("RE:")
         ? email.subject
         : `RE: ${subject}`,
       body: quoted,
+      ...(mode === "live" ? replyHeaders : {}),
     });
   };
 
   const handleReplyAll = () => {
     openCompose({
-      to: [email.from.email, ...email.to].join(", "),
+      to: replyAllTo.join(", "),
+      cc: replyAllCc.join(", "),
       subject: email.subject.startsWith("RE:")
         ? email.subject
         : `RE: ${subject}`,
       body: quoted,
+      ...(mode === "live" ? { ...replyHeaders, replyAll: true } : {}),
     });
   };
 
@@ -96,6 +136,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
         ? email.subject
         : `FWD: ${subject}`,
       body: quoted,
+      ...(mode === "live" ? { attachments: (email.attachments ?? []).map(({ blobId, name, type, size }) => ({ blobId, name, type, size })) } : {}),
     });
   };
 
@@ -104,6 +145,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
       setConfirmingDelete(true);
       return;
     }
+    if (mode === "live") { moveToTrash(email.id); return; }
     const previousFolder = email.folder;
     moveToTrash(email.id);
     onBack?.();
@@ -126,8 +168,20 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
           </button>
         )}
         <div className="flex flex-1 items-center gap-1">
+          {editingDraft && !email.htmlBody ? (
           <button
             type="button"
+            onClick={handleEditDraft}
+            className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
+            aria-label={t("editDraft")}
+          >
+            <Pencil size={18} />
+          </button>
+          ) : null}
+          {!editingDraft ? <>
+          <button
+            type="button"
+            disabled={mode === "live" && !replyRecipient}
             onClick={handleReply}
             className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
             aria-label={t("reply")}
@@ -136,6 +190,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
           </button>
           <button
             type="button"
+            disabled={mode === "live" && !replyRecipient}
             onClick={handleReplyAll}
             className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
             aria-label={t("replyAll")}
@@ -144,14 +199,17 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
           </button>
           <button
             type="button"
+            disabled={mode === "live" && (email.attachments?.length ?? 0) > 20}
             onClick={handleForward}
             className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
             aria-label={t("forward")}
           >
             <Forward size={18} />
           </button>
+          </> : null}
           <button
             type="button"
+            disabled={pendingMutationIds.includes(email.id)}
             onClick={() => toggleStar(email.id)}
             className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
             aria-label={tList("markImportant")}
@@ -164,6 +222,7 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
           </button>
           <button
             type="button"
+            disabled={mode === "live" && (email.folder === "trash" || pendingMutationIds.includes(email.id))}
             onClick={handleDelete}
             className="rounded-(--radius-app) p-2 hover:bg-black/5 dark:hover:bg-white/10"
             aria-label={tList("delete")}
@@ -172,6 +231,10 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
           </button>
         </div>
       </header>
+
+      {mode === "live" && mutationStatus ? (
+        <p role="alert" className="border-b border-(--border-app) px-4 py-2 text-xs text-(--status-danger)">{tService(mutationStatus)}</p>
+      ) : null}
 
       <div className="flex min-h-0 flex-1">
         <div className={`flex-1 overflow-y-auto ${CONTENT_STYLE[style]}`}>
@@ -202,11 +265,28 @@ export function ReadingPane({ onBack }: { onBack?: () => void }) {
 
           {email.invite && <InviteCard invite={email.invite} />}
 
-          <div className="max-w-2xl space-y-4 text-sm leading-relaxed whitespace-pre-line">
-            {email.body.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </div>
+          {mode === "live" && email.htmlBody ? <LiveHtmlMessageBody html={email.htmlBody} subject={subject}
+            blockedExternalImages={email.blockedExternalImages} attachments={email.attachments} /> :
+            <div className="max-w-2xl space-y-4 text-sm leading-relaxed whitespace-pre-line">
+              {email.body.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+            </div>}
+          {email.attachments && email.attachments.length > 0 ? (
+            <section className="mt-6 max-w-2xl border-t border-(--border-app) pt-4" aria-label={tCompose("attachmentCount", { count: email.attachments.length })}>
+              <h2 className="text-sm font-semibold">{tCompose("attachmentCount", { count: email.attachments.length })}</h2>
+              <ul className="mt-2 space-y-1 text-sm text-(--text-muted)">
+                {email.attachments.map((attachment) => (
+                  <li key={attachment.blobId}>
+                    {mode === "live" ? (
+                      <a href={`/api/mail/attachments?blobId=${encodeURIComponent(attachment.blobId)}`} className="font-medium text-(--color-primary) underline-offset-2 hover:underline focus-visible:underline">
+                        {attachment.name}
+                      </a>
+                    ) : attachment.name}
+                    {" · "}{new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(attachment.size / 1024)} KiB
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
 
         {email.invite && <InviteAttendees invite={email.invite} />}

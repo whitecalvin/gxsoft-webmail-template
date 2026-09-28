@@ -15,6 +15,8 @@ import { SettingsHeaderTitle } from "@/components/settings/SettingsHeaderTitle";
 import { SettingsNav } from "@/components/settings/SettingsNav";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { useToast } from "@/context/toast-context";
+import { useMail } from "@/context/mail-context";
+import { LiveSecurity } from "@/components/settings/LiveSecurity";
 
 // "계정 보안" settings page: 2FA/password status, MFA methods, signed-in
 // sessions (with revoke), and a personal security event log.
@@ -35,6 +37,11 @@ const EVENT_DOT: Record<string, string> = {
 type ConfirmKind = "reissue" | "logout-all" | null;
 
 export default function SecurityPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveSecurity /> : <MockSecurityPage />;
+}
+
+function MockSecurityPage() {
   const toast = useToast();
   const locale = useLocale();
   const t = useTranslations("securityPage");

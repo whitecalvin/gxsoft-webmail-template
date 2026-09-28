@@ -7,6 +7,8 @@ import { OrgTreeSidebar } from "@/components/contacts/OrgTreeSidebar";
 import { MyContactsView } from "@/components/contacts/MyContactsView";
 import { OrgTeamView } from "@/components/contacts/OrgTeamView";
 import { ContactsMobileView } from "@/components/contacts/ContactsMobileView";
+import { LiveContacts } from "@/components/contacts/LiveContacts";
+import { useMail } from "@/context/mail-context";
 import type { ContactFilter } from "@/types/contacts";
 
 // Contacts hub: switches the right pane between "my contacts" and the org
@@ -14,6 +16,11 @@ import type { ContactFilter } from "@/types/contacts";
 type ContactMode = "my" | "org";
 
 export default function ContactsPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveContacts /> : <MockContactsPage />;
+}
+
+function MockContactsPage() {
   const t = useTranslations("contactsPage");
   const [mode, setMode] = useState<ContactMode>("my");
   const [myGroupFilter, setMyGroupFilter] = useState<ContactFilter>("all");

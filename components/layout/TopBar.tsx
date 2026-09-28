@@ -6,6 +6,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { getPathname, Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Bell, HelpCircle, Languages, LogOut, Menu, Paintbrush, Search, ShieldCheck, UserCog, X } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
+import { useMail } from "@/context/mail-context";
+import { useToast } from "@/context/toast-context";
 import { localeNames, locales, type Locale } from "@/i18n/routing";
 import { CURRENT_USER } from "@/lib/current-user";
 import { NotificationPopover } from "@/components/notifications/NotificationPopover";
@@ -13,6 +15,7 @@ import { containTabFocus } from "@/components/overlay/contain-tab-focus";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Avatar } from "@/components/ui/Avatar";
 import { NOTIFICATIONS } from "@/lib/mock-notifications";
+import { requestLiveSignOut } from "@/lib/tastemail/client-session";
 import type { LayoutStyle } from "@/types/theme";
 
 type OpenMenu = "none" | "notifications" | "profile";
@@ -87,14 +90,19 @@ export interface TopBarProps {
 export function TopBar({ title, titleAsHeading = true, actions, menuButtonRef, onMenuClick, menuOpen = false, onOpenTour, onToggleDelegate, showGlobalSearch = false, showMobilePageContext = true, showDesktopBrand = false }: TopBarProps) {
   const t = useTranslations("topBar");
   const tMenu = useTranslations("profileMenu");
+  const tLive = useTranslations("liveService");
+  const toast = useToast();
   const tLocale = useTranslations("localeSettings");
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
   const { openCustomizer, draft } = useTheme();
+  const { mode } = useMail();
+  const [liveUsername, setLiveUsername] = useState<string | null>(null);
   const [openMenu, setOpenMenu] = useState<OpenMenu>("none");
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [signingOut, setSigningOut] = useState(false);
+  const [notifications, setNotifications] = useState(() => mode === "mock" ? NOTIFICATIONS : []);
   const mobileSearchTriggerRef = useRef<HTMLButtonElement>(null);
   const notificationTriggerRef = useRef<HTMLButtonElement>(null);
   const themeCustomizerTriggerRef = useRef<HTMLButtonElement>(null);
@@ -103,7 +111,41 @@ export function TopBar({ title, titleAsHeading = true, actions, menuButtonRef, o
   const notificationPanelId = useId();
   const profilePanelId = useId();
   const unreadNotifications = notifications.filter((notification) => notification.unread);
+  const profileName = mode === "mock" ? CURRENT_USER.name : liveUsername?.split("@")[0] || tMenu("profile");
+  const profileEmail = mode === "mock" ? CURRENT_USER.email : liveUsername;
   const closeMenus = () => setOpenMenu("none");
+  const logout = async () => {
+    if (signingOut) return;
+    closeMenus();
+    if (mode === "live") {
+      setSigningOut(true);
+      try {
+        const revoked = await requestLiveSignOut();
+        if (!revoked) toast.error(tLive("signOutUnconfirmed"));
+      } catch {
+        toast.error(tLive("signOutFailed"));
+        setSigningOut(false);
+        return;
+      }
+    } else {
+      try { window.localStorage.removeItem("gxmail:session"); window.sessionStorage.removeItem("gxmail:session-expires-at"); } catch {}
+    }
+    router.push("/login");
+  };
+  useEffect(() => {
+    if (mode !== "live") return;
+    const controller = new AbortController();
+    fetch("/api/mail/session", { cache: "no-store", signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const payload: unknown = await response.json();
+        return payload && typeof payload === "object" && "username" in payload && typeof payload.username === "string"
+          ? payload.username : null;
+      })
+      .then((username) => { if (!controller.signal.aborted) setLiveUsername(username); })
+      .catch(() => { if (!controller.signal.aborted) setLiveUsername(null); });
+    return () => controller.abort();
+  }, [mode]);
   const changeLocale = (nextLocale: string) => {
     if (!locales.includes(nextLocale as Locale) || nextLocale === locale) return;
     const suffix = `${window.location.search}${window.location.hash}`;
@@ -193,7 +235,7 @@ export function TopBar({ title, titleAsHeading = true, actions, menuButtonRef, o
               <Bell size={18} />
               {unreadNotifications.length > 0 ? <span className="absolute right-1 top-1 h-2 w-2 rounded-full" style={{ backgroundColor: "var(--color-accent)" }} /> : null}
             </button>
-            {openMenu === "notifications" ? <NotificationPopover id={notificationPanelId} items={notifications} onMarkAllRead={() => setNotifications((items) => items.map((item) => ({ ...item, unread: false })))} onClose={closeMenus} /> : null}
+            {openMenu === "notifications" ? <NotificationPopover id={notificationPanelId} items={notifications} live={mode === "live"} onMarkAllRead={() => setNotifications((items) => items.map((item) => ({ ...item, unread: false })))} onClose={closeMenus} /> : null}
           </div>
           <button
             ref={themeCustomizerTriggerRef}
@@ -207,17 +249,17 @@ export function TopBar({ title, titleAsHeading = true, actions, menuButtonRef, o
           </button>
           <div className="relative">
             <button ref={profileTriggerRef} type="button" onClick={() => setOpenMenu((value) => value === "profile" ? "none" : "profile")} className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-(--focus-ring)" aria-label={tMenu("profile")} aria-haspopup="dialog" aria-expanded={openMenu === "profile"} aria-controls={openMenu === "profile" ? profilePanelId : undefined}>
-              <Avatar name={CURRENT_USER.name} size="sm" />
+              <Avatar name={profileName} size="sm" />
             </button>
             {openMenu === "profile" ? (
               <>
                 <div aria-hidden="true" className="fixed inset-0 z-(--layer-popover-backdrop)" onClick={closeMenus} />
                 <div ref={profilePanelRef} id={profilePanelId} role="dialog" aria-label={tMenu("profile")} onKeyDown={(event) => containTabFocus(event, profilePanelRef.current)} className="absolute right-0 top-full z-(--layer-popover) mt-2 w-56 overflow-hidden rounded-(--radius-app) border border-(--border-app) bg-background shadow-xl">
                   <div className="flex min-w-0 items-center gap-3 border-b border-(--border-app) px-4 py-3">
-                    <Avatar name={CURRENT_USER.name} size="md" />
+                    <Avatar name={profileName} size="md" />
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{CURRENT_USER.name}</p>
-                      <p className="truncate text-xs text-(--text-muted)">{CURRENT_USER.email}</p>
+                      <p className="truncate text-sm font-medium">{profileName}</p>
+                      {profileEmail ? <p className="truncate text-xs text-(--text-muted)">{profileEmail}</p> : null}
                     </div>
                   </div>
                   <button type="button" onClick={() => { themeCustomizerTriggerRef.current?.focus(); closeMenus(); openCustomizer(); }} className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-black/5 dark:hover:bg-white/5"><Paintbrush size={16} style={{ color: "var(--color-accent)" }} />{tMenu("themeCustomizer")}</button>
@@ -234,9 +276,9 @@ export function TopBar({ title, titleAsHeading = true, actions, menuButtonRef, o
                       />
                     </div>
                   </div>
-                  <Link href="/admin" onClick={closeMenus} className="flex w-full items-center gap-2 border-t border-(--border-app) px-4 py-2.5 text-left text-sm hover:bg-black/5 dark:hover:bg-white/5"><ShieldCheck size={16} className="text-(--text-muted)" />{tMenu("admin")}</Link>
+                  {mode === "mock" ? <Link href="/admin" onClick={closeMenus} className="flex w-full items-center gap-2 border-t border-(--border-app) px-4 py-2.5 text-left text-sm hover:bg-black/5 dark:hover:bg-white/5"><ShieldCheck size={16} className="text-(--text-muted)" />{tMenu("admin")}</Link> : null}
                   {onToggleDelegate ? <button type="button" onClick={() => { onToggleDelegate(); closeMenus(); }} className="flex w-full items-center gap-2 border-t border-(--border-app) px-4 py-2.5 text-left text-sm hover:bg-black/5 dark:hover:bg-white/5"><UserCog size={16} className="text-(--text-muted)" />{tMenu("switchToDelegate")}</button> : null}
-                  <button type="button" onClick={() => { closeMenus(); try { window.localStorage.removeItem("gxmail:session"); window.sessionStorage.removeItem("gxmail:session-expires-at"); } catch {} router.push("/login"); }} className="flex w-full items-center gap-2 border-t border-(--border-app) px-4 py-2.5 text-left text-sm text-(--status-danger) hover:bg-black/5 dark:hover:bg-white/5"><LogOut size={16} />{tMenu("logout")}</button>
+                  <button type="button" onClick={logout} disabled={signingOut} className="flex w-full items-center gap-2 border-t border-(--border-app) px-4 py-2.5 text-left text-sm text-(--status-danger) hover:bg-black/5 disabled:opacity-50 dark:hover:bg-white/5"><LogOut size={16} />{tMenu("logout")}</button>
                 </div>
               </>
             ) : null}

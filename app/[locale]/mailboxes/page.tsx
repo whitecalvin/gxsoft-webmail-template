@@ -10,6 +10,8 @@ import {
 } from "@/lib/mock-mailboxes";
 import { LoadingModal } from "@/components/overlay/LoadingModal";
 import { useToast } from "@/context/toast-context";
+import { useMail } from "@/context/mail-context";
+import { LiveSharedMailboxes } from "@/components/mail/LiveSharedMailboxes";
 
 // Shared/delegated mailboxes with scheduled-send and template utilities.
 // the scheduled-send queue (with a simulated "send now" progress modal),
@@ -21,6 +23,11 @@ const STATE_TONE: Record<string, string> = {
 };
 
 export default function MailboxesPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveSharedMailboxes /> : <MockMailboxesPage />;
+}
+
+function MockMailboxesPage() {
   const toast = useToast();
   const t = useTranslations("mailboxesPage");
   const tMock = useTranslations("mailboxesMock");

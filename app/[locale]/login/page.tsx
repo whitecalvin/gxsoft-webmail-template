@@ -7,30 +7,69 @@ import { Check, ShieldCheck } from "lucide-react";
 import { CURRENT_USER } from "@/lib/current-user";
 import { useToast } from "@/context/toast-context";
 import { localeNames, type Locale } from "@/i18n/routing";
+import { useMail } from "@/context/mail-context";
 
-// Mocked login screen: any non-empty email/password combination succeeds
-// after a fake delay and sets a localStorage flag AppShell checks to run its
-// session-expiry countdown — there's no real authentication.
+// Mock mode preserves the local demo login; live mode uses the same-origin session route.
 export default function LoginPage() {
   const router = useRouter();
   const toast = useToast();
   const locale = useLocale() as Locale;
   const t = useTranslations("auth.login");
   const common = useTranslations("auth.common");
-  const [email, setEmail] = useState(CURRENT_USER.email);
+  const { mode, retryLoad } = useMail();
+  const [email, setEmail] = useState(mode === "live" ? "" : CURRENT_USER.email);
   const [password, setPassword] = useState("");
+  const [mfaCode, setMfaCode] = useState("");
+  const [mfaRequired, setMfaRequired] = useState(false);
   const [remember, setRemember] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<"missingCredentials" | null>(null);
+  const [error, setError] = useState<"missingCredentials" | "invalidCredentials" | "mfaRequired" | "invalidMfaCode" | "forbidden" | "rateLimited" | "serverUnavailable" | "insecureConnection" | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!email.trim() || !password) {
       setError("missingCredentials");
       return;
     }
+    if (mode === "live") {
+      const { protocol, hostname } = window.location;
+      const isLoopback = ["localhost", "127.0.0.1", "[::1]"].includes(hostname.toLowerCase());
+      if (protocol !== "https:" && !(protocol === "http:" && isLoopback)) {
+        setError("insecureConnection");
+        return;
+      }
+    }
     setError(null);
     setIsSubmitting(true);
+    if (mode === "live") {
+      try {
+        const response = await fetch("/api/mail/session", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ username: email.trim(), password, ...(mfaCode.trim() ? { mfaCode: mfaCode.trim() } : {}) }),
+          signal: AbortSignal.timeout(20_000),
+        });
+        const result: unknown = await response.json();
+        const status = result && typeof result === "object" && "status" in result ? result.status : null;
+        if (!response.ok) {
+          if (status === "mfaRequired" || status === "invalidMfaCode") {
+            setMfaRequired(true);
+            setError(status);
+          } else {
+            setError(status === "insecure_transport" ? "insecureConnection" : status === "unauthorized" ? "invalidCredentials" : status === "forbidden" || status === "rateLimited" ? status : "serverUnavailable");
+          }
+          return;
+        }
+        retryLoad();
+        router.push("/");
+        router.refresh();
+      } catch {
+        setError("serverUnavailable");
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
     window.setTimeout(() => {
       try {
         window.localStorage.setItem("gxmail:session", remember ? "persistent" : "session");
@@ -92,7 +131,14 @@ export default function LoginPage() {
               />
             </label>
 
-            <div className="flex items-center justify-between pt-1">
+            {mode === "live" && mfaRequired ? (
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-semibold text-(--text-muted)">{t("mfaCodeLabel")}</span>
+                <input type="text" inputMode="numeric" autoComplete="one-time-code" value={mfaCode} onChange={(event) => setMfaCode(event.target.value)} className="h-12 rounded-[10px] border border-(--border-app) bg-black/1.5 px-3.5 text-sm text-foreground outline-none focus:border-(--color-primary) dark:bg-white/3" />
+              </label>
+            ) : null}
+
+            {mode === "mock" ? <div className="flex items-center justify-between pt-1">
               <button
                 type="button"
                 onClick={() => setRemember((v) => !v)}
@@ -121,7 +167,7 @@ export default function LoginPage() {
               >
                 {t("forgotPassword")}
               </Link>
-            </div>
+            </div> : null}
 
             {error && (
               <p role="alert" className="text-xs font-medium text-(--status-danger)">
@@ -138,7 +184,7 @@ export default function LoginPage() {
               >
                 {isSubmitting ? t("submitting") : common("signIn")}
               </button>
-              <button
+              {mode === "mock" ? <button
                 type="button"
                 onClick={() => toast.info(t("ssoNotice"), { sub: t("ssoContact") })}
                 className="flex h-11 items-center justify-center gap-2 rounded-[10px] border border-(--border-app) bg-background text-[13px] font-semibold text-(--text-muted) outline-none transition duration-200 hover:border-(--text-muted) hover:text-foreground active:translate-y-px focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2 dark:hover:bg-white/3"
@@ -147,7 +193,7 @@ export default function LoginPage() {
                   S
                 </span>
                 {t("ssoButton")}
-              </button>
+              </button> : null}
             </div>
           </form>
 
@@ -165,12 +211,12 @@ export default function LoginPage() {
               {t("twoFactorHint")}
             </p>
           </div>
-          <p className="mt-7 text-sm text-(--text-muted) xl:hidden">
+          {mode === "mock" ? <p className="mt-7 text-sm text-(--text-muted) xl:hidden">
             {common("noAccount")}{" "}
             <Link href="/signup" className="rounded font-semibold text-(--color-primary) outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2">
               {common("signUp")}
             </Link>
-          </p>
+          </p> : null}
           </div>
         </div>
 
@@ -199,9 +245,9 @@ export default function LoginPage() {
           </div>
           <div className="flex items-center justify-between gap-4 sm:justify-end">
             <span>{localeNames[locale]}</span>
-            <Link href="/setup" className="rounded font-medium outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-(--color-primary)">
+            {mode === "mock" ? <Link href="/setup" className="rounded font-medium outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-(--color-primary)">
               {common("setupWizard")}
-            </Link>
+            </Link> : null}
           </div>
         </footer>
       </main>
@@ -243,12 +289,12 @@ export default function LoginPage() {
             ])}
             </div>
 
-            <p className="mt-8 text-sm text-white/75">
+            {mode === "mock" ? <p className="mt-8 text-sm text-white/75">
               {common("noAccount")}{" "}
               <Link href="/signup" className="rounded font-semibold text-white underline decoration-white/40 underline-offset-4 outline-none transition hover:decoration-white focus-visible:ring-2 focus-visible:ring-white">
                 {common("signUp")}
               </Link>
-            </p>
+            </p> : null}
           </div>
 
           <p className="text-xs text-white/40">

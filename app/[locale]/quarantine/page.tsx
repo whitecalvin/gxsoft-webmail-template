@@ -8,6 +8,8 @@ import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { InlineBanner } from "@/components/banner/InlineBanner";
 import { useToast } from "@/context/toast-context";
 import { useMailTimestamp } from "@/components/mail/useMailTimestamp";
+import { useMail } from "@/context/mail-context";
+import { LiveQuarantine } from "@/components/quarantine/LiveQuarantine";
 import {
   QUARANTINE_DETAIL_CHECKS,
   QUARANTINE_MAILS,
@@ -38,6 +40,11 @@ const CHECK_ICON_STYLE = {
 };
 
 export default function QuarantinePage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveQuarantine /> : <MockQuarantinePage />;
+}
+
+function MockQuarantinePage() {
   const toast = useToast();
   const t = useTranslations("quarantinePage");
   const formatTime = useMailTimestamp();

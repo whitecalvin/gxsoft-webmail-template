@@ -8,6 +8,8 @@ import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { useToast } from "@/context/toast-context";
 import { useSettings } from "@/context/settings-context";
 import { CURRENT_USER } from "@/lib/current-user";
+import { useMail } from "@/context/mail-context";
+import { LiveApprovals } from "@/components/approvals/LiveApprovals";
 import {
   APPROVALS,
   APPROVAL_CHAIN,
@@ -30,6 +32,11 @@ const CHAIN_STATE_STYLE = {
 };
 
 export default function ApprovalsPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveApprovals /> : <MockApprovalsPage />;
+}
+
+function MockApprovalsPage() {
   const toast = useToast();
   const locale = useLocale();
   const t = useTranslations("approvalsPage");

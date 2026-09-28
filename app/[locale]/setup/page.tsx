@@ -6,6 +6,8 @@ import { useRouter } from "@/i18n/navigation";
 import { Check, RefreshCw } from "lucide-react";
 import { DB_CHECKS, SETUP_DNS_RECORDS, SETUP_STEP_IDS } from "@/lib/mock-setup";
 import { useToast } from "@/context/toast-context";
+import { useMail } from "@/context/mail-context";
+import { LiveInitialSetup } from "@/components/setup/LiveInitialSetup";
 
 // Self-hosted mail server "first run" install wizard (/setup) — a 7-step
 // flow ending in redirect to /login. Each step's "recheck" actions simulate
@@ -35,6 +37,11 @@ const STORAGE_FIELDS = ["path", "frequency", "retention"] as const;
 const SECURITY_POLICIES = ["spam", "dlp", "twoFactor", "externalWarning"] as const;
 
 export default function SetupPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveInitialSetup /> : <MockSetupPage />;
+}
+
+function MockSetupPage() {
   const router = useRouter();
   const t = useTranslations("setup");
   const toast = useToast();

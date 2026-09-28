@@ -7,6 +7,8 @@ import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
 import { BIG_LINKS, FILE_CARDS, FILE_PERIODS, FILE_SORTS, FILE_TYPES } from "@/lib/mock-files";
 import type { FileCard, FilePeriodId, FileSizeUnit, FileSortId, FileTypeId, LinkStateId } from "@/lib/mock-files";
 import { useToast } from "@/context/toast-context";
+import { useMail } from "@/context/mail-context";
+import { LiveFiles } from "@/components/files/LiveFiles";
 
 // Attachments browser: a grid/list of files pulled from mail, filterable by
 // type/period/sort, plus a large-file-link tracker in the right rail.
@@ -30,6 +32,11 @@ function sizeInKb(file: FileCard) {
 }
 
 export default function FilesPage() {
+  const { mode } = useMail();
+  return mode === "live" ? <LiveFiles /> : <MockFilesPage />;
+}
+
+function MockFilesPage() {
   const toast = useToast();
   const locale = useLocale();
   const t = useTranslations("filesPage");

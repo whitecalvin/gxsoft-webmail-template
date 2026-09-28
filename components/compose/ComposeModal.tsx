@@ -10,12 +10,10 @@ import { InlineBanner } from "@/components/banner/InlineBanner";
 import { ComposeEditor } from "@/components/compose/ComposeEditor";
 import type { ComposeDraft } from "@/types/mail";
 import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
+import type { LiveAddressSuggestion } from "@/lib/tastemail/contacts";
 
-// The compose window: recipient chips, cc/bcc, an AI "rewrite tone" banner,
-// drag-and-drop attachments, and a send/schedule split button. All of it is
-// mocked — "sending" just appends to the in-memory Sent folder (see
-// context/mail-context.tsx's sendEmail), and the AI/schedule features are
-// non-functional demos of the UI only.
+// The compose window keeps the mock send demo separate from live draft,
+// upload, and submission requests. AI and scheduling remain mock-only.
 const INTERNAL_DOMAIN = "@gxsoft.co.kr";
 const MAX_ATTACHMENT_BYTES = 2 * 1024 * 1024 * 1024;
 const LARGE_FILE_LINK_THRESHOLD = 25 * 1024 * 1024;
@@ -39,6 +37,8 @@ interface Attachment {
   name: string;
   size: number;
   ext: string;
+  blobId?: string;
+  type?: string;
 }
 
 const RECIPIENT_PALETTE = [
@@ -115,23 +115,44 @@ function ComposeForm({
   onClose: () => void;
 }) {
   const t = useTranslations("composeModal");
+  const tReading = useTranslations("readingPane");
   const locale = useLocale();
-  const { sendEmail } = useMail();
+  const { sendEmail, mode, retryLoad } = useMail();
+  const tService = useTranslations("liveService");
   const toast = useToast();
   const [recipients, setRecipients] = useState<Recipient[]>(() => parseRecipients(initial.to));
   const [recipientInput, setRecipientInput] = useState("");
+  const [suggestions, setSuggestions] = useState<LiveAddressSuggestion[]>([]);
+  const [suggestionResultQuery, setSuggestionResultQuery] = useState("");
+  const [suggestionOpen, setSuggestionOpen] = useState(false);
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [suggestionError, setSuggestionError] = useState<"unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable" | null>(null);
   const [showCcBcc, setShowCcBcc] = useState(Boolean(initial.cc || initial.bcc));
   const [cc, setCc] = useState(initial.cc ?? "");
   const [bcc, setBcc] = useState(initial.bcc ?? "");
   const [subject, setSubject] = useState(initial.subject);
   const [body, setBody] = useState(initial.body);
+  const [insertedSignature, setInsertedSignature] = useState<string | null>(null);
+  const bodyTouched = useRef(false);
   const [tone, setTone] = useState<ToneKey | null>(null);
-  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>(() => (initial.attachments ?? []).map((attachment, index) => ({
+    ...attachment,
+    id: `forwarded-${index}`,
+    ext: attachment.name.split(".").pop()?.toLowerCase() ?? "",
+  })));
+  const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [composeError, setComposeError] = useState<string | null>(null);
+  const [submissionUncertain, setSubmissionUncertain] = useState(false);
+  const [fromAddress, setFromAddress] = useState<string | null>(null);
+  const [ownAddresses, setOwnAddresses] = useState<string[]>([]);
+  const [maxAttachmentBytes, setMaxAttachmentBytes] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [confirmingDiscard, setConfirmingDiscard] = useState(false);
   const titleId = useId();
+  const suggestionListId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const recipientInputRef = useRef<HTMLInputElement>(null);
@@ -147,10 +168,42 @@ function ComposeForm({
     { id: "nextMonday", label: t("schedule.nextMonday", { time: formatTime(9) }) },
   ];
 
+  useEffect(() => {
+    if (mode !== "live") return;
+    const controller = new AbortController();
+    fetch("/api/mail/compose", { cache: "no-store", signal: controller.signal })
+      .then(async (response) => {
+        const payload = await response.json();
+        if (!response.ok || typeof payload.from !== "string" || typeof payload.signature !== "string" || !Number.isSafeInteger(payload.maxAttachmentBytes) ||
+            !Array.isArray(payload.availableFrom) || !payload.availableFrom.every((item: unknown) => typeof item === "string")) throw new Error(payload.status ?? "unavailable");
+        if (!controller.signal.aborted) {
+          const chosenFrom = initial.fromAddress
+            ? payload.availableFrom.find((item: string) => item.toLowerCase() === initial.fromAddress?.toLowerCase())
+            : payload.from;
+          if (!chosenFrom) {
+            setComposeError("identityMismatch");
+            return;
+          }
+          setFromAddress(chosenFrom);
+          setOwnAddresses(payload.availableFrom);
+          setMaxAttachmentBytes(payload.maxAttachmentBytes);
+          if (!initial.previousDraftId && !initial.body && !bodyTouched.current && payload.signature) {
+            const signatureBlock = `\n\n-- \n${payload.signature}`;
+            setInsertedSignature(signatureBlock);
+            setBody((current) => current ? current : signatureBlock);
+          }
+        }
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) setComposeError(error instanceof Error ? error.message : "retryable");
+      });
+    return () => controller.abort();
+  }, [mode, initial.body, initial.fromAddress, initial.previousDraftId]);
+
   const hasContent =
     recipients.length > 0 ||
     subject.trim() ||
-    body.trim() ||
+    (body.trim() && body !== insertedSignature) ||
     attachments.length > 0 ||
     recipientInput.trim() ||
     cc.trim() ||
@@ -163,20 +216,87 @@ function ComposeForm({
     .split(",")
     .map((a) => a.trim())
     .filter(Boolean);
+  const liveComposePayload = () => {
+    const to = [...recipients.map((recipient) => recipient.label), ...recipientInput.split(/[,;\n]+/u).map((value) => value.trim()).filter(Boolean)];
+    const self = initial.replyAll ? new Set(ownAddresses.map((address) => address.toLowerCase())) : null;
+    return {
+      to: self ? to.filter((address) => !self.has(address.toLowerCase())) : to,
+      cc: self ? ccAddrs.filter((address) => !self.has(address.toLowerCase())) : ccAddrs,
+      bcc: bccAddrs,
+      fromAddress: fromAddress ?? undefined,
+      subject, body,
+      inReplyTo: initial.inReplyTo ?? [],
+      references: initial.references ?? [],
+      ...(initial.previousDraftId ? { previousDraftId: initial.previousDraftId } : {}),
+      attachments: attachments.map(({ blobId, name, type, size }) => ({ blobId, name, type, size })),
+    };
+  };
   // Drives the "N external recipients" warning banner — anyone whose address
   // isn't on the internal domain, across To/Cc/Bcc combined.
   const externalCount =
     recipients.filter((r) => !r.label.toLowerCase().endsWith(INTERNAL_DOMAIN)).length +
     [...ccAddrs, ...bccAddrs].filter((a) => !a.toLowerCase().endsWith(INTERNAL_DOMAIN)).length;
 
+  const recipientQuery = recipientInput.split(/[,;\n]/u).at(-1)?.trim() ?? "";
+  const visibleSuggestions = suggestionOpen && recipientQuery === suggestionResultQuery ? suggestions : [];
+
+  useEffect(() => {
+    if (mode !== "live" || recipientQuery.length < 2 || [...recipientQuery].length > 200) return;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({ q: recipientQuery });
+        const response = await fetch(`/api/mail/contact-suggestions?${params}`, { cache: "no-store", signal: controller.signal });
+        const payload = await response.json();
+        if (controller.signal.aborted) return;
+        if (!response.ok || !Array.isArray(payload.suggestions)) throw new Error(payload.status ?? "unavailable");
+        setSuggestions(payload.suggestions);
+        setSuggestionResultQuery(recipientQuery);
+        setActiveSuggestion(0);
+        setSuggestionError(null);
+        setSuggestionOpen(payload.suggestions.length > 0);
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        const status = error instanceof Error ? error.message : "retryable";
+        setSuggestions([]);
+        setSuggestionError(["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(status) ? status as typeof suggestionError : "retryable");
+        setSuggestionResultQuery(recipientQuery);
+        setSuggestionOpen(true);
+      }
+    }, 200);
+    return () => { window.clearTimeout(timer); controller.abort(); };
+  }, [mode, recipientQuery]);
+
+  const selectSuggestion = (suggestion: LiveAddressSuggestion) => {
+    const pending = recipientInput.split(/[,;\n]+/u).slice(0, -1).map((value) => value.trim()).filter(Boolean);
+    setRecipients((previous) => [...previous, ...parseRecipients([...pending, suggestion.email].join(", "))]);
+    setRecipientInput("");
+    setSuggestionOpen(false);
+    recipientInputRef.current?.focus();
+  };
+
   const commitRecipientInput = () => {
     const val = recipientInput.trim();
     if (!val) return;
-    setRecipients((prev) => [...prev, ...parseRecipients(val)]);
+    setRecipients((prev) => [...prev, ...parseRecipients(val.split(/[,;\n]+/u).join(", "))]);
     setRecipientInput("");
+    setSuggestionOpen(false);
   };
 
   const handleRecipientKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (visibleSuggestions.length > 0) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveSuggestion((index) => (index + (e.key === "ArrowDown" ? 1 : visibleSuggestions.length - 1)) % visibleSuggestions.length);
+        return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        selectSuggestion(visibleSuggestions[activeSuggestion] ?? visibleSuggestions[0]);
+        return;
+      }
+    }
+    if (e.key === "Escape" && suggestionOpen) { e.preventDefault(); setSuggestionOpen(false); return; }
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
       commitRecipientInput();
@@ -187,6 +307,31 @@ function ComposeForm({
 
   const addFiles = (files: FileList | File[]) => {
     const incoming = Array.from(files);
+    if (mode === "live") {
+      const incomingBytes = incoming.reduce((total, file) => total + file.size, 0);
+      const existingBytes = attachments.reduce((total, file) => total + file.size, 0);
+      if (uploading || incoming.length + attachments.length > 20 || incomingBytes + existingBytes > maxAttachmentBytes) { setComposeError("invalid_request"); return; }
+      setUploading(true);
+      setComposeError(null);
+      void Promise.allSettled(incoming.map(async (file) => {
+        if (!file.size || file.size > MAX_ATTACHMENT_BYTES) throw new Error("invalid_request");
+        const response = await fetch(`/api/mail/upload?name=${encodeURIComponent(file.name)}`, {
+          method: "POST", headers: { "content-type": file.type || "application/octet-stream" }, body: file,
+          signal: AbortSignal.timeout(120_000),
+        });
+        const payload = await response.json();
+        if (!response.ok || typeof payload.blobId !== "string" || typeof payload.type !== "string" || typeof payload.size !== "number") {
+          throw new Error(payload.status ?? "unavailable");
+        }
+        return { id: `att-${crypto.randomUUID()}`, name: file.name, size: payload.size, ext: file.name.split(".").pop()?.toLowerCase() ?? "", blobId: payload.blobId, type: payload.type };
+      })).then((results) => {
+        const uploaded = results.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
+        if (uploaded.length) setAttachments((current) => [...current, ...uploaded]);
+        const failed = results.find((result) => result.status === "rejected");
+        if (failed?.status === "rejected") setComposeError(failed.reason instanceof Error ? failed.reason.message : "unavailable");
+      }).finally(() => setUploading(false));
+      return;
+    }
     const tooBig = incoming.filter((f) => f.size > MAX_ATTACHMENT_BYTES);
     const accepted = incoming.filter((f) => f.size <= MAX_ATTACHMENT_BYTES);
     if (accepted.length > 0) {
@@ -211,6 +356,33 @@ function ComposeForm({
 
   const handleSend = (e: FormEvent) => {
     e.preventDefault();
+    if (mode === "live") {
+      if (submitting || uploading || !fromAddress || submissionUncertain) return;
+      setSubmitting(true);
+      setComposeError(null);
+      void fetch("/api/mail/compose", {
+        method: "POST", headers: { "content-type": "application/json" },
+        signal: AbortSignal.timeout(60_000),
+        body: JSON.stringify({ action: "send", ...liveComposePayload() }),
+      }).then(async (response) => {
+        const payload = await response.json();
+        if (!response.ok || payload.status !== "submitted") throw new Error(payload.status ?? "unavailable");
+        retryLoad();
+        toast.success(t("sent"), payload.previousDraftCleanupConfirmed === false ? { sub: t("oldDraftMayRemain") } : undefined);
+        onClose();
+      }).catch((error: unknown) => {
+        const reason = error instanceof Error ? error.message : "submission_uncertain";
+        if (reason === "draft_uncertain" || reason === "submission_rejected_draft_uncertain") {
+          setSubmissionUncertain(true);
+          setComposeError(reason);
+        } else if (!["invalid_request", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
+          setSubmissionUncertain(true);
+          setComposeError("submission_uncertain");
+        } else setComposeError(reason);
+      })
+        .finally(() => setSubmitting(false));
+      return;
+    }
     commitRecipientInput();
     const toStr = recipients.map((r) => r.label).join(", ") || recipientInput.trim();
     const attachmentNote =
@@ -226,6 +398,7 @@ function ComposeForm({
   };
 
   const handleClose = () => {
+    if (submitting || uploading) return;
     if (hasContent) {
       setConfirmingDiscard(true);
       return;
@@ -300,10 +473,10 @@ function ComposeForm({
         }`}
       >
         <div className="flex shrink-0 items-center gap-2.5 border-b border-(--border-app) px-4 py-3">
-          <h2 id={titleId} className="text-sm font-bold tracking-tight">{t("newMail")}</h2>
-          <span className="rounded-full bg-(--surface-muted) px-2 py-0.5 text-[11px] text-(--text-muted)">
+          <h2 id={titleId} className="text-sm font-bold tracking-tight">{initial.previousDraftId ? tReading("editDraft") : t("newMail")}</h2>
+          {mode === "mock" ? <span className="rounded-full bg-(--surface-muted) px-2 py-0.5 text-[11px] text-(--text-muted)">
             {t("savedJustNow")}
-          </span>
+          </span> : fromAddress ? <span className="truncate text-xs text-(--text-muted)">{fromAddress}</span> : null}
           <div className="ml-auto flex items-center gap-1 text-(--text-muted)">
             <button
               type="button"
@@ -328,7 +501,7 @@ function ComposeForm({
           <div className="flex flex-col px-4">
             <div className="flex items-start gap-3 border-b border-(--border-app) py-2.5">
               <span className="mt-1.5 shrink-0 text-xs font-semibold text-(--text-muted)">{t("to")}</span>
-              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+              <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
                 {recipients.map((r) => (
                   <button
                     key={r.id}
@@ -351,13 +524,33 @@ function ComposeForm({
                   ref={recipientInputRef}
                   type="text"
                   aria-label={t("to")}
+                  role={mode === "live" ? "combobox" : undefined}
+                  aria-autocomplete={mode === "live" ? "list" : undefined}
+                  aria-controls={mode === "live" ? suggestionListId : undefined}
+                  aria-expanded={mode === "live" ? visibleSuggestions.length > 0 : undefined}
+                  aria-activedescendant={visibleSuggestions.length > 0 ? `${suggestionListId}-${activeSuggestion}` : undefined}
+                  autoComplete="off"
                   value={recipientInput}
-                  onChange={(e) => setRecipientInput(e.target.value)}
+                  onChange={(e) => { setRecipientInput(e.target.value); setSuggestionOpen(false); setSuggestionError(null); }}
+                  onFocus={() => { if (recipientQuery === suggestionResultQuery && suggestions.length > 0) setSuggestionOpen(true); }}
                   onKeyDown={handleRecipientKeyDown}
-                  onBlur={commitRecipientInput}
+                  onBlur={() => { setSuggestionOpen(false); commitRecipientInput(); }}
                   placeholder={t("recipientPlaceholder")}
                   className="min-w-0 flex-1 basis-35 bg-transparent text-base outline-none placeholder:text-(--text-muted) md:text-xs"
                 />
+                {mode === "live" && suggestionOpen && recipientQuery === suggestionResultQuery && (visibleSuggestions.length > 0 || suggestionError) ? (
+                  <ul id={suggestionListId} role="listbox" className="absolute top-full left-0 z-(--layer-popover) mt-2 max-h-56 w-full min-w-56 overflow-y-auto rounded-lg border border-(--border-app) bg-background py-1 text-foreground shadow-lg">
+                    {visibleSuggestions.map((suggestion, index) => (
+                      <li id={`${suggestionListId}-${index}`} key={suggestion.email.toLowerCase()} role="option" aria-selected={index === activeSuggestion}>
+                        <button type="button" onPointerDown={(event) => event.preventDefault()} onClick={() => selectSuggestion(suggestion)} className="flex w-full flex-col px-3 py-2 text-left text-xs hover:bg-(--surface-muted) focus-visible:bg-(--surface-muted)" >
+                          <span className="font-medium">{suggestion.name || suggestion.email}</span>
+                          {suggestion.name ? <span className="text-(--text-muted)">{suggestion.email}</span> : null}
+                        </button>
+                      </li>
+                    ))}
+                    {suggestionError ? <li className="px-3 py-2 text-xs text-(--status-danger)">{tService(suggestionError)}</li> : null}
+                  </ul>
+                ) : null}
               </div>
               <button
                 type="button"
@@ -411,7 +604,8 @@ function ComposeForm({
             </div>
           </div>
 
-          <div className="mx-4 mb-1 flex flex-wrap items-center gap-3 rounded-xl border border-(--border-app) bg-(--surface-muted) px-4 py-3">
+          {composeError ? <p role="alert" className="mx-4 mb-2 text-sm text-(--status-danger)">{composeError === "submission_uncertain" ? t("submissionUncertain") : composeError === "submission_rejected_draft_uncertain" ? t("submissionRejectedDraftUncertain") : composeError === "draft_uncertain" ? t("draftSaveUncertain") : composeError === "identityMismatch" ? t("identityMismatch") : composeError === "invalid_request" ? t("invalidRequest") : ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(composeError) ? tService(composeError as "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable") : tService("unavailable")}</p> : null}
+          {mode === "mock" ? <div className="mx-4 mb-1 flex flex-wrap items-center gap-3 rounded-xl border border-(--border-app) bg-(--surface-muted) px-4 py-3">
             <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-md bg-(--color-primary-solid) text-[9px] font-extrabold text-white">
               AI
             </span>
@@ -435,7 +629,7 @@ function ComposeForm({
                 </button>
               ))}
             </div>
-          </div>
+          </div> : null}
 
           {externalCount > 0 && (
             <div className="px-4 pb-1">
@@ -457,12 +651,18 @@ function ComposeForm({
             </div>
           )}
 
-          <ComposeEditor
+          {mode === "live" ? <textarea
+            aria-label={t("bodyPlaceholder")}
+            value={body}
+            onChange={(event) => { bodyTouched.current = true; setBody(event.target.value); }}
+            placeholder={t("bodyPlaceholder")}
+            className="min-h-45 flex-1 resize-none border-y border-(--border-app) px-4 py-3 text-base outline-none placeholder:text-(--text-muted) md:text-sm"
+          /> : <ComposeEditor
             value={body}
             onChange={setBody}
             placeholder={t("bodyPlaceholder")}
             onImageAttach={(file) => addFiles([file])}
-          />
+          />}
 
           <div className="flex flex-col gap-2 px-4 pb-3 sm:flex-row">
             {attachments.length > 0 && (
@@ -484,7 +684,7 @@ function ComposeForm({
                         <p className="truncate text-xs font-semibold">{att.name}</p>
                         <p className="text-[11px] text-(--text-muted)">
                           {t("uploadComplete", { size: formatBytes(att.size, locale) })}
-                          {att.size > LARGE_FILE_LINK_THRESHOLD ? t("largeFileLinkSuffix") : ""}
+                          {mode === "mock" && att.size > LARGE_FILE_LINK_THRESHOLD ? t("largeFileLinkSuffix") : ""}
                         </p>
                       </div>
                       <button
@@ -530,7 +730,7 @@ function ComposeForm({
               <div className="min-w-0">
                 <p className="text-xs font-semibold">{t("dropFiles")}</p>
                 <p className="text-[11px] leading-tight text-(--text-muted)">
-                  {t("attachmentLimits")}
+                  {mode === "mock" ? t("attachmentLimits") : null}
                 </p>
               </div>
             </div>
@@ -552,11 +752,13 @@ function ComposeForm({
             <div className="flex items-center overflow-hidden rounded-[9px]" style={{ backgroundColor: "var(--color-primary-solid)" }}>
               <button
                 type="submit"
+                disabled={mode === "live" && (submitting || uploading || !fromAddress || submissionUncertain)}
                 className="min-h-11 px-4 text-[13px] font-semibold text-white transition hover:brightness-110 sm:min-h-0 sm:py-2"
               >
                 {t("send")}
               </button>
-              <span className="h-4 w-px bg-white/30" />
+              {mode === "mock" ? <span className="h-4 w-px bg-white/30" /> : null}
+              {mode === "mock" ? <>
               <button
                 ref={scheduleButtonRef}
                 type="button"
@@ -568,8 +770,9 @@ function ComposeForm({
                 <Clock size={12} />
                 {t("scheduleSend")}
               </button>
+              </> : null}
             </div>
-            {scheduleOpen && (
+            {mode === "mock" && scheduleOpen && (
               <>
                 <button type="button" tabIndex={-1} aria-label={t("closeScheduleMenu")} className="fixed inset-0 z-(--layer-popover-backdrop) cursor-default" onClick={() => { setScheduleOpen(false); scheduleButtonRef.current?.focus(); }} />
                 <div ref={scheduleMenuRef} role="group" aria-label={t("scheduleTimes")} className="absolute bottom-full left-0 z-(--layer-popover) mb-2 w-48 overflow-hidden rounded-[10px] border border-(--border-app) bg-background py-1 text-foreground shadow-xl">
@@ -606,10 +809,10 @@ function ComposeForm({
           </div>
 
           <div className="ml-auto flex items-center gap-3">
-            <span className="hidden items-center gap-1.5 text-[11px] text-(--text-muted) sm:flex">
+            {mode === "mock" ? <span className="hidden items-center gap-1.5 text-[11px] text-(--text-muted) sm:flex">
               <span className="h-1.5 w-1.5 rounded-full bg-(--status-success)" />
               {t("tlsEncrypted")}
-            </span>
+            </span> : null}
             <button
               type="button"
               onClick={handleClose}
@@ -627,9 +830,10 @@ function ComposeForm({
         <ConfirmDialog
           tone="default"
           title={t("discardTitle")}
-          description={t("discardDescription")}
+          description={submissionUncertain ? t(composeError === "draft_uncertain" ? "draftSaveUncertain" : composeError === "submission_rejected_draft_uncertain" ? "submissionRejectedDraftUncertain" : "submissionUncertain") : t("discardDescription")}
           cancelLabel={t("continueEditing")}
           confirmLabel={t("saveDraft")}
+          confirmDisabled={mode === "live" && (submitting || uploading || !fromAddress || submissionUncertain)}
           onCancel={() => setConfirmingDiscard(false)}
           middleAction={{
             label: t("discardWithoutSaving"),
@@ -639,6 +843,34 @@ function ComposeForm({
             },
           }}
           onConfirm={() => {
+            if (mode === "live") {
+              if (submitting || uploading || !fromAddress || submissionUncertain) return;
+              setSubmitting(true);
+              setComposeError(null);
+              void fetch("/api/mail/compose", {
+                method: "POST", headers: { "content-type": "application/json" },
+                signal: AbortSignal.timeout(60_000),
+                body: JSON.stringify({ action: "draft", ...liveComposePayload() }),
+              }).then(async (response) => {
+                const payload = await response.json();
+                if (!response.ok || payload.status !== "saved") throw new Error(payload.status ?? "unavailable");
+                retryLoad();
+                setConfirmingDiscard(false);
+                toast.info(t("draftSaved"), payload.previousDraftCleanupConfirmed === false ? { sub: t("oldDraftMayRemain") } : undefined);
+                onClose();
+              }).catch((error: unknown) => {
+                setConfirmingDiscard(false);
+                const reason = error instanceof Error ? error.message : "draft_uncertain";
+                if (["invalid_request", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
+                  setComposeError(reason);
+                } else {
+                  setSubmissionUncertain(true);
+                  setComposeError("draft_uncertain");
+                }
+              })
+                .finally(() => setSubmitting(false));
+              return;
+            }
             setConfirmingDiscard(false);
             toast.info(t("draftSaved"));
             onClose();
