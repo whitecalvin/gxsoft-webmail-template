@@ -1,5 +1,6 @@
 import "server-only";
 
+import { confirmsMailRuleReplacement } from "@/lib/mail-rules-confirmation";
 import { MailServiceError } from "./mail";
 import { serviceStatus, tastemailRequest } from "./server";
 
@@ -16,6 +17,7 @@ export type LiveMailRule = {
 export type LiveMailRules = {
   revision: number;
   mode: string;
+  source: string;
   enabled: boolean;
   rules: LiveMailRule[];
 };
@@ -53,7 +55,9 @@ export async function replaceLiveMailRules(token: string, expectedRevision: numb
     throw new MailServiceError("unavailable");
   }
   // Reuse the same strict shape check as the list path without making another server request.
-  return parseLiveMailRules(data);
+  const saved = parseLiveMailRules(data);
+  if (!confirmsMailRuleReplacement(saved, rules)) throw new MailServiceError("unavailable");
+  return saved;
 }
 
 export async function checkLiveMailRule(
@@ -90,7 +94,7 @@ export async function checkLiveMailRule(
 
 function parseLiveMailRules(data: Record<string, unknown>): LiveMailRules {
   if (typeof data.revision !== "number" || !Number.isSafeInteger(data.revision) || data.revision < 0 ||
-    typeof data.mode !== "string" || typeof data.enabled !== "boolean" ||
+    typeof data.mode !== "string" || typeof data.source !== "string" || typeof data.enabled !== "boolean" ||
     !Array.isArray(data.rules) || data.rules.length > 50) {
     throw new MailServiceError("unavailable");
   }
@@ -109,5 +113,5 @@ function parseLiveMailRules(data: Record<string, unknown>): LiveMailRules {
       enabled: rule.enabled, position: rule.position, updatedAt: rule.updatedAt,
     };
   });
-  return { revision: data.revision, mode: data.mode, enabled: data.enabled, rules };
+  return { revision: data.revision, mode: data.mode, source: data.source, enabled: data.enabled, rules };
 }

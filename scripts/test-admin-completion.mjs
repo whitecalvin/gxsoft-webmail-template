@@ -1,0 +1,33 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { adminMutationPlan, projectAdminDataset } from "../lib/tastemail/admin-management.ts";
+import { quarantineBulkInput, quarantineBulkReceipt } from "../lib/tastemail/admin-quarantine-contract.ts";
+const id = "11111111-1111-4111-8111-111111111111";
+test("domain overrides preserve inheritance, revision and clear confirmation", () => {
+  assert.equal(projectAdminDataset("domain-theme", null).singleton.inherited, true);
+  const request = { resource: "domain-theme", action: "edit", id, confirmed: true, input: { themeId: "theme", themeVersion: "", density: "", colorMode: "dark", userSelectionAllowed: null, expectedRevision: 0 } };
+  const plan = adminMutationPlan(request);
+  assert.equal(plan.path, `/api/admin/themes/domains/${id}`);
+  assert.equal(plan.input.density, null); assert.equal(plan.input.userSelectionAllowed, null);
+  assert.equal(adminMutationPlan({ ...request, action: "rollback" }).input.action, "rollback");
+  assert.throws(() => adminMutationPlan({ ...request, id: "../system" }));
+  assert.throws(() => adminMutationPlan({ ...request, input: { ...request.input, expectedRevision: -1 } }));
+  assert.throws(() => adminMutationPlan({ ...request, input: { ...request.input, density: "auto" } }));
+  const clear = adminMutationPlan({ ...request, action: "delete", input: { confirmation: id, expectedRevision: 4 } });
+  assert.equal(clear.path, `/api/admin/themes/domains/${id}?expectedRevision=4`);
+  assert.equal(clear.headers["x-tastemail-confirm"], "clear-domain-theme");
+  assert.throws(() => adminMutationPlan({ ...request, action: "delete", input: { confirmation: "wrong", expectedRevision: 4 } }));
+});
+test("quarantine actions are bounded, unique, confirmed and receipt-matched", () => {
+  const input = quarantineBulkInput({ ids: [id], action: "release", target: "inbox", confirmed: true });
+  assert.throws(() => quarantineBulkInput({ ...input, confirmed: false }));
+  assert.throws(() => quarantineBulkInput({ ...input, ids: [id, id], confirmed: true }));
+  assert.throws(() => quarantineBulkInput({ ...input, ids: [], confirmed: true }));
+  assert.throws(() => quarantineBulkInput({ ...input, target: "sent", confirmed: true }));
+  assert.throws(() => quarantineBulkInput({ ids: [id], action: "discard", target: "inbox", confirmed: true }));
+  const response = { action: "released", count: 1, items: [{ id, messageId: id, status: "released", mailboxId: id }] };
+  assert.equal(quarantineBulkReceipt(response, input).count, 1);
+  assert.throws(() => quarantineBulkReceipt({ ...response, count: 0, items: [] }, input));
+  assert.throws(() => quarantineBulkReceipt({ ...response, items: [{ ...response.items[0], status: "discarded" }] }, input));
+  assert.throws(() => quarantineBulkReceipt({ ...response, items: [{ ...response.items[0], id: "22222222-2222-4222-8222-222222222222" }] }, input));
+});

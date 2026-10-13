@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { assertLiveApiConfigured, mailDataMode, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -15,9 +15,14 @@ function json(data: object, status = 200) {
   return NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } });
 }
 
+function serviceHttpStatus(status: ReturnType<typeof serviceStatus>): number {
+  return status === "unauthorized" ? 401 : status === "forbidden" ? 403 :
+    status === "rateLimited" ? 429 : status === "retryable" ? 503 : 502;
+}
+
 export async function GET(request: Request) {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);
@@ -35,7 +40,7 @@ export async function GET(request: Request) {
     const session = await tastemailRequest("/.well-known/jmap", token);
     if (!session.ok) {
       const status = serviceStatus(session.status);
-      return json({ status }, session.status);
+      return json({ status }, serviceHttpStatus(status));
     }
     const payload = object(await session.json());
     const primaryAccountId = object(payload?.primaryAccounts)?.[MAIL];
@@ -55,8 +60,7 @@ export async function GET(request: Request) {
     if (!upstream.ok) {
       if (upstream.status === 404) return json({ status: "not_found" }, 404);
       const status = serviceStatus(upstream.status);
-      const code = status === "unauthorized" ? 401 : status === "forbidden" ? 403 : status === "rateLimited" ? 429 : status === "retryable" ? 503 : 502;
-      return json({ status }, code);
+      return json({ status }, serviceHttpStatus(status));
     }
     if (!upstream.body) return json({ status: "unavailable" }, 502);
     return new Response(upstream.body, {

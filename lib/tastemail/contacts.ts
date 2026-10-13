@@ -101,7 +101,9 @@ export async function updateLiveContact(token: string, id: string, input: Contac
     body: JSON.stringify(input),
   });
   if (!response.ok) throw new ContactServiceError(contactStatus(response.status));
-  return parseContact(await response.json());
+  const contact = parseContact(await response.json());
+  if (contact.id !== id) throw new MailServiceError("unavailable");
+  return contact;
 }
 
 export async function deleteLiveContact(token: string, id: string): Promise<void> {

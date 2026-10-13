@@ -10,11 +10,11 @@ export function contactJson(data: object, status = 200) {
 
 export function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
-    const protocol = request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.slice(0, -1);
+    const protocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? new URL(request.url).protocol.slice(0, -1);
     return requested.host === host && requested.protocol === `${protocol}:`;
   } catch {
     return false;

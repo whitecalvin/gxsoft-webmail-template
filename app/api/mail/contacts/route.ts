@@ -1,14 +1,14 @@
 import { createLiveContact, loadLiveContacts } from "@/lib/tastemail/contacts";
 import { contactError, contactInput, contactJson as json, sameOrigin } from "@/lib/tastemail/contact-route";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);
@@ -27,7 +27,7 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);

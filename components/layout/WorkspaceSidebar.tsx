@@ -2,39 +2,28 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  Archive,
-  CalendarDays,
-  ChevronLeft,
-  ClipboardCheck,
-  FileEdit,
-  Files,
-  Folder,
-  Inbox,
-  LogOut,
-  MailPlus,
-  Paperclip,
-  Search,
-  Send,
-  Settings,
-  ShieldAlert,
-  SlidersHorizontal,
-  Star,
-  Trash2,
-  Users,
-  X,
-  type LucideIcon,
-} from "lucide-react";
+import { Archive, CalendarDays, ChevronLeft, ClipboardCheck, FileEdit, Files, Folder, Inbox, LogOut, MailPlus, Paperclip, Search, Send, Settings, ShieldAlert, SlidersHorizontal, Star, Trash2, Users, X, type LucideIcon } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useMail } from "@/context/mail-context";
 import { useTheme } from "@/context/theme-context";
+import { useBranding } from "@/context/branding-context";
+import { BrandMark } from "./BrandMark";
 import { useToast } from "@/context/toast-context";
+import { SystemErrorNotice } from "@/components/toast/SystemErrorNotice";
+import { SidebarMenuGroup } from "./SidebarMenuGroup";
+import { ScheduledSubmissions } from "@/components/mail/ScheduledSubmissions";
+import { PersonalFolderManager } from "@/components/mail/PersonalFolderManager";
+import { PersonalFolderTree } from "@/components/mail/PersonalFolderTree";
+import { SystemMailboxIcon } from "@/components/mail/PersonalFolderIcon";
+import { InboxContextMenu } from "@/components/mail/InboxContextMenu";
 import { requestLiveSignOut } from "@/lib/tastemail/client-session";
-import { FOLDERS } from "@/lib/mock-mails";
+import { FOLDERS } from "@/lib/mail-folders";
+import { useSettings } from "@/context/settings-context"; import { allMailboxStorage } from "@/lib/all-mailbox-storage";
 import type { FolderId } from "@/types/mail";
 import type { LayoutStyle } from "@/types/theme";
 
 const FOLDER_ICONS: Record<FolderId, LucideIcon> = {
+  all: Files,
   inbox: Inbox,
   starred: Star,
   drafts: FileEdit,
@@ -43,17 +32,6 @@ const FOLDER_ICONS: Record<FolderId, LucideIcon> = {
   spam: ShieldAlert,
   trash: Trash2,
   custom: Folder,
-};
-
-const STORAGE_USAGE_MIB: Record<FolderId, number> = {
-  inbox: 0,
-  starred: 0,
-  drafts: 0,
-  sent: 1.3,
-  archive: 624,
-  spam: 0,
-  trash: 0,
-  custom: 0,
 };
 
 const SIDEBAR_GROUPS = [
@@ -69,7 +47,7 @@ const SIDEBAR_GROUPS = [
   {
     key: "mailManagementGroup",
     items: [
-      { href: "/rules", icon: SlidersHorizontal, key: "rules", animationIndex: 4 },
+      { href: "/settings/rules", icon: SlidersHorizontal, key: "rules", animationIndex: 4 },
       { href: "/files", icon: Paperclip, key: "files", animationIndex: 5 },
       { href: "/quarantine", icon: ShieldAlert, key: "quarantine", animationIndex: 6 },
     ],
@@ -99,14 +77,21 @@ const NAV_STYLE: Record<LayoutStyle, { active: string; idle: string }> = {
 };
 
 export interface WorkspaceSidebarProps {
+  width?: number;
+  resizing?: boolean;
   collapsed?: boolean;
   mobile?: boolean;
-  onClose?: () => void;
+  onClose?: (afterClose?: () => void) => void;
   onToggleCollapsed?: () => void;
 }
 
 function isToolActive(pathname: string, href: string) {
+  const isRules = ["/settings/rules", "/settings/filters", "/rules"].some(
+    path => pathname === path || pathname.startsWith(`${path}/`)
+  );
+  if (href === "/settings/rules") return isRules;
   if (href === "/settings") {
+    if (isRules) return false;
     return ["/settings", "/security", "/accessibility", "/shortcuts"].some(
       (path) => pathname === path || pathname.startsWith(`${path}/`)
     );
@@ -114,7 +99,7 @@ function isToolActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, onToggleCollapsed }: WorkspaceSidebarProps) {
+export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, onToggleCollapsed, width, resizing = false }: WorkspaceSidebarProps) {
   const locale = useLocale();
   const tFolder = useTranslations("sidebar");
   const tSidebar = useTranslations("workspaceSidebar");
@@ -124,31 +109,38 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
   const [signingOut, setSigningOut] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { activeFolder, activeCustomMailboxId, setActiveFolder, setActiveCustomMailbox, unreadCounts, openCompose, mode, mailboxes, mailboxSummaryStatus, retryLoad } = useMail();
+  const { saved } = useSettings(); const { activeFolder, activeCustomMailboxId, setActiveFolder, setActiveCustomMailbox, unreadCounts, allMailCounts, openCompose, mailboxes, mailboxSummaryStatus, retryLoad } = useMail();
   const { draft } = useTheme();
+  const branding = useBranding();
   const compact = collapsed && !mobile;
   const navStyle = NAV_STYLE[draft.layoutStyle];
   const sidebarOnRight = draft.sidebarPosition === "right" && !mobile;
   const storageNumber = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+  // A tenth of a MiB hides most individual-message moves. Keep the existing
+  // display mailbox usage down to roughly one KiB.
+  const liveStorageNumber = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
   const mailboxError = mailboxSummaryStatus === "unauthorized" || mailboxSummaryStatus === "forbidden"
     || mailboxSummaryStatus === "rateLimited" || mailboxSummaryStatus === "retryable"
     || mailboxSummaryStatus === "unavailable" ? mailboxSummaryStatus : null;
 
+  const navigate = (href: string) => {
+    if (mobile && onClose) onClose(pathname !== href ? () => router.push(href) : undefined);
+    else if (pathname !== href) router.push(href);
+  };
+
   const openFolder = (folder: FolderId) => {
     setActiveFolder(folder);
-    if (pathname !== "/") router.push("/");
-    onClose?.();
+    navigate("/");
   };
 
   const openCustomMailbox = (mailboxId: string) => {
     setActiveCustomMailbox(mailboxId);
-    if (pathname !== "/") router.push("/");
-    onClose?.();
+    navigate("/");
   };
 
   const logout = async () => {
     if (signingOut) return;
-    if (mode === "live") {
+    {
       setSigningOut(true);
       try {
         const revoked = await requestLiveSignOut();
@@ -158,33 +150,26 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
         setSigningOut(false);
         return;
       }
-      onClose?.();
-      router.push("/login");
+      navigate("/login");
       return;
     }
-    try {
-      window.localStorage.removeItem("gxmail:session");
-      window.sessionStorage.removeItem("gxmail:session-expires-at");
-    } catch {
-      // Storage can be unavailable; navigation should still continue.
-    }
-    onClose?.();
-    router.push("/login");
+
   };
 
   return (
     <aside
+      style={!mobile && !compact && width !== undefined ? { width, transitionDuration: resizing ? "0ms" : undefined } : undefined}
       className={`relative flex h-full shrink-0 flex-col bg-background transition-[width] duration-200 motion-reduce:transition-none ${mobile ? "pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]" : ""} ${
-        mobile ? "w-62.5 max-w-[calc(100vw-2rem)] shadow-2xl" : compact ? "w-18" : "w-62.5"
+        mobile ? "w-70 max-w-[calc(100vw-2rem)] shadow-2xl" : compact ? "w-18" : "w-62.5"
       }`}
     >
       <div className="relative flex h-14 shrink-0 items-center px-3">
-        <Link href="/" onClick={onClose} className={`flex min-w-0 items-center ${compact ? "justify-center" : "gap-3"}`} aria-label="GXWebMail">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius-app) bg-(--color-primary-solid) font-bold text-white">G</span>
-          {!compact ? <span className="truncate text-lg font-semibold">GXWebMail</span> : null}
+        <Link href="/" onClick={event => { if (mobile) { event.preventDefault(); navigate("/"); } }} className={`flex min-w-0 items-center ${compact ? "justify-center" : "gap-3"}`} aria-label={branding.displayName}>
+          <BrandMark className="size-9" />
+          {!compact ? <span title={branding.displayName} className="truncate text-lg font-semibold">{branding.displayName}</span> : null}
         </Link>
         {mobile ? (
-          <button type="button" onClick={onClose} autoFocus className="ml-auto rounded-(--radius-app) p-2 text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/5" aria-label={tSidebar("closeMenu")}>
+          <button type="button" onClick={() => onClose?.()} autoFocus className="ml-auto rounded-(--radius-app) p-2 text-(--text-muted) hover:bg-black/5 dark:hover:bg-white/5" aria-label={tSidebar("closeMenu")}>
             <X size={20} />
           </button>
         ) : null}
@@ -225,95 +210,65 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
         </button>
       </div>
 
-      <nav aria-label={tSidebar("navigation")} className="min-h-0 flex-1 overflow-y-auto px-3 pb-3">
-        <section aria-labelledby={!compact ? "workspace-sidebar-mailboxes-heading" : undefined}>
-          {!compact ? <h2 id="workspace-sidebar-mailboxes-heading" className="px-3 pb-2 pt-2 text-xs font-bold uppercase tracking-[0.14em] text-(--text-muted)">{tSidebar("mailboxGroup")}</h2> : null}
-          {mode === "live" && pathname !== "/" && mailboxError ? compact ? (
-            <button type="button" onClick={retryLoad} title={tLive(mailboxError)} aria-label={`${tLive(mailboxError)} ${tLive("retry")}`} className="mx-auto mb-2 flex size-9 items-center justify-center rounded-(--radius-app) text-(--status-danger) hover:bg-(--status-danger-bg)">
-              <ShieldAlert size={18} />
-            </button>
-          ) : (
-            <div role="alert" className="mb-2 rounded-(--radius-app) bg-(--status-danger-bg) px-3 py-2 text-xs text-(--status-danger)">
-              <p>{tLive(mailboxError)}</p>
-              <button type="button" onClick={retryLoad} className="mt-1 font-semibold underline underline-offset-2">{tLive("retry")}</button>
-            </div>
-          ) : null}
-          <ul className="space-y-1">
-            {FOLDERS.map((folder, index) => {
+      <nav aria-label={tSidebar("navigation")} className={`min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pb-3 ${mobile ? "px-1 [&_[data-mailbox-row]]:px-1 [&_h2>button]:px-1" : "px-3"}`}>
+        <SidebarMenuGroup groupKey="mailboxGroup" title={tSidebar("mailboxGroup")} compact={compact} first>
+          {/* The persistent sidebar owns the notification; the mobile drawer
+              must not add a duplicate or dismiss it when the drawer closes. */}
+          {mailboxError && !mobile ? <SystemErrorNotice toastOnly message={tLive(mailboxError)} actionLabel={tLive("retry")} onAction={retryLoad} /> : null}
+          <ul className="space-y-0.5">
+            {FOLDERS.filter(folder => !saved.inbox.hiddenSystemMailboxes.includes(folder.id)).map((folder) => {
               const Icon = FOLDER_ICONS[folder.id];
               const active = pathname === "/" && activeFolder === folder.id;
               const count = unreadCounts[folder.id];
               const label = tFolder(folder.id);
               const mailboxRole = folder.id === "spam" ? "junk" : folder.id;
               const liveMailbox = mailboxes.find((item) => item.role === mailboxRole);
+              const folderCounts = folder.id === "all" ? allMailCounts : liveMailbox ? { total: liveMailbox.totalEmails, unread: count } : null;
+              const countLabel = folderCounts ? tSidebar("allMailCounts", folderCounts) : "—";
               const liveStorage = liveMailbox?.usedBytes !== null && liveMailbox?.usedBytes !== undefined
                 && liveMailbox?.quotaBytes !== null && liveMailbox?.quotaBytes !== undefined
                 && liveMailbox.quotaBytes > 0
                 ? { used: liveMailbox.usedBytes / 1024 / 1024, limit: liveMailbox.quotaBytes / 1024 / 1024 / 1024 }
                 : null;
-              const storage = mode === "live" ? liveStorage : { used: STORAGE_USAGE_MIB[folder.id], limit: 10 };
-              return (
-                <li key={folder.id} className={mobile ? "workspace-menu-item-enter" : undefined} style={mobile ? { animationDelay: `${80 + index * 30}ms` } : undefined}>
+              const storage = folder.id === "all" ? allMailboxStorage(mailboxes) : liveStorage;
+              const folderButton = <div data-mailbox-row className={`flex w-full items-center text-sm ${compact ? "justify-center" : "gap-1 pl-2 pr-3"}`}>
+                  {!compact ? <SystemMailboxIcon folderId={folder.id} label={label} defaultIcon={Icon} editable /> : null}
                   <button
                     type="button"
                     onClick={() => openFolder(folder.id)}
-                    className={`flex w-full items-center rounded-(--radius-app) py-2.5 text-sm transition ${compact ? "justify-center px-0" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
-                    style={{ paddingBlock: "calc(0.625rem * var(--density-scale))" }}
+                    className={`flex min-w-0 flex-1 items-center py-2 ${compact ? "justify-center" : "gap-3 text-left"}`}
                     aria-current={active ? "page" : undefined}
-                    aria-label={compact ? label : undefined}
-                    title={compact ? label : undefined}
+                    aria-label={compact ? `${label} · ${countLabel}` : undefined}
+                    title={compact ? `${label} · ${countLabel}` : undefined}
                   >
-                    <Icon size={19} className="shrink-0" />
+                    {compact ? <SystemMailboxIcon folderId={folder.id} label={label} defaultIcon={Icon} /> : null}
                     {!compact ? (
                       <>
                         <span className="min-w-0 flex-1 text-left">
                           <span className="block truncate font-medium">{label}</span>
-                          {storage ? <span className="block truncate text-[10px] font-normal text-(--text-muted)">{tSidebar("storageUsage", { used: storageNumber.format(storage.used), limit: storageNumber.format(storage.limit) })}</span> : null}
+                          {saved.inbox.showMailboxCounts ? <span className="block truncate text-[10px] font-normal text-(--text-muted)" title={countLabel}>{countLabel}</span> : null}
+                          {saved.inbox.showMailboxStorage && storage ? <span className="block truncate text-[10px] font-normal text-(--text-muted)">{tSidebar("storageUsage", { used: (liveStorageNumber).format(storage.used), limit: storageNumber.format(storage.limit) })}</span> : null}
                         </span>
                         {count > 0 ? <span className="min-w-6 rounded-full bg-(--color-primary-solid) px-1.5 py-0.5 text-center text-xs text-white">{count}</span> : null}
                       </>
                     ) : count > 0 ? <span className="sr-only">{count}</span> : null}
-                  </button>
+                  </button></div>;
+              return (
+                <li key={folder.id}>
+                  <InboxContextMenu folder={folder.id} showTrigger={!compact} menuLabel={label} className={active ? navStyle.active : navStyle.idle} onOpen={() => openFolder(folder.id)}>{folderButton}</InboxContextMenu>
                 </li>
               );
             })}
-            {mode === "live" ? mailboxes.filter((mailbox) => mailbox.role === null).map((mailbox, index) => {
-              const active = pathname === "/" && activeFolder === "custom" && activeCustomMailboxId === mailbox.id;
-              return (
-                <li key={mailbox.id} className={mobile ? "workspace-menu-item-enter" : undefined} style={mobile ? { animationDelay: `${80 + (FOLDERS.length + index) * 30}ms` } : undefined}>
-                  <button
-                    type="button"
-                    onClick={() => openCustomMailbox(mailbox.id)}
-                    className={`flex w-full items-center rounded-(--radius-app) py-2.5 text-sm transition ${compact ? "justify-center px-0" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
-                    style={{ paddingBlock: "calc(0.625rem * var(--density-scale))" }}
-                    aria-current={active ? "page" : undefined}
-                    aria-label={compact ? mailbox.name : undefined}
-                    title={compact ? mailbox.name : undefined}
-                  >
-                    <Folder size={19} className="shrink-0" />
-                    {!compact ? (
-                      <>
-                        <span className="min-w-0 flex-1 truncate text-left font-medium">{mailbox.name}</span>
-                        {mailbox.unreadEmails > 0 ? <span className="min-w-6 rounded-full bg-(--color-primary-solid) px-1.5 py-0.5 text-center text-xs text-white">{mailbox.unreadEmails}</span> : null}
-                      </>
-                    ) : mailbox.unreadEmails > 0 ? <span className="sr-only">{mailbox.unreadEmails}</span> : null}
-                  </button>
-                </li>
-              );
-            }) : null}
+            {<PersonalFolderTree compact={compact} activeId={pathname === "/" && activeFolder === "custom" ? activeCustomMailboxId : null} onOpen={openCustomMailbox} activeClass={navStyle.active} idleClass={navStyle.idle} />}
           </ul>
-        </section>
+          {!compact ? <PersonalFolderManager compact={false} /> : null}
+        </SidebarMenuGroup>
+
+        {!compact ? <ScheduledSubmissions className="px-3 pt-5" /> : null}
 
         {SIDEBAR_GROUPS.map((group) => (
-          <section key={group.key} aria-labelledby={!compact ? `workspace-sidebar-${group.key}-heading` : undefined}>
-            {!compact ? (
-              <h2 id={`workspace-sidebar-${group.key}-heading`} className="px-3 pb-2 pt-7 text-xs font-bold uppercase tracking-[0.14em] text-(--text-muted)">
-                {tSidebar(group.key)}
-              </h2>
-            ) : (
-              <div className="mx-2 my-4 border-t border-(--border-app)" />
-            )}
-            <ul className="space-y-1">
+          <SidebarMenuGroup key={group.key} groupKey={group.key} title={tSidebar(group.key)} compact={compact}>
+            <ul className="space-y-0.5">
               {group.items.map((tool) => {
                 const Icon = tool.icon;
                 const active = isToolActive(pathname, tool.href);
@@ -321,26 +276,24 @@ export function WorkspaceSidebar({ collapsed = false, mobile = false, onClose, o
                 return (
                   <li
                     key={tool.href}
-                    className={mobile ? "workspace-menu-item-enter" : undefined}
-                    style={mobile ? { animationDelay: `${260 + tool.animationIndex * 30}ms` } : undefined}
                   >
                     <Link
                       href={tool.href}
-                      onClick={onClose}
-                      className={`flex items-center rounded-(--radius-app) py-2.5 text-sm transition ${compact ? "justify-center px-0" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
-                      style={{ paddingBlock: "calc(0.625rem * var(--density-scale))" }}
+                      onClick={event => { if (mobile) { event.preventDefault(); navigate(tool.href); } }}
+                      className={`workspace-menu-surface flex items-center text-sm transition ${compact ? "justify-center px-0" : mobile ? "min-h-11 gap-1 px-1" : "gap-3 px-3"} ${active ? navStyle.active : navStyle.idle}`}
+                      style={{ paddingBlock: mobile ? 0 : "calc(0.625rem * var(--density-scale))" }}
                       aria-current={active ? "page" : undefined}
                       aria-label={compact ? label : undefined}
                       title={compact ? label : undefined}
                     >
-                      <Icon size={19} className="shrink-0" />
+                      {mobile ? <span className="flex size-11 shrink-0 items-center justify-center"><Icon size={19} /></span> : <Icon size={19} className="shrink-0" />}
                       {!compact ? <span className="truncate">{label}</span> : null}
                     </Link>
                   </li>
                 );
               })}
             </ul>
-          </section>
+          </SidebarMenuGroup>
         ))}
       </nav>
 

@@ -4,23 +4,14 @@ import { useEffect, useRef, type KeyboardEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Check, RotateCcw, X } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
-import {
-  ACCENT_COLOR_OPTIONS,
-  FONT_OPTIONS,
-  PRIMARY_COLOR_OPTIONS,
-} from "@/lib/theme-presets";
+import { ACCENT_COLOR_OPTIONS, FONT_OPTIONS, PRIMARY_COLOR_OPTIONS } from "@/lib/theme-presets";
 import { CustomizerSection } from "./CustomizerSection";
 import { ThemePresetGallery } from "./ThemePresetGallery";
 import { ColorSwatchPicker } from "./ColorSwatchPicker";
 import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
-import type {
-  ColorScheme,
-  Density,
-  Radius,
-  SidebarPosition,
-} from "@/types/theme";
+import type { ColorScheme, Density, Radius, SidebarPosition } from "@/types/theme";
 import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
 
 // Right-edge slide-over for live-editing the theme (context/theme-context).

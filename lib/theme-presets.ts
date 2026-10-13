@@ -1,9 +1,4 @@
-import type {
-  ColorOption,
-  FontOption,
-  ThemePreset,
-  ThemeSettings,
-} from "@/types/theme";
+import type { ColorOption, FontOption, ThemePreset, ThemeSettings } from "@/types/theme";
 
 export const THEME_STORAGE_KEY = "gxmail:theme";
 

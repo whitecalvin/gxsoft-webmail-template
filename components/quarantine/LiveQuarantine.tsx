@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { useToast } from "@/context/toast-context";
+import { clientMailFailure, clientMutationFailure } from "@/lib/tastemail/client-session-status";
 import type { LiveQuarantineDetail, LiveQuarantinePage } from "@/lib/tastemail/quarantine";
 
 type LoadStatus = "loading" | "ready" | "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable";
@@ -12,11 +13,8 @@ type Cursor = { createdAt: string; id: string };
 const ERRORS = new Set<LoadStatus>(["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"]);
 
 async function responseData<T>(response: Response): Promise<T> {
-  const payload: unknown = await response.json();
-  if (!response.ok) {
-    const reason = payload && typeof payload === "object" && "status" in payload ? payload.status : null;
-    throw new Error(typeof reason === "string" ? reason : "retryable");
-  }
+  const payload: unknown = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(clientMailFailure(response.status, payload));
   if (!payload || typeof payload !== "object") throw new Error("unavailable");
   return payload as T;
 }
@@ -44,16 +42,23 @@ export function LiveQuarantine() {
   const [confirmAction, setConfirmAction] = useState<"release" | "discard" | null>(null);
   const [actionBusy, setActionBusy] = useState(false);
   const [actionNotice, setActionNotice] = useState("");
+  const [uncertainItemId, setUncertainItemId] = useState<string | null>(null);
+  const actionBusyRef = useRef(false);
+  const uncertainItemIdRef = useRef<string | null>(null);
+  const quarantineRevision = useRef(0);
   const cursor = cursors[pageIndex];
 
   useEffect(() => {
+    const startedAtRevision = quarantineRevision.current;
     const controller = new AbortController();
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(25_000)]);
     const query = new URLSearchParams();
     if (cursor) { query.set("beforeCreatedAt", cursor.createdAt); query.set("beforeId", cursor.id); }
-    fetch(`/api/mail/quarantine?${query}`, { cache: "no-store", signal: controller.signal })
+    fetch(`/api/mail/quarantine?${query}`, { cache: "no-store", signal })
       .then((response) => responseData<LiveQuarantinePage>(response))
       .then((value) => {
         if (controller.signal.aborted) return;
+        if (startedAtRevision !== quarantineRevision.current) { setAttempt((value) => value + 1); return; }
         if (!Array.isArray(value.items)) throw new Error("unavailable");
         setPage(value);
         setSelectedId(value.items[0]?.id ?? null);
@@ -61,6 +66,7 @@ export function LiveQuarantine() {
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
+        if (startedAtRevision !== quarantineRevision.current) { setAttempt((value) => value + 1); return; }
         setPage(null);
         setSelectedId(null);
         setStatus(errorStatus(error));
@@ -70,17 +76,21 @@ export function LiveQuarantine() {
 
   useEffect(() => {
     if (!selectedId) return;
+    const startedAtRevision = quarantineRevision.current;
     const controller = new AbortController();
-    fetch(`/api/mail/quarantine/${encodeURIComponent(selectedId)}`, { cache: "no-store", signal: controller.signal })
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(25_000)]);
+    fetch(`/api/mail/quarantine/${encodeURIComponent(selectedId)}`, { cache: "no-store", signal })
       .then((response) => responseData<LiveQuarantineDetail>(response))
       .then((value) => {
         if (controller.signal.aborted) return;
+        if (startedAtRevision !== quarantineRevision.current) { setDetailAttempt((value) => value + 1); return; }
         if (!value.item || typeof value.textBody !== "string") throw new Error("unavailable");
         setDetail(value);
         setDetailStatus("ready");
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
+        if (startedAtRevision !== quarantineRevision.current) { setDetailAttempt((value) => value + 1); return; }
         setDetail(null);
         setDetailStatus(errorStatus(error));
       });
@@ -90,8 +100,9 @@ export function LiveQuarantine() {
   const dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" });
 
   const resolveSelected = async (action: "release" | "discard") => {
-    if (!detail || actionBusy) return;
+    if (actionBusyRef.current || uncertainItemIdRef.current || !detail || actionBusy || uncertainItemId) return;
     const id = detail.item.id;
+    actionBusyRef.current = true;
     setConfirmAction(null);
     setActionBusy(true);
     setActionNotice("");
@@ -100,11 +111,13 @@ export function LiveQuarantine() {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ action }), signal: AbortSignal.timeout(30_000),
       });
-      const payload: unknown = await response.json();
+      const payload: unknown = await response.json().catch(() => null);
       const result = payload && typeof payload === "object" ? payload as Record<string, unknown> : null;
-      if (!response.ok || result?.id !== id || result.status !== (action === "release" ? "released" : "discarded")) {
-        throw new Error(typeof result?.status === "string" ? result.status : "mutation_uncertain");
+      if (!response.ok) {
+        if (response.status === 409 && result?.status !== "conflict") throw new Error("mutation_uncertain");
+        throw new Error(clientMutationFailure(response.status, payload));
       }
+      if (result?.id !== id || result.status !== (action === "release" ? "released" : "discarded")) throw new Error("mutation_uncertain");
       toast.success(t(action === "release" ? "released" : "deleted"));
       setSelectedId(null);
       setDetail(null);
@@ -112,6 +125,10 @@ export function LiveQuarantine() {
       setAttempt((value) => value + 1);
     } catch (error) {
       const reason = error instanceof Error ? error.message : "mutation_uncertain";
+      if (!["conflict", "not_found", "unauthorized", "forbidden", "rateLimited", "invalid_request"].includes(reason)) {
+        uncertainItemIdRef.current = id;
+        setUncertainItemId(id);
+      }
       setActionNotice(reason === "conflict" || reason === "not_found" ? live("itemChanged") :
         ["unauthorized", "forbidden", "rateLimited"].includes(reason) ? service(reason as "unauthorized" | "forbidden" | "rateLimited") :
         reason === "invalid_request" ? service("unavailable") : live("mutationUncertain"));
@@ -119,13 +136,30 @@ export function LiveQuarantine() {
         setStatus("loading");
         setAttempt((value) => value + 1);
       }
-    } finally { setActionBusy(false); }
+    } finally {
+      quarantineRevision.current += 1;
+      actionBusyRef.current = false;
+      setActionBusy(false);
+    }
+  };
+
+  const reviewUncertain = () => {
+    if (actionBusyRef.current || status !== "ready") return;
+    uncertainItemIdRef.current = null;
+    setUncertainItemId(null);
+    setActionNotice("");
   };
 
   return <WorkspaceLayout title={t("title")} showGlobalSearch={false} className="flex min-h-0 flex-col">
     <section aria-label={t("listLabel")} className="flex min-h-0 flex-1 flex-col">
-      <p className="border-b border-(--border-app) px-5 py-3 text-xs text-(--text-muted)">{live("readOnly")}</p>
-      {actionNotice ? <p role="alert" className="border-b border-(--border-app) px-5 py-3 text-sm text-(--status-danger)">{actionNotice}</p> : null}
+      <header className="workspace-page-header gap-3 border-b border-(--border-app) px-5 sm:px-7">
+        <p className="min-w-0 text-xs text-(--text-muted)">{live("readOnly")}</p>
+      </header>
+      {actionNotice ? <div role="alert" className="flex flex-wrap items-center gap-3 border-b border-(--border-app) px-5 py-3 text-sm text-(--status-danger)">
+        <span>{actionNotice}</span>
+        {uncertainItemId ? <button type="button" disabled={actionBusy || status !== "ready"} onClick={reviewUncertain}
+          className="rounded-lg border border-current px-3 py-1.5 disabled:opacity-50">{live("reviewed")}</button> : null}
+      </div> : null}
       {status === "loading" ? <p role="status" className="p-6 text-sm text-(--text-muted)">{service("loading")}</p> : null}
       {status !== "loading" && status !== "ready" ? <div role="alert" className="p-6 text-sm">
         <p>{service(status)}</p>
@@ -135,14 +169,15 @@ export function LiveQuarantine() {
         <div className="min-h-0 overflow-y-auto border-r border-(--border-app) lg:w-100 lg:shrink-0">
           {page.items.length === 0 ? <p className="p-6 text-sm text-(--text-muted)">{live("empty")}</p> : null}
           {page.items.map((item) => <button key={item.id} type="button" aria-pressed={selectedId === item.id}
-            onClick={() => { if (actionBusy) return; setSelectedId(item.id); setDetail(null); setDetailStatus("loading"); setActionNotice(""); }}
+            onClick={() => { if (actionBusyRef.current || actionBusy) return; setSelectedId(item.id); setDetail(null); setDetailStatus("loading"); if (!uncertainItemId) setActionNotice(""); }}
             className="w-full border-b border-(--border-app) px-5 py-4 text-left hover:bg-(--surface-muted) aria-pressed:bg-(--color-primary)/10">
             <span className="block truncate text-sm font-semibold">{item.subject || live("noSubject")}</span>
             <span className="mt-1 block truncate text-xs text-(--text-muted)">{item.envelopeSender || live("unknownSender")} · {dateFormat.format(new Date(item.createdAt))}</span>
           </button>)}
           {pageIndex > 0 || page.hasMore ? <div className="flex justify-between gap-3 p-4 text-sm">
-            <button type="button" disabled={pageIndex === 0} onClick={() => { setPageIndex((value) => value - 1); setStatus("loading"); setDetail(null); }} className="disabled:opacity-40">{live("previous")}</button>
-            <button type="button" disabled={!page.hasMore} onClick={() => {
+            <button type="button" disabled={actionBusy || pageIndex === 0} onClick={() => { if (actionBusyRef.current) return; setPageIndex((value) => value - 1); setStatus("loading"); setDetail(null); }} className="disabled:opacity-40">{live("previous")}</button>
+            <button type="button" disabled={actionBusy || !page.hasMore} onClick={() => {
+              if (actionBusyRef.current) return;
               if (!page.nextBeforeCreatedAt || !page.nextBeforeId) return;
               setCursors((current) => [...current.slice(0, pageIndex + 1), { createdAt: page.nextBeforeCreatedAt!, id: page.nextBeforeId! }]);
               setPageIndex((value) => value + 1);
@@ -158,8 +193,8 @@ export function LiveQuarantine() {
           {selectedId && detailStatus === "ready" && detail ? <div className="mx-auto max-w-3xl">
             <h1 className="text-xl font-semibold wrap-break-word">{detail.item.subject || live("noSubject")}</h1>
             <div className="mt-4 flex flex-wrap gap-2">
-              <button type="button" disabled={actionBusy} onClick={() => setConfirmAction("release")} className="rounded-(--radius-app) bg-(--color-primary-solid) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">{t("release")}</button>
-              <button type="button" disabled={actionBusy} onClick={() => setConfirmAction("discard")} className="rounded-(--radius-app) border border-(--status-danger) px-4 py-2 text-sm font-medium text-(--status-danger) disabled:opacity-50">{t("deletePermanently")}</button>
+              <button type="button" disabled={actionBusy || !!uncertainItemId} onClick={() => setConfirmAction("release")} className="rounded-(--radius-app) bg-(--color-primary-solid) px-4 py-2 text-sm font-medium text-white disabled:opacity-50">{t("release")}</button>
+              <button type="button" disabled={actionBusy || !!uncertainItemId} onClick={() => setConfirmAction("discard")} className="rounded-(--radius-app) border border-(--status-danger) px-4 py-2 text-sm font-medium text-(--status-danger) disabled:opacity-50">{t("deletePermanently")}</button>
             </div>
             <dl className="mt-5 grid gap-2 text-sm sm:grid-cols-[7rem_1fr]">
               <dt className="text-(--text-muted)">{live("sender")}</dt><dd className="break-all">{detail.item.envelopeSender || live("unknownSender")}</dd>
@@ -181,7 +216,7 @@ export function LiveQuarantine() {
       title={confirmAction === "discard" ? t("deleteTitle") : t("release")}
       description={confirmAction === "discard" ? t("deleteDescription", { subject: detail.item.subject || live("noSubject") }) : live("releaseConfirm", { subject: detail.item.subject || live("noSubject") })}
       confirmLabel={t(confirmAction === "discard" ? "deletePermanently" : "release")}
-      confirmDisabled={actionBusy}
+      confirmDisabled={actionBusy || !!uncertainItemId}
       onCancel={() => setConfirmAction(null)}
       onConfirm={() => void resolveSelected(confirmAction)}
     /> : null}

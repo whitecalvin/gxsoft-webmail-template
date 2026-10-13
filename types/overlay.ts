@@ -1,6 +1,6 @@
 // Shared shapes for toast notifications and overlay tone variants
 // (banners, confirm dialogs).
-export type ToastTone = "success" | "error" | "info" | "undo";
+export type ToastTone = "success" | "error" | "info" | "warning" | "notice" | "undo";
 
 export interface ToastItem {
   id: string;

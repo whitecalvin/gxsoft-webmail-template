@@ -4,6 +4,14 @@ import { useEffect, useId, useRef, useState, type DragEvent, type FormEvent, typ
 import { useLocale, useTranslations } from "next-intl";
 import { Clock, Maximize2, Minimize2, Paperclip, Trash2, Upload, X } from "lucide-react";
 import { useMail } from "@/context/mail-context";
+import { useSettings } from "@/context/settings-context";
+import { sendingComposeDefaults } from "@/lib/sending-settings";
+import { savedDraftChanged } from "@/lib/mail-draft";
+import { remainingFailedUploadNames } from "@/lib/tastemail/upload-failures";
+import { requireUploadReceipt } from "@/lib/tastemail/upload-receipt";
+import { MAX_INLINE_IMAGE_BYTES, MAX_INLINE_IMAGES, RASTER_IMAGE } from "@/lib/inline-image";
+import { clientMailFailure, ComposeValidationError, requireConfirmedComposeMutation } from "@/lib/tastemail/client-session-status";
+import { replyAllRecipients } from "@/lib/compose-recipients";
 import { useToast } from "@/context/toast-context";
 import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 import { InlineBanner } from "@/components/banner/InlineBanner";
@@ -12,17 +20,8 @@ import type { ComposeDraft } from "@/types/mail";
 import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
 import type { LiveAddressSuggestion } from "@/lib/tastemail/contacts";
 
-// The compose window keeps the mock send demo separate from live draft,
-// upload, and submission requests. AI and scheduling remain mock-only.
-const INTERNAL_DOMAIN = "@gxsoft.co.kr";
+// Drafts, uploads and submissions use authenticated server requests.
 const MAX_ATTACHMENT_BYTES = 2 * 1024 * 1024 * 1024;
-const LARGE_FILE_LINK_THRESHOLD = 25 * 1024 * 1024;
-const TONE_OPTIONS = [
-  { key: "polite" },
-  { key: "concise" },
-  { key: "english" },
-] as const;
-type ToneKey = (typeof TONE_OPTIONS)[number]["key"];
 
 interface Recipient {
   id: string;
@@ -39,6 +38,12 @@ interface Attachment {
   ext: string;
   blobId?: string;
   type?: string;
+  disposition?: "attachment" | "inline";
+  cid?: string | null;
+}
+
+function referencesInlineAttachment(html: string | null, attachment: Attachment): boolean {
+  return Boolean(html && attachment.disposition === "inline" && attachment.cid && html.toLowerCase().includes(`cid:${attachment.cid.toLowerCase()}`));
 }
 
 const RECIPIENT_PALETTE = [
@@ -98,28 +103,32 @@ function formatBytes(bytes: number, locale: string) {
   return new Intl.NumberFormat(locale, { style: "unit", unit: "megabyte", unitDisplay: "narrow", maximumFractionDigits: 1 }).format(bytes / (1024 * 1024));
 }
 
-function toAttachments(files: FileList | File[]): Attachment[] {
-  return Array.from(files).map((f) => ({
-    id: `att-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    name: f.name,
-    size: f.size,
-    ext: f.name.split(".").pop()?.toLowerCase() ?? "",
-  }));
+function scheduledUtc(value: string, maxDelayedSend: number): string | null {
+  const timestamp = Date.parse(value);
+  const remaining = timestamp - Date.now();
+  return Number.isFinite(timestamp) && remaining > 0 && remaining <= maxDelayedSend * 1000
+    ? new Date(timestamp).toISOString() : null;
 }
 
 function ComposeForm({
   initial,
   onClose,
+  sharedAccountId,
+  onSubmitted,
 }: {
   initial: ComposeDraft;
   onClose: () => void;
+  sharedAccountId?: string;
+  onSubmitted?: () => void;
 }) {
   const t = useTranslations("composeModal");
   const tReading = useTranslations("readingPane");
   const locale = useLocale();
-  const { sendEmail, mode, retryLoad } = useMail();
+  const { mode, retryLoad, refreshScheduledSubmissions } = useMail();
   const tService = useTranslations("liveService");
   const toast = useToast();
+  const { saved: preferences } = useSettings();
+  const [sendingDefaults] = useState(() => sendingComposeDefaults(initial, preferences.sending, !!sharedAccountId));
   const [recipients, setRecipients] = useState<Recipient[]>(() => parseRecipients(initial.to));
   const [recipientInput, setRecipientInput] = useState("");
   const [suggestions, setSuggestions] = useState<LiveAddressSuggestion[]>([]);
@@ -127,29 +136,44 @@ function ComposeForm({
   const [suggestionOpen, setSuggestionOpen] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [suggestionError, setSuggestionError] = useState<"unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable" | null>(null);
-  const [showCcBcc, setShowCcBcc] = useState(Boolean(initial.cc || initial.bcc));
-  const [cc, setCc] = useState(initial.cc ?? "");
-  const [bcc, setBcc] = useState(initial.bcc ?? "");
+  const [showCcBcc, setShowCcBcc] = useState(Boolean(sendingDefaults.cc || sendingDefaults.bcc));
+  const [cc, setCc] = useState(sendingDefaults.cc);
+  const [bcc, setBcc] = useState(sendingDefaults.bcc);
   const [subject, setSubject] = useState(initial.subject);
   const [body, setBody] = useState(initial.body);
+  const [htmlBody, setHtmlBody] = useState<string | null>(initial.htmlBody ?? null);
+  const [baselineHtml, setBaselineHtml] = useState<string | null>(initial.htmlBody ?? null);
   const [insertedSignature, setInsertedSignature] = useState<string | null>(null);
+  const [insertedSignatureHtml, setInsertedSignatureHtml] = useState<string | null>(null);
   const bodyTouched = useRef(false);
-  const [tone, setTone] = useState<ToneKey | null>(null);
+
   const [attachments, setAttachments] = useState<Attachment[]>(() => (initial.attachments ?? []).map((attachment, index) => ({
     ...attachment,
     id: `forwarded-${index}`,
     ext: attachment.name.split(".").pop()?.toLowerCase() ?? "",
   })));
   const [uploading, setUploading] = useState(false);
+  const uploadingRef = useRef(false);
+  const [failedUploadNames, setFailedUploadNames] = useState<string[]>([]);
+  const uploadFailed = failedUploadNames.length > 0;
   const [submitting, setSubmitting] = useState(false);
   const [composeError, setComposeError] = useState<string | null>(null);
+  const [composeValidationField, setComposeValidationField] = useState<string | null>(null);
   const [submissionUncertain, setSubmissionUncertain] = useState(false);
+  // Lock immediately: an old event handler may run before React commits the error state.
+  const submissionUncertainRef = useRef(false);
+  // A confirmed receipt also blocks stale handlers while onClose is committing.
+  const submissionCompletedRef = useRef(false);
   const [fromAddress, setFromAddress] = useState<string | null>(null);
   const [ownAddresses, setOwnAddresses] = useState<string[]>([]);
   const [maxAttachmentBytes, setMaxAttachmentBytes] = useState(0);
+  const [maxDelayedSend, setMaxDelayedSend] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [liveScheduleOptions, setLiveScheduleOptions] = useState<{ id: string; label: string; sendAtUtc: string }[]>([]);
+  const [scheduleInput, setScheduleInput] = useState("");
+  const submittingRef = useRef(false);
   const [confirmingDiscard, setConfirmingDiscard] = useState(false);
   const titleId = useId();
   const suggestionListId = useId();
@@ -168,14 +192,43 @@ function ComposeForm({
     { id: "nextMonday", label: t("schedule.nextMonday", { time: formatTime(9) }) },
   ];
 
+  const openScheduleMenu = () => {
+    if (scheduleOpen) { setScheduleOpen(false); return; }
+    {
+      const today = new Date();
+      today.setHours(18, 0, 0, 0);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(9, 0, 0, 0);
+      const nextMonday = new Date();
+      const daysUntilMonday = (8 - nextMonday.getDay()) % 7 || 7;
+      nextMonday.setDate(nextMonday.getDate() + daysUntilMonday);
+      nextMonday.setHours(9, 0, 0, 0);
+      setLiveScheduleOptions([today, tomorrow, nextMonday].flatMap((date, index) => {
+        const sendAtUtc = scheduledUtc(date.toISOString(), maxDelayedSend);
+        return sendAtUtc ? [{ ...scheduleOptions[index], sendAtUtc }] : [];
+      }));
+      setScheduleInput("");
+    }
+    setScheduleOpen(true);
+  };
+
   useEffect(() => {
-    if (mode !== "live") return;
+
     const controller = new AbortController();
-    fetch("/api/mail/compose", { cache: "no-store", signal: controller.signal })
+    const params = new URLSearchParams();
+    if (sharedAccountId) params.set("accountId", sharedAccountId);
+    else if (initial.fromAddress) params.set("fromAddress", initial.fromAddress);
+    const query = params.size ? `?${params}` : "";
+    fetch(`/api/mail/compose${query}`, { cache: "no-store", signal: controller.signal })
       .then(async (response) => {
-        const payload = await response.json();
-        if (!response.ok || typeof payload.from !== "string" || typeof payload.signature !== "string" || !Number.isSafeInteger(payload.maxAttachmentBytes) ||
-            !Array.isArray(payload.availableFrom) || !payload.availableFrom.every((item: unknown) => typeof item === "string")) throw new Error(payload.status ?? "unavailable");
+        const payload = await response.json().catch(() => null);
+        if (!response.ok) throw new Error(response.status === 400 ? "invalid_request" : clientMailFailure(response.status, payload));
+        if (!payload || typeof payload.from !== "string" || typeof payload.signature !== "string" ||
+            typeof payload.signatureHtml !== "string" || !["text/plain", "text/html"].includes(payload.signatureFormat) ||
+            !Number.isSafeInteger(payload.maxAttachmentBytes) ||
+            !Number.isSafeInteger(payload.maxDelayedSend) || payload.maxDelayedSend < 0 ||
+            !Array.isArray(payload.availableFrom) || !payload.availableFrom.every((item: unknown) => typeof item === "string")) throw new Error("unavailable");
         if (!controller.signal.aborted) {
           const chosenFrom = initial.fromAddress
             ? payload.availableFrom.find((item: string) => item.toLowerCase() === initial.fromAddress?.toLowerCase())
@@ -187,10 +240,16 @@ function ComposeForm({
           setFromAddress(chosenFrom);
           setOwnAddresses(payload.availableFrom);
           setMaxAttachmentBytes(payload.maxAttachmentBytes);
+          setMaxDelayedSend(payload.maxDelayedSend);
           if (!initial.previousDraftId && !initial.body && !bodyTouched.current && payload.signature) {
             const signatureBlock = `\n\n-- \n${payload.signature}`;
             setInsertedSignature(signatureBlock);
             setBody((current) => current ? current : signatureBlock);
+            if (sendingDefaults.mode === "rich" && payload.signatureFormat === "text/html" && payload.signatureHtml.trim()) {
+              const signatureHtmlBlock = `<div><br></div><div>-- </div>${payload.signatureHtml}`;
+              setInsertedSignatureHtml(signatureHtmlBlock);
+              setHtmlBody(signatureHtmlBlock);
+            }
           }
         }
       })
@@ -198,7 +257,7 @@ function ComposeForm({
         if (!controller.signal.aborted) setComposeError(error instanceof Error ? error.message : "retryable");
       });
     return () => controller.abort();
-  }, [mode, initial.body, initial.fromAddress, initial.previousDraftId]);
+  }, [mode, initial.body, initial.fromAddress, initial.previousDraftId, sharedAccountId, sendingDefaults.mode]);
 
   const hasContent =
     recipients.length > 0 ||
@@ -208,6 +267,11 @@ function ComposeForm({
     recipientInput.trim() ||
     cc.trim() ||
     bcc.trim();
+  const hasUnsavedChanges = initial.previousDraftId ? Boolean(recipientInput.trim()) || savedDraftChanged(
+    { ...initial, to: parseRecipients(initial.to).map(recipient => recipient.label).join(", "), htmlBody: baselineHtml },
+    { ...initial, fromAddress: initial.fromAddress ? fromAddress ?? initial.fromAddress : undefined,
+      to: recipients.map(recipient => recipient.label).join(", "), cc, bcc, subject, body, htmlBody, attachments },
+  ) : hasContent;
   const ccAddrs = cc
     .split(",")
     .map((a) => a.trim())
@@ -218,38 +282,46 @@ function ComposeForm({
     .filter(Boolean);
   const liveComposePayload = () => {
     const to = [...recipients.map((recipient) => recipient.label), ...recipientInput.split(/[,;\n]+/u).map((value) => value.trim()).filter(Boolean)];
-    const self = initial.replyAll ? new Set(ownAddresses.map((address) => address.toLowerCase())) : null;
+    const replyAll = initial.replyAll ? replyAllRecipients(to, ccAddrs, ownAddresses) : null;
     return {
-      to: self ? to.filter((address) => !self.has(address.toLowerCase())) : to,
-      cc: self ? ccAddrs.filter((address) => !self.has(address.toLowerCase())) : ccAddrs,
+      ...(sharedAccountId ? { accountId: sharedAccountId } : {}),
+      to: replyAll?.to ?? to,
+      cc: replyAll?.cc ?? ccAddrs,
       bcc: bccAddrs,
       fromAddress: fromAddress ?? undefined,
       subject, body,
+      ...(htmlBody ? { htmlBody } : {}),
       inReplyTo: initial.inReplyTo ?? [],
       references: initial.references ?? [],
       ...(initial.previousDraftId ? { previousDraftId: initial.previousDraftId } : {}),
-      attachments: attachments.map(({ blobId, name, type, size }) => ({ blobId, name, type, size })),
+      attachments: attachments.map((attachment) => ({ blobId: attachment.blobId, name: attachment.name, type: attachment.type, size: attachment.size,
+        ...(referencesInlineAttachment(htmlBody, attachment) ? { disposition: attachment.disposition, cid: attachment.cid } : {}) })),
     };
   };
-  // Drives the "N external recipients" warning banner — anyone whose address
-  // isn't on the internal domain, across To/Cc/Bcc combined.
-  const externalCount =
-    recipients.filter((r) => !r.label.toLowerCase().endsWith(INTERNAL_DOMAIN)).length +
-    [...ccAddrs, ...bccAddrs].filter((a) => !a.toLowerCase().endsWith(INTERNAL_DOMAIN)).length;
+  // Compare with the authenticated sender's domain.
+  const senderDomain = fromAddress?.split("@").at(-1)?.toLowerCase();
+  const isExternalRecipient = (address: string) => {
+    const parts = address.trim().toLowerCase().split("@");
+    return Boolean(senderDomain && parts.length === 2 && parts[0] && parts[1] && parts[1] !== senderDomain);
+  };
+  const pendingTo = recipientInput.split(/[,;\n]+/u).map((value) => value.trim()).filter(Boolean);
+  const toAddresses = [...recipients.map((recipient) => recipient.label), ...pendingTo];
+  const externalCount = [...toAddresses, ...ccAddrs, ...bccAddrs].filter(isExternalRecipient).length;
 
   const recipientQuery = recipientInput.split(/[,;\n]/u).at(-1)?.trim() ?? "";
   const visibleSuggestions = suggestionOpen && recipientQuery === suggestionResultQuery ? suggestions : [];
 
   useEffect(() => {
-    if (mode !== "live" || recipientQuery.length < 2 || [...recipientQuery].length > 200) return;
+    if (recipientQuery.length < 2 || [...recipientQuery].length > 200) return;
     const controller = new AbortController();
     const timer = window.setTimeout(async () => {
       try {
         const params = new URLSearchParams({ q: recipientQuery });
         const response = await fetch(`/api/mail/contact-suggestions?${params}`, { cache: "no-store", signal: controller.signal });
-        const payload = await response.json();
+        const payload = await response.json().catch(() => null);
         if (controller.signal.aborted) return;
-        if (!response.ok || !Array.isArray(payload.suggestions)) throw new Error(payload.status ?? "unavailable");
+        if (!response.ok) throw new Error(clientMailFailure(response.status, payload));
+        if (!payload || !Array.isArray(payload.suggestions)) throw new Error("unavailable");
         setSuggestions(payload.suggestions);
         setSuggestionResultQuery(recipientQuery);
         setActiveSuggestion(0);
@@ -305,45 +377,49 @@ function ComposeForm({
     }
   };
 
-  const addFiles = (files: FileList | File[]) => {
+  const canSelectAttachments = Boolean(fromAddress && maxAttachmentBytes > 0 && !uploading && !submitting && !submissionUncertain);
+  const addFiles = async (files: FileList | File[], inline = false): Promise<Attachment[]> => {
+    if (!canSelectAttachments || ((uploadingRef.current || submittingRef.current || submissionUncertainRef.current || submissionCompletedRef.current))) return [];
     const incoming = Array.from(files);
-    if (mode === "live") {
+    {
+      if (inline && (attachments.filter((item) => item.disposition === "inline").length + incoming.length > MAX_INLINE_IMAGES ||
+        incoming.some((file) => !RASTER_IMAGE.test(file.type) || file.size > MAX_INLINE_IMAGE_BYTES))) {
+        setComposeError("invalid_request");
+        return [];
+      }
       const incomingBytes = incoming.reduce((total, file) => total + file.size, 0);
       const existingBytes = attachments.reduce((total, file) => total + file.size, 0);
-      if (uploading || incoming.length + attachments.length > 20 || incomingBytes + existingBytes > maxAttachmentBytes) { setComposeError("invalid_request"); return; }
+      if (uploading || incoming.length + attachments.length > 20 || incomingBytes + existingBytes > maxAttachmentBytes) { setFailedUploadNames((current) => [...new Set([...current, ...incoming.map((file) => file.name)])]); setComposeError("invalid_request"); return []; }
+      uploadingRef.current = true;
       setUploading(true);
       setComposeError(null);
-      void Promise.allSettled(incoming.map(async (file) => {
+      return Promise.allSettled(incoming.map(async (file): Promise<Attachment> => {
         if (!file.size || file.size > MAX_ATTACHMENT_BYTES) throw new Error("invalid_request");
-        const response = await fetch(`/api/mail/upload?name=${encodeURIComponent(file.name)}`, {
+        const uploadQuery = new URLSearchParams({ name: file.name });
+        if (sharedAccountId) uploadQuery.set("accountId", sharedAccountId);
+        const response = await fetch(`/api/mail/upload?${uploadQuery}`, {
           method: "POST", headers: { "content-type": file.type || "application/octet-stream" }, body: file,
           signal: AbortSignal.timeout(120_000),
         });
-        const payload = await response.json();
-        if (!response.ok || typeof payload.blobId !== "string" || typeof payload.type !== "string" || typeof payload.size !== "number") {
-          throw new Error(payload.status ?? "unavailable");
-        }
-        return { id: `att-${crypto.randomUUID()}`, name: file.name, size: payload.size, ext: file.name.split(".").pop()?.toLowerCase() ?? "", blobId: payload.blobId, type: payload.type };
+        const payload = await response.json().catch(() => null);
+        if (!response.ok) throw new Error(response.status === 413 ? "tooLarge" : response.status === 507 ? "overQuota" :
+          response.status === 400 ? "invalid_request" : clientMailFailure(response.status, payload));
+        const receipt = requireUploadReceipt(payload, file);
+        return { id: `att-${crypto.randomUUID()}`, ...receipt, ext: file.name.split(".").pop()?.toLowerCase() ?? "",
+          ...(inline ? { disposition: "inline" as const, cid: `${crypto.randomUUID()}@gxwebmail` } : {}) };
       })).then((results) => {
         const uploaded = results.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
         if (uploaded.length) setAttachments((current) => [...current, ...uploaded]);
         const failed = results.find((result) => result.status === "rejected");
-        if (failed?.status === "rejected") setComposeError(failed.reason instanceof Error ? failed.reason.message : "unavailable");
-      }).finally(() => setUploading(false));
-      return;
+        setFailedUploadNames((current) => remainingFailedUploadNames(current, incoming.map((file) => file.name), results.map((result) => result.status)));
+        if (failed?.status === "rejected") {
+          const reason = failed.reason instanceof Error ? failed.reason.message : "unavailable";
+          setComposeError(reason === "overQuota" ? "uploadOverQuota" : reason);
+        }
+        return uploaded;
+      }).finally(() => { uploadingRef.current = false; setUploading(false); });
     }
-    const tooBig = incoming.filter((f) => f.size > MAX_ATTACHMENT_BYTES);
-    const accepted = incoming.filter((f) => f.size <= MAX_ATTACHMENT_BYTES);
-    if (accepted.length > 0) {
-      setAttachments((prev) => [...prev, ...toAttachments(accepted)]);
-      const large = accepted.filter((f) => f.size > LARGE_FILE_LINK_THRESHOLD);
-      if (large.length > 0) {
-        toast.info(t("largeFilesBecomeLinks"), { sub: large.map((f) => f.name).join(", ") });
-      }
-    }
-    if (tooBig.length > 0) {
-      toast.error(t("fileTooLarge"), { sub: tooBig.map((f) => f.name).join(", ") });
-    }
+
   };
 
   const removeAttachment = (id: string) => setAttachments((prev) => prev.filter((a) => a.id !== id));
@@ -351,55 +427,54 @@ function ComposeForm({
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files);
+    if (canSelectAttachments && e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files);
+  };
+
+  const submitLive = (sendAtUtc?: string, scheduleLabel?: string) => {
+    if (submitting || submittingRef.current || uploading || uploadingRef.current || uploadFailed || !fromAddress || submissionUncertain || submissionUncertainRef.current || submissionCompletedRef.current) return;
+    if (sendAtUtc && !scheduledUtc(sendAtUtc, maxDelayedSend)) { setComposeValidationField("sendAtUtc"); setComposeError("invalid_request"); return; }
+    submittingRef.current = true;
+    setSubmitting(true);
+    setComposeError(null);
+    setComposeValidationField(null);
+    void fetch("/api/mail/compose", {
+      method: "POST", headers: { "content-type": "application/json" },
+      signal: AbortSignal.timeout(60_000),
+      body: JSON.stringify({ action: "send", ...liveComposePayload(), ...(sendAtUtc ? { sendAtUtc } : {}) }),
+    }).then(async (response) => {
+      const payload = await requireConfirmedComposeMutation(response, "submitted");
+      submissionCompletedRef.current = true;
+      if (!sharedAccountId) retryLoad();
+      if (sendAtUtc) refreshScheduledSubmissions();
+      onSubmitted?.();
+      const message = sendAtUtc ? t("scheduled") : t("queuedForSending");
+      const detail = payload.previousDraftCleanupConfirmed === false ? t("oldDraftMayRemain") : scheduleLabel;
+      toast.success(message, detail ? { sub: detail } : undefined);
+      onClose();
+    }).catch((error: unknown) => {
+      setComposeValidationField(error instanceof ComposeValidationError ? error.field : null);
+      const reason = error instanceof Error ? error.message : "submission_uncertain";
+      if (reason === "draft_uncertain" || reason === "submission_rejected_draft_uncertain") {
+        submissionUncertainRef.current = true;
+        setSubmissionUncertain(true);
+        setComposeError(reason);
+      } else if (!["recipient_required", "invalid_request", "tooLarge", "overQuota", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
+        submissionUncertainRef.current = true;
+        setSubmissionUncertain(true);
+        setComposeError("submission_uncertain");
+      } else setComposeError(reason);
+    }).finally(() => { submittingRef.current = false; setSubmitting(false); });
   };
 
   const handleSend = (e: FormEvent) => {
     e.preventDefault();
-    if (mode === "live") {
-      if (submitting || uploading || !fromAddress || submissionUncertain) return;
-      setSubmitting(true);
-      setComposeError(null);
-      void fetch("/api/mail/compose", {
-        method: "POST", headers: { "content-type": "application/json" },
-        signal: AbortSignal.timeout(60_000),
-        body: JSON.stringify({ action: "send", ...liveComposePayload() }),
-      }).then(async (response) => {
-        const payload = await response.json();
-        if (!response.ok || payload.status !== "submitted") throw new Error(payload.status ?? "unavailable");
-        retryLoad();
-        toast.success(t("sent"), payload.previousDraftCleanupConfirmed === false ? { sub: t("oldDraftMayRemain") } : undefined);
-        onClose();
-      }).catch((error: unknown) => {
-        const reason = error instanceof Error ? error.message : "submission_uncertain";
-        if (reason === "draft_uncertain" || reason === "submission_rejected_draft_uncertain") {
-          setSubmissionUncertain(true);
-          setComposeError(reason);
-        } else if (!["invalid_request", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
-          setSubmissionUncertain(true);
-          setComposeError("submission_uncertain");
-        } else setComposeError(reason);
-      })
-        .finally(() => setSubmitting(false));
-      return;
-    }
-    commitRecipientInput();
-    const toStr = recipients.map((r) => r.label).join(", ") || recipientInput.trim();
-    const attachmentNote =
-      attachments.length > 0 ? `\n\n${t("attachmentNote", { count: numberFormatter.format(attachments.length), names: attachments.map((a) => a.name).join(", ") })}` : "";
-    sendEmail({ to: toStr, cc, bcc, subject, body: body + attachmentNote });
-    const sub = [
-      attachments.length > 0 ? t("attachmentCount", { count: numberFormatter.format(attachments.length) }) : null,
-      bccAddrs.length > 0 ? t("bccCount", { count: numberFormatter.format(bccAddrs.length) }) : null,
-    ]
-      .filter(Boolean)
-      .join(" · ");
-    toast.success(t("sent"), sub ? { sub } : undefined);
+    { submitLive(); return; }
+
   };
 
   const handleClose = () => {
-    if (submitting || uploading) return;
-    if (hasContent) {
+    if (submitting || submittingRef.current || uploading || uploadingRef.current) return;
+    if (hasUnsavedChanges || submissionUncertain || uploadFailed) {
       setConfirmingDiscard(true);
       return;
     }
@@ -465,8 +540,11 @@ function ComposeForm({
         if (e.target === e.currentTarget) handleClose();
       }}
     >
-      <form
+        <form
+          autoComplete="off"
         onSubmit={handleSend}
+        aria-busy={submitting}
+        data-validation-field={composeError === "invalid_request" ? composeValidationField ?? undefined : undefined}
         onClick={(e) => e.stopPropagation()}
         className={`relative flex h-full w-full flex-col overflow-hidden bg-background shadow-2xl transition-all sm:h-[min(88vh,760px)] sm:max-h-none sm:max-w-[calc(100vw-2rem)] sm:rounded-[14px] sm:border sm:border-(--border-app) ${
           expanded ? "sm:w-260" : "sm:w-190"
@@ -474,9 +552,7 @@ function ComposeForm({
       >
         <div className="flex shrink-0 items-center gap-2.5 border-b border-(--border-app) px-4 py-3">
           <h2 id={titleId} className="text-sm font-bold tracking-tight">{initial.previousDraftId ? tReading("editDraft") : t("newMail")}</h2>
-          {mode === "mock" ? <span className="rounded-full bg-(--surface-muted) px-2 py-0.5 text-[11px] text-(--text-muted)">
-            {t("savedJustNow")}
-          </span> : fromAddress ? <span className="truncate text-xs text-(--text-muted)">{fromAddress}</span> : null}
+          {fromAddress ? <span className="truncate text-xs text-(--text-muted)">{fromAddress}</span> : null}
           <div className="ml-auto flex items-center gap-1 text-(--text-muted)">
             <button
               type="button"
@@ -499,9 +575,9 @@ function ComposeForm({
 
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
           <div className="flex flex-col px-4">
-            <div className="flex items-start gap-3 border-b border-(--border-app) py-2.5">
-              <span className="mt-1.5 shrink-0 text-xs font-semibold text-(--text-muted)">{t("to")}</span>
-              <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+            <div className="flex items-center gap-3 border-b border-(--border-app) py-2.5">
+              <span className="shrink-0 text-xs leading-5 font-semibold text-(--text-muted)">{t("to")}</span>
+              <div className="relative flex min-h-8 min-w-0 flex-1 flex-wrap items-center gap-1.5">
                 {recipients.map((r) => (
                   <button
                     key={r.id}
@@ -524,21 +600,26 @@ function ComposeForm({
                   ref={recipientInputRef}
                   type="text"
                   aria-label={t("to")}
-                  role={mode === "live" ? "combobox" : undefined}
-                  aria-autocomplete={mode === "live" ? "list" : undefined}
-                  aria-controls={mode === "live" ? suggestionListId : undefined}
-                  aria-expanded={mode === "live" ? visibleSuggestions.length > 0 : undefined}
+                  role={"combobox"}
+                  aria-autocomplete={"list"}
+                  aria-controls={suggestionListId}
+                  aria-expanded={visibleSuggestions.length > 0}
                   aria-activedescendant={visibleSuggestions.length > 0 ? `${suggestionListId}-${activeSuggestion}` : undefined}
-                  autoComplete="off"
+                  // Chrome이 off를 무시하는 저장 주소 자동완성은 억제하고 앱 연락처 추천은 유지합니다.
+                  autoComplete="section-compose-to new-password"
+                  name="compose-recipient-to"
+                  inputMode="email"
+                  autoCapitalize="none"
+                  spellCheck={false}
                   value={recipientInput}
                   onChange={(e) => { setRecipientInput(e.target.value); setSuggestionOpen(false); setSuggestionError(null); }}
                   onFocus={() => { if (recipientQuery === suggestionResultQuery && suggestions.length > 0) setSuggestionOpen(true); }}
                   onKeyDown={handleRecipientKeyDown}
                   onBlur={() => { setSuggestionOpen(false); commitRecipientInput(); }}
                   placeholder={t("recipientPlaceholder")}
-                  className="min-w-0 flex-1 basis-35 bg-transparent text-base outline-none placeholder:text-(--text-muted) md:text-xs"
+                  className="h-8 min-w-0 flex-1 basis-35 bg-transparent p-0 text-base leading-5 outline-none placeholder:text-(--text-muted) md:text-xs"
                 />
-                {mode === "live" && suggestionOpen && recipientQuery === suggestionResultQuery && (visibleSuggestions.length > 0 || suggestionError) ? (
+                {suggestionOpen && recipientQuery === suggestionResultQuery && (visibleSuggestions.length > 0 || suggestionError) ? (
                   <ul id={suggestionListId} role="listbox" className="absolute top-full left-0 z-(--layer-popover) mt-2 max-h-56 w-full min-w-56 overflow-y-auto rounded-lg border border-(--border-app) bg-background py-1 text-foreground shadow-lg">
                     {visibleSuggestions.map((suggestion, index) => (
                       <li id={`${suggestionListId}-${index}`} key={suggestion.email.toLowerCase()} role="option" aria-selected={index === activeSuggestion}>
@@ -555,7 +636,7 @@ function ComposeForm({
               <button
                 type="button"
                 onClick={() => setShowCcBcc((v) => !v)}
-                className="mt-1 shrink-0 text-[11.5px] font-medium"
+                className="inline-flex min-h-8 shrink-0 items-center text-[11.5px] leading-5 font-medium"
                 style={{ color: "var(--color-primary-ink)" }}
               >
                 {t("ccAndBcc")}
@@ -571,6 +652,11 @@ function ComposeForm({
                     ref={ccInputRef}
                     type="text"
                     aria-label={t("cc")}
+                    autoComplete="section-compose-cc new-password"
+                    name="compose-recipient-cc"
+                    inputMode="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
                     value={cc}
                     onChange={(e) => setCc(e.target.value)}
                     placeholder={t("ccPlaceholder")}
@@ -582,6 +668,11 @@ function ComposeForm({
                   <input
                     type="text"
                     aria-label={t("bcc")}
+                    autoComplete="section-compose-bcc new-password"
+                    name="compose-recipient-bcc"
+                    inputMode="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
                     value={bcc}
                     onChange={(e) => setBcc(e.target.value)}
                     placeholder={t("bccPlaceholder")}
@@ -604,32 +695,10 @@ function ComposeForm({
             </div>
           </div>
 
-          {composeError ? <p role="alert" className="mx-4 mb-2 text-sm text-(--status-danger)">{composeError === "submission_uncertain" ? t("submissionUncertain") : composeError === "submission_rejected_draft_uncertain" ? t("submissionRejectedDraftUncertain") : composeError === "draft_uncertain" ? t("draftSaveUncertain") : composeError === "identityMismatch" ? t("identityMismatch") : composeError === "invalid_request" ? t("invalidRequest") : ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(composeError) ? tService(composeError as "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable") : tService("unavailable")}</p> : null}
-          {mode === "mock" ? <div className="mx-4 mb-1 flex flex-wrap items-center gap-3 rounded-xl border border-(--border-app) bg-(--surface-muted) px-4 py-3">
-            <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-md bg-(--color-primary-solid) text-[9px] font-extrabold text-white">
-              AI
-            </span>
-            <span className="text-xs text-(--text-muted)">{t("toneHint")}</span>
-            <div className="ml-auto flex gap-1.5">
-              {TONE_OPTIONS.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={() => {
-                    setTone(option.key);
-                    toast.info(t("rewritingTone", { tone: t(`tones.${option.key}`) }));
-                  }}
-                  className={`min-h-11 rounded-full px-2.5 text-[11px] font-semibold transition sm:min-h-0 sm:py-1 ${
-                    tone === option.key
-                      ? "bg-(--color-primary-solid) text-white"
-                      : "border border-(--border-app) bg-background text-foreground hover:bg-(--control-hover)"
-                  }`}
-                >
-                  {t(`tones.${option.key}`)}
-                </button>
-              ))}
-            </div>
-          </div> : null}
+          {composeError ? <p role="alert" className="mx-4 mb-2 text-sm text-(--status-danger)">{composeError === "submission_uncertain" ? t("submissionUncertain") : composeError === "submission_rejected_draft_uncertain" ? t("submissionRejectedDraftUncertain") : composeError === "draft_uncertain" ? t("draftSaveUncertain") : composeError === "identityMismatch" ? t("identityMismatch") : composeError === "recipient_required" ? t("recipientRequired") : composeError === "invalid_request" ? t("invalidRequest") : composeError === "tooLarge" ? t("serverUploadTooLarge") : composeError === "uploadOverQuota" ? t("serverUploadOverQuota") : composeError === "overQuota" ? t("composeQuotaExceeded") : ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(composeError) ? tService(composeError as "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable") : tService("unavailable")}</p> : null}
+          {uploadFailed ? <p role="alert" className="mx-4 mb-2 break-words text-sm text-(--status-danger)">{t("failedUploadsRemaining", { names: failedUploadNames.join(", ") })}</p> : null}
+          {uploadFailed ? <button type="button" className="mx-4 mb-2 self-start text-sm font-semibold text-(--color-primary) underline underline-offset-2" onClick={() => { setFailedUploadNames([]); setComposeError(null); }}>{t("continueWithoutFailedUploads")}</button> : null}
+          {null}
 
           {externalCount > 0 && (
             <div className="px-4 pb-1">
@@ -639,7 +708,7 @@ function ComposeForm({
                 body={t("externalRecipientBody")}
                 actionLabel={t("reviewRecipients")}
                 onAction={() => {
-                  const toIsExternal = recipients.some((r) => !r.label.toLowerCase().endsWith(INTERNAL_DOMAIN));
+                  const toIsExternal = toAddresses.some(isExternalRecipient);
                   if (toIsExternal) {
                     recipientInputRef.current?.focus();
                   } else {
@@ -651,18 +720,28 @@ function ComposeForm({
             </div>
           )}
 
-          {mode === "live" ? <textarea
-            aria-label={t("bodyPlaceholder")}
+          <ComposeEditor
+            initialMode={sendingDefaults.mode}
             value={body}
-            onChange={(event) => { bodyTouched.current = true; setBody(event.target.value); }}
+            initialHtml={initial.htmlBody ?? insertedSignatureHtml}
+            inlineAttachments={attachments}
+            inlineAccountId={sharedAccountId}
+            onChange={(next) => { bodyTouched.current = true; setBody(next); }}
+            onHtmlChange={(next) => {
+              // 초기 HTML 정화는 사용자 수정이 아닙니다. 정화된 원본을 비교 기준으로 삼습니다.
+              if (!bodyTouched.current) setBaselineHtml(next);
+              setHtmlBody(next);
+            }}
+            onModeChange={() => { bodyTouched.current = true; }}
             placeholder={t("bodyPlaceholder")}
-            className="min-h-45 flex-1 resize-none border-y border-(--border-app) px-4 py-3 text-base outline-none placeholder:text-(--text-muted) md:text-sm"
-          /> : <ComposeEditor
-            value={body}
-            onChange={setBody}
-            placeholder={t("bodyPlaceholder")}
-            onImageAttach={(file) => addFiles([file])}
-          />}
+            onImageAttach={(file) => { void addFiles([file]); }}
+            onInlineImageUpload={async (file) => {
+              const [uploaded] = await addFiles([file], true);
+              return uploaded?.cid ?? null;
+            }}
+            allowInlineImages={false}
+            imageAttachDisabled={!canSelectAttachments}
+          />
 
           <div className="flex flex-col gap-2 px-4 pb-3 sm:flex-row">
             {attachments.length > 0 && (
@@ -684,13 +763,14 @@ function ComposeForm({
                         <p className="truncate text-xs font-semibold">{att.name}</p>
                         <p className="text-[11px] text-(--text-muted)">
                           {t("uploadComplete", { size: formatBytes(att.size, locale) })}
-                          {mode === "mock" && att.size > LARGE_FILE_LINK_THRESHOLD ? t("largeFileLinkSuffix") : ""}
+                          {""}
                         </p>
                       </div>
                       <button
                         type="button"
+                        disabled={referencesInlineAttachment(htmlBody, att)}
                         onClick={() => removeAttachment(att.id)}
-                        className="shrink-0 text-(--text-muted) hover:text-(--status-danger)"
+                        className="shrink-0 text-(--text-muted) hover:text-(--status-danger) disabled:cursor-not-allowed disabled:opacity-40"
                         aria-label={t("removeAttachment")}
                       >
                         <X size={14} />
@@ -702,23 +782,24 @@ function ComposeForm({
             )}
 
             <div
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => { if (canSelectAttachments) fileInputRef.current?.click(); }}
               onDragOver={(e) => {
                 e.preventDefault();
-                setIsDragging(true);
+                if (canSelectAttachments) setIsDragging(true);
               }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
               role="button"
-              tabIndex={0}
+              aria-disabled={!canSelectAttachments}
+              tabIndex={canSelectAttachments ? 0 : -1}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
+                if (canSelectAttachments && (e.key === "Enter" || e.key === " ")) {
                   e.preventDefault();
                   fileInputRef.current?.click();
                 }
               }}
               aria-label={t("chooseAttachments")}
-              className={`flex shrink-0 cursor-pointer items-center gap-2.5 rounded-[10px] border border-dashed px-3 py-2 outline-none transition focus-visible:ring-2 focus-visible:ring-(--focus-ring) sm:w-55 ${
+              className={`flex shrink-0 items-center gap-2.5 rounded-[10px] border border-dashed px-3 py-2 outline-none transition focus-visible:ring-2 focus-visible:ring-(--focus-ring) sm:w-55 ${canSelectAttachments ? "cursor-pointer" : "cursor-not-allowed opacity-50"} ${
                 isDragging
                   ? "border-(--color-primary) bg-(--color-primary)/6"
                   : "border-(--border-app) bg-black/1.5 dark:bg-white/2"
@@ -730,7 +811,7 @@ function ComposeForm({
               <div className="min-w-0">
                 <p className="text-xs font-semibold">{t("dropFiles")}</p>
                 <p className="text-[11px] leading-tight text-(--text-muted)">
-                  {mode === "mock" ? t("attachmentLimits") : null}
+                  {null}
                 </p>
               </div>
             </div>
@@ -738,6 +819,7 @@ function ComposeForm({
               ref={fileInputRef}
               type="file"
               multiple
+              disabled={!canSelectAttachments}
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.length) addFiles(e.target.files);
@@ -752,45 +834,55 @@ function ComposeForm({
             <div className="flex items-center overflow-hidden rounded-[9px]" style={{ backgroundColor: "var(--color-primary-solid)" }}>
               <button
                 type="submit"
-                disabled={mode === "live" && (submitting || uploading || !fromAddress || submissionUncertain)}
+                disabled={(submitting || uploading || uploadFailed || !fromAddress || submissionUncertain)}
                 className="min-h-11 px-4 text-[13px] font-semibold text-white transition hover:brightness-110 sm:min-h-0 sm:py-2"
               >
-                {t("send")}
+                {submitting ? t("sendingNow") : t("send")}
               </button>
-              {mode === "mock" ? <span className="h-4 w-px bg-white/30" /> : null}
-              {mode === "mock" ? <>
+              {(maxDelayedSend > 0) ? <span className="h-4 w-px bg-white/30" /> : null}
+              {(maxDelayedSend > 0) ? <>
               <button
                 ref={scheduleButtonRef}
                 type="button"
                 aria-haspopup="true"
                 aria-expanded={scheduleOpen}
-                onClick={() => setScheduleOpen((v) => !v)}
-                className="flex min-h-11 items-center gap-1 px-2.5 text-[11px] font-medium text-white/90 transition hover:brightness-110 sm:min-h-0 sm:py-2"
+                disabled={(submitting || uploading || uploadFailed || !fromAddress || submissionUncertain)}
+                onClick={openScheduleMenu}
+                className="flex min-h-11 items-center gap-1 px-2.5 text-[11px] font-medium text-white/90 transition hover:brightness-110 disabled:opacity-45 sm:min-h-0 sm:py-2"
               >
                 <Clock size={12} />
                 {t("scheduleSend")}
               </button>
               </> : null}
             </div>
-            {mode === "mock" && scheduleOpen && (
+            {scheduleOpen && (
               <>
                 <button type="button" tabIndex={-1} aria-label={t("closeScheduleMenu")} className="fixed inset-0 z-(--layer-popover-backdrop) cursor-default" onClick={() => { setScheduleOpen(false); scheduleButtonRef.current?.focus(); }} />
-                <div ref={scheduleMenuRef} role="group" aria-label={t("scheduleTimes")} className="absolute bottom-full left-0 z-(--layer-popover) mb-2 w-48 overflow-hidden rounded-[10px] border border-(--border-app) bg-background py-1 text-foreground shadow-xl">
-                  {scheduleOptions.map((option) => (
+                <div ref={scheduleMenuRef} role="group" aria-label={t("scheduleTimes")} className="absolute bottom-full left-0 z-(--layer-popover) mb-2 w-64 overflow-hidden rounded-[10px] border border-(--border-app) bg-background py-1 text-foreground shadow-xl">
+                  {(liveScheduleOptions).map((option) => (
                     <button
                       key={option.id}
                       type="button"
                       onClick={() => {
                         setScheduleOpen(false);
-                        commitRecipientInput();
-                        toast.success(t("scheduled"), { sub: option.label });
-                        onClose();
+                        { if (option.sendAtUtc) submitLive(option.sendAtUtc, option.label); return; }
+
                       }}
                       className="block w-full px-3 py-2 text-left text-xs hover:bg-black/5 dark:hover:bg-white/5"
                     >
                       {option.label}
                     </button>
                   ))}
+                  {<div className="space-y-2 border-t border-(--border-app) p-3">
+                    <input type="datetime-local" aria-label={t("scheduleSend")} value={scheduleInput} onChange={(event) => setScheduleInput(event.target.value)}
+                      className="min-h-11 w-full rounded-lg border border-(--border-app) bg-background px-2 text-sm text-foreground" />
+                    <button type="button" disabled={!scheduledUtc(scheduleInput, maxDelayedSend)} onClick={() => {
+                      const sendAtUtc = scheduledUtc(scheduleInput, maxDelayedSend);
+                      if (!sendAtUtc) { setComposeError("invalid_request"); return; }
+                      setScheduleOpen(false);
+                      submitLive(sendAtUtc, new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(sendAtUtc)));
+                    }} className="min-h-11 w-full rounded-lg bg-(--color-primary-solid) px-3 text-sm font-semibold text-white disabled:opacity-45">{t("scheduleSend")}</button>
+                  </div>}
                 </div>
               </>
             )}
@@ -800,7 +892,8 @@ function ComposeForm({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex size-11 items-center justify-center rounded-lg text-(--text-muted) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) dark:hover:bg-white/10 sm:size-auto sm:p-1.5"
+              disabled={!canSelectAttachments}
+              className="flex size-11 items-center justify-center rounded-lg text-(--text-muted) outline-none hover:bg-black/5 focus-visible:ring-2 focus-visible:ring-(--focus-ring) disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-white/10 sm:size-auto sm:p-1.5"
               aria-label={t("attachFile")}
               title={t("attachFile")}
             >
@@ -809,10 +902,7 @@ function ComposeForm({
           </div>
 
           <div className="ml-auto flex items-center gap-3">
-            {mode === "mock" ? <span className="hidden items-center gap-1.5 text-[11px] text-(--text-muted) sm:flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-(--status-success)" />
-              {t("tlsEncrypted")}
-            </span> : null}
+            {null}
             <button
               type="button"
               onClick={handleClose}
@@ -833,47 +923,54 @@ function ComposeForm({
           description={submissionUncertain ? t(composeError === "draft_uncertain" ? "draftSaveUncertain" : composeError === "submission_rejected_draft_uncertain" ? "submissionRejectedDraftUncertain" : "submissionUncertain") : t("discardDescription")}
           cancelLabel={t("continueEditing")}
           confirmLabel={t("saveDraft")}
-          confirmDisabled={mode === "live" && (submitting || uploading || !fromAddress || submissionUncertain)}
-          onCancel={() => setConfirmingDiscard(false)}
+          confirmDisabled={(submitting || uploading || uploadFailed || !fromAddress || submissionUncertain)}
+          onCancel={() => {
+            if (submitting || submittingRef.current || uploading || uploadingRef.current) return;
+            setConfirmingDiscard(false);
+          }}
           middleAction={{
             label: t("discardWithoutSaving"),
             onClick: () => {
+              if (submitting || submittingRef.current || uploading || uploadingRef.current) return;
               setConfirmingDiscard(false);
               onClose();
             },
           }}
           onConfirm={() => {
-            if (mode === "live") {
-              if (submitting || uploading || !fromAddress || submissionUncertain) return;
+            {
+              if (submitting || submittingRef.current || uploading || uploadingRef.current || uploadFailed || !fromAddress || submissionUncertain || submissionUncertainRef.current || submissionCompletedRef.current) return;
+              submittingRef.current = true;
               setSubmitting(true);
               setComposeError(null);
+              setComposeValidationField(null);
               void fetch("/api/mail/compose", {
                 method: "POST", headers: { "content-type": "application/json" },
                 signal: AbortSignal.timeout(60_000),
                 body: JSON.stringify({ action: "draft", ...liveComposePayload() }),
               }).then(async (response) => {
-                const payload = await response.json();
-                if (!response.ok || payload.status !== "saved") throw new Error(payload.status ?? "unavailable");
-                retryLoad();
+                const payload = await requireConfirmedComposeMutation(response, "saved");
+                submissionCompletedRef.current = true;
+                if (!sharedAccountId) retryLoad();
+                onSubmitted?.();
                 setConfirmingDiscard(false);
                 toast.info(t("draftSaved"), payload.previousDraftCleanupConfirmed === false ? { sub: t("oldDraftMayRemain") } : undefined);
                 onClose();
               }).catch((error: unknown) => {
                 setConfirmingDiscard(false);
+                setComposeValidationField(error instanceof ComposeValidationError ? error.field : null);
                 const reason = error instanceof Error ? error.message : "draft_uncertain";
-                if (["invalid_request", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
+                if (["invalid_request", "tooLarge", "overQuota", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)) {
                   setComposeError(reason);
                 } else {
+                  submissionUncertainRef.current = true;
                   setSubmissionUncertain(true);
                   setComposeError("draft_uncertain");
                 }
               })
-                .finally(() => setSubmitting(false));
+                .finally(() => { submittingRef.current = false; setSubmitting(false); });
               return;
             }
-            setConfirmingDiscard(false);
-            toast.info(t("draftSaved"));
-            onClose();
+
           }}
         />
       )}
@@ -891,4 +988,8 @@ export function ComposeModal() {
   // a fresh "reply" always starts from a clean form instead of merging into
   // whatever was left in a still-open compose window.
   return <ComposeForm key={composeSessionId} initial={composeDraft} onClose={closeCompose} />;
+}
+
+export function SharedComposeModal({ accountId, initial, onClose, onSubmitted }: { accountId: string; initial?: ComposeDraft | null; onClose: () => void; onSubmitted: () => void }) {
+  return <ComposeForm initial={initial ?? { to: "", subject: "", body: "" }} onClose={onClose} onSubmitted={onSubmitted} sharedAccountId={accountId} />;
 }

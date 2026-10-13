@@ -1,17 +1,33 @@
 "use client";
+import { DialogActions } from "@/components/overlay/DialogActions";
+import { SystemErrorNotice } from "@/components/toast/SystemErrorNotice";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useNow, useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { WorkspaceLayout } from "@/components/layout/WorkspaceLayout";
+import { CalendarMonthGrid } from "@/components/calendar/CalendarMonthGrid";
+import { CalendarTimeGrid } from "@/components/calendar/CalendarTimeGrid";
+import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
+import { Modal } from "@/components/overlay/Modal";
+import { Switch } from "@/components/ui/Switch";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { startOfWeek } from "@/lib/calendar-grid";
+import { shiftCalendarAnchor } from "@/lib/calendar-navigation";
+import { editedEventTimezone } from "@/lib/calendar-edit";
+import { allDayDateRange, allDayUtcRange, editedAllDayEventTiming, projectLiveCalendarEvents } from "@/lib/calendar-projection";
+import { toDateKey } from "@/lib/date-utils";
+import { clientMailFailure, requireConfirmedCalendarMutation } from "@/lib/tastemail/client-session-status";
 import type { LiveCalendarEvent, LiveCalendarRsvp } from "@/lib/tastemail/calendar";
+import type { InitialCalendarData } from "@/lib/workspace-initial-data";
 
 type LoadStatus = "loading" | "ready" | "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable";
 type CalendarState = { key: string; status: LoadStatus; events: LiveCalendarEvent[]; username: string | null };
 
-function shiftMonth(month: string, offset: number): string {
-  const [year, number] = month.split("-").map(Number);
-  return new Date(Date.UTC(year, number - 1 + offset, 1)).toISOString().slice(0, 7);
+const MUTATION_ERRORS = new Set(["invalid_request", "conflict", "not_found", "unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"]);
+
+function mutationFailureReason(error: unknown): string {
+  return error instanceof Error && MUTATION_ERRORS.has(error.message) ? error.message : "retryable";
 }
 
 function eventDate(locale: string, value: string, timezone: string, allDay: boolean): string {
@@ -40,48 +56,97 @@ function defaultTimes(month: string): { start: string; end: string } {
   return { start: localDateTime(start), end: localDateTime(new Date(start.getTime() + 3_600_000)) };
 }
 
-export function LiveCalendar() {
+export function LiveCalendar({ initial }: { initial?: InitialCalendarData | null } = {}) {
   const locale = useLocale();
   const now = useNow();
   const t = useTranslations("calendarPage");
   const common = useTranslations("common");
   const meeting = useTranslations("meetingInvite");
   const service = useTranslations("liveService");
-  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  const [month, setMonth] = useState(currentMonth);
+  const [anchor, setAnchor] = useState(() => {
+    if (initial) { const [year, month, day] = initial.date.split("-").map(Number); return new Date(year, month - 1, day); }
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  });
+  const [view, setView] = useState<"day" | "week" | "month">("week");
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
-  const [state, setState] = useState<CalendarState | null>(null);
+  const [state, setState] = useState<CalendarState | null>(() => initial ? { key: `${initial.month}|0`, status: "ready", events: initial.events, username: initial.username } : null);
+  const initialRequestKey = useRef(initial ? `${initial.month}|0` : null);
   const [creating, setCreating] = useState(false);
   const [editingEvent, setEditingEvent] = useState<LiveCalendarEvent | null>(null);
+  const [confirmUpdateEvent, setConfirmUpdateEvent] = useState(false);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [confirmCancelEvent, setConfirmCancelEvent] = useState<LiveCalendarEvent | null>(null);
   const [respondingId, setRespondingId] = useState<string | null>(null);
-  const [uncertainEventId, setUncertainEventId] = useState<string | null>(null);
+  const [uncertainEventIds, setUncertainEventIds] = useState<string[]>([]);
+  const uncertainEventIdsRef = useRef(new Set<string>());
+  const mutationBusyRef = useRef(false);
+  const submissionUncertainRef = useRef(false);
+  const calendarDataRevision = useRef(0);
   const [title, setTitle] = useState("");
   const [attendees, setAttendees] = useState("");
   const [startsAt, setStartsAt] = useState("");
   const [endsAt, setEndsAt] = useState("");
+  const [allDay, setAllDay] = useState(false);
+  const [allDayStart, setAllDayStart] = useState("");
+  const [allDayLast, setAllDayLast] = useState("");
   const [saving, setSaving] = useState(false);
   const [submissionUncertain, setSubmissionUncertain] = useState(false);
   const [createError, setCreateError] = useState("");
   const [notice, setNotice] = useState("");
+  const month = `${anchor.getFullYear()}-${String(anchor.getMonth() + 1).padStart(2, "0")}`;
   const key = `${month}|${attempt}`;
   const status = state?.key === key ? state.status : "loading";
   const events = state?.key === key ? state.events : [];
   const username = state?.key === key ? state.username : null;
   const [year, monthNumber] = month.split("-").map(Number);
-  const from = new Date(year, monthNumber - 1, 1).toISOString();
-  const to = new Date(year, monthNumber, 1).toISOString();
+  // Include neighboring weeks shown in the month grid and weeks crossing a month boundary.
+  const from = new Date(year, monthNumber - 1, -13).toISOString();
+  const to = new Date(year, monthNumber, 15).toISOString();
   const label = new Intl.DateTimeFormat(locale, { year: "numeric", month: "long" }).format(new Date(year, monthNumber - 1, 1));
+  const dayLabelFormatter = new Intl.DateTimeFormat(locale, { dateStyle: "full" });
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+  const weekStart = startOfWeek(anchor);
+  const weekDays = Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(weekStart);
+    day.setDate(weekStart.getDate() + index);
+    return day;
+  });
+  const viewStart = view === "month" ? new Date(year, monthNumber - 1, 1) :
+    view === "week" ? weekStart : new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate());
+  const viewEnd = new Date(viewStart);
+  if (view === "month") viewEnd.setMonth(viewEnd.getMonth() + 1);
+  else viewEnd.setDate(viewEnd.getDate() + (view === "week" ? 7 : 1));
+  const visibleEvents = events.filter((event) => {
+    if (!event.allDay) return Date.parse(event.startsAt) < viewEnd.getTime() && Date.parse(event.endsAt) > viewStart.getTime();
+    const range = allDayDateRange(event);
+    return range.first < toDateKey(viewEnd) && range.last >= toDateKey(viewStart);
+  });
+  const gridEvents = projectLiveCalendarEvents(events, new Date(year, monthNumber - 1, -13), new Date(year, monthNumber, 15));
+  const originalAllDayDates = editingEvent?.allDay ? allDayDateRange(editingEvent) : null;
+  const editingUnchanged = editingEvent !== null && title.trim() === editingEvent.title && (
+    editingEvent.allDay
+      ? originalAllDayDates?.first === allDayStart && originalAllDayDates.last === allDayLast
+      : startsAt === localDateTime(new Date(editingEvent.startsAt)) && endsAt === localDateTime(new Date(editingEvent.endsAt))
+  );
+
+  const shiftAnchor = (direction: -1 | 1) => {
+    setSelectedEventId(null);
+    setAnchor((previous) => shiftCalendarAnchor(previous, view, direction));
+  };
 
   useEffect(() => {
+    if (initialRequestKey.current === key) return;
+    initialRequestKey.current = null;
+    const startedAtRevision = calendarDataRevision.current;
     const controller = new AbortController();
     const params = new URLSearchParams({ from, to });
-    fetch(`/api/mail/events?${params}`, { cache: "no-store", signal: controller.signal })
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(25_000)]);
+    fetch(`/api/mail/events?${params}`, { cache: "no-store", signal })
       .then(async (response) => {
-        const payload: unknown = await response.json();
+        const payload: unknown = await response.json().catch(() => null);
         if (!response.ok) {
-          const reason = payload && typeof payload === "object" && "status" in payload ? payload.status : null;
-          throw new Error(typeof reason === "string" ? reason : "retryable");
+          throw new Error(clientMailFailure(response.status, payload));
         }
         if (!payload || typeof payload !== "object" || !("events" in payload) || !Array.isArray(payload.events) ||
             !("username" in payload) || typeof payload.username !== "string") {
@@ -90,10 +155,19 @@ export function LiveCalendar() {
         return { events: payload.events as LiveCalendarEvent[], username: payload.username };
       })
       .then((result) => {
-        if (!controller.signal.aborted) setState({ key, status: "ready", ...result });
+        if (controller.signal.aborted) return;
+        if (startedAtRevision !== calendarDataRevision.current) {
+          setAttempt((value) => value + 1);
+          return;
+        }
+        setState({ key, status: "ready", ...result });
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
+        if (startedAtRevision !== calendarDataRevision.current) {
+          setAttempt((value) => value + 1);
+          return;
+        }
         const reason = error instanceof Error ? error.message : "retryable";
         const failure: LoadStatus = ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)
           ? reason as LoadStatus : "retryable";
@@ -103,36 +177,55 @@ export function LiveCalendar() {
   }, [from, to, key]);
 
   const openCreate = () => {
+    if (mutationBusyRef.current || submissionUncertainRef.current || submissionUncertain) return;
     const defaults = defaultTimes(month);
     setTitle("");
     setAttendees("");
     setStartsAt(defaults.start);
     setEndsAt(defaults.end);
+    setAllDay(false);
+    setAllDayStart(defaults.start.slice(0, 10));
+    setAllDayLast(defaults.start.slice(0, 10));
     setCreateError("");
-    setSubmissionUncertain(false);
     setNotice("");
     setEditingEvent(null);
+    setConfirmUpdateEvent(false);
     setCreating(true);
   };
 
   const openEdit = (event: LiveCalendarEvent) => {
+    if (mutationBusyRef.current || submissionUncertainRef.current || submissionUncertain || uncertainEventIdsRef.current.has(event.id)) return;
+    const allDayDates = event.allDay ? allDayDateRange(event) : null;
     setTitle(event.title);
     setAttendees("");
     setStartsAt(localDateTime(new Date(event.startsAt)));
     setEndsAt(localDateTime(new Date(event.endsAt)));
+    setAllDay(event.allDay);
+    setAllDayStart(allDayDates?.first ?? "");
+    setAllDayLast(allDayDates?.last ?? "");
     setCreateError("");
-    setSubmissionUncertain(false);
     setNotice("");
     setCreating(false);
     setEditingEvent(event);
+    setConfirmUpdateEvent(false);
   };
 
-  const saveEvent = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (saving || submissionUncertain) return;
-    const start = new Date(startsAt);
-    const end = new Date(endsAt);
-    if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) || end <= start) {
+  const markEventUncertain = (id: string) => {
+    uncertainEventIdsRef.current.add(id);
+    setUncertainEventIds([...uncertainEventIdsRef.current]);
+  };
+
+  const saveEvent = async (confirmedAttendeeUpdate = false) => {
+    if (mutationBusyRef.current || submissionUncertainRef.current || saving || submissionUncertain || editingUnchanged) return;
+    const viewerTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    const allDayRange = allDay
+      ? editingEvent ? editedAllDayEventTiming(editingEvent, allDayStart, allDayLast, viewerTimezone) : allDayUtcRange(allDayStart, allDayLast)
+      : null;
+    const startValue = allDayRange?.startsAt ?? startsAt;
+    const endValue = allDayRange?.endsAt ?? endsAt;
+    const start = new Date(startValue);
+    const end = new Date(endValue);
+    if ((allDay && !allDayRange) || !Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) || end <= start) {
       setCreateError(t("liveInvalidRange"));
       return;
     }
@@ -142,45 +235,61 @@ export function LiveCalendar() {
       setCreateError(t("liveInvalidAttendees"));
       return;
     }
+    if (editingEvent?.attendeeAddresses.length && !confirmedAttendeeUpdate) {
+      setConfirmUpdateEvent(true);
+      return;
+    }
+    setConfirmUpdateEvent(false);
+    mutationBusyRef.current = true;
     setSaving(true);
     setCreateError("");
     try {
       const response = await fetch(editingEvent ? `/api/mail/events/${encodeURIComponent(editingEvent.id)}` : "/api/mail/events", {
         method: editingEvent ? "PUT" : "POST",
         headers: { "content-type": "application/json" },
+        signal: AbortSignal.timeout(45_000),
         body: JSON.stringify({
           title: title.trim(),
-          startsAt: editingEvent && startsAt === localDateTime(new Date(editingEvent.startsAt)) ? editingEvent.startsAt : start.toISOString(),
-          endsAt: editingEvent && endsAt === localDateTime(new Date(editingEvent.endsAt)) ? editingEvent.endsAt : end.toISOString(),
-          timezone: editingEvent?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+          startsAt: editingEvent && !allDay && startsAt === localDateTime(new Date(editingEvent.startsAt)) ? editingEvent.startsAt : start.toISOString(),
+          endsAt: editingEvent && !allDay && endsAt === localDateTime(new Date(editingEvent.endsAt)) ? editingEvent.endsAt : end.toISOString(),
+          allDay: editingEvent?.allDay ?? allDay,
+          timezone: editingEvent
+            ? allDay ? (allDayRange && "timezone" in allDayRange ? allDayRange.timezone : viewerTimezone) : editedEventTimezone(
+                editingEvent.timezone,
+                localDateTime(new Date(editingEvent.startsAt)),
+                localDateTime(new Date(editingEvent.endsAt)),
+                startsAt,
+                endsAt,
+                viewerTimezone,
+              )
+            : viewerTimezone,
           ...(!editingEvent ? { attendeeUsernames: invitees } : {}),
           ...(editingEvent ? {
             expectedRevision: editingEvent.revision,
             currentStartsAt: editingEvent.startsAt,
             description: editingEvent.description,
             location: editingEvent.location,
-            allDay: editingEvent.allDay,
           } : {}),
         }),
       });
-      if (!response.ok) {
-        const payload: unknown = await response.json();
-        const reason = payload && typeof payload === "object" && "status" in payload ? payload.status : null;
-        throw new Error(typeof reason === "string" ? reason : "retryable");
-      }
-      const targetMonth = startsAt.slice(0, 7);
+      await requireConfirmedCalendarMutation(response, { id: editingEvent?.id, status: "confirmed" });
+      const targetDate = allDay ? allDayStart : startsAt.slice(0, 10);
       setCreating(false);
       setEditingEvent(null);
+      setAllDay(false);
       setNotice(t(editingEvent ? "liveUpdated" : "eventCreated"));
-      setMonth(targetMonth);
+      setAnchor(new Date(Number(targetDate.slice(0, 4)), Number(targetDate.slice(5, 7)) - 1, Number(targetDate.slice(8, 10))));
       setAttempt((value) => value + 1);
     } catch (error) {
-      const reason = error instanceof Error ? error.message : "retryable";
+      const reason = mutationFailureReason(error);
       const uncertain = reason === "retryable" || reason === "unavailable";
-      if (uncertain) setSubmissionUncertain(true);
+      if (uncertain) {
+        submissionUncertainRef.current = true;
+        setSubmissionUncertain(true);
+        setNotice(t(editingEvent ? "liveMutationUncertain" : "liveCreateUncertain"));
+      }
       if (uncertain && editingEvent) {
-        setUncertainEventId(editingEvent.id);
-        setNotice(t("liveMutationUncertain"));
+        markEventUncertain(editingEvent.id);
       }
       if (uncertain) setAttempt((value) => value + 1);
       if (reason === "conflict") setAttempt((value) => value + 1);
@@ -188,13 +297,16 @@ export function LiveCalendar() {
         ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable"].includes(reason)
           ? service(reason as LoadStatus) : service("retryable"));
     } finally {
+      calendarDataRevision.current += 1;
+      mutationBusyRef.current = false;
       setSaving(false);
     }
   };
 
   const cancelEvent = async (event: LiveCalendarEvent) => {
-    if (saving || respondingId || cancellingId || uncertainEventId === event.id ||
-        !window.confirm(`${t("liveCancelEvent")}: ${event.title}?${event.attendeeAddresses.length ? `\n${t("liveCancelNotifiesAttendees")}` : ""}`)) return;
+    if (mutationBusyRef.current || saving || respondingId || cancellingId || uncertainEventIdsRef.current.has(event.id)) return;
+    mutationBusyRef.current = true;
+    setConfirmCancelEvent(null);
     setCancellingId(event.id);
     setCreateError("");
     setNotice("");
@@ -202,19 +314,16 @@ export function LiveCalendar() {
       const response = await fetch(`/api/mail/events/${encodeURIComponent(event.id)}`, {
         method: "DELETE",
         headers: { "content-type": "application/json" },
+        signal: AbortSignal.timeout(45_000),
         body: JSON.stringify({ expectedRevision: event.revision, currentStartsAt: event.startsAt }),
       });
-      if (!response.ok) {
-        const payload: unknown = await response.json();
-        const reason = payload && typeof payload === "object" && "status" in payload ? payload.status : null;
-        throw new Error(typeof reason === "string" ? reason : "retryable");
-      }
+      await requireConfirmedCalendarMutation(response, { id: event.id, status: "cancelled" });
       setNotice(t("liveEventCancelled"));
       setAttempt((value) => value + 1);
     } catch (error) {
-      const reason = error instanceof Error ? error.message : "retryable";
+      const reason = mutationFailureReason(error);
       if (reason === "retryable" || reason === "unavailable") {
-        setUncertainEventId(event.id);
+        markEventUncertain(event.id);
         setNotice(t("liveMutationUncertain"));
       } else {
         setNotice(reason === "conflict" || reason === "not_found" ? t("liveChanged") :
@@ -222,31 +331,31 @@ export function LiveCalendar() {
       }
       setAttempt((value) => value + 1);
     } finally {
+      calendarDataRevision.current += 1;
+      mutationBusyRef.current = false;
       setCancellingId(null);
     }
   };
 
   const respondToEvent = async (event: LiveCalendarEvent, answer: LiveCalendarRsvp) => {
-    if (respondingId || saving || cancellingId || creating || editingEvent || uncertainEventId === event.id || event.response === answer) return;
+    if (mutationBusyRef.current || respondingId || saving || cancellingId || creating || editingEvent || uncertainEventIdsRef.current.has(event.id) || event.response === answer) return;
+    mutationBusyRef.current = true;
     setRespondingId(event.id);
     setNotice("");
     try {
       const response = await fetch(`/api/mail/events/${encodeURIComponent(event.id)}/rsvp`, {
         method: "POST",
         headers: { "content-type": "application/json" },
+        signal: AbortSignal.timeout(45_000),
         body: JSON.stringify({ response: answer }),
       });
-      if (!response.ok) {
-        const payload: unknown = await response.json();
-        const reason = payload && typeof payload === "object" && "status" in payload ? payload.status : null;
-        throw new Error(typeof reason === "string" ? reason : "retryable");
-      }
+      await requireConfirmedCalendarMutation(response, { id: event.id, answer });
       setNotice(t("liveUpdated"));
       setAttempt((value) => value + 1);
     } catch (error) {
-      const reason = error instanceof Error ? error.message : "retryable";
+      const reason = mutationFailureReason(error);
       if (reason === "retryable" || reason === "unavailable") {
-        setUncertainEventId(event.id);
+        markEventUncertain(event.id);
         setNotice(t("liveMutationUncertain"));
       } else {
         setNotice(reason === "not_found" ? t("liveChanged") :
@@ -254,6 +363,8 @@ export function LiveCalendar() {
       }
       setAttempt((value) => value + 1);
     } finally {
+      calendarDataRevision.current += 1;
+      mutationBusyRef.current = false;
       setRespondingId(null);
     }
   };
@@ -261,30 +372,82 @@ export function LiveCalendar() {
   return (
     <WorkspaceLayout
       title={label}
-      headerActions={<div className="flex items-center gap-1">
-        <button type="button" onClick={() => setMonth((value) => shiftMonth(value, -1))} aria-label={t("previous")} className="flex size-10 items-center justify-center rounded-(--radius-app) hover:bg-(--surface-muted)"><ChevronLeft size={18} /></button>
-        <button type="button" onClick={() => setMonth(currentMonth)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-2 text-sm">{t("today")}</button>
-        <button type="button" onClick={() => setMonth((value) => shiftMonth(value, 1))} aria-label={t("next")} className="flex size-10 items-center justify-center rounded-(--radius-app) hover:bg-(--surface-muted)"><ChevronRight size={18} /></button>
-        <button type="button" disabled={status !== "ready" || creating || editingEvent !== null} onClick={openCreate} className="ml-2 flex items-center gap-1 rounded-(--radius-app) bg-(--color-primary-solid) px-3 py-2 text-sm text-white disabled:opacity-50"><Plus size={16} />{t("create")}</button>
+      headerActions={<div className="flex w-full min-w-0 flex-col gap-2 max-xl:w-[calc(100vw-1.5rem)] xl:w-auto xl:flex-row xl:items-center xl:gap-1">
+        <div className="flex items-center justify-center gap-1 xl:justify-start">
+          <button type="button" onClick={() => shiftAnchor(-1)} aria-label={t("previous")} className="app-control flex w-11 shrink-0 items-center justify-center rounded-(--radius-app) hover:bg-(--surface-muted) focus-visible:ring-2 focus-visible:ring-(--focus-ring)"><ChevronLeft size={18} /></button>
+          <button type="button" onClick={() => setAnchor(new Date(now.getFullYear(), now.getMonth(), now.getDate()))} className="app-control shrink-0 whitespace-nowrap rounded-(--radius-app) border border-(--border-app) px-3 text-sm focus-visible:ring-2 focus-visible:ring-(--focus-ring)">{t("today")}</button>
+          <button type="button" onClick={() => shiftAnchor(1)} aria-label={t("next")} className="app-control flex w-11 shrink-0 items-center justify-center rounded-(--radius-app) hover:bg-(--surface-muted) focus-visible:ring-2 focus-visible:ring-(--focus-ring)"><ChevronRight size={18} /></button>
+        </div>
+        <div className="flex items-center justify-between gap-2 xl:ml-auto xl:justify-end">
+          <div role="group" aria-label={t("schedule")} data-calendar-view-switch className="app-control inline-flex shrink-0 overflow-hidden rounded-(--radius-app) border border-(--border-app) bg-background">
+            {(["day", "week", "month"] as const).map((option) => <button key={option} type="button" onClick={() => { setView(option); setSelectedEventId(null); }} aria-pressed={view === option}
+              className={`relative flex h-full w-11 items-center justify-center border-r border-(--border-app) text-sm font-semibold outline-none transition-colors last:border-r-0 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-(--focus-ring) ${view === option ? "bg-(--color-primary)/10 text-(--color-primary-ink)" : "text-(--text-muted) hover:bg-(--surface-muted)"}`}>{t(`views.${option}`)}</button>)}
+          </div>
+          <Tooltip content={t("create")} side="bottom" className="shrink-0"><button type="button" disabled={status !== "ready" || creating || editingEvent !== null || submissionUncertain} onClick={openCreate} aria-label={t("create")} className="app-control flex shrink-0 items-center gap-1 whitespace-nowrap rounded-(--radius-app) bg-(--color-primary-solid) px-3 text-sm text-white focus-visible:ring-2 focus-visible:ring-(--focus-ring) disabled:opacity-50"><Plus size={16} className="shrink-0" /><span className="max-[380px]:hidden">{t("create")}</span></button></Tooltip>
+        </div>
       </div>}
-      className="min-h-0 overflow-y-auto bg-(--surface-muted) p-4 sm:p-6"
+      showGlobalSearch={false}
+      className="flex min-h-0 flex-col bg-background lg:flex-row"
     >
-      <section aria-label={t("schedule")} className="mx-auto max-w-4xl space-y-3" aria-live="polite">
+      {confirmCancelEvent ? <ConfirmDialog
+        tone="destructive"
+        title={`${t("liveCancelEvent")}: ${confirmCancelEvent.title}?`}
+        description={confirmCancelEvent.attendeeAddresses.length ? t("liveCancelNotifiesAttendees") : undefined}
+        confirmLabel={t("liveCancelEvent")}
+        cancelLabel={t("cancel")}
+        onCancel={() => setConfirmCancelEvent(null)}
+        onConfirm={() => void cancelEvent(confirmCancelEvent)}
+      /> : null}
+      {confirmUpdateEvent ? <ConfirmDialog
+        tone="warning"
+        title={t("liveUpdateNotifiesAttendees")}
+        confirmLabel={common("save")}
+        cancelLabel={t("cancel")}
+        onCancel={() => setConfirmUpdateEvent(false)}
+        onConfirm={() => void saveEvent(true)}
+      /> : null}
+      {view !== "month" ? <nav aria-label={t("schedule")} className={`grid shrink-0 gap-1 border-b border-(--border-app) bg-background px-2 py-2 lg:hidden ${view === "day" ? "grid-cols-1" : "grid-cols-7"}`}>
+        {(view === "day" ? [anchor] : weekDays).map((day) => {
+          const dayKey = toDateKey(day);
+          const selected = dayKey === toDateKey(anchor);
+          const hasEvent = gridEvents.month.some((event) => event.date === dayKey);
+          return <button key={dayKey} type="button" aria-pressed={selected}
+            aria-label={dayLabelFormatter.format(day)}
+            onClick={() => { setAnchor(day); setView("day"); setSelectedEventId(null); }}
+            className={`flex min-w-0 flex-col items-center gap-1 rounded-(--radius-app) px-1 py-1.5 text-xs ${selected ? "bg-(--color-primary-solid) text-white" : "text-(--text-app) hover:bg-(--surface-muted)"}`}>
+            <span>{weekdayFormatter.format(day)}</span>
+            <span className="text-sm font-semibold">{day.getDate()}</span>
+            <span className={`size-1 rounded-full ${hasEvent ? selected ? "bg-white" : "bg-(--color-primary-solid)" : "bg-transparent"}`} />
+          </button>;
+        })}
+      </nav> : null}
+      {status === "ready" ? <div className={`min-h-0 min-w-0 flex-col border-r border-(--border-app) lg:flex lg:h-auto lg:flex-1 ${view === "month" ? "flex h-72 shrink-0" : "hidden"}`}>
+        {view === "month" ? <CalendarMonthGrid anchor={anchor} events={gridEvents.month} today={now} onSelectDay={(day) => { setAnchor(day); setView("day"); }} /> :
+          <CalendarTimeGrid days={view === "day" ? [anchor] : weekDays} events={gridEvents.timed} allDayEvents={gridEvents.allDay} today={now}
+            onSelectEvent={(event) => setSelectedEventId(event.id)} />}
+      </div> : null}
+      <section aria-label={t("schedule")} className="min-h-0 w-full flex-1 space-y-3 overflow-y-auto bg-(--surface-muted) p-4 sm:p-6 lg:w-96 lg:flex-none lg:shrink-0" aria-live="polite">
         {notice ? <div role="status" className="flex flex-wrap items-center gap-3 rounded-(--radius-app) border border-(--border-app) bg-background p-3 text-sm">
           <span>{notice}</span>
-          {uncertainEventId ? <button type="button" onClick={() => { setUncertainEventId(null); setEditingEvent(null); setSubmissionUncertain(false); setAttempt((value) => value + 1); }} className="rounded-(--radius-app) border border-(--border-app) px-3 py-1.5">{service("retry")}</button> : null}
+          {uncertainEventIds.length > 0 || submissionUncertain ? <button type="button" onClick={() => setAttempt((value) => value + 1)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-1.5">{t("liveReloadEvents")}</button> : null}
         </div> : null}
-        {creating || editingEvent ? <form onSubmit={saveEvent} className="space-y-4 rounded-(--radius-app) border border-(--border-app) bg-background p-5">
-          <h2 className="font-semibold">{editingEvent ? common("edit") : t("schedule")}</h2>
+        {(creating || editingEvent) && !confirmUpdateEvent ? <Modal maxWidth={560} labelledBy="calendar-editor-title" className="max-h-[calc(100dvh-2rem)] overflow-y-auto" dismissible={false} onClose={() => { if (saving) return; setCreating(false); setEditingEvent(null); }}><form onSubmit={(event) => { event.preventDefault(); void saveEvent(); }} className="space-y-4 p-5 [&_input]:min-h-11 [&_button]:min-h-11">
+          <h2 id="calendar-editor-title" className="font-semibold">{editingEvent ? common("edit") : t("create")}</h2>
           <label className="block text-sm"><span>{t("title")}</span>
-            <input required maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} placeholder={t("titlePlaceholder")} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />
+            <input data-modal-autofocus required maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} placeholder={t("titlePlaceholder")} className="mt-1 app-control w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />
           </label>
+          {!editingEvent ? <div className="flex items-center gap-2 text-sm">
+            <Switch on={allDay} onToggle={() => setAllDay((value) => !value)} label={t("liveAllDay")} />
+            <span>{t("liveAllDay")}</span>
+          </div> : null}
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-sm"><span>{t("start")}</span>
-              <input required type="datetime-local" value={startsAt} onChange={(event) => setStartsAt(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />
+              {allDay ? <input required type="date" value={allDayStart} onChange={(event) => setAllDayStart(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" /> :
+                <input required type="datetime-local" value={startsAt} onChange={(event) => setStartsAt(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />}
             </label>
-            <label className="block text-sm"><span>{t("end")}</span>
-              <input required type="datetime-local" value={endsAt} onChange={(event) => setEndsAt(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />
+            <label className="block text-sm"><span>{allDay ? t("liveAllDayLastDate") : t("end")}</span>
+              {allDay ? <input required type="date" min={allDayStart} value={allDayLast} onChange={(event) => setAllDayLast(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" /> :
+                <input required type="datetime-local" value={endsAt} onChange={(event) => setEndsAt(event.target.value)} className="mt-1 h-10 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3" />}
             </label>
           </div>
           {!editingEvent ? <label className="block text-sm"><span>{t("liveAttendees")}</span>
@@ -292,23 +455,21 @@ export function LiveCalendar() {
               className="mt-1 w-full rounded-(--radius-app) border border-(--border-app) bg-background px-3 py-2" />
             <span className="mt-1 block text-xs text-(--text-muted)">{t("liveInviteNotice")}</span>
           </label> : null}
-          {editingEvent ? <p className="text-xs text-(--text-muted)">{t("liveLocalTime")}</p> : null}
+          {editingEvent?.attendeeAddresses.length ? <p className="text-xs text-(--text-muted)">{t("liveUpdateNotifiesAttendees")}</p> : null}
+          {editingEvent && !allDay ? <p className="text-xs text-(--text-muted)">{t("liveLocalTime")}</p> : null}
           {createError ? <p role="alert" className="text-sm text-(--status-danger)">{createError}</p> : null}
-          <div className="flex gap-2">
-            <button type="submit" disabled={saving || submissionUncertain} className="rounded-(--radius-app) bg-(--color-primary-solid) px-4 py-2 text-sm text-white disabled:opacity-50">{editingEvent ? common("save") : t("create")}</button>
+          <DialogActions>
+            <button type="submit" disabled={saving || submissionUncertain || editingUnchanged} className="rounded-(--radius-app) bg-(--color-primary-solid) px-4 py-2 text-sm text-white disabled:opacity-50">{editingEvent ? common("save") : t("create")}</button>
             <button type="button" disabled={saving} onClick={() => { setCreating(false); setEditingEvent(null); }} className="rounded-(--radius-app) border border-(--border-app) px-4 py-2 text-sm">{t("cancel")}</button>
-          </div>
-        </form> : null}
+          </DialogActions>
+        </form></Modal> : null}
         {status === "loading" ? <p className="rounded-(--radius-app) bg-background p-6 text-sm text-(--text-muted)">{service("loading")}</p> : null}
         {status !== "loading" && status !== "ready" ? (
-          <div role="alert" className="rounded-(--radius-app) bg-background p-6 text-sm">
-            <p>{service(status)}</p>
-            <button type="button" onClick={() => setAttempt((value) => value + 1)} className="mt-3 rounded-(--radius-app) border border-(--border-app) px-3 py-2">{service("retry")}</button>
-          </div>
+          <SystemErrorNotice message={service(status)} actionLabel={service("retry")} onAction={() => setAttempt(value => value + 1)} />
         ) : null}
-        {status === "ready" && events.length === 0 ? <p className="rounded-(--radius-app) bg-background p-6 text-sm text-(--text-muted)">{t("liveNoEvents")}</p> : null}
-        {status === "ready" ? events.map((event) => (
-          <article key={event.id} className={`rounded-(--radius-app) border border-(--border-app) bg-background p-5 ${event.status === "cancelled" ? "opacity-60" : ""}`}>
+        {status === "ready" && visibleEvents.length === 0 ? <p className="rounded-(--radius-app) bg-background p-6 text-sm text-(--text-muted)">{t("liveNoEvents")}</p> : null}
+        {status === "ready" ? visibleEvents.map((event) => (
+          <article key={event.id} className={`rounded-(--radius-app) border bg-background p-5 ${selectedEventId === event.id ? "border-(--color-primary-solid)" : "border-(--border-app)"} ${event.status === "cancelled" ? "opacity-60" : ""}`}>
             <div className="flex flex-wrap items-start justify-between gap-2">
               <h2 className="font-semibold">{event.title}</h2>
               {event.status === "cancelled" ? <span className="text-xs text-(--status-danger)">{t("liveCancelled")}</span> : null}
@@ -319,7 +480,7 @@ export function LiveCalendar() {
             {event.description ? <p className="mt-3 whitespace-pre-wrap text-sm text-(--text-muted)">{event.description}</p> : null}
             {event.conflict ? <p className="mt-2 text-xs text-(--status-warning)">{t("liveConflict")}</p> : null}
             {username && event.organizerAddress.toLocaleLowerCase() !== username.toLocaleLowerCase() &&
-              event.status === "confirmed" && uncertainEventId !== event.id ? (
+              event.status === "confirmed" && !uncertainEventIds.includes(event.id) ? (
               <div className="mt-4 space-y-2 border-t border-(--border-app) pt-3">
                 <p className="text-sm">{meeting("rsvpQuestion")} <span className="text-(--text-muted)">{event.response === "needs_action" ? meeting("states.noResponse") : meeting(`states.${event.response === "accepted" ? "accept" : event.response === "declined" ? "decline" : "tentative"}`)}</span></p>
                 <p className="text-xs text-(--text-muted)">{t("liveRsvpSendsReply")}</p>
@@ -335,10 +496,10 @@ export function LiveCalendar() {
               </div>
             ) : null}
             {username && event.organizerAddress.toLocaleLowerCase() === username.toLocaleLowerCase() &&
-              event.status === "confirmed" && uncertainEventId !== event.id ? (
+              event.status === "confirmed" && !uncertainEventIds.includes(event.id) ? (
               <div className="mt-4 flex gap-2">
-                {!event.allDay && event.attendeeAddresses.length === 0 ? <button type="button" disabled={saving || respondingId !== null || cancellingId !== null || creating || editingEvent !== null} onClick={() => openEdit(event)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-2 text-sm disabled:opacity-50">{common("edit")}</button> : null}
-                <button type="button" disabled={saving || respondingId !== null || cancellingId !== null || creating || editingEvent !== null} onClick={() => cancelEvent(event)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-2 text-sm text-(--status-danger) disabled:opacity-50">{t("liveCancelEvent")}</button>
+                <button type="button" disabled={saving || respondingId !== null || cancellingId !== null || creating || editingEvent !== null} onClick={() => openEdit(event)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-2 text-sm disabled:opacity-50">{common("edit")}</button>
+                <button type="button" disabled={saving || respondingId !== null || cancellingId !== null || creating || editingEvent !== null} onClick={() => setConfirmCancelEvent(event)} className="rounded-(--radius-app) border border-(--border-app) px-3 py-2 text-sm text-(--status-danger) disabled:opacity-50">{t("liveCancelEvent")}</button>
               </div>
             ) : null}
           </article>

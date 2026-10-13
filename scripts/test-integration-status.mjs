@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import ts from "typescript";
+const exports = {};
+new Function("exports", ts.transpileModule(readFileSync("lib/integration-status.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText)(exports);
+const { integrationCheckUrl, validIntegrationResponse } = exports;
+assert.equal(integrationCheckUrl("approval", new Date()), "/api/mail/approvals");
+const url = new URL(integrationCheckUrl("calendar", new Date("2026-10-06T12:34:00Z")), "http://localhost");
+assert.equal(url.searchParams.get("from"), "2026-10-06T00:00:00.000Z");
+assert.equal(url.searchParams.get("to"), "2026-10-07T00:00:00.000Z");
+assert.equal(validIntegrationResponse("calendar", { events: [], username: "test@example.test" }), true);
+assert.equal(validIntegrationResponse("approval", { items: [] }), true);
+for (const value of [null, [], {}, { status: "ready" }, { events: [], username: "" }]) assert.equal(validIntegrationResponse("calendar", value), false);
+assert.equal(validIntegrationResponse("approval", { items: {} }), false);
+const source = readFileSync("components/settings/LiveIntegrationSettings.tsx", "utf8");
+for (const required of ["controller.abort()", "controller.signal.aborted", 'cache: "no-store"', "SystemErrorNotice", 'status !== "ready"']) assert.ok(source.includes(required));
+for (const forbidden of ["localStorage", "updateSection", 'method: "POST"', 'method: "DELETE"', "integrationConnected"]) assert.ok(!source.includes(forbidden));
+console.log("PASS: integration URLs, live response checks, cancellation and no fake connections/mutations");

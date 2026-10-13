@@ -4,15 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 7540",
+    "dev:secure": "node scripts/dev-secure.mjs",
     "build": "next build",
     "start": "next start --port 7540",
     "lint": "eslint",
     "check:locales": "node scripts/check-locales.mjs",
-    "test:mail-adapter": "node scripts/verify-tastemail-adapter.mjs"
+    "check:locale-usages": "node scripts/check-locale-usages.mjs",
+    "test:mail-adapter": "node scripts/verify-tastemail-adapter.mjs",
+    "test:mail-destroy": "node scripts/test-live-mail-destroy.mjs"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
     "@fontsource-variable/noto-serif-kr": "^5.3.0",
     "@fontsource-variable/nunito": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
     "lucide-react": "^1.41.0",
     "next": "16.3.4",
     "next-intl": "^4.14.2",

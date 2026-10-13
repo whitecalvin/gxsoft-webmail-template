@@ -5,6 +5,9 @@ import { serviceStatus, tastemailRequest } from "./server";
 type ServiceStatus = ReturnType<typeof serviceStatus>;
 type JsonObject = Record<string, unknown>;
 
+export type SecurityLoadStatus = "ready" | "unauthorized" | "forbidden" | "rateLimited" | "retryable" | "unavailable";
+export type InitialLiveSecurity = { status: SecurityLoadStatus; snapshot: LiveSecuritySnapshot | null };
+
 export class SecurityServiceError extends Error {
   constructor(readonly status: ServiceStatus | "notFound" | "conflict") { super(status); }
 }

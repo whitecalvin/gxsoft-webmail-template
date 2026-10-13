@@ -1,14 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { TopBar } from "./TopBar";
 import { WorkspaceSidebar } from "./WorkspaceSidebar";
+import { ResizableWorkspaceSidebar } from "./ResizableWorkspaceSidebar";
+import { MobileWorkspaceNavigation } from "./MobileWorkspaceNavigation";
 import { CustomizerPanel } from "@/components/customizer/CustomizerPanel";
 import { ComposeModal } from "@/components/compose/ComposeModal";
 import { useTheme } from "@/context/theme-context";
 import { useWorkspaceSidebar } from "@/context/workspace-sidebar-context";
 import { lockBodyScroll } from "@/lib/overlay-scroll-lock";
+
+import { LiveSessionGate } from "./LiveSessionGate";
+import { usePathname } from "@/i18n/navigation";
+import { SettingsHeaderTitle } from "@/components/settings/SettingsHeaderTitle";
+import { SETTINGS_NAV } from "@/lib/settings-navigation";
+import { DrawerHistory } from "@/lib/drawer-history";
+import { WorkspaceShortcuts } from "./WorkspaceShortcuts";
+import { MailNotificationRuntime } from "@/components/notifications/MailNotificationRuntime";
 
 const DRAWER_TRANSITION_MS = 300;
 
@@ -24,7 +34,49 @@ export interface WorkspaceLayoutProps {
   className?: string;
 }
 
-export function WorkspaceLayout({ children, title, titleAsHeading = true, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch = false, showMobilePageContext = true, className = "" }: WorkspaceLayoutProps) {
+type PageHeader = Omit<WorkspaceLayoutProps, "children" | "className">;
+type RegisteredPageHeader = { pathname: string; header: PageHeader };
+const WorkspaceHeaderContext = createContext<(value: RegisteredPageHeader) => void>(() => {});
+
+export function WorkspaceShell({ children, sessionUsername, sessionAccountId, adminAccess = false }: { children: ReactNode; sessionUsername: string | null; sessionAccountId: string | null; adminAccess?: boolean }) {
+  const pathname = usePathname();
+  const tSettings = useTranslations("settingsSystem");
+  const tTopBar = useTranslations("topBar");
+  const tFiles = useTranslations("filesPage");
+  const [registered, setRegistered] = useState<RegisteredPageHeader | null>(null);
+  const settingsItem = SETTINGS_NAV.find((item) => item.href === pathname);
+  // Effects do not run during SSR: render route titles before page registration.
+  const initialHeader: PageHeader = pathname === "/settings" || settingsItem ? {
+    title: <SettingsHeaderTitle title={settingsItem ? tSettings(`nav.${settingsItem.key}`) : tSettings("title")} />,
+    titleAsHeading: false,
+    showGlobalSearch: false,
+  } : pathname === "/search" ? {
+    title: tTopBar("searchPlaceholder"),
+    showGlobalSearch: false,
+  } : pathname === "/files" ? {
+    title: tFiles("title"),
+    showGlobalSearch: false,
+  } : {};
+  const header = registered?.pathname === pathname ? registered.header : initialHeader;
+  const content = (
+    <WorkspaceHeaderContext.Provider value={setRegistered}>
+      <WorkspaceLayoutContent {...header} adminAccess={adminAccess}>{children}</WorkspaceLayoutContent>
+    </WorkspaceHeaderContext.Provider>
+  );
+  return <LiveSessionGate sessionUsername={sessionUsername} sessionAccountId={sessionAccountId}>{content}</LiveSessionGate>;
+}
+
+// Pages configure the inherited shell without remounting its sidebar or header.
+export function WorkspaceLayout({ children, className = "", title, titleAsHeading, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch, showMobilePageContext }: WorkspaceLayoutProps) {
+  const pathname = usePathname();
+  const register = useContext(WorkspaceHeaderContext);
+  useLayoutEffect(() => {
+    register({ pathname, header: { title, titleAsHeading, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch, showMobilePageContext } });
+  }, [register, pathname, title, titleAsHeading, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch, showMobilePageContext]);
+  return <div className={`h-full min-h-0 min-w-0 ${className}`}>{children}</div>;
+}
+
+function WorkspaceLayoutContent({ children, title, titleAsHeading = true, headerActions, onOpenTour, onToggleDelegate, showGlobalSearch = false, showMobilePageContext = true, className = "", adminAccess = false }: WorkspaceLayoutProps & { adminAccess?: boolean }) {
   const tSidebar = useTranslations("workspaceSidebar");
   const { draft } = useTheme();
   const { collapsed, toggleCollapsed } = useWorkspaceSidebar();
@@ -33,6 +85,14 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
   const drawerRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeTimerRef = useRef<number | null>(null);
+  const drawerHistory = useRef<DrawerHistory | null>(null);
+  const dismissDrawer = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    const history = new DrawerHistory(window, () => dismissDrawer.current(), crypto.randomUUID());
+    drawerHistory.current = history;
+    return () => { history.dispose(); drawerHistory.current = null; };
+  }, []);
 
   useEffect(() => {
     if (!drawerMounted) return;
@@ -50,6 +110,7 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
   }, []);
 
   const openDrawer = () => {
+    if (!drawerHistory.current?.open()) return;
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     closeTimerRef.current = null;
     if (drawerMounted) {
@@ -59,7 +120,7 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
     }
   };
 
-  const closeDrawer = () => {
+  const hideDrawer = () => {
     setDrawerOpen(false);
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.reduceMotion === "true") {
@@ -73,6 +134,11 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
       if (!document.querySelector("[data-compose-dialog]")) menuButtonRef.current?.focus();
       closeTimerRef.current = null;
     }, DRAWER_TRANSITION_MS);
+  };
+
+  useEffect(() => { dismissDrawer.current = hideDrawer; });
+  const closeDrawer = (afterClose?: (() => void) | unknown) => {
+    drawerHistory.current?.close(typeof afterClose === "function" ? afterClose as () => void : undefined);
   };
 
   const handleDrawerKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -103,12 +169,11 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
         {tSidebar("skipToContent")}
       </a>
       <div className={`workspace-density flex h-dvh w-full overflow-hidden bg-background text-foreground ${draft.sidebarPosition === "right" ? "xl:flex-row-reverse" : "xl:flex-row"}`}>
-        <div className={`relative hidden h-full shrink-0 xl:block ${draft.sidebarPosition === "right" ? "border-l" : "border-r"} border-(--border-app)`}>
-          <WorkspaceSidebar collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
-        </div>
+        <ResizableWorkspaceSidebar collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <TopBar title={title} titleAsHeading={titleAsHeading} actions={headerActions} menuButtonRef={menuButtonRef} onMenuClick={openDrawer} menuOpen={drawerOpen} onOpenTour={onOpenTour} onToggleDelegate={onToggleDelegate} showGlobalSearch={showGlobalSearch} showMobilePageContext={showMobilePageContext} showDesktopBrand={collapsed} />
+          <TopBar title={title} titleAsHeading={titleAsHeading} actions={headerActions} menuButtonRef={menuButtonRef} onMenuClick={openDrawer} menuOpen={drawerOpen} onOpenTour={onOpenTour} onToggleDelegate={onToggleDelegate} showGlobalSearch={showGlobalSearch} showMobilePageContext={showMobilePageContext} showDesktopBrand={collapsed} adminAccess={adminAccess} />
           <main id="workspace-main" tabIndex={-1} className={`min-h-0 min-w-0 flex-1 ${className}`}>{children}</main>
+          <MobileWorkspaceNavigation onOpenMenu={openDrawer} menuOpen={drawerOpen} />
         </div>
       </div>
       {drawerMounted ? (
@@ -120,6 +185,8 @@ export function WorkspaceLayout({ children, title, titleAsHeading = true, header
         </div>
       ) : null}
       <ComposeModal />
+      <WorkspaceShortcuts />
+      <MailNotificationRuntime />
       <CustomizerPanel />
     </>
   );

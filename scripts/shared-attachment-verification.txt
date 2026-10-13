@@ -1,0 +1,2 @@
+GXWebMail shared attachment verification 2026-10-01.
+Synthetic test data only. Recipient: the same shared test mailbox.

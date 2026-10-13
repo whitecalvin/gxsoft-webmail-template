@@ -6,6 +6,15 @@ interface MailTimestampOptions {
   hour12: boolean;
 }
 
+export function formatFullMailTimestamp(iso: string, options: Pick<MailTimestampOptions, "locale" | "timeZone" | "hour12">): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "—";
+  return new Intl.DateTimeFormat(options.locale, {
+    timeZone: options.timeZone, year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: options.hour12 ? "h12" : "h23",
+  }).format(date);
+}
+
 function dayParts(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone,

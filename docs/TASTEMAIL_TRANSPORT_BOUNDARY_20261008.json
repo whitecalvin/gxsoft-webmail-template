@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "status": "LOCAL_VERIFIED_LIVE_ACCEPTANCE_PENDING",
+  "buildId": "nsWEiG4jh3paIbhQV6YLQ",
+  "fingerprints": [
+    {
+      "path": "lib/tastemail/server.ts",
+      "sha256": "A8F1F636AB3C04EA71E1B31086B9DF5B39CA16701BFF0807448D598744ADBE4B"
+    },
+    {
+      "path": "scripts/test-tastemail-server.mjs",
+      "sha256": "1E636E62DFDF010843480B087D591B49255B838F7CD82C8E4246C1674119786D"
+    },
+    {
+      "path": "scripts/test-live-session-gate.mjs",
+      "sha256": "F1F9ABEDA6F342CC9D7E458AEACEA9C642EC1AF4DDAD532117C9A5C4C8214791"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "26B848E41425039DA8ECFB69F2E870920425920D7821C574E21AA208BC580AB0"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "1BCE45BEEA727612B2917D05C5FA7D5C2B0CFEF80FB4B22AFABEE5B76A70F88E"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "F5F43334937F71E89476BDA1A9B93DC8A9154EA95ADE678CD06A95ACC3C44D7B"
+    },
+    {
+      "path": ".next-goal-transport-verify/BUILD_ID",
+      "sha256": "247FE74505E82947B9462037AF0935D00ACF694F3ABDA34772414BE73180C8A0"
+    }
+  ],
+  "changes": [
+    "Reject backslash and control/space API paths before forwarding credentials",
+    "Compose caller abort with a 15-second deadline; retain default 10 seconds",
+    "Ignore isolated Next generated outputs in ESLint and Git"
+  ],
+  "gates": [
+    {
+      "command": "node scripts/test-tastemail-server.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "node scripts/test-live-session-gate.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "npm run check:locales",
+      "status": "passed",
+      "note": "2945 keys per catalog; identical-English values remain reported"
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed_after_generated_output_ignore",
+      "note": "Initial failure scanned .next-* generated bundles; resumed only failed gate"
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "buildDirectory": ".next-goal-transport-verify"
+    }
+  ],
+  "observations": {
+    "windowsLocal6711": "connection refused",
+    "lan1097531": "HTTP and HTTPS timeout; no authentication transmitted",
+    "frontend7540Health": "HTTP 500; body not inspected",
+    "remote229Service": "active",
+    "remote229Loopback7531": "connection refused",
+    "remote229Loopback6711": "HTTP 200 via verified SSH read-only probe"
+  },
+  "notPerformed": [
+    "Deployment or service restart",
+    "DNS, database or credentials mutation",
+    "Authenticated MFA/session/permission live acceptance",
+    "Installer privilege and rendered GUI acceptance"
+  ],
+  "scopeNote": "Later direct live-only instruction takes precedence over historical mock-mode goal wording"
+}

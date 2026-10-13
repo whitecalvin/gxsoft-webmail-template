@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 import { Modal } from "./Modal";
+import { DialogActions } from "./DialogActions";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import type { ConfirmTone } from "@/types/overlay";
@@ -16,13 +17,6 @@ const ICON_STYLE: Record<Exclude<ConfirmTone, "default">, string> = {
   destructive: "bg-(--status-danger-bg) text-(--status-danger)",
   warning: "bg-(--status-warning-bg) text-(--status-warning)",
   alert: "bg-(--status-success-bg) text-(--status-success)",
-};
-
-const CONFIRM_BTN_STYLE: Record<ConfirmTone, string> = {
-  destructive: "",
-  warning: "bg-(--status-warning-solid) text-white",
-  default: "text-white",
-  alert: "bg-(--color-primary-solid) text-white",
 };
 
 interface ConfirmDialogProps {
@@ -105,45 +99,28 @@ export function ConfirmDialog({
       </div>
 
       <div className="flex items-center gap-2 px-5 pb-5">
-        <div className={`flex gap-2 ${isAlert ? "w-full justify-end" : "ml-auto"}`}>
-          {!isAlert && (
-            <Button
-              size="sm"
-              onClick={onCancel}
-              className="whitespace-nowrap"
-            >
-              {resolvedCancelLabel}
-            </Button>
-          )}
+        <DialogActions cancelLast={!isAlert} className={isAlert ? "w-full" : "ml-auto"}>
           {middleAction && (
             <Button
               variant="ghost"
               size="sm"
               onClick={middleAction.onClick}
-              className="whitespace-nowrap"
             >
               {middleAction.label}
             </Button>
           )}
           <Button
-            variant={tone === "destructive" ? "danger" : tone === "default" ? "primary" : "secondary"}
+            variant={tone === "destructive" ? "danger" : "primary"}
             size="sm"
             disabled={confirmDisabled || !typedMatches}
             onClick={onConfirm}
-            className={`whitespace-nowrap ${
-              confirmDisabled || !typedMatches ? "" : CONFIRM_BTN_STYLE[tone]
-            }`}
-            style={
-              confirmDisabled || !typedMatches
-                ? undefined
-                : tone === "default"
-                  ? { backgroundColor: "var(--color-primary-solid)" }
-                  : undefined
-            }
           >
             {confirmLabel ?? defaultLabel}
           </Button>
-        </div>
+          {!isAlert && (
+            <Button size="sm" onClick={onCancel}>{resolvedCancelLabel}</Button>
+          )}
+        </DialogActions>
       </div>
     </Modal>
   );

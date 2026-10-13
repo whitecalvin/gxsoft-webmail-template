@@ -1,6 +1,6 @@
 import { deleteLiveContact, updateLiveContact } from "@/lib/tastemail/contacts";
 import { contactError, contactInput, contactJson as json, sameOrigin } from "@/lib/tastemail/contact-route";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -11,7 +11,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu;
 async function authorizedContactRequest(request: Request, context: Context) {
   if (!sameOrigin(request)) return { error: json({ status: "forbidden" }, 403) };
   try {
-    if (mailDataMode() !== "live") return { error: json({ status: "mock_only" }, 404) };
+
     assertLiveApiConfigured();
   } catch {
     return { error: json({ status: "configuration_error" }, 503) };

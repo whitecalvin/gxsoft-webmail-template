@@ -1,0 +1,106 @@
+.background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: var(--color-primary);
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(135deg, black, transparent 65%);
+}
+
+.orbit,
+.innerOrbit,
+.square,
+.diamond {
+  position: absolute;
+  display: block;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+}
+
+.orbit {
+  width: 76%;
+  right: -24%;
+  top: -12%;
+  border-radius: 50%;
+  opacity: 0.55;
+  animation: orbit-drift 14s ease-in-out -4s infinite alternate;
+}
+
+.innerOrbit {
+  width: 58%;
+  right: -15%;
+  top: -6%;
+  border-radius: 50%;
+  border-style: dashed;
+  opacity: 0.4;
+  animation: orbit-turn 18s linear infinite;
+}
+
+.square {
+  width: 24%;
+  left: 5%;
+  top: 14%;
+  color: white;
+  opacity: 0.2;
+  transform: rotate(24deg);
+  animation: square-drift 12s ease-in-out -3s infinite alternate;
+}
+
+.diamond {
+  width: 48%;
+  right: -10%;
+  bottom: -5%;
+  color: var(--color-accent);
+  opacity: 0.4;
+  transform: rotate(45deg);
+  animation: diamond-drift 16s ease-in-out -6s infinite alternate;
+}
+
+.triangle {
+  position: absolute;
+  width: 26%;
+  left: 7%;
+  bottom: 12%;
+  color: white;
+  opacity: 0.25;
+  animation: triangle-drift 10s ease-in-out -2s infinite alternate;
+}
+
+@keyframes orbit-drift {
+  to { transform: translate(-100px, 110px) scale(0.9); }
+}
+
+@keyframes orbit-turn {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes square-drift {
+  to { transform: translate(90px, 80px) rotate(114deg); }
+}
+
+@keyframes diamond-drift {
+  to { transform: translate(-100px, -110px) rotate(135deg); }
+}
+
+@keyframes triangle-drift {
+  to { transform: translate(75px, -90px) rotate(-35deg); }
+}
+
+/* Honor both OS accessibility preferences and the application's motion setting. */
+@media (prefers-reduced-motion: reduce) {
+  .background * { animation: none; }
+}
+
+:global(html[data-reduce-motion="true"]) .background * {
+  animation: none;
+}

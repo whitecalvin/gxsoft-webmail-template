@@ -9,6 +9,9 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    // Isolated verification builds use GXWEBMAIL_BUILD_DIR=.next-<name>.
+    // Generated bundles are not application source and must not enter lint.
+    ".next-*/**",
     "out/**",
     "build/**",
     "next-env.d.ts",

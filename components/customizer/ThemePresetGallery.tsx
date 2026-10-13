@@ -26,53 +26,61 @@ export function ThemePresetGallery({
       {THEME_PRESETS.map((preset) => {
         const isActive = matchesPreset(draft, preset.settings);
         return (
-          <button
+          <ThemeSelectionCard
             key={preset.id}
-            type="button"
-            onClick={() => onSelect(preset.settings)}
-            aria-pressed={isActive}
-            className={`flex items-center gap-3 rounded-(--radius-app) border p-3 text-left transition ${
-              isActive
-                ? "border-(--color-primary) bg-(--color-primary)/5"
-                : "border-(--border-app) hover:bg-black/5 dark:hover:bg-white/10"
-            }`}
-          >
-            <ThemePresetThumbnail preset={preset} />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm font-semibold">{preset.label}</span>
-                {isActive && (
-                  <Check size={14} className="text-(--color-primary-ink)" />
-                )}
-              </div>
-              <p className="mt-0.5 text-xs leading-snug text-(--text-muted)">
-                {t(`presets.${preset.id}`)}
-              </p>
-            </div>
-          </button>
+            onSelect={() => onSelect(preset.settings)}
+            selected={isActive}
+            label={preset.label}
+            description={t(`presets.${preset.id}`)}
+            preview={preset.settings}
+          />
         );
       })}
     </div>
   );
 }
 
-function ThemePresetThumbnail({
-  preset,
-}: {
-  preset: (typeof THEME_PRESETS)[number];
+export function ThemeSelectionCard({ label, description, preview, selected, disabled = false, onSelect }: {
+  label: string;
+  description?: string;
+  preview?: Partial<ThemeSettings>;
+  selected: boolean;
+  disabled?: boolean;
+  onSelect: () => void;
 }) {
-  const primary = preset.settings.primaryColor ?? "#2563eb";
-  const accent = preset.settings.accentColor ?? "#f97316";
+  return (
+    <button type="button" disabled={disabled} onClick={onSelect} aria-pressed={selected}
+      className={`flex w-full items-center gap-4 rounded-(--radius-app) border p-4 text-left transition focus-visible:outline-2 focus-visible:outline-(--color-primary) disabled:cursor-not-allowed disabled:opacity-60 ${selected ? "border-(--color-primary) bg-(--color-primary)/5" : "border-(--border-app) bg-(--surface-app) hover:bg-(--control-hover)"}`}>
+      <ThemePresetThumbnail settings={preview ?? {}} />
+      <span className="min-w-0 flex-1">
+        <span className="flex items-center gap-2">
+          <span className="text-base font-semibold">{label}</span>
+          {selected ? <Check size={16} aria-hidden="true" className="shrink-0 text-(--color-primary-ink)" /> : null}
+        </span>
+        {description ? <span className="mt-1 block text-sm leading-snug text-(--text-muted)">{description}</span> : null}
+      </span>
+    </button>
+  );
+}
+
+function ThemePresetThumbnail({
+  settings,
+}: {
+  settings: Partial<ThemeSettings>;
+}) {
+  const primary = settings.primaryColor ?? "var(--text-muted)";
+  const accent = settings.accentColor ?? "var(--text-muted)";
   const radius =
-    preset.settings.radius === "pill"
+    settings.radius === "pill"
       ? "9999px"
-      : preset.settings.radius === "sharp"
+      : settings.radius === "sharp"
         ? "2px"
         : "8px";
 
   return (
     <div
-      className="flex h-12 w-16 shrink-0 flex-col justify-between overflow-hidden border border-(--border-app) bg-background p-1.5"
+      aria-hidden="true"
+      className="flex h-16 w-20 shrink-0 flex-col justify-between overflow-hidden border border-(--border-app) bg-background p-2"
       style={{ borderRadius: "10px" }}
     >
       <div className="flex items-center gap-1">

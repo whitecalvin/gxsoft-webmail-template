@@ -1,0 +1,1091 @@
+{
+  "accountIconImportPreparation20261008": {
+    "status": "bounded_explicit_import_plan_verified_not_connected_to_ui",
+    "files": ["lib/icon-preference-import.ts", "scripts/test-icon-preference-import.mjs"],
+    "behavior": "Pure planning only, no storage writes or network. Considers own exact account keys and authenticated snapshot available targets; preserves every existing server preference; converts legacy aliases to canonical installed IDs; preserves explicit personal displayKind; rejects invalid snapshots/kinds/icons; ignores inherited keys. Each proposed batch is at most 64 and respects the visible 512-preference capacity. Later batches require a new acknowledged snapshot and new explicit confirmation; inaccessible stored preferences can still cause server-side capacity rejection.",
+    "verification": "test-icon-preference-import.mjs passed own/foreign account projection, target/kind protection, aliases, no mutations, invalid inputs, 64+6 batches, exhausted/partial capacity. Full npm run lint and isolated npm run build exited 0 after compilation, TypeScript and 380 pages. Locale inputs were unchanged, so language checks were not repeated.",
+    "serverCoordination": "Prior approved icon work was recorded PAUSED_FOR_USER_PRODUCTION_INCIDENT in server account-icons-20261008/checkpoint.json with Clippy pass but Debug/Release/build gates pending. Sent narrowly scoped local-verification resume request to tastedev-mail under approval 01a118f8-2922-77d2-b315-a33c2d53e7f2, excluding production/DB/config/Git. Current observed turn 01a119f1-32d6-7c63-b61c-fd533d3c3083 is active on separate direct human production-recovery instructions, not proof of icon verification/deployment; latest cursor e137992e-39db-4843-8d0d-daf423b0166e:42.",
+    "remaining": "Explicit preview/confirmation UI, client upload acknowledgments and personal folder icon/kind/create/reset consumers remain to be connected coherently. No migration has been performed and no existing preference changed. Server tests/deployment, actual persistence and overall live acceptance remain unproven."
+  },
+  "accountIconSsrReconciliation20261008": {
+    "status": "same_account_prop_reconciliation_verified_locally",
+    "behavior": "The existing provider/controller is retained on same-account SSR refresh. A layout effect reconciles validated ready-state snapshots before paint, skips foreign owners/older revisions/unknown catalogs and in-flight requests, and never clears uncertainty/conflict/auth/permission/rate-limit states. Identical payloads do not publish notification loops. Ready request notification occurs after releasing the request lock.",
+    "verification": "test-icon-server-preferences.mjs and test-account-icons.mjs passed in development. test-account-icons.mjs additionally passed with NODE_ENV=production, exercising actual React SSR and actual provider code with controlled layout effects. Full npm run lint and isolated npm run build exited 0; compilation, TypeScript and 380 generated pages completed. Locale inputs/calls were unchanged, so prior locale gates were not repeated.",
+    "inputHashes": {
+      "context/mailbox-icon-context.tsx": "D34AE24CEB48D2DC4B41F31AA5C545A876E1A40F5F3E08D4566EC5F58D3700BA",
+      "lib/icon-preferences-client.ts": "A21212267517F991C29DB43BC68812D7EC6C9DAF108E83798F30545B81DF6798",
+      "scripts/test-account-icons.mjs": "854840A86B4851C030D7ED080345CE50F758539F13BA90D7FD20E4A08050B7D5",
+      "scripts/test-icon-server-preferences.mjs": "E4AA3AD15656F3D800BC6BB9F8A8E7E5C8514542E8076E17CF2B63FF3E330735"
+    },
+    "remaining": "These controlled effect/SSR tests do not prove physical mobile/browser first paint or live server persistence. Personal folder icons/kinds and creation server persistence, explicit legacy migration, deployed icon API and overall live acceptance remain outstanding. No production configuration/database change or commit/push. Earlier reconciliation-pending entries are historical."
+  },
+  "accountIconRecovery20261008": {
+    "status": "read_only_recovery_ui_verified_locally_live_acceptance_pending",
+    "behavior": "Profile/shared/system icon pickers and settings reset expose distinct conflict, uncertain, unauthorized, forbidden, rate-limited and unavailable statuses. Explicit manual recovery performs only a controller GET; no controller or mismatched account uses authenticated router.refresh. Pending read suppresses duplicate clicks; rendering errors never automatically retries reads or mutations. Local-only personal consumers remain unchanged.",
+    "verification": "test-icon-preference-recovery.mjs passed 10 locale/status and manual-read-only handler cases. test-account-icons.mjs, test-personal-folder-icons.mjs, test-mailbox-icon-settings.mjs and test-mailbox-icon-picker.mjs passed including actual React SSR, owner isolation, reset acknowledgment and picker portal recovery forwarding. npm run check:locales (2967 keys), npm run check:locale-usages (1134 calls, 10 catalogs), npm run lint and isolated npm run build passed; build completed compilation, TypeScript and 380 generated pages with exit 0. No real setting write or network fault injection.",
+    "remaining": "Personal icons/kinds and creation server persistence, explicit legacy migration, same-account changed SSR props reconciliation, server deployment/API availability, actual persisted settings, browser hydration/mobile layout and first-paint proof remain outstanding. Do not interpret synthetic status tests as elapsed real session expiry or actual outage/permission acceptance. Prior recovery-pending checkpoints are historical for the wired consumers only."
+  },
+  "accountIconSystemConsumers20261008": {
+    "status": "profile_shared_system_ssr_and_server_writes_wired_live_unverified",
+    "behavior": "Authenticated SSR provider is active for profile/shared account and system mailbox icon consumers. Available server defaults override stale local icons; junk maps to UI spam. Required server saves return acknowledgment to the picker and cannot fall back to local success. Settings reset atomically updates at most nine system overrides to default before resetting remaining local personal icons, preserving profile/shared icons and personal displayKind.",
+    "verification": "test-personal-folder-icons.mjs, test-account-icons.mjs, test-mailbox-icon-settings.mjs and test-icon-server-preferences.mjs passed with synthetic data and no network writes. Actual React SSR emoji/default projection, failed saves, target isolation, kind preservation and duplicate reset lock covered. Full npm run lint exited 0; npm run build with GXWEBMAIL_BUILD_DIR=.next-folder-drag exited 0 after compilation, TypeScript and 380 pages.",
+    "remaining": "Personal folder icons/kinds and creation persistence remain local. Explicit legacy migration, refresh/conflict recovery UI, same-account SSR prop reconciliation, current server deployment/API availability, actual persisted preferences and physical mobile first paint remain unverified. No production configuration, database change, commit or push. Earlier icon checkpoint pending statuses are historical and superseded only for the consumers named here."
+  },
+  "accountIconAuthenticatedOwner20261008": {
+    "status": "owner_binding_source_verified_ssr_provider_pending",
+    "behavior": "Both icon BFF reads and writes require x-gxmail-icon-account, compare normalized expected address to a validated JMAP session username fetched using the same captured HttpOnly token, and reject mismatch before icon service calls. A server-only parallel owner/snapshot loader is available for SSR. Browser account header is not an authorization source.",
+    "verification": "Synthetic route and adapter/client-state tests passed; scoped ESLint passed. Tests cover foreign owner read/write/reset, stale owner after session switch, missing owner, unsafe/foreign JMAP apiUrl and control-character username. No network or real preference write. Production build .next-folder-drag passed compilation, TypeScript and 380 pages, exit 0.",
+    "remaining": "Activate authenticated SSR snapshot with provider and picker consumers, explicit migration/reload UI, real server validation/deployment and full live acceptance. No operational configuration or database change."
+  },
+  "accountIconClientState20261008": {
+    "status": "controller_verified_not_activated_in_provider",
+    "files": ["lib/icon-preferences-client.ts", "scripts/test-icon-server-preferences.mjs"],
+    "evidence": "Synthetic tests and scoped ESLint passed: keep old snapshot during save, duplicate write lock, account switch cancellation and stale result rejection, network uncertainty requiring refresh, conflict requiring refresh, partial acknowledgment rejected, session invalidation clears snapshot, reset receipt. Production build .next-folder-drag passed compilation, TypeScript and 380 pages, exit 0.",
+    "boundary": "No module singleton, no token in browser state, same-origin BFF only with 15-second deadline. Controller is not yet mounted or performing real requests. No live icon setting or server/DB change.",
+    "nextGate": "Before activating controller, bind expected account header in BFF to the authenticated JMAP username (not browser trust), then wire SSR owner/snapshot, provider and picker consumers together. Preserve explicit local migration and server validation/deployment limitations. Do not claim account-header enforcement already implemented."
+  },
+  "accountIconAsyncPicker20261008": {
+    "status": "async_picker_ready_server_calls_and_ssr_pending",
+    "files": ["components/mail/MailboxIconPicker.tsx", "scripts/test-mailbox-icon-picker.mjs"],
+    "behavior": "onChange may return an async acknowledgment; false/rejection keeps picker open with localized error, duplicate saves blocked, generation prevents late acknowledgment closing a reopened picker. Existing synchronous local-only callers remain unchanged until server state wiring. Icon grid now uses shared custom tooltip, no native title attributes.",
+    "verification": "Actual component-handler synthetic tests passed: 10 locales, installed Lucide/Phosphor catalog and all 3395 emoji variants, preload cancellation/reset race, delayed save, rejection, duplicate writes, reopen race. Scoped ESLint and production build .next-folder-drag (380 pages, exit 0) passed.",
+    "remaining": "Bind provider/layout/consumers to authenticated snapshots and revision-aware BFF writes/reset, account-switch isolation and explicit local migration. Do not claim server icon persistence active or flicker eliminated from this picker-only gate. No live saved preference or operational server/DB change."
+  },
+  "accountIconSnapshotMapping20261008": {
+    "status": "mapping_verified_not_yet_activated_in_ssr",
+    "files": ["lib/mailbox-icon-snapshot.ts", "scripts/test-icon-server-preferences.mjs"],
+    "evidence": "Synthetic tests cover normalized account keys, own/shared profile keys, junk-to-spam UI role mapping, explicit authoritative defaults, folder displayKind, default mailbox displayKind, absent account and account isolation. Scoped ESLint and production build .next-folder-drag (TypeScript, 380 pages, exit 0) passed.",
+    "remaining": "Wire authenticated snapshot load to locale layout/context and consumers together with server-backed async picker writes/reset. Do not activate a read-only authoritative snapshot while existing pickers still save only localStorage, or silently migrate browser choices. Server deployment/validation and live acceptance remain unproven.",
+    "boundary": "Pure conversion of validated server snapshot only, no cookie/localStorage merge, no new live requests or saved preference."
+  },
+  "accountIconFrontendAdapter20261008": {
+    "status": "source_adapter_verified_ui_and_bff_pending",
+    "files": ["lib/tastemail/icon-preferences-contract.ts", "lib/tastemail/icon-preferences.ts", "scripts/test-icon-server-preferences.mjs"],
+    "sourceContract": "Current Rust API/store icon_preferences.rs, read in full. GET/PATCH /api/user/icon-preferences and POST /api/user/icon-preferences/reset; exact catalog version, strict available targets, partial change/reset receipts and safe revision numbers.",
+    "verification": "Synthetic no-network adapter tests passed; production build .next-folder-drag passed TypeScript and 378 pages. ESLint initially rejected test module variable name; test-only rename applied and affected test rerun passed. No app rebuild required by that test-only change.",
+    "limits": "UI, same-origin authenticated BFF routes, authoritative SSR context, explicit migration and failure-safe picker writes remain to implement. No live saved preference, server deployment or operational DB change. Server validation itself is separate and pending."
+  },
+  "accountIconBff20261008": {
+    "status": "source_routes_verified_ssr_and_ui_pending",
+    "routes": ["GET/PATCH /api/mail/icon-preferences", "POST /api/mail/icon-preferences/reset"],
+    "verification": "Synthetic no-network route tests and scoped ESLint passed. Existing server adapter validation was reused unchanged. Production build .next-folder-drag passed compilation, TypeScript and 380 pages; output route table includes both icon-preferences BFF endpoints.",
+    "boundaries": "Existing HttpOnly session resolver and server-only secure API transport; same-origin writes only; streaming UTF-8 body limit 32768 bytes with cancellation; strict targets/fields/catalog; no-store response and distinct 401/403/409/429/502/503 states. No live preference read/write or credential extraction performed.",
+    "remaining": "Authoritative SSR context, failure-safe picker state, explicit account-isolated browser preference migration, server validation/deployment and live acceptance remain incomplete. Latest server thread commentary concerns another operational downgrade task; not evidence that icon API validation or deployment completed. Do not dispatch duplicate requests or interfere with that task."
+  },
+  "accountIconContractFollowup20261008": {
+    "status": "verified_running_server_source_implementation",
+    "authorization": "The human explicitly approved requesting account-scoped icon persistence in the tastedev-mail chat. This follow-up retains that exact implementation scope; no deployment or operational database change is authorized.",
+    "threadId": "01a05970-0b3b-7660-9d27-35e25476f5e8",
+    "turnId": "01a1199c-6d6f-7531-8965-67e7068b851f",
+    "cursor": "e137992e-39db-4843-8d0d-daf423b0166e:33",
+    "evidence": "The prior turn 01a11998-3b08-7a21-880e-29b5456cfcd6 completed with an unrelated existing commit confirmation, not icon implementation. API/store source still had no icon preference contract. A scope clarification under the same explicit human authorization was sent; wait_threads confirms the new exact turn inProgress and thread active. No deployment, migration execution or commit/push requested.",
+    "nextGate": "Wait for this specific turn, inspect its actual API/store contract and tests before implementing the frontend BFF/SSR/write/reset adapter. Do not invent endpoints or count request delivery as implementation completion.",
+    "sourceProgress": "Store icon_preferences.rs now exists and was read in full. It defines profile/system/mailbox/sharedAccount targets, revision/catalogVersion/availableTargets/preferences/defaultIcon/defaultDisplayKind, partial changes/reset scopes, 512 saved entries, 64 changes and 32 KiB body limit. Existing frontend package IDs can be adapted, but browser keys and local folder default are not the server target/default contract: migration must explicitly preserve displayKind and must not silently upload across accounts. API endpoint/request contract and completed validation are still unconfirmed. Latest specific turn remains active/inProgress at cursor 33; do not restart or modify server work in progress.",
+    "apiSourceContract": "API icon_preferences.rs was read in full after it appeared. GET/PATCH /api/user/icon-preferences and POST /api/user/icon-preferences/reset authenticate through the existing principal. PATCH body is {revision,changes}; reset is {revision,scope}; unknown fields rejected, body limit 32768 bytes. Read/update/reset return the store snapshot with private,no-store. Errors include 400 invalidRequest, 403 forbidden, 409 stateMismatch, 429 rateLimit with Retry-After 60, 401 session invalid and 500 serverFail. This proves current source routing/schema, not completed server validation or deployment. Frontend existing preferences.ts remains signature-only and must stay separate.",
+    "fullGoal": "Incomplete. Later explicit human mock-removal instructions remain authoritative. Live membership movement, denied-share, isolated elapsed-session/outage recovery and shared-send acceptance prerequisites remain separate from this source implementation."
+  },
+  "iconPreloadingResumedBlock20261008": {
+    "status": "blocked_pending_server_contract_coordination_and_live_acceptance_fixtures",
+    "audit": "Three consecutive resumed goal turns retained the same missing server icon persistence contract and human coordination authorization. Remaining desktop package previews were safely observed without saving any preference; no further preview check can establish authoritative initial SSR or missing live acceptance cases.",
+    "evidence": "docs/ICON_PRELOADING_20261008.md",
+    "request": "docs/ACCOUNT_ICON_SERVER_CONTRACT_REQUEST_20261008.md",
+    "observed": "Lucide and Phosphor each 80 rendered SVG options, emoji 80 text options, zero observed spinner options and zero collected console warning/error entries in temporary desktop tabs.",
+    "notProven": "Pre-hydration first paint, physical mobile first paint, complete server-persisted icon behavior, live denied-access/elapsed-expiry/outage-recovery/shared-send acceptance and full integration completion.",
+    "required": "Explicit human authorization to message the tastedev-mail chat about the server contract; separately the previously specified live movement, denied-share, isolated expiry/outage and shared-send fixtures/approvals.",
+    "boundary": "No server/DB/deployment change, no saved icon choice, no mail mutation and no duplicate unchanged build/test gate. Mock removal follows the later explicit human instruction."
+  },
+  "accountIconDesktopObservation20261008": {
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "scope": "Profile menu and account icon picker only, default desktop viewport. Existing same-input Korean observation reused.",
+    "perLocale": { "localizedModalHeading": true, "packageTabs": 3, "searchInputs": 1 },
+    "lastCapturedWarningErrorLogs": 0,
+    "lastCapturedHydrationMatches": 0,
+    "mobile": "Unverified: requested viewport override did not match actual DOM viewport. Never counted the desktop observation as mobile.",
+    "measurementCorrection": "English picker reopened successfully using actual accessibility state. German focus-summary line excluded from input count. No app-source changes required.",
+    "evidence": "ACCOUNT_ICON_PREFERENCES_20261008.md",
+    "remaining": "All-icon initial SSR delay, full responsive geometry and shared-account cards not proven. Live movement/denied-access/elapsed expiry/outage recovery approvals and fixtures still required.",
+    "boundary": "No saved icon selection, mail mutation, credential/security/permissions/server change, deployment, commit or push. Full goal remains incomplete."
+  },
+  "resumedAcceptanceBlock20261008": {
+    "consecutiveGoalTurns": 3,
+    "status": "blocked_pending_explicit_live_acceptance_authorization_and_fixtures",
+    "classification": "After documentation alignment, three consecutive goal turns retained the same missing live acceptance prerequisites. Read-only source inspection confirmed synthetic session/shared-status coverage does not prove actual expired-session, denied-access or outage recovery behavior.",
+    "requiredInputs": [
+      "Explicit authorization to move the existing synthetic membership message inbox to archive to inbox without resend or deletion",
+      "Named denied shared mailbox and approved test account",
+      "Isolated valid-session expiry and controlled outage/recovery environment",
+      "Approved shared HTML/CID send scope where required"
+    ],
+    "limits": "No authorization inferred from automatic continuation. No live mail movement, existing mail change, token extraction, operational security change, service interruption, deployment, commit or push. Full objective remains unproven; later user mock removal instruction remains authoritative."
+  },
+  "membershipLiveAttempt20261008": {
+    "subject": "GXWebMail membership QA 2026-10-07T23-52-12-651Z",
+    "recipient": "whitecalvin@gxsoft.co.kr (self only)",
+    "sentSubmissions": 1,
+    "beforeMove": { "sentSearchMatches": 1, "inboxSearchMatches": 1 },
+    "move": "Not executed: action rejected by safety review pending explicit mailbox-movement authorization. No workaround attempted.",
+    "afterRejectedAction": "Synthetic row remained in inbox; menu dismissed and dedicated tab closed.",
+    "nextGate": "Approve this existing synthetic message only for inbox to archive to inbox movement/restoration, then verify sent membership at each step without resending.",
+    "evidence": "TASTEMAIL_MAILBOX_MOVE_20261008.md"
+  },
+  "searchLayoutObservation20261008": {
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "desktopViewport": { "width": 1280, "height": 900 },
+    "mobileViewport": { "width": 390, "height": 844 },
+    "observations": 20,
+    "visibleFilterGroups": 20,
+    "horizontalControlOverflows": 0,
+    "observedHydrationErrors": 0,
+    "observedConsoleErrors": 0,
+    "evidence": "TASTEMAIL_SEARCH_LAYOUT_20261008.md",
+    "boundary": "Empty search page only; authenticated dedicated tab, readonly DOM/log observations and input focus. Not all pages, real mobile hardware, server filter correctness or full live acceptance."
+  },
+  "syntheticAttachmentDownload20261008": {
+    "subject": "GXWebMail synthetic QA 20261008-064250",
+    "browserObservation": "Exact synthetic search returned one result; expanded detail attachment link produced a completed browser download.",
+    "bytes": 163,
+    "originalAndDownloadSHA256": "735D8AB8350772D8187F6643C9AE9E54FCACC3AEB69F525ECBB5E18015C1009A",
+    "matched": true,
+    "evidence": "TASTEMAIL_SELF_SEND_20261008.md: subsequent attachment download verification",
+    "boundary": "Approved synthetic self-send fixture only. No resend, move, deletion, production configuration or credential changes. Does not prove remaining multi-membership movement or full live acceptance."
+  },
+  "readOnlyResumeProbe20261007": {
+    "anonymousLocalBff": { "health": 200, "session": 401, "mailboxes": 401 },
+    "anonymousLanHealth": { "192.168.0.109:6711": 200, "192.168.0.109:7531": "No HTTP status returned within the bounded probe; not evidence of service shutdown" },
+    "probeBoundary": "Initial sandbox LAN probe was blocked by socket permissions, not an upstream outage. Authorized unsandboxed anonymous /health probe confirmed 6711 status 200. No cookie or bearer token transmitted.",
+    "remainingInputs": "Named inaccessible shared target and approved test account, isolated valid-session expiry and controlled outage/recovery conditions, approved shared complex HTML/CID send recipient. No running verification job identified; unchanged synthetic gates not rerun.",
+    "resumedBlockedAuditConsecutiveTurns": 3,
+    "goalAuditConclusion": "blocked_pending_live_acceptance_fixtures: three consecutive resumed goal turns retained the same missing named denied-share target, isolated expiry/outage environment and approved shared-send scope. Anonymous health and latest synthetic production contracts passed; server task is idle. No safe in-scope action can establish these live acceptance requirements without user input or an external-state change. Not complete.",
+    "latestPrerequisiteRecheck": "Server chat tastedev-mail is idle and its latest image-map task is completed, not a running acceptance job. No newly approved denied-share/expiry/outage/send fixtures were supplied. Existing build ID remains t85x6GmdYmmumZM72NI5A; unchanged successful gates were not repeated.",
+    "limits": "No server/DB/firewall/security change, logout, live mail mutation, deployment, commit or push. Full objective remains unproven."
+  },
+  "productionContractResume20261007": {
+    "buildDirectory": ".next-live-only-check",
+    "buildId": "t85x6GmdYmmumZM72NI5A",
+    "buildIdFileSha256": "D2198F54976BD9538FF6D862FF2623D0F82215A42FE478E7C7F913EBF2EF095D",
+    "adapterScriptSha256": "292515B8A7358ED8BF3E356E32BBCA8F26D739D4D00B61E6E4CC79EC5A3E8B12",
+    "result": "Synthetic TASTEMAIL session and JMAP read/write contract passed against the existing production artifact. System-error lifecycle checks and changed-script ESLint passed.",
+    "resume": "First failure was obsolete inline error-message assertion after toast migration; checked actual SystemErrorNotice Flight component props and retry action instead. Next failure was obsolete secondary-account Mailbox/get-only fixture; added exact account-scoped all/unread Email/query contract. No application recompilation. Final local variable rename for lint was nonsemantic; only failed lint gate repeated.",
+    "limits": "Loopback synthetic server and temporary random-port Next process only; no live mail mutations, credentials, deployment or user server restart. Does not prove live denied access, elapsed valid-session expiry, controlled outage/recovery or shared HTML/CID delivery. Goal remains incomplete."
+  },
+  "latestAcceptanceObservation": {
+    "date": "2026-10-06",
+    "apiHealth": { "origin": "http://192.168.0.109:6711", "status": 200, "authenticated": false },
+    "anonymousBff": { "health": 200, "session": 401, "mailboxes": 401 },
+    "mfa": {
+      "currentUi": "Authenticated local 7540 security page reports TOTP enabled",
+      "failureAndRecovery": "User reported completion of expired-code rejection, valid-code login, recovery-code use and reuse rejection; not directly observed by agent"
+    },
+    "sharedMailboxes": "Current authenticated UI reports no shared mailboxes; no explicit denied target available",
+    "remaining": ["Explicit denied shared target", "Elapsed valid session", "Controlled outage and recovery", "Approved shared HTML/CID and failure scenarios", "Full completion audit"],
+    "limits": "Read-only UI and anonymous HTTP probes. No credentials forwarded, security changes, service restarts, deployments or live mail mutations. Temporary tab closed."
+  },
+  "latestResumeBoundaryObservation": {
+    "date": "2026-10-05",
+    "goalStatus": "blocked_pending_live_acceptance_fixtures",
+    "unauthenticatedNextBff": {
+      "/api/mail/health": 200,
+      "/api/mail/session": 401,
+      "/api/mail/mailboxes": 401
+    },
+    "transport": "Local Next.js 127.0.0.1:7540, no browser cookies or bearer token forwarded by probes",
+    "hashComparison": "mail-page.ts, search-page.ts and their recorded page/detail response test files still match currentResumeCheckpoint.inputHashes. No broad build or unchanged tests repeated; complete dependency/toolchain gate reuse is not asserted.",
+    "serverBrandingRequest": "User-approved header branding API extension delivered to tastedev-mail thread 01a05970-0b3b-7660-9d27-35e25476f5e8. Current source still exposes four legacy branding fields; no image/personal-policy API contract confirmed. Server request delivery is not implementation evidence.",
+    "remaining": "Actual MFA failure/recovery, inaccessible shared target, elapsed valid session, controlled outage/recovery and approved shared HTML/CID/failure scenarios still require suitable fixtures and current test-account confirmation.",
+    "resumedBlockedAudit": "Three resumed goal turns on 2026-10-05 confirmed the same missing actual MFA/denied-shared/expiry/outage fixtures. Fresh count, not inherited from the older audit. Anonymous BFF probes and local image-preflight checks completed; none proves those live acceptance cases. Server branding source remains unchanged and the server task is idle, so no running verification job can be polled. Additional unchanged tests or production fault injection cannot resolve these missing prerequisites. Completion is unproven.",
+    "limits": "No message content or authentication material logged. No live mail mutation, logout, security/permission change, service restart, deployment, commit or push."
+  },
+  "headerBrandingPreparation": {
+    "date": "2026-10-05",
+    "implementation": "BrandMark fixed-size image/fallback component and raster upload preflight helper prepared; not yet mounted or connected to a server API.",
+    "verification": "Five isolated preflight tests passed: rejected formats, size limits, supported formats, dimensions/resource cleanup and decode failures. Scoped ESLint passed.",
+    "contractBoundary": "No server upload limit values or new endpoint shapes assumed. Limits are supplied by a future confirmed server contract. Client preflight does not substitute server image validation or administrator/account authorization.",
+    "pending": "Confirmed TASTEMAIL branding image/policy contract, BFF, SSR effective branding, administrator/user controls and live acceptance. Not a completed branding feature or full integration acceptance."
+  },
+  "currentResumeCheckpoint": {
+    "date": "2026-10-04",
+    "goalStatus": "blocked_pending_live_acceptance_fixtures",
+    "authoritativeAudit": "TASTEMAIL_ACCEPTANCE_AUDIT.md",
+    "runtime": "User-applied Windows API 6711, release-gate Debug 0.1.11; local frontend 7540. Not evidence for deployment on 192.168.0.109.",
+    "resolved": [
+      "Previous local 0.1.6 application blocker resolved by user-applied 0.1.11",
+      "Synthetic personal draft center alignment persisted after save, re-edit and reload",
+      "Personal/shared list, personal usage and personal/shared detail response callbacks validate formats before caching",
+      "Shared list validates response account against selected account",
+      "Local live personal list 25 items, usage and shared synthetic list displayed without alerts; captured warning/error count zero"
+    ],
+    "scopedVerification": {
+      "test-mail-page-response": "passed",
+      "test-mail-detail-response": "passed after shared message validator change",
+      "test-live-search-page": "passed after shared message validator change",
+      "changedFileEslint": "passed",
+      "wholeBuild": "not rerun; latest scoped source verification does not validate an older production artifact"
+    },
+    "inputHashes": {
+      "lib/tastemail/mail-page.ts": "C0ABB201B236FE2CDA94E2C608BEE05E47F6D88EEE28A35B047E934DE8DF01AC",
+      "lib/tastemail/search-page.ts": "C57678B4747AA873909B8FCB62D4B12BD3D7A42774B760C47A7C32CBF0B0F2E1",
+      "scripts/test-mail-page-response.mjs": "11634FB850405102AED129A16456BC391E76C101967758D1B967E30CF1995EFE",
+      "scripts/test-mail-detail-response.mjs": "E6319312A727E963A9D37573B1C8B74DC62913C51F3431493BFF017AD5C8D74B"
+    },
+    "selectiveRawResponseVerification": "Server thread reports no confirmed synthetic account/session available in that chat; no authenticated runtime query executed. Source/contract tests and visible UI are separate evidence, not raw response size evidence.",
+    "currentPersonalListLocaleRendering": {
+      "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+      "viewports": [{ "width": 1280, "height": 900 }, { "width": 360, "height": 800 }],
+      "cases": 20,
+      "result": "All cases displayed 25 list rows, matching HTML lang, zero list alerts and no document horizontal overflow.",
+      "capturedConsoleWarningErrorCount": 0,
+      "cleanup": "Viewport override reset and temporary tab closed. No message selection/read-state or account settings changes.",
+      "limits": "Live personal list only; not all routes, mock rendering, control geometry, interactions or auth/fault acceptance. No unchanged tests or build repeated."
+    },
+    "remainingAcceptance": [
+      "Real MFA failure and recovery paths using user-operated credentials",
+      "Elapsed valid session and controlled outage/recovery environment",
+      "Explicit inaccessible shared target and direct denial evidence",
+      "Failure/uncertain live mutations and composed shared HTML/CID delivery",
+      "Full requirement-by-requirement acceptance and current release gates, not a narrow completion claim"
+    ],
+    "pendingUserInputs": "Requested available MFA-enabled test account, inaccessible shared target and isolated expiry/outage test conditions; no credentials requested in chat.",
+    "resumedBlockerAudit": {
+      "consecutiveGoalTurns": 3,
+      "condition": "Remaining actual MFA/denial/expiry/outage acceptance prerequisites not supplied after the request and subsequent continuation turns.",
+      "currentObservation": "Local 7540 profile whitecalvin@tastedev.net confirmed; security UI explicitly displays authentication app TOTP disabled with registration action. Shared account list loads, but no inaccessible target has been designated.",
+      "safeAlternativesCompleted": "Personal center draft round-trip on 0.1.11; stricter personal/shared response boundaries with actual-handler synthetic tests; current live personal/shared list rendering; 20 current personal-list locale/viewport cases; source contract audit and checkpoint reconciliation.",
+      "serverCoordination": "Read-only selective-response request completed without execution because that server chat lacks a confirmed approved test account/session. No running verification job remains to poll.",
+      "resume": "User supplies an MFA-enabled test session plus explicit denied target and isolated elapsed-session/outage conditions. Do not replay unchanged tests/builds or change security/server configuration to manufacture fixtures.",
+      "limits": "Whole objective is not complete. No forced logout, MFA activation, token extraction, permission expansion, server shutdown or production fault injection."
+    },
+    "limits": "No production outage, permission/security change, credentials extraction, deployment, developer-server restart, commit or push. Historical latest-prefixed records below retain their original observation dates."
+  },
+  "latestLiveMfaEnabledObservation": {
+    "date": "2026-10-04",
+    "authorization": "User reported MFA activation completed; read-only confirmation only",
+    "target": "Current authenticated browser session, local 7540 /ko/security",
+    "evidence": "Fresh security-page query visibly displayed authentication app TOTP enabled",
+    "limits": "Setup key, OTP and recovery codes not inspected. No logout or credential/security mutation by agent. Subsequent MFA login challenge still unverified.",
+    "cleanup": "Temporary verification tab closed; original user tab preserved",
+    "verificationReuse": "No source changes, tests or build repeated"
+  },
+  "latestMfaEnrollmentBrowserHandoff": {
+    "date": "2026-10-04",
+    "target": "User's in-app browser, http://127.0.0.1:7540/ko/security",
+    "evidence": "GXWebMail security UI visible, TOTP disabled, Register authenticator button visible; opening it displayed the current-password input",
+    "screenshot": "docs/mfa-enrollment-handoff-20261004.png",
+    "action": "Opened client registration form only; no password, TOTP, setup key or recovery code read/entered; no enrollment API or activation submitted",
+    "handoff": "User completes password entry, authenticator setup, activation and recovery-code storage",
+    "priorBlocker": "Browser accessibility restored. Shell socket query reported no listener but is not used to contradict the verified user browser UI.",
+    "limits": "No MFA activation/login challenge or remaining expiry/permission/outage acceptance claim. No unchanged app tests/build repeated."
+  },
+  "latestResumedGoalBlockerAudit": {
+    "date": "2026-10-03",
+    "consecutiveGoalTurns": 3,
+    "condition": "User-managed 7540 developer server is not listening; user-operated MFA enrollment and remaining live fixture prerequisites are not available",
+    "revalidation": "Three consecutive goal turns checked the same Listen socket; all returned false. Existing browser tab shows a connection-error document.",
+    "safeWorkCompleted": "MFA contract/BFF/UI implementation, actual submit-function synthetic error/race checks, 10-locale validation, scoped lint, current production build and integration documents",
+    "unchangedBuildId": "vzCcirVC5K3vVsKRi-XzF",
+    "resume": "User starts their 7540 development server and completes MFA registration; resume live acceptance gates without rebuilding unchanged sources",
+    "limits": "No unauthorized developer server launch, port change, browser policy bypass, credential entry, security/permission changes or production outage. Full objective remains incomplete."
+  },
+  "latestLocalBrowserAccessObservation": {
+    "date": "2026-10-03",
+    "browser": "In-app browser tab 1 currently shows a site-unreachable error document, not the authenticated security UI",
+    "listener": "Read-only Get-NetTCPConnection check found no Listen socket on 7540",
+    "artifact": "Build ID vzCcirVC5K3vVsKRi-XzF and MFA component SHA256 BF18CA7B0346D7ABD2D720B0F2DEE61F0CC19995B7B7868A511E1E7350A2B936 remain current",
+    "action": "No developer server launch/restart, alternate port, credentials entry or browser policy bypass",
+    "resume": "User restores their 7540 development server; user-operated MFA enrollment and subsequent login verification can then resume",
+    "goalState": "Full integration remains incomplete; elapsed-session/direct-denial/controlled-outage acceptance conditions also remain pending"
+  },
+  "latestMfaSubmitExecutionVerification": {
+    "date": "2026-10-03",
+    "scope": "actual UI submit function with synthetic begin/activate success, invalid code, expiry, denial, throttling, network loss and unmount",
+    "finding": "uncertain activation could resubmit through a stale callback before React state commit",
+    "fix": "synchronous uncertainty ref persists alongside UI state; no automatic retry",
+    "tests": "11 combined contract/BFF/UI/submit tests passed",
+    "lint": "affected UI and two test scripts passed",
+    "productionBuild": "passed, 378 pages",
+    "buildId": "vzCcirVC5K3vVsKRi-XzF",
+    "inputHashes": {
+      "components/settings/LiveMfaEnrollment.tsx": "BF18CA7B0346D7ABD2D720B0F2DEE61F0CC19995B7B7868A511E1E7350A2B936",
+      "scripts/test-mfa-submit-race.mjs": "FB7E411CB221F89033EBC68550BF6D01A5DC17D478DC7269845F31E9B7F80306"
+    },
+    "reuse": "MFA adapter/BFF contracts and translation catalogs unchanged; prior mail-adapter and locale gates not repeated",
+    "limitations": "No real account activation, credentials entered, browser rendering claim, or server change. User-operated MFA and remaining live acceptance gates are pending."
+  },
+  "latestMfaEnrollmentImplementation": {
+    "date": "2026-10-03",
+    "status": "implemented_not_live_activated",
+    "scope": "password reauthentication, manual TOTP setup, activation, one-time recovery codes; no server source or deployment changes",
+    "verification": {
+      "contractBffUiTests": "6 passed",
+      "mailAdapterSuite": "passed",
+      "locales": "10 catalogs, 2844 keys",
+      "lint": "full passed; changed adapter and test rechecked after error-classification correction",
+      "productionBuild": "passed, 378 pages",
+      "buildId": "QnLA4CmtEdluiwtc1Uo4q"
+    },
+    "inputHashes": {
+      "lib/tastemail/mfa.ts": "8DD404FB21042741CB72F49FE43F11A1730B8A5B9C7E759734AA2F1B6BAEBEC9",
+      "lib/tastemail/mfa-contract.ts": "C9537ECE4A9C0FFEEAFFFF41EB9D9423ED818FA1D83552FA7D5CE8A48437B227",
+      "app/api/mail/security/mfa/route.ts": "6684B9253C0F39574BC8674F4F82861E37F65F48B363EC81E36AF58691EDC6A9",
+      "components/settings/LiveMfaEnrollment.tsx": "9C3760F56FCC672F24F6C613F61297180D7CA836F08E2DF3B1322839809624DF"
+    },
+    "remaining": ["user-operated enrollment and activation", "observed MFA login challenge", "live failure paths", "QR rendering, disable and recovery-code regeneration not included"],
+    "browserVerification": "blocked by browser URL policy; no bypass or account mutation attempted"
+  },
+  "date": "2026-10-03",
+  "remainingLiveAcceptanceBlocker": {
+    "date": "2026-10-03",
+    "consecutiveGoalTurns": 3,
+    "condition": "Prepared MFA test account, explicit inaccessible shared target and separate elapsed-session/outage environment have not been supplied.",
+    "latestEvidence": "Authenticated local security UI again visibly reported TOTP disabled. Existing shared target read-only observation is recorded separately.",
+    "unchangedArtifact": "NUhJkcRKPgEXXkUtH8DXN and the recorded folder component/test SHA256 inputs match current files.",
+    "safeAlternativesExhausted": "Source/BFF MFA and expiry contracts, existing synthetic fault evidence, available read-only shared UI, personal-folder live CRUD and locale geometry, and documentation checked. These cannot substitute for missing real acceptance conditions.",
+    "resumeFrom": "Remaining live MFA/expiry/direct denial/outage gates; do not rerun unchanged implementation or build gates.",
+    "limits": "No security changes, server shutdown, token extraction, direct database edits or new permissions to manufacture fixtures. Whole objective remains incomplete."
+  },
+  "latestRemainingPrerequisiteObservation": {
+    "date": "2026-10-03",
+    "target": "Authenticated in-app browser local 7540 security and shared mailbox UI",
+    "mfa": "Authentication app TOTP disabled; actual MFA challenge cannot be verified with this configuration.",
+    "shared": "share@tastedev.net displayed read permission only; selecting its mailbox completed the list read.",
+    "capturedConsoleWarningErrorCount": 0,
+    "requestedInputs": ["Already MFA-enabled test account", "Explicit inaccessible shared target", "Separate elapsed-session and controlled outage/recovery test environment"],
+    "cleanup": "Temporary tab closed, original authenticated tab retained. No security, permission, mail or server configuration mutation.",
+    "limitations": "Prerequisite read only, not real MFA/expiry/direct denial/outage validation. Whole goal remains incomplete."
+  },
+  "latestPersonalFolderLiveDeletion": {
+    "date": "2026-10-03",
+    "target": "GXWebMail folder QA 20261003-A renamed",
+    "authorization": "Explicit user approval at deletion time; only newly created empty synthetic folder.",
+    "evidence": "Separate UI confirmation named the target; one submission showed success. Target button count was zero immediately and after reload.",
+    "capturedConsoleWarningErrorCount": 0,
+    "proof": "live-personal-folder-deleted-20261003.png",
+    "cleanup": "Synthetic empty folder permanently removed. Existing mail and other folders unchanged. Original authenticated tab retained.",
+    "limitations": "No live collision/uncertain failure/denied-rights validation. Application inputs unchanged; build/tests not repeated."
+  },
+  "latestPersonalFolderLiveVerification": {
+    "date": "2026-10-03",
+    "target": "Authenticated in-app browser http://127.0.0.1:7540/ko",
+    "account": "whitecalvin@tastedev.net",
+    "createdName": "GXWebMail folder QA 20261003-A",
+    "renamedName": "GXWebMail folder QA 20261003-A renamed",
+    "evidence": "Create and rename each showed confirmed success and sidebar projection. Renamed folder remained present after browser reload.",
+    "capturedConsoleWarningErrorCount": 0,
+    "proof": "live-personal-folder-20261003.png",
+    "cleanup": "New empty synthetic folder retained. No existing mail/folder or authentication/server configuration changed.",
+    "limitations": "Permanent deletion, collision/failure paths and full locale/responsive regression not verified here. Application inputs unchanged; no duplicate build/test gates."
+  },
+  "runtime": "Node.js v24.11.1 on Windows",
+  "latestPersonalFolderAccessibilityGeometry": {
+    "date": "2026-10-03",
+    "change": "Explicit useId/htmlFor selector label excludes option text and remains SSR/hydration stable.",
+    "buildId": "NUhJkcRKPgEXXkUtH8DXN",
+    "inputSha256": {
+      "components/mail/PersonalFolderManager.tsx": "1FF1EC51EFD7E9F9A9E8E3FBE2B50D12004E7AA56A125BB08A451376E31C1E4A",
+      "scripts/test-personal-folder-ui.mjs": "3CE4FA2C1114549538BF480F61D2246E56A4705A0FDC36E8E852B3F692BB7F2E"
+    },
+    "checks": {"componentTests": 8, "lintExitCode": 0, "buildExitCode": 0, "liveGeometryCases": 20, "liveFailures": 0},
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "viewports": [[360, 800], [1280, 800]],
+    "criteria": "Translated exact selector label, persisted synthetic folder option, matching document language, no document horizontal overflow or horizontally clipped form controls.",
+    "capturedConsoleWarningErrorCount": 0,
+    "proof": "live-personal-folder-mobile-20261003.png",
+    "cleanup": "Viewport reset; temporary settings tab closed; original authenticated tab retained; no server data mutation.",
+    "limitations": "Not full keyboard traversal, all pages/themes/heights or real delete/failure paths. Unchanged locale catalogs and API/mutation behavior checks not repeated."
+  },
+  "latestSharedForwardGeometryFollowUp": {
+    "date": "2026-10-01",
+    "target": "Local 7540 shared detail for the already-read synthetic self-forward",
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "viewports": [[1280, 800], [360, 800]],
+    "verifiedChecks": 20,
+    "failures": 0,
+    "criteria": "Loaded article has six detail controls including translated forward action; no document horizontal overflow, clipped action buttons or intersecting action rectangles; document language observed per locale.",
+    "capturedConsoleWarningErrorCountAtEnd": 0,
+    "scope": "Existing synthetic forward remained listed after route re-entry and detail loading in every locale. No compose opened, new send, attachment upload or explicit mail mutation. Viewport reset and temporary tab closed; user tab retained.",
+    "limitations": "Changed detail/action geometry only, not all compose interactions, all hydration boundaries or historical console sessions. No application edits; preceding source checks/lint/build/integration results not repeated."
+  },
+  "latestSharedForwardWorkUnit": {
+    "date": "2026-10-01",
+    "changes": "Shared detail exposes forward when read/write/send rights permit. Loaded-detail, pending mutation, uncertain outcome and existing compose guards precede initialization. Existing forwardedMailContent and shared ComposeForm/API preserve HTML and CID/attachment metadata; recipients start empty and source draft identity is not reused.",
+    "commands": ["node scripts/test-shared-forward.mjs", "npm run lint", "npm run build", "npm run check:locale-usages", "node scripts/verify-tastemail-adapter.mjs"],
+    "exitCodes": [0, 0, 0, 0, 0],
+    "buildId": "DC8ShMK8nBHM6alWCmUQ3",
+    "translationCallsChecked": 1803,
+    "syntheticCoverage": "Actual forwarding callback: selected account, all three permissions, loaded detail, busy/uncertain/in-flight/open compose suppression; empty recipient, no old draft ID or inherited CC/BCC, HTML/CID clone and prefix/fallback subject. Compiled mock/live integration rerun because application build changed.",
+    "liveEvidence": "Approved share@tastedev.net account only, same-address recipient. Existing synthetic HTML/attachment message forwarded once with unique subject FWD: GXWebMail shared forward 20261001-01. Shared Inbox displayed received subject and quoted HTML body. Forwarded attachment download was 120 bytes and matched original SHA256. No external recipient, permanent deletion, security/server change or repeated send. Console warning/error count 0; temporary tab closed, user tab retained.",
+    "attachmentSha256": "4D5B1EC920FA0511073C6E72EAD15BF716EFC0B99DEF7D06DBE60972C4553EEA",
+    "proof": "live-shared-forward.png",
+    "limitations": "Simple HTML plus ordinary attachment verified live; CID preservation synthetic only for shared forwarding. Complex newsletter CSS, shared reply/reply-all, actual denied rights/MFA/expiry/outage and full interaction regression remain unverified. Catalogs unchanged; check:locales not repeated. Node module-typeless warnings emitted with exit 0."
+  },
+  "latestMfaPrerequisiteObservation": {
+    "date": "2026-10-02",
+    "target": "Authenticated local 7540 /ko/security UI",
+    "observation": "Live security panel reports TOTP disabled for the current browser session. This account cannot prove a real MFA challenge without a security configuration change; no such change was made.",
+    "consoleWarningErrorCount": 0,
+    "cleanup": "User re-login confirmed for whitecalvin@tastedev.net on local 7540. Security UI loaded current session and recent security activity with no loading/error state. Browser retained for continuation. No account, mail, session revocation or security changes.",
+    "nextRequiredInput": "Already prepared MFA-enabled test account and explicit denied shared mailbox target. Existing read-only shared UI was verified separately on 2026-10-02. No passwords, OTPs or tokens requested.",
+    "limitations": "Read-only prerequisite observation, not an MFA login, expiry or denied-rights test. Goal remains active."
+  },
+  "latestCompiledAdapterGate": {
+    "date": "2026-10-01",
+    "command": "node scripts/verify-tastemail-adapter.mjs",
+    "exitCode": 0,
+    "buildId": "l287OMW92EwKr5KGhorRx",
+    "inputs": {
+      "scripts/verify-tastemail-adapter.mjs": "8404AD58F82A255BA621F10B86A737B89A407AEC0CF898C28B130455D38B58F0",
+      "package-lock.json": "08AD7297B8E46A2E689FB6EE9F8F121101EEF6C3A8AD944621788F70CD3B03FB"
+    },
+    "artifacts": {
+      ".next/BUILD_ID": "59C3254EF50B67C132A62F753B3F893D4C51345C8DCF4548FEB473BE58BF9264",
+      ".next/routes-manifest.json": "3E478E3013A4AAF8718223C06E31DCA761D9226A1A6235F5C2D60283D6A56B05",
+      ".next/server/app-paths-manifest.json": "FA6AB9D28C45457C9E096B88E59D3ED4D69D5413F458BDE628D1A6AE7437E552"
+    },
+    "scope": "Existing production artifact executed in separate mock/live Next.js processes against a synthetic loopback API on temporary random ports. Session and JMAP read/write contract assertions passed. No rebuild, real account/API/mail or user 7540 server changes.",
+    "limitations": "Synthetic HTTP integration, not real MFA/elapsed expiry/denied rights/outage recovery or GUI regression. Module-typeless Node warning emitted; exit 0. Reuse requires same compiled artifact, fixture, dependencies and runtime; manifests alone are not a complete artifact fingerprint."
+  },
+  "latestAcceptanceAudit": {
+    "date": "2026-10-02",
+    "document": "docs/TASTEMAIL_ACCEPTANCE_AUDIT.md",
+    "goalStatus": "active; completion unproven",
+    "currentBuildIdObserved": "go-0C7qWDIFSBJEt1aKqK",
+    "sharedAvailabilityFollowUp": "Latest 2026-10-02 audit records share@tastedev.net read-only UI, loaded synthetic detail and absent shared mutation controls. Earlier read/write/send evidence is historical, not current permission state. Direct denied-write and inaccessible-account verification remain unproven.",
+    "evidenceRule": "Latest self-delivery and recoverable shared mutations supersede historical blanket notProven wording. Older compiled adapter results require their exact build, not a current-build pass.",
+    "remaining": ["Actual MFA login", "Elapsed valid-session expiry", "Direct denied shared write and explicit inaccessible mailbox", "Actual outage/write failure recovery", "Old-token reuse rejection after logout; UI logout and protected routes already verified", "Remaining compose failure and complex shared HTML/CID cases; personal/shared scheduled self-delivery and post-due cancellation absence already verified", "Full interaction regression beyond recorded geometry and representative detail checks"],
+    "gateReuseRule": "currentBuildIdObserved only confirms artifact presence. Historical compiled gates retain their own build IDs and hashes; they are not reclassified as successful on the current build. Latest compiled adapter/theme checks are recorded in the acceptance audit. Documentation-only updates do not invalidate application compilation."
+  },
+  "latestClientSignOutWorkUnit": {
+    "date": "2026-10-01",
+    "changes": "Header/sidebar client sign-out calls share one in-flight Promise. Only an HTTP 503 signout_unconfirmed receipt is recognized as locally signed out with remote revocation unconfirmed. Unexpected/error receipts reject rather than masquerade as successful logout. Settled guards release for later explicit attempts; no automatic retry.",
+    "commands": ["node scripts/test-client-signout.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "l287OMW92EwKr5KGhorRx",
+    "coverage": "Actual client helper executed with synthetic fetch: shared promise/request count, successful and remote-unconfirmed results, network/JSON/invalid HTTP-status failures and explicit later retry after settlement.",
+    "limitations": "No real browser logout, token extraction, server/security change or live revocation fault injection. Locale inputs unchanged; existing checks reused. Node callback tests have no distinct optimized configuration."
+  },
+  "latestAwaySaveGuardWorkUnit": {
+    "date": "2026-10-01",
+    "changes": "Away-rule save requires an explicit valid:true preflight receipt before PUT. Read-only validation failure does not imply uncertain write. Write-start tracking and synchronous blocked ref prevent stale callback retries after lost/malformed write responses or revision conflicts. Reload is blocked during a write and immediately blocks stale save callbacks until confirmed data arrives.",
+    "commands": ["node scripts/test-away-save-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "8TIa9iXDU9WlZA9kXyRhR",
+    "resume": "First callback test exposed arbitrary network-error messages bypassing the uncertain-write branch. Normalized unknown errors to retryable and resumed the failed callback gate, then ran lint/build once.",
+    "coverage": "Actual callbacks with synthetic inputs: validation timeout/503/false/string/array/non-JSON causes no PUT and allows manual check retry; lost PUT/503/conflict/stale revision prevents repeated stale saves; concurrent save/reload blocked; successful receipt and reload guard verified.",
+    "limitations": "No actual vacation-rule mutation or live outage injection. Catalog inputs unchanged; prior locale gates reused. Node callback tests have no distinct optimized mode. Actual permission probe via browser API navigation was blocked by the browser client; no denial response claimed or alternate authenticated route attempted. Blank temporary tab closed."
+  },
+  "latestSignatureSaveGuardWorkUnit": {
+    "date": "2026-10-01",
+    "changes": "Live signature saves now synchronously retain an uncertain-result ref guard before React rerenders. Review cannot clear the guard while a write is active or reconciliation is loading. Explicit conflict rejection is no longer classified as unknown outcome.",
+    "commands": ["node scripts/test-signature-save-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "dF43tQ9AP_KzP2Vnd_3cO",
+    "coverage": "Actual save/review callbacks: duplicate pending calls, repeated stale closure after lost response/503/non-JSON/missing identity/unknown 409, guarded review during write/loading, explicit 400/401/403/429/conflict rejection with one reconciliation and no automatic PATCH retry.",
+    "limitations": "Synthetic callback checks, not actual account signature mutation or live outage injection. No distinct optimized execution mode exists for these Node callback checks. Catalogs and translation keys unchanged, prior locale checks reused. Node emitted a module-typeless package warning; script exited successfully. No server/config/security or credential changes."
+  },
+  "latestLiveDemoIsolationFollowUp": {
+    "date": "2026-10-01",
+    "target": "Authenticated local 7540 browser; read-only temporary tab",
+    "routes": [
+      {"path": "/ko/admin", "noticeVisible": true, "mockPolicyButtonCount": 0},
+      {"path": "/ko/accessibility", "noticeVisible": true, "mockContrastRatingCount": 0},
+      {"path": "/ko/shortcuts", "noticeVisible": true, "demoPrintButtonCount": 0}
+    ],
+    "consoleWarningErrorCount": 0,
+    "scope": "Actual browser notices distinguish unconnected admin, unverified accessibility audit and unimplemented keyboard actions from live server results. No mail, settings, permissions, account or configuration mutation. Temporary tab closed, user tab unchanged.",
+    "limitations": "Three Korean live routes only, not mock-mode rendering or all-language interaction coverage. No source changes or repeated application gates."
+  },
+  "latestSharedMailboxBoundaryWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-shared-mailboxes-boundary.mjs", "npx eslint scripts/test-shared-mailboxes-boundary.mjs"],
+    "exitCodes": [0, 0],
+    "coverage": "Actual adapter and GET with synthetic dependencies: mock/config/auth early stops, empty list, explicit permissions preserved, malformed rights/byte counts/items and 1001-item limit rejected, 401/403/429/5xx separated, no internal detail leakage, no-store.",
+    "resume": "Initial lint rejected module variable; renamed compiledModule and reran changed script gates successfully.",
+    "buildReuse": "Unchanged application inputs; .next/BUILD_ID PzuykIqGj205ySxyTWhRd confirmed. No application rebuild or repeated locale gates.",
+    "limitations": "Synthetic checks do not prove actual denied-account permissions, MFA, elapsed valid-session expiry or live outage recovery."
+  },
+  "latestSharedScheduledCancellationFollowUp": {
+    "date": "2026-10-01",
+    "accountScope": "Approved share@tastedev.net shared test mailbox; same-address recipient only",
+    "subject": "GXWebMail shared scheduled cancel 20261001-01",
+    "scheduledAtKst": "2026-10-02 09:00",
+    "evidence": "Initially empty scheduled queue; one submission acknowledged and server-backed pending count 1 observed. One cancel clicked; success toast and queue removal observed. After reload and shared account selection, queue remained absent. Exact subject search in Inbox returned no messages. Console warning/error count 0.",
+    "proof": "live-shared-scheduled-cancel.png",
+    "limitations": "Pre-due cancellation and immediate absence only; no post-due observation, external recipient or permanent deletion. No application source changes or repeated app gates."
+  },
+  "latestLiveAuthenticationFailureFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540; isolated HTTP clients, browser session untouched",
+    "invalidToken": {"path": "/api/mail/session", "httpStatus": 401, "status": "unauthorized", "cookieCleared": true, "cacheControl": "no-store"},
+    "protectedPage": {"path": "/ko/settings", "httpStatus": 307, "location": "/ko/login"},
+    "invalidLogin": {"path": "/api/mail/session", "method": "POST", "httpStatus": 401, "status": "unauthorized", "issuedCookie": false, "cacheControl": "no-store"},
+    "scope": "One nonexistent UUID-named example.test synthetic account attempt; fabricated invalid session token only. No existing account password attempts, browser logout, real token capture, security setting or daemon/config change.",
+    "limitations": "Invalid-token rejection exercises the unauthorized recovery branch, not elapsed-time expiry of a valid session. MFA, actual expiry, read-only/denied account rights and live outage recovery remain separate. No source changes; no repeated build/test gates."
+  },
+  "latestSharedTimedDeliveryFollowUp": {
+    "date": "2026-10-01",
+    "accountScope": "Approved share@tastedev.net shared test mailbox; same-address recipient only",
+    "subject": "GXWebMail shared timed delivery 20261001-2105",
+    "sendAtUtc": "2026-10-01T12:11:00.000Z",
+    "sendAtKst": "2026-10-01 21:11",
+    "state": "delivered to same shared account; Inbox and Sent each contain one matching message, retained after reload",
+    "beforeDueEvidence": "One submit acknowledged, server-backed scheduled list count 1; subject search in shared Inbox empty before due time.",
+    "afterDueEvidence": "After 12:11 UTC, subject search returned one shared Inbox message; its title and synthetic body matched. Scheduled section disappeared automatically. Sent search returned one match; after reload shared Inbox still had one match and queue was absent. Console warn/error count 0.",
+    "timestampLimitation": "Displayed receivedAt is 12:08:14 UTC (draft creation), not a reliable SMTP delivery timestamp. Before-due empty Inbox and after-due arrival observations prove this self-delivery, not exact latency.",
+    "proof": ["live-shared-timed-pending.png", "live-shared-timed-delivered.png"],
+    "inputCorrection": "Browser locator fill showed datetime value without committing React state; native accessible date setValue committed successfully before the sole submit.",
+    "limitations": "No external recipient, repeated submit, cancellation or permanent deletion. Build unchanged; no duplicate app gates."
+  },
+  "latestScheduledAutoRefreshWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-scheduled-refresh.mjs", "node scripts/test-scheduled-cancel-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "PzuykIqGj205ySxyTWhRd",
+    "coverage": "Pending/uncertain schedules refresh every 5-30 seconds only while visible. Actual effect callback tested with synthetic timers: empty/authorization states do not poll, hide stops timers, visibility restores refresh, in-flight reads/cancels suppress refresh, cleanup rejects late timer callbacks. Server-confirmed queue removal only, no client-inferred delivery.",
+    "limitations": "No real timed submission/delivery in this work unit. Existing locale gate reused because catalog inputs unchanged; no meaningful distinct optimized mode for Node callback tests."
+  },
+  "latestSharedSearchBoundaryChecks": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-shared-search-route.mjs", "npx eslint scripts/test-shared-search-route.mjs"],
+    "exitCodes": [0, 0],
+    "coverage": "Actual GET route executed with synthetic dependencies: mock/config stop before session access, UUID/position/search limits rejected before upstream forwarding, missing session 401, selected account/folder and trimmed Unicode query preserved, 400/401/403/429/502/503 mapped without internal detail leakage, all responses no-store.",
+    "liveAnonymousChecks": [{"path": "/api/mail/health", "httpStatus": 200, "status": "ok", "cacheControl": "no-store"}, {"path": "/api/mail/shared-messages", "httpStatus": 401, "status": "unauthorized", "cacheControl": "no-store"}],
+    "limitations": "No real permission revocation, session expiry, MFA or outage injection. Script/docs only; application build YrGyVq6cbpx_oisS03u9X remains unchanged and exists, not rebuilt."
+  },
+  "latestSharedSearchWorkUnit": {
+    "date": "2026-10-01",
+    "scope": "Selected shared account and selected folder search. Existing parser and Email/query reused; personal global search unchanged.",
+    "checks": ["selective read/search adapter", "shared mutation race", "search parser", "check:locales", "lint", "changed-component eslint", "check:locale-usages (1800 calls)", "build"],
+    "buildId": "YrGyVq6cbpx_oisS03u9X",
+    "mobileEvidence": "360x800: one search form, no document horizontal overflow, filtered synthetic result visible; viewport reset and temporary tab closed. Proof: live-shared-search-mobile.png.",
+    "liveEvidence": "Shared subject search returned one existing synthetic message; invalid syntax displayed translated validation; Korean/special-character unmatched query showed empty list; blank submit restored both synthetic rows.",
+    "resume": "Initial added test inherited legacyFullList fixture state; reset fixture and resumed failed test only. First UI found sidebar.search missing key; changed to existing nav.search, reran changed-file lint/translation-reference check and invalidated build.",
+    "limitations": "No all-folder shared search, URL search persistence, actual MFA/expiry/rights faults or timed-delivery completion. No send/delete/move/config/server change."
+  },
+  "latestSharedReadRecoveryFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes",
+    "evidence": "Shared account list and read/write/send rights visible; existing synthetic attachment test message HTML body and account-scoped attachment link loaded successfully.",
+    "scope": "Read-only follow-up; no send, move, deletion, deployment or config change. Earlier 503 diagnosis is historical, not current shared-read availability.",
+    "newGap": "LiveSharedMailboxes has no search control. LiveMailSearch does not pass shared accountId in list/detail requests. Shared search frontend integration remains incomplete; server support not disproven.",
+    "remaining": "Actual timed delivery, MFA, expired-session and permission-fault verification remain separate. Documentation-only update; app gates not repeated."
+  },
+  "latestConnectionDiagnosis": {
+    "date": "2026-10-01",
+    "configuredApiOrigin": "http://127.0.0.1:6711",
+    "configSource": ".env.development.local; origin fields only inspected, file unchanged",
+    "currentHealth": {"httpStatus": 503, "status": "retryable"},
+    "local6711Netstat": "No matching TCP listener",
+    "remoteReadOnlyProbe": "SSH BatchMode + StrictHostKeyChecking; ss -ltn filter sport=7531 on 192.168.0.109 returned header only, exit 0",
+    "temporaryForward": "Own recovery SSH PID 64220/session 37101 briefly listened on 127.0.0.1:7531; channel reported remote connection refused. Stopped via session interrupt, exit 1. No other process stopped.",
+    "correction": "Earlier Get-NetTCPConnection suppressed Access denied; its claimed listenerCount 0 was not valid evidence. Actual configured local port is 6711, not the default 7531. Current direct netstat/remote ss observations supersede that inference.",
+    "resume": "User restores remote API service and intended local 6711 tunnel/access path. No daemon, firewall, database or env changes performed; no mail submitted."
+  },
+  "latestRuntimeUnavailableFollowUp": {
+    "date": "2026-10-01",
+    "intendedCheck": "Timed self-delivery from existing approved shared test account; no submission made",
+    "browser": "Temporary tab 15 /ko/mailboxes shows retryable server-unavailable page; retry link returns same state",
+    "health": {"target": "http://127.0.0.1:7540/api/mail/health", "httpStatus": 503, "status": "retryable"},
+    "localApiListener": {"port": 7531, "listenerCount": null, "validEvidence": false, "reason": "Access denied was suppressed; see latestConnectionDiagnosis"},
+    "interpretation": "Earlier health 200 is historical, not current. The original no-local-7531-listener inference was invalid and used the default rather than configured port; latestConnectionDiagnosis supersedes it.",
+    "cleanup": "Temporary tab 15 closed; no mail, account, config, process or deployment mutation.",
+    "resume": "Restore configured API/tunnel connectivity before timed delivery verification. MFA account remains a separate prerequisite. App inputs unchanged; no duplicate tests/build."
+  },
+  "latestRuntimeReadOnlyFollowUp": {
+    "date": "2026-10-01",
+    "checks": [
+      {"target": "http://127.0.0.1:7540/api/mail/health", "httpStatus": 200, "status": "ok", "cacheControl": "no-store"},
+      {"target": "http://127.0.0.1:7540/api/mail/session", "credentials": "none", "httpStatus": 401, "authenticated": false, "mode": "live", "cacheControl": "no-store"}
+    ],
+    "limitations": "Health through Next.js proves current upstream connectivity, not login, deployed Email/get projection, MFA, expired authenticated session or permission faults. No authenticated request or server/config mutation."
+  },
+  "latestLoginSubmissionLockWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-login-submit-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "1IZ5cSpo1Qs8M423voWGl",
+    "coverage": "Login handler now uses synchronous submission ref and disables username/password/MFA inputs during request. Actual AST-extracted callback checked for immediate duplicate submit, successful locale redirect/credential clearing, MFA challenge/code, 401/403/429/503, malformed success and network failure. Live flow makes no localStorage write; mock flow remains independent.",
+    "limitations": "Synthetic credentials/responses only; not real MFA or account expiry. Locale catalogs and server contracts unchanged, no duplicated locale gate. Node tests have no meaningful separate optimized configuration."
+  },
+  "latestSessionGateEffectWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-live-session-gate.mjs", "npx eslint scripts/test-live-session-gate.mjs"],
+    "exitCodes": [0, 0],
+    "coverage": "Actual LiveSessionGate useEffect callbacks extracted through TypeScript AST. SSR initial authentication reused without fetch, navigation check stays in background, 401 redirects, 403/429/502/503/network classified separately, malformed success rejected, changed account forces SSR reload, unmounted fetch and pending JSON ignored, hidden/foreground polling throttled and listeners cleaned up.",
+    "limitations": "Synthetic responses only, not real MFA/expired-session/permission-fault verification. Application inputs unchanged, no rebuild or duplicated locale gate. Node script has no meaningful separate optimized mode."
+  },
+  "latestComposeConfirmationDismissalWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-compose-submit-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "hnao0w05gdxf2hidrElRv",
+    "coverage": "Actual confirmation cancel/discard callbacks cannot dismiss or close during upload or submission, including synchronous refs before rerender. Idle cancel/discard remains available. Existing send/draft race cases pass.",
+    "limitations": "Synthetic handler tests, not actual server failure injection. Locale catalogs and server contracts unchanged; locale checks not duplicated. Node test has no meaningful distinct optimized mode."
+  },
+  "latestWorkspaceGeometryBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/[locale]; read-only business route checks",
+    "verifiedLocales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "routes": ["", "calendar", "contacts", "approvals", "quarantine", "search", "settings", "rules", "security", "accessibility", "shortcuts", "mailboxes", "files"],
+    "viewports": [[1280, 800], [360, 800]],
+    "verifiedChecks": 260,
+    "latestResumedChecks": 70,
+    "geometryFailures": 0,
+    "criteria": "Single visible GXWebMail brand, no brand clipping, no document horizontal overflow, no overlapping header buttons/inputs/links, one main element, matching document language.",
+    "capturedConsoleWarningsOrErrorsAfterRecovery": 0,
+    "remainingLocales": [],
+    "resume": "Japanese remaining nine routes and both Chinese locales passed 70 checks after recovery. Earlier 190 checks were reused; timed-out unreported results were never counted. Compose-only confirmation dismissal guards do not affect these closed-compose route checks.",
+    "cleanup": "Agent tabs 12, 13 and 14 closed and viewport override reset; user tab retained. No mail opened or data mutated by geometry checks.",
+    "limitations": "Initial route geometry only; not full API functionality, all menu/modal/detail interactions or complete hydration audit. Latest captured console count covers the resumed 70-check session, not all historical sessions. No application edits or repeated build/test gates in the final geometry work unit."
+  },
+  "latestSharedLocaleBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/[locale]/mailboxes; existing shared test account; reads only",
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "viewports": [[1280, 800], [360, 800]],
+    "checks": 20,
+    "folderTranslationMatches": 20,
+    "singleVisibleBrandChecks": 20,
+    "documentHorizontalOverflow": 0,
+    "brandClipping": 0,
+    "consoleWarningsOrErrors": 0,
+    "cleanup": "Agent temporary tab closed; viewport override reset. No message opened or account/mail mutation.",
+    "limitations": "Shared account Inbox folder-list geometry only, not every business route, all interactions, dropdown geometry, text overlap or full hydration audit. Catalog/application inputs unchanged; prior build XAiJ6pev6iELf0X-RvoLK verified, no duplicate gates.",
+    "proof": "live-shared-locales-mobile.png"
+  },
+  "latestComposeUploadDraftLockWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-compose-submit-race.mjs", "node scripts/test-upload-receipt.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "XAiJ6pev6iELf0X-RvoLK",
+    "coverage": "Synchronous upload ref blocks duplicate upload, send, draft save and close during upload before rerender. Draft and send share submission ref; duplicate draft save/send blocked. Actual component handlers exercised with successful draft receipt and lost draft response.",
+    "resume": "Initial expanded draft test failed because its success fixture omitted required draftId; corrected fixture and reran the failed test. Prior upload cases remained valid; upload test was rerun only after adding duplicate-upload coverage.",
+    "limitations": "Synthetic asynchronous handler evidence only; no actual live fault injection or new send. No server or locale changes; no meaningful separate optimized Node test mode."
+  },
+  "latestUploadReceiptWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-upload-receipt.mjs", "node scripts/test-upload-failures.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "dvJptfVJuU-U7rAwPddPK",
+    "coverage": "Client upload receipt requires stored byte count equal to selected file size, same name, valid upload blob ID and nonblank type. Actual addFiles function checked for successful upload, malformed receipt, 403 and 503; failed names retained and upload busy state released.",
+    "sourceHashes": {
+      "components/compose/ComposeModal.tsx": "17DCB652024B6AEA26304E11CCCA66E2B3AF35C41012E790ECA640A11D3D6302",
+      "lib/tastemail/upload-receipt.ts": "03036938A701CBDB25330E9BFE6E71DDDBCDD23E857CE18E6499BE3ABCBA131E",
+      "scripts/test-upload-receipt.mjs": "D461DDA46D8C377D202BBF674864C0C7AB3771D09A686F409380A1178C5A3A7F"
+    },
+    "limitations": "Synthetic malformed/failure responses only; no injected live faults or additional live send. Rust upload contract and same-origin receipt checked from source. No server or locale catalog changes; catalog check not repeated. No meaningful separate optimized Node test mode."
+  },
+  "latestSharedAttachmentBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes; shared test account share@tastedev.net to itself only",
+    "syntheticMarker": "GXWebMail shared attachment 20261001-01",
+    "fixture": "scripts/shared-attachment-verification.txt",
+    "sendClicks": 1,
+    "uploadedBytes": 120,
+    "downloadedBytes": 120,
+    "sha256": "4D5B1EC920FA0511073C6E72EAD15BF716EFC0B99DEF7D06DBE60972C4553EEA",
+    "downloadMatchesFixture": true,
+    "matchingReceivedCountAfterReload": 1,
+    "matchingSentCountAfterReload": 1,
+    "sentAndReceivedBodyMatches": true,
+    "consoleWarningsOrErrors": 0,
+    "persistedEffect": "One synthetic self-send retained in shared Sent/Inbox; selected received message auto-marked read. Synthetic downloaded fixture retained in user Downloads. No private mail or external recipient used.",
+    "cleanup": "Agent-created temporary tab closed; user tab untouched.",
+    "limitations": "Download observation took about 172 seconds end-to-end; this does not isolate API/download transfer latency. No large/multiple attachments, upload failure, scheduling, permission denials, MFA or permanent deletion. Application inputs unchanged, existing R8w6Ayjc4HzVwWQqSWRcq build verified; no duplicate build/lint.",
+    "proof": "live-shared-attachment-self-send.png"
+  },
+  "latestSharedMoveBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes; shared test account share@tastedev.net",
+    "syntheticMarker": "GXWebMail shared draft 20261001-01",
+    "roundTrips": ["Inbox to Archive to Inbox", "Inbox to Junk to Inbox", "Delete to Trash then restore to Inbox"],
+    "matchingReceivedCountAfterReload": 1,
+    "bodyPreservedAfterReload": true,
+    "consoleWarningsOrErrors": 0,
+    "persistedEffect": "Synthetic received copy returned to Inbox, still read and unstarred. Existing account-creation message and personal mail untouched.",
+    "limitations": "No permanent deletion, permission changes, attachments, scheduling, MFA or live fault injection. Folder badges are unread counts, not total message counts.",
+    "proof": "live-shared-move-restored.png"
+  },
+  "latestMailboxLabelWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-mailbox-label.mjs", "node scripts/test-live-search-page.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "R8w6Ayjc4HzVwWQqSWRcq",
+    "coverage": "Common system-role labels in shared navigation, shared move options and search result metadata; six roles, junk alias and custom-name fallback checked in ten locales. Korean shared UI and move menu verified live.",
+    "limitations": "No changed API or locale catalogs. Ten-locale helper checks are not ten-locale GUI regression. No meaningful separate optimized Node test mode."
+  },
+  "latestSharedSelfSendBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes; confirmed test session; share@tastedev.net to itself only",
+    "syntheticMarker": "GXWebMail shared draft 20261001-01",
+    "sendClicks": 1,
+    "matchingSentCount": 1,
+    "matchingReceivedCount": 1,
+    "receivedBodyMatchesEditedDraft": true,
+    "previousDraftRemovedAfterAcceptance": true,
+    "starPersistedAfterReload": true,
+    "unstarPersistedAfterReload": true,
+    "consoleWarningsOrErrors": 0,
+    "persistedEffect": "One self-send from shared test account; sent and received copies retained. Synthetic received mail opened/marked read, star toggled then restored false. Existing account-creation message and personal mail unchanged.",
+    "limitations": "Waited for editor body DOM initialization before send. No external recipients, attachments, scheduling, live fault injection, permission changes, irreversible deletion or MFA. No application change or repeated build/lint. User tab retained."
+  },
+  "latestSharedDraftBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes; confirmed test session; shared address share@tastedev.net",
+    "syntheticMarker": "GXWebMail shared draft 20261001-01",
+    "checks": ["Create shared-account draft", "Reopen saved detail", "Edit and replace draft", "Reload page and select shared account again", "One matching draft remains", "Edited preview and editor body retained", "Title and shared address restored"],
+    "matchingDraftCountAfterReload": 1,
+    "consoleWarningsOrErrors": 0,
+    "persistedEffect": "One synthetic shared draft retained. Recipient is the shared account itself; no send performed. Opening the synthetic draft auto-marked it read; existing account-creation message and personal mail unchanged.",
+    "cleanup": "Last editor closed without saving unchanged content; source confirms this action only closes editor, does not delete persisted draft. User tab retained.",
+    "limitations": "Editor hydration initially returned false from early DOM text inspection, but actual populated text was subsequently confirmed. No attachment/send/permission expansion, permanent deletion, live faults or MFA verification. No application changes; prior build still exists and no repeated build/lint."
+  },
+  "latestSharedMailboxBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540/ko/mailboxes; test account confirmed from profile UI",
+    "accountVisible": true,
+    "displayedRights": ["read", "write", "send"],
+    "folderChecks": {"inbox": 1, "drafts": 0, "sent": 0},
+    "consoleWarningsOrErrors": 0,
+    "limitations": "Account and folder list reads only. No message opened, auto-read mutation, draft, send, move, delete or permission changes. One displayed rights combination only, not actual write/send authorization or forbidden combinations. User tab preserved. Shared account absence is no longer a blocker; MFA still unverified."
+  },
+  "latestWorkUnit": {
+    "name": "Search response projection validation",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-live-search-page.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "_MRC66cuiIRRefjuKw4k3",
+    "coverage": "Same-origin search page fields checked before rendering; valid/empty summaries accepted, invalid pagination/message/attachment fields rejected; actual parser and aborted success/error callbacks tested.",
+    "limitations": "No raw JMAP/API/authentication changes. Synthetic checks do not prove real delayed response ordering or all-language search GUI. Locale catalogs unchanged; no duplicate catalog structure gate. No separate meaningful optimized Node test mode."
+  },
+  "previousApprovalMutationWorkUnit": {
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-approval-mutation-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "JZwQcSIfEWexg_MyHr1IT",
+    "sourceHashes": {
+      "components/approvals/LiveApprovals.tsx": "0CA26A463E77978CFB62A1C1956B9B5F7D4DEBBD6FA4D204F423A1CCBA2F30CC",
+      "scripts/test-approval-mutation-race.mjs": "BEF465366B039DADDCB62ED954794A55BFC1569CD93706120C4BA129D72FA057"
+    },
+    "coverage": "Actual creation/decision callbacks: shared synchronous lock, uncertain retry suppression, confirmed decision lock until fresh list, receipt ID and isMyTurn validation, stale success/error and aborted reads, uncertainty cleared only on fresh resolved decision. Form editing disabled during mutations. Decision refresh retains list.",
+    "limitations": "Synthetic callback checks only, no actual create/approve/reject or injected live faults. No separate meaningful optimized Node test mode. Server API, authentication and locale catalogs unchanged. Prior scheduled work unit remains historical evidence, not the latest build."
+  },
+  "latestAuxiliaryLayoutBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540; test account confirmed from profile UI",
+    "routes": ["/ko/calendar", "/ko/contacts", "/ko/settings/filters", "/ko/quarantine"],
+    "viewports": [[1280, 800], [360, 800]],
+    "checks": 8,
+    "documentHorizontalOverflow": 0,
+    "brandVisibleChecks": 8,
+    "consoleWarningsOrErrors": 0,
+    "cleanup": "Temporary tab closed and viewport reset; no persisted account/data changes.",
+    "limitations": "Korean page geometry only, not all locale/actions, overlap or complete GUI regression. Does not resolve prior rule draft tab cleanup uncertainty."
+  },
+  "latestUnauthenticatedApiExpansion": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540, no cookies or authorization",
+    "paths": ["/api/mail/mailboxes", "/api/mail/contacts", "/api/mail/events", "/api/mail/shared-mailboxes", "/api/mail/rules", "/api/mail/security", "/api/mail/preferences", "/api/mail/quarantine", "/api/mail/attachments", "/api/mail/submissions", "/api/mail/search", "/api/mail/approvals"],
+    "checks": 12,
+    "failures": 0,
+    "status": 401,
+    "payloadStatus": "unauthorized",
+    "cacheControl": "no-store",
+    "inputs": "Events used 2026-10-01T00:00:00Z to 2026-10-02T00:00:00Z; search q=synthetic; attachment used a syntactically valid all-zero UUID blob ID, not actual user data.",
+    "limitations": "GET checks only, not every detail/write API, actual session expiry, MFA or shared permission combinations. No application changes; no repeated build/lint. Asked whether an MFA-enabled shared-permission test account is ready, without requesting credentials."
+  },
+  "latestUnauthenticatedHttpFollowUp": {
+    "date": "2026-10-01",
+    "target": "http://127.0.0.1:7540, Node fetch without cookies or authorization, manual redirects",
+    "apiPaths": ["/api/mail/session", "/api/mail/messages?folder=inbox"],
+    "apiStatus": 401,
+    "apiCacheControl": "no-store",
+    "workspacePaths": ["/ko", "/ko/settings", "/ko/calendar", "/ko/contacts", "/ko/approvals", "/ko/quarantine", "/ko/search", "/ko/rules", "/ko/security", "/ko/accessibility", "/ko/shortcuts", "/ko/mailboxes", "/ko/files"],
+    "workspaceStatus": 307,
+    "workspaceLocation": "/ko/login",
+    "rootLocales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "rootLocaleRedirectChecks": 10,
+    "failures": 0,
+    "limitations": "Actual unauthenticated HTTP access only; not real session expiry, MFA, forbidden responses, all API/settings-subpage protection or rendered locale GUI regression. No browser session, account, mail, server or application source changed. Document-only checks; no repeated application gates."
+  },
+  "latestQuarantineBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "Local 7540, separate tastedev.net profile confirmed",
+    "coverage": "Live admin-rights notice and empty quarantine result rendered. Captured console warning/error count zero. No release/discard or rights changes.",
+    "consoleWarningsOrErrors": 0,
+    "proof": "live-quarantine-empty.png",
+    "cleanup": "New temporary quarantine tab closed normally; prior rules-tab discard/cleanup remains unconfirmed.",
+    "limitations": "Empty list does not prove forbidden response or resolution behavior. Initial whole-document demo-text check included hidden shared UI and was not used as mode evidence. Application and test hashes plus existing BUILD_ID unchanged; gates not repeated."
+  },
+  "latestRulesBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "Local 7540, profile confirmed separate tastedev.net account",
+    "coverage": "Live rule list loaded with no saved rules. Unsaved synthetic rule added, editor fieldset present and save enabled. Read-only syntax validation of keep; returned Sieve syntax success.",
+    "proof": "live-rule-validation.png",
+    "cleanup": "No rule PUT or filtering changes. Discard click timed out; dialog observation was undefined and subsequent DOM/tab-close timed out. Unsaved draft disposal and temporary tab cleanup not confirmed.",
+    "limitations": "No actual save/reload, pending-write UI lock observation, mobile/locale regression or console audit. Previous synthetic save checks are separate evidence. Application input hashes and BUILD_ID unchanged; gates not rerun."
+  },
+  "latestMockBrowserFollowUp": {
+    "date": "2026-10-01",
+    "buildId": "mPwepT64rmZ_jAOaFkg1N",
+    "target": "Agent-owned production server 127.0.0.1:7552 with GXWEBMAIL_DATA_MODE=mock, existing build reused without recompilation",
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "viewports": [{ "width": 1280, "height": 800 }, { "width": 360, "height": 800 }],
+    "menuChecks": 20,
+    "menuFailures": 0,
+    "consoleWarningsOrErrors": 0,
+    "coverage": "Mock compose badge present, live-only refresh absent, plain-to-rich-to-plain editor retained synthetic text. Desktop menu Home/End, folder submenu, ArrowLeft, Escape and trigger-focus restoration passed. All locale menu panels fit horizontally; no document horizontal overflow and correct lang; 4 desktop actions / 5 mobile buttons.",
+    "cleanup": "Unsaved synthetic composer text discarded through its confirmation; no send/save/upload. Temporary browser tab closed and viewport reset. Ctrl+C did not terminate the agent-owned server; exact listener PID 58384 was stopped, exec session 20799 exited with code 1, and listener absence checked.",
+    "limitations": "No full business-screen/action regression, delayed inline-image browser test or live MFA/shared-rights/fault/scheduled-delivery evidence. Initial automation used the wrong tuple field and navigated to /undefined; corrected using the known locale tuple structure, not treated as an application bug."
+  },
+  "latestBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "Local 7540, profile confirmed as separate tastedev.net test account, existing synthetic CID-forwarded mail",
+    "coverage": "Manual refresh button present and clickable. Once HTML frame was ready, refresh retained 23 list rows, selected synthetic subject, and identical frame body text. Six quota rows remained present during observations.",
+    "consoleWarningsOrErrors": 0,
+    "cleanup": "Temporary tab closed; no viewport override applied",
+    "limitations": "Point-in-time DOM observations do not prove every intermediate paint, actual external-client new-mail arrival, server response latency or injected failures. No explicit flag/move/delete/send actions; opening a message uses the normal auto-read flow.",
+    "sourceHashes": {
+      "context/mail-context.tsx": "EF4A631578C288104178C09F034E72FF98C8735DC59C5AAE9E652A485B3651E5",
+      "components/mail/MailList.tsx": "D5B42477017784EEA1E4F782E3380BD418F8B74B3C3901ED757663993B7DCA94",
+      "scripts/test-mail-refresh.mjs": "125520244BAC2EDD11CEE2268266A9F26BFA6D7851D0D63E555361B75B5B1DC0"
+    },
+    "existingBuildId": "mPwepT64rmZ_jAOaFkg1N",
+    "gatesNotRerunReason": "Checkpoint documentation only in this follow-up. Application source hashes and existing BUILD_ID confirmed; previous successful implementation gates retained."
+  },
+  "previousLocaleMenuBrowserFollowUp": {
+    "date": "2026-10-01",
+    "target": "Local 7540 live mode, separate tastedev.net test account, existing synthetic CID-forwarded mail only",
+    "locales": ["ko", "en", "de", "es", "fr", "it", "pt", "ja", "zh", "zh-hant"],
+    "viewports": [{ "width": 1280, "height": 800 }, { "width": 360, "height": 800 }],
+    "checks": 20,
+    "failures": 0,
+    "consoleWarningsOrErrors": 0,
+    "coverage": "Document lang matches locale, desktop 4-action menu/mobile 5-button sheet present, panel horizontally fits viewport, document has no horizontal overflow, Escape removes panel",
+    "cleanup": "Temporary tab closed and viewport reset confirmed",
+    "limitations": "No mail state changes. Does not prove all business screens/actions, shared rights, network latency/loss, or concurrent-client recovery. Application inputs unchanged; gates not rerun."
+  },
+  "previousScheduledCancellationWorkUnit": {
+    "name": "Scheduled cancellation uncertainty and stale-read protection",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-scheduled-cancel-race.mjs", "npm run lint", "npm run build", "npm run check:locale-usages"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "BM8iVOD5RLcdrwk3azmko",
+    "sourceHashes": {
+      "components/mail/ScheduledSubmissions.tsx": "3A5A26E725FFE0C0916D079E344E8FDF466C2F8769819FB813AFD8EE20919652",
+      "context/mail-context.tsx": "9D48F796A55E9A226C0EABFD838DA324D1EF277A4A9B5257C15639109C36A9FF",
+      "scripts/test-scheduled-cancel-race.mjs": "913C87B57F711FA3DD2D003F9144BAFBCB61551E55519410F8DC41BAACADC0BC"
+    },
+    "coverage": "Actual cancellation handler blocks duplicate calls, locks lost/malformed/503 results per ID, clears uncertainty only on fresh list absence, and preserves shared account routing. Explicit cannot_cancel and 401/403/429 remain definitive. Stale success/error retries, aborted reads suppressed. Context refresh callback stabilized.",
+    "limitations": "Synthetic callback tests only; no live cancellation/send, injected fault, scheduled-time delivery or pending-cancel browser check. Node tests have no separate meaningful optimized configuration. Existing shared component key isolates account switches. Locale catalogs and server API unchanged; catalog structure gate not repeated, new translation usage checked."
+  },
+  "previousQuarantineMutationWorkUnit": {
+    "name": "Quarantine synchronous resolution lock and stale-read protection",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-quarantine-mutation-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "Mf-hJFKYAnIu8dLyVhFO6",
+    "sourceHashes": {
+      "components/quarantine/LiveQuarantine.tsx": "1452EE47E7C97A11021D1B679A16C2444A0312976F9F24D83C2241AD1FFB40A4",
+      "scripts/test-quarantine-mutation-race.mjs": "85BBC684E3D1F3C77F31BDA9840645384195E2C8D7D8FF4C1135B3085017F359"
+    },
+    "coverage": "Actual release/discard handlers block duplicate calls before rerender and uncertainty locks stale-closure retries. Exact receipt required; explicit conflict and mutation_uncertain distinguished. Review cannot unlock while busy. Old list/detail success/failure retries; aborted reads do not retry. Navigation guarded during resolution.",
+    "limitations": "Synthetic callback checks only; no actual release, permanent discard, rights changes or injected live faults. Existing confirmation UI preserved. Node tests have no meaningful separate optimized configuration. Server API and locale catalogs unchanged."
+  },
+  "previousMailRuleSaveWorkUnit": {
+    "name": "Mail rule save and editor synchronous locking",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-mail-rule-save-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "NgUBqkwBl0nJUFWd_8JXQ",
+    "sourceHashes": {
+      "components/settings/LiveMailRules.tsx": "ABABD4D34EA67BEFF55538C7A55151EAD014E2FAD2627B31FD97CDF303D90B80",
+      "scripts/test-mail-rule-save-race.mjs": "44267CAC1FB49FA6272C41DD082E307C349F4AEDD90B4A43F4115D059E1BBFFB"
+    },
+    "coverage": "Actual handlers block duplicate save and update/add/reorder while pending. Lost response, malformed result and conflict lock retries even through an old closure. Definite input rejection restores editing; declined confirmation makes no request. Editor fieldset disabled while saving or uncertain.",
+    "limitations": "Synthetic callbacks and static fieldset evidence only; no live rule replacement or mail filtering effect tested. No separate meaningful optimized Node test configuration. API and locale catalogs unchanged."
+  },
+  "previousCalendarMutationWorkUnit": {
+    "name": "Calendar synchronous mutation lock and per-event uncertainty retention",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-calendar-mutation-race.mjs", "npm run lint", "npm run build", "npx eslint components/calendar/LiveCalendar.tsx", "npm run build"],
+    "exitCodes": [0, 0, 1, 0, 0],
+    "buildId": "Im6OFciRDIzr3ppiVGJQO",
+    "sourceHashes": {
+      "components/calendar/LiveCalendar.tsx": "BBE3A788348F933960C8C70ACB9F853DF02D1361013896E5E0B4FE344D5BDEA7",
+      "scripts/test-calendar-mutation-race.mjs": "4EA72578BECB310D32E407857A52019927D44080F690845B8E1EAA349781E548"
+    },
+    "coverage": "Actual save/cancel/RSVP handlers block duplicate requests before rerender; response loss and malformed receipts retain synchronous locks; multiple uncertain event IDs remain locked independently. Definitive conflict releases busy. Stale read success/failure retries, abort suppresses retry, and attendee notification confirmation remains required.",
+    "resume": "First build failed on a remaining singular uncertainEventId JSX reference. Replaced it with the plural collection check, ran affected-file ESLint and resumed the failed build. Tested handler bodies unchanged by that JSX fix; successful callback checks retained.",
+    "limitations": "Synthetic callback evidence only. No real invitation, cancellation, RSVP, injected network fault or concurrent-client change. Node tests have no meaningful separate optimized configuration. Server API and locale catalogs unchanged."
+  },
+  "previousContactMutationWorkUnit": {
+    "name": "Contact synchronous mutation lock and stale-read protection",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-contact-mutation-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "fgwcRi4MZBYzFUmnKHa_7",
+    "sourceHashes": {
+      "components/contacts/LiveContacts.tsx": "90046381779B88CEBAF82178FA975B0D1DF3440BBFD864AFC50F6C030611DC0B",
+      "scripts/test-contact-mutation-race.mjs": "61373C4B61702CC6774EC6346583C6010B77CCD1EB5DD1F1885C9F9331B186E0"
+    },
+    "coverage": "Actual save/delete handlers block duplicate calls before React rerender; synchronous uncertainty ref blocks stale-closure retries after response loss; malformed non-204 deletion is uncertain; definitive conflict releases busy without updating contacts; old read success/failure retries and aborted reads do not retry.",
+    "resume": "Initial test extracted response.json catch instead of the list failure callback. Fixed callback selection and resumed the failed test; successful application gates ran once afterwards.",
+    "limitations": "Synthetic callbacks only; no real contact deletion, live network fault or concurrent-client mutation. Existing browser records predate this contact change. Node tests have no distinct optimized test configuration. Server API and locale catalogs unchanged."
+  },
+  "previousMailboxRefreshWorkUnit": {
+    "name": "Personal mailbox manual background refresh",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-mail-refresh.mjs", "node scripts/test-mail-flag-race.mjs", "node scripts/test-mail-view.mjs", "node scripts/test-mailbox-usage.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0, 0, 0, 0],
+    "buildId": "mPwepT64rmZ_jAOaFkg1N",
+    "coverage": "Actual refresh callback reloads live page and summary through loadAttempt without clearing selection, cached bodies, pagination or quota; mock does not initiate refresh. Existing page-retention and stale-flag regression checks pass.",
+    "limitations": "No browser verification of the new button or actual external-client new-mail arrival in this work unit. Historical browser results above predate this change. No server restart, deployment or mail mutation."
+  },
+  "previousComposeSubmitWorkUnit": {
+    "name": "Real composer submit handler duplicate and uncertain-response checks",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-compose-submit-race.mjs", "npx eslint scripts/test-compose-submit-race.mjs"],
+    "exitCodes": [0, 0],
+    "existingBuildId": "xbQo84S_SzfPZ6paObExl",
+    "buildNotRunReason": "Test script and checkpoint documentation only; application compilation inputs unchanged in this work unit. Existing BUILD_ID file checked, not a complete artifact fingerprint audit.",
+    "sourceHashes": {
+      "components/compose/ComposeModal.tsx": "2B60B875D30A2BD874AA1A0CC72A2F8632BFAEAC6803E8A092A403BE55B993BE",
+      "lib/tastemail/client-session-status.ts": "FF98437D7A1463EE1FD31E390C7A5D072C9C332DAE0AAF9C582F0E83E33193A4",
+      "scripts/test-compose-submit-race.mjs": "F4D6FE52A93824541E2C80783878706CD6DB081DC05155254F0DA2F881C4FC6A"
+    },
+    "liveEvidence": "No real send/save. Empty composer inspected and closed in a temporary local test-account tab. Actual source handlers plus real compose receipt classifier passed synthetic duplicate clicks, response loss/5xx/malformed receipt/draft uncertainty locks, definitive rejection, guards and scheduled/shared routing. Actual scheduled delivery and real network failures remain unverified.",
+    "reuseRequires": "Matching handler, receipt-classifier and test source hashes plus Node/TypeScript runtime for this callback test. No claim that script checks prove real server queue delivery."
+  },
+  "previousSharedRaceWorkUnit": {
+    "name": "Shared mailbox stale read protection after write settlement",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-shared-mail-flag-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "xbQo84S_SzfPZ6paObExl",
+    "sourceHashes": {
+      "components/mail/LiveSharedMailboxes.tsx": "423D82C11EC4DCA59326D026A5B3D025B85115061E4E737D915ADACA5BE6A3E6",
+      "scripts/test-shared-mail-flag-race.mjs": "9BF47B051BFCD60814B37112726AC9D817430FCD6497DCB1CE03EE33159DC08E"
+    },
+    "liveEvidence": "No live writes. Actual shared-mail component handlers executed with synthetic responses to verify write-right denial, confirmed and uncertain settlements, stale success/error retries, and aborted-request suppression. Real shared-account permissions and concurrent-client/network-fault behavior remain unverified.",
+    "reuseRequires": "Matching tested source and script hashes for the callback test; complete build inputs and intact artifacts for build reuse. No current complete build fingerprint recorded; historical fingerprints are not proof of this snapshot."
+  },
+  "previousPersonalFlagWorkUnit": {
+    "name": "Confirmed flags invalidate pre-confirmation mailbox reads",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-mail-flag-race.mjs", "npm run lint", "npm run build"],
+    "exitCodes": [0, 0, 0],
+    "buildId": "Jzm7oWDdogWDTB8twaKx7",
+    "sourceHashes": {
+      "context/mail-context.tsx": "5B9A121DDD771BD261A44A9C3A8B1DAAB5575084BCCBC2A534E8EFF2D3270BBA",
+      "scripts/test-mail-flag-race.mjs": "B1E47AAA265FC7C7049C225B3246E423B8B3CF29518FBFCC41BC43F13B5B0693"
+    },
+    "liveEvidence": "Actual provider callbacks extracted and run for confirmed/rejected flags, stale page and summary responses, and aborted requests. Live follow-up on local 7540 confirmed the separate tastedev.net test account, then changed only the existing synthetic CID-forwarded mail's star false->true, verified persistence after reload, restored true->false and verified persistence after another reload. List remained mounted during ordinary flag confirmation; collected console warning/error count was zero. Temporary tab closed. Does not prove real network delay/loss or concurrent-client behavior.",
+    "reuseRequires": "Matching tested provider and test source hashes for the callback test; complete build inputs and intact artifacts for build reuse. No current full build-input fingerprint recorded; older fingerprints are historical. Translation strings, catalogs and server API contracts were not changed."
+  },
+  "previousWorkUnit": {
+    "name": "Composer asynchronous image target identity",
+    "date": "2026-10-01",
+    "commands": ["node scripts/test-compose-image-race.mjs", "npm run lint", "npm run build", "npm run test:mail-adapter"],
+    "exitCodes": [0, 0, 0, 0],
+    "buildId": "uutvhKoSyPKuGWgiKm4iE",
+    "buildInputFingerprint": { "files": 284, "sha256": "95B277BF4805C6F7B90E69C7379171C948A4B4D116979FEB49D3C58727083F89" },
+    "buildIdSha256": "5E021A5528D3F9F26541FB66D1FBF8D6248CE0FB46CDC43D698D632176697C91",
+    "sourceHashes": {
+      "components/compose/ComposeEditor.tsx": "5989305BA94E70FD7805DDA32A81D012C62F5890D8C877D8C9B3FCC5BE3C23A9",
+      "scripts/test-compose-image-race.mjs": "F09BC6BF67EF6DE68462D22D4AC650D4D0A8FDBBC9E38876D669E734FD4319BB"
+    },
+    "liveEvidence": "No live writes in this work unit. Real handler extracted from TSX and executed with synthetic delayed upload/FileReader: stale targets, detached editor and failed uploads insert nothing; normal live/mock inserts once. Prior real CID forwarding evidence remains recorded in the Markdown checkpoint, not a browser race reproduction.",
+    "reuseRequires": "Matching complete build inputs and dependencies/runtime/configuration, intact production artifacts; prior gates below retain their original input scope and are not proof of this latest source snapshot"
+  },
+  "scope": "Pure helpers, source-level mail contracts, production compilation and synthetic loopback HTTP regression; no real account mutations",
+  "gates": [
+    {
+      "commands": ["npm run check:locales", "npm run check:locale-usages"],
+      "exitCode": 0,
+      "coverage": "2617 catalog keys across 10 locales and 1791 literal translation calls; dynamic calls and translation quality are not covered",
+      "inputFingerprint": {
+        "files": 263,
+        "sha256": "27160D08E0C1D804C5D7248668D14225A9F9644D254C91013D326BD38D17ED22",
+        "algorithm": "PowerShell Sort-Object over rg --files messages app components context lib matching json,ts,tsx plus scripts/check-locales.mjs,scripts/check-locale-usages.mjs,package.json,package-lock.json; join path:uppercase file SHA256 records with LF and SHA256 UTF8 bytes",
+        "reuseRequires": "Same file collection, inputs, Node runtime and installed TypeScript"
+      }
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "coverage": "Next.js 16.3.4 production compilation, TypeScript and 371 generated static pages",
+      "buildId": "Ve8fzHE3OSuPvQ3gQz2SL",
+      "inputFingerprint": {
+        "files": 284,
+        "sha256": "7C3E4D5AAA668564F419F74764789E03579449975B23521FB9BC016B41CBA533",
+        "algorithm": "PowerShell Sort-Object over rg --files app components context i18n lib messages public types plus next.config.ts,next-env.d.ts,package.json,package-lock.json,postcss.config.mjs,proxy.ts,tsconfig.json; join path:uppercase file SHA256 records with LF and SHA256 UTF8 bytes",
+        "reuseRequires": "Same inputs, dependencies, compiler, build flags and environment; verify full required artifacts, not only these manifests"
+      },
+      "artifacts": {
+        ".next/BUILD_ID": "03EF835A5E33C69756C89FFBEDAE365025C4ADC963094B8AADFB4BC89783894B",
+        ".next/routes-manifest.json": "3E478E3013A4AAF8718223C06E31DCA761D9226A1A6235F5C2D60283D6A56B05",
+        ".next/server/app-paths-manifest.json": "FA6AB9D28C45457C9E096B88E59D3ED4D69D5413F458BDE628D1A6AE7437E552"
+      }
+    },
+    {
+      "command": "npm run test:mail-adapter",
+      "exitCode": 0,
+      "coverage": "Compiled Next.js synthetic loopback session and JMAP read/write regression, including separate mock/live processes",
+      "buildId": "Ve8fzHE3OSuPvQ3gQz2SL",
+      "inputs": {
+        "scripts/verify-tastemail-adapter.mjs": "8404AD58F82A255BA621F10B86A737B89A407AEC0CF898C28B130455D38B58F0"
+      },
+      "reuseRequires": "Same compiled build, fixture inputs, installed dependencies and runtime; no real MFA or deployment proof"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "coverage": "Full repository ESLint after personal/shared detail merge and HTML frame resize changes",
+      "inputFingerprint": {
+        "files": 293,
+        "sha256": "BDD1C6371DC75972EC7D3B5875DA69D12FCFF3643C6C36267D662D04C55FFBA3",
+        "algorithm": "PowerShell Sort-Object over rg --files matching ts,tsx,js,jsx,mjs,cjs,mts,cts,package.json,package-lock.json,tsconfig.json; join relative forward-slash path:uppercase file SHA256 records with LF and SHA256 their UTF8 bytes",
+        "reuseRequires": "Same file collection and fingerprint, installed dependencies, Node runtime and ESLint configuration"
+      }
+    },
+    {
+      "command": "node scripts/test-live-mail-selective-read.mjs",
+      "exitCode": 0,
+      "coverage": "Personal/shared summary and detail flags; legacy full-body response; real session validator; shared read denial makes no JMAP request; mismatched ID and missing body rejection",
+      "inputs": {
+        "scripts/test-live-mail-selective-read.mjs": "87705260F95ECC4A989D9C1054B0A8AA1DA79D43EA5F4EF66281CD159E9748EE",
+        "lib/tastemail/mail.ts": "A70ADA9D532C975067CAEE22F21B0000A3A25E576B519EF72B32827525468379",
+        "lib/tastemail/session-contract.ts": "1149197753D864D3D87D48662920D8E73B03BE2A7F60496122678F243AF22F30"
+      }
+    },
+    {
+      "command": "node scripts/test-client-session-status.mjs",
+      "exitCode": 0,
+      "coverage": "HTTP error precedence; uncertain compose success and 5xx; mail/calendar receipts; login MFA status classification",
+      "inputs": {
+        "lib/tastemail/client-session-status.ts": "FF98437D7A1463EE1FD31E390C7A5D072C9C332DAE0AAF9C582F0E83E33193A4",
+        "scripts/test-client-session-status.mjs": "97297037949FFCAC5970D4A40E0FE4EEF81B4008F640C6A6A04EE386D86838C8"
+      }
+    },
+    {
+      "command": "node scripts/test-mail-mutation-queue.mjs",
+      "exitCode": 0,
+      "coverage": "Per-message serialization; duplicate suppression; failure continuation; visible pending state",
+      "inputs": {
+        "lib/tastemail/mutation-queue.ts": "FD671090EB100B2F5C500C17E737E61BB63FDE80A06BE7B9976E32333AA7E598",
+        "scripts/test-mail-mutation-queue.mjs": "63DC7D5D41215836272266483846405F33CE3436E79A931D1179F6DE6D02BB7E"
+      }
+    },
+    {
+      "command": "node scripts/test-mailbox-usage.mjs",
+      "exitCode": 0,
+      "coverage": "Confirmed and pending usage projection; removal of a pending move; preserving other pending changes; invalid snapshots",
+      "inputs": {
+        "lib/mailbox-usage.ts": "394ACDF89FA947570696AD03873AFC5958AA8474B18B5DD5EC6F4156FDF02D41",
+        "scripts/test-mailbox-usage.mjs": "8330ADFBE276F11FE7BB38FC1F184D81EB0ED344350086BDA17EDC0F79B2E11E"
+      }
+    }
+  ],
+  "warnings": ["Node emitted MODULE_TYPELESS_PACKAGE_JSON when importing TypeScript ESM; gates still exited successfully"],
+  "reuse": "Compare every listed SHA-256 and runtime before reusing a result. Changes to callers still need their own checks.",
+  "notProven": ["Browser rollback after a real service failure", "Real MFA challenge", "Elapsed valid-session expiry", "Actual denied/read-only shared rights", "Actual remote logout revocation", "External delivery and actual send failure", "Personal due-time delivery and post-due absence of canceled reservation", "Full mock/live interaction regression beyond initial geometry"]
+}

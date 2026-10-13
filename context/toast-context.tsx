@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
+import { SystemErrorToasts, type SystemErrorAction } from "@/lib/system-error-toasts";
 import { useTranslations } from "next-intl";
 import type { ToastItem, ToastTone } from "@/types/overlay";
 
@@ -16,6 +10,8 @@ import type { ToastItem, ToastTone } from "@/types/overlay";
 const AUTO_DISMISS_MS: Record<ToastTone, number | null> = {
   success: 4000,
   info: 4000,
+  warning: 8000,
+  notice: 6000,
   undo: 8000,
   error: null,
 };
@@ -36,8 +32,11 @@ interface ToastContextValue {
   success: (title: string, opts?: PushOptions) => string;
   error: (title: string, opts?: PushOptions) => string;
   info: (title: string, opts?: PushOptions) => string;
+  warning: (title: string, opts?: PushOptions) => string;
+  notice: (title: string, opts?: PushOptions) => string;
   undo: (title: string, onAction: () => void, opts?: Omit<PushOptions, "onAction" | "actionLabel">) => string;
   dismiss: (id: string) => void;
+  acquireSystemError: (message: string, action: SystemErrorAction) => () => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -79,15 +78,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     [dismiss]
   );
 
+  const systemErrors = useRef<SystemErrorToasts | null>(null);
+  const acquireSystemError = useCallback((message: string, action: SystemErrorAction) => {
+    systemErrors.current ??= new SystemErrorToasts((title, options) => push("error", title, options), dismiss);
+    return systemErrors.current.acquire(message, action);
+  }, [push, dismiss]);
   const value: ToastContextValue = {
     toasts,
     push,
     success: (title, opts) => push("success", title, opts),
     error: (title, opts) => push("error", title, opts),
     info: (title, opts) => push("info", title, opts),
+    warning: (title, opts) => push("warning", title, opts),
+    notice: (title, opts) => push("notice", title, opts),
     undo: (title, onAction, opts) =>
       push("undo", title, { ...opts, actionLabel: t("undo"), onAction }),
     dismiss,
+    acquireSystemError,
   };
 
   return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;

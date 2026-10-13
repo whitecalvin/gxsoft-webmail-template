@@ -1,14 +1,14 @@
 import { loadLiveAddressSuggestions } from "@/lib/tastemail/contacts";
 import { contactJson as json } from "@/lib/tastemail/contact-route";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);

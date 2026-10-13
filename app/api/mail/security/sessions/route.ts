@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { revokeLiveSecuritySessions, SecurityServiceError } from "@/lib/tastemail/security";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -11,7 +11,7 @@ function json(data: object, status = 200) {
 
 function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
@@ -27,7 +27,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export async function DELETE(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch { return json({ status: "configuration_error" }, 503); }
   const token = await tastemailSessionToken();

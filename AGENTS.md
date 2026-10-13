@@ -7,3 +7,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## UI tooltips
+
+- Use the shared `components/ui/Tooltip.tsx` for all user-facing tooltips, including new features and changes to existing hints.
+- Do not use HTML `title` attributes for user-facing tooltips. Keep accessible names on controls via `aria-label` or visible labels.
+- Preserve flex sizing and interaction handlers when wrapping a control. The shared portal tooltip handles theme colors and clipping; do not create a separate native or page-local tooltip implementation.

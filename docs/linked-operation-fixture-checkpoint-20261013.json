@@ -1,0 +1,15 @@
+{
+  "syntheticOnly": true,
+  "buildId": "oH1oNEwxh151IiOCfk5vF",
+  "phase": "operationAccepted",
+  "counters": {
+    "queueAll": 1,
+    "resumePartial": 1,
+    "pause": 1,
+    "resume": 1,
+    "recover": 1
+  },
+  "userPaused": false,
+  "controlRevision": 3,
+  "operations": 4
+}

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { MailServiceError } from "@/lib/tastemail/mail";
 import { QuarantineActionError, QuarantineOutcomeUncertainError, resolveLiveQuarantine, type QuarantineAction } from "@/lib/tastemail/quarantine";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -23,7 +23,7 @@ function sameOrigin(request: Request): boolean {
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch { return json({ status: "configuration_error" }, 503); }
   const { id } = await params;

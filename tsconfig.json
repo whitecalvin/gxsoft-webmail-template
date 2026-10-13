@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,7 +23,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -28,7 +34,55 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    ".next-live-only-check/types/**/*.ts",
+    ".next-live-only-check/dev/types/**/*.ts",
+    ".next-secure-transport-check/types/**/*.ts",
+    ".next-secure-transport-check/dev/types/**/*.ts",
+    ".next-goal-transport-verify/types/**/*.ts",
+    ".next-goal-transport-verify/dev/types/**/*.ts",
+    ".next-goal-css-verify/types/**/*.ts",
+    ".next-goal-css-verify/dev/types/**/*.ts",
+    ".next-secure-dev/types/**/*.ts",
+    ".next-secure-dev/dev/types/**/*.ts",
+    ".next-folder-manager-center/types/**/*.ts",
+    ".next-folder-manager-center/dev/types/**/*.ts",
+    ".next-mail-membership-fix/types/**/*.ts",
+    ".next-mail-membership-fix/dev/types/**/*.ts",
+    ".next-folder-kind-icons/types/**/*.ts",
+    ".next-folder-kind-icons/dev/types/**/*.ts",
+    ".next-mailbox-icon-picker/types/**/*.ts",
+    ".next-mailbox-icon-picker/dev/types/**/*.ts",
+    ".next-tooltip-clipping/types/**/*.ts",
+    ".next-tooltip-clipping/dev/types/**/*.ts",
+    ".next-icon-packages-emoji/types/**/*.ts",
+    ".next-icon-packages-emoji/dev/types/**/*.ts",
+    ".next-mailbox-menu-open/types/**/*.ts",
+    ".next-mailbox-menu-open/dev/types/**/*.ts",
+    ".next-icon-ssr/types/**/*.ts",
+    ".next-icon-ssr/dev/types/**/*.ts",
+    ".next-account-icons/types/**/*.ts",
+    ".next-account-icons/dev/types/**/*.ts",
+    ".next-icon-preload/types/**/*.ts",
+    ".next-icon-preload/dev/types/**/*.ts",
+    ".next-folder-drag/types/**/*.ts",
+    ".next-folder-drag/dev/types/**/*.ts",
+    ".next-rules-confirmation/types/**/*.ts",
+    ".next-rules-confirmation/dev/types/**/*.ts",
+    ".next-general-settings-webpack/types/**/*.ts",
+    ".next-general-settings-webpack/dev/types/**/*.ts",
+    ".next-gmail-start-validation/types/**/*.ts",
+    ".next-gmail-start-validation/dev/types/**/*.ts",
+    ".next-icon-recovery-validation/types/**/*.ts",
+    ".next-icon-recovery-validation/dev/types/**/*.ts",
+    ".next-admin-parity-validation/types/**/*.ts",
+    ".next-admin-parity-validation/dev/types/**/*.ts",
+    ".next-admin-webpack-validation/types/**/*.ts",
+    ".next-admin-webpack-validation/dev/types/**/*.ts",
+    ".next-admin-turbo-recovery/types/**/*.ts",
+    ".next-admin-turbo-recovery/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,0 +1,3 @@
+GXWebMail synthetic draft attachment verification 2026-10-13.
+Self-address only. No customer content or credentials.
+UTF-8 verification: 첨부 파일 바이트 일치 확인.

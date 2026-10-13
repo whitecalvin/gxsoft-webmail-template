@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { ApiConfigurationError, assertLiveApiConfigured, mailDataMode, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
+import { ApiConfigurationError, assertLiveApiConfigured, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
 import { TASTEMAIL_SESSION_COOKIE_NAME, tastemailSessionToken } from "@/lib/tastemail/session";
+import { MAIL_CAPABILITY, validLiveJmapSession } from "@/lib/tastemail/session-contract";
+import { readLoginBody } from "@/lib/tastemail/login-body";
 
 export const runtime = "nodejs";
 const PRIVATE_HEADERS = { "Cache-Control": "no-store" };
@@ -33,9 +35,6 @@ function secureLoginTransport(request: Request): boolean {
   }
 }
 
-function mode(): "mock" | "live" | "invalid" {
-  try { return mailDataMode(); } catch { return "invalid"; }
-}
 
 function liveConfigurationReady(): boolean {
   try { assertLiveApiConfigured(); return true; } catch { return false; }
@@ -54,9 +53,6 @@ function upstreamStatus(status: number): number {
 }
 
 export async function GET() {
-  const currentMode = mode();
-  if (currentMode === "invalid") return json({ status: "configuration_error" }, 503);
-  if (currentMode === "mock") return json({ mode: "mock", authenticated: false });
   if (!liveConfigurationReady()) return json({ mode: "live", status: "configuration_error" }, 503);
   const token = await tastemailSessionToken();
   if (!token) return json({ mode: "live", authenticated: false }, 401);
@@ -67,11 +63,11 @@ export async function GET() {
       if (response.status === 401) result.cookies.delete(TASTEMAIL_SESSION_COOKIE_NAME);
       return result;
     }
-    const body: unknown = await response.json();
-    if (!body || typeof body !== "object" || !('username' in body) || typeof body.username !== "string") {
+    const body: unknown = await response.json().catch(() => null);
+    if (!validLiveJmapSession(body)) {
       return json({ mode: "live", authenticated: false, status: "unavailable" }, 502);
     }
-    return json({ mode: "live", authenticated: true, username: body.username });
+    return json({ mode: "live", authenticated: true, username: body.username, accountId: body.primaryAccounts[MAIL_CAPABILITY] });
   } catch {
     return json({ mode: "live", authenticated: false, status: "retryable" }, 503);
   }
@@ -79,15 +75,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
-  const currentMode = mode();
-  if (currentMode !== "live") return json({ status: currentMode === "mock" ? "mock_only" : "configuration_error" }, 503);
   if (!secureLoginTransport(request)) return json({ status: "insecure_transport" }, 403);
   if (!liveConfigurationReady()) return json({ status: "configuration_error" }, 503);
   let body: unknown;
   try {
-    const raw = await request.text();
-    if (raw.length > 4096) return json({ status: "invalid_request" }, 400);
-    body = JSON.parse(raw);
+    body = await readLoginBody(request);
   } catch {
     return json({ status: "invalid_request" }, 400);
   }
@@ -110,9 +102,9 @@ export async function POST(request: Request) {
     if (!response.ok) {
       const errorBody: unknown = await response.json().catch(() => null);
       const errorType = errorBody && typeof errorBody === "object" && "type" in errorBody ? errorBody.type : null;
-      const status = errorType === "mfaRequired" || errorType === "invalidMfaCode"
-        ? errorType : serviceStatus(response.status);
-      return json({ status }, errorType === "mfaRequired" || errorType === "invalidMfaCode" ? 401 : upstreamStatus(response.status));
+      const mfaError = response.status === 401 && (errorType === "mfaRequired" || errorType === "invalidMfaCode");
+      const status = mfaError ? errorType : serviceStatus(response.status);
+      return json({ status }, mfaError ? 401 : upstreamStatus(response.status));
     }
     const payload: unknown = await response.json();
     if (!payload || typeof payload !== "object" || !("accessToken" in payload) || !("expiresAt" in payload) ||
@@ -136,8 +128,6 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
-  const currentMode = mode();
-  if (currentMode !== "live") return json({ status: currentMode === "mock" ? "mock_only" : "configuration_error" }, 503);
   const token = await tastemailSessionToken();
   let revoked = !token;
   if (token && liveConfigurationReady()) {

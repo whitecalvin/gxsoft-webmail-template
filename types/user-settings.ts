@@ -7,6 +7,7 @@ export interface SignatureSetting {
   id: string;
   name: string;
   content: string;
+  html?: string;
 }
 
 export interface LabelSetting {
@@ -32,7 +33,7 @@ export interface UserSettings {
   locale: { timezone: string; dateFormat: "locale" | "iso" | "long"; timeFormat: "12" | "24"; weekStart: "sunday" | "monday" };
   accessibility: { fontScale: "90" | "100" | "110" | "125"; highContrast: boolean; reduceMotion: boolean; enhancedFocus: boolean; screenReaderDetails: boolean; keyboardNavigation: boolean };
   compose: { senderName: string; senderAddress: string; font: string; defaultSignatureId: string; signatureOnNew: boolean; signatureOnReply: boolean; undoSeconds: "0" | "5" | "10" | "20" | "30"; signatures: SignatureSetting[] };
-  inbox: { density: "comfortable" | "compact"; previewPane: "right" | "bottom" | "off"; conversationView: boolean; markRead: "immediate" | "2seconds" | "manual"; remoteImages: "always" | "contacts" | "never"; pageSize: "25" | "50" | "100"; dateFormat: "relative" | "short" | "full"; unreadStyle: "bold" | "highlight" | "dot" };
+  inbox: { hiddenSystemMailboxes: string[]; hiddenMailboxIds: string[]; showMailboxCounts: boolean; showMailboxStorage: boolean; showDeliveryDetails: boolean; density: "comfortable" | "compact"; previewPane: "right" | "bottom" | "off"; conversationView: boolean; markRead: "immediate" | "2seconds" | "manual"; remoteImages: "always" | "contacts" | "never"; remoteImageSenders: Record<string, string[]>; pageSize: "25" | "50" | "100"; dateFormat: "relative" | "short" | "full"; unreadStyle: "bold" | "highlight" | "dot" };
   sending: { defaultReply: "reply" | "replyAll"; quoteStyle: "inline" | "below" | "none"; requestReceipt: boolean; scheduleDefault: "off" | "nextMorning" | "custom"; autosaveSeconds: "15" | "30" | "60"; defaultCc: string; defaultBcc: string; composeMode: "html" | "plain" };
   away: { enabled: boolean; startDate: string; endDate: string; subject: string; internalMessage: string; externalMessage: string; contactsOnly: boolean };
   notifications: { browser: boolean; email: boolean; sound: boolean; weekends: boolean; quietStart: string; quietEnd: string; modes: Record<"important" | "general" | "approval" | "mention" | "shared", NotificationMode> };

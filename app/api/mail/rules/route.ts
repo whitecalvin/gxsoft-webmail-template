@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { MailRuleServiceError, loadLiveMailRules, replaceLiveMailRules, type MailRuleInput } from "@/lib/tastemail/mail-rules";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -14,11 +14,11 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu;
 
 function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
-    const protocol = request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.slice(0, -1);
+    const protocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? new URL(request.url).protocol.slice(0, -1);
     return requested.host === host && requested.protocol === `${protocol}:`;
   } catch {
     return false;
@@ -27,7 +27,7 @@ function sameOrigin(request: Request): boolean {
 
 export async function GET() {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);
@@ -46,7 +46,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);

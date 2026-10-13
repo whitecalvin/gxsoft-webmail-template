@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { CalendarServiceError, createLiveEvent, loadLiveEvents } from "@/lib/tastemail/calendar";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured, serviceStatus, tastemailRequest } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -12,11 +12,11 @@ function json(data: object, status = 200) {
 
 function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
-    const protocol = request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.slice(0, -1);
+    const protocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? new URL(request.url).protocol.slice(0, -1);
     return requested.host === host && requested.protocol === `${protocol}:`;
   } catch {
     return false;
@@ -25,7 +25,7 @@ function sameOrigin(request: Request): boolean {
 
 export async function GET(request: Request) {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);
@@ -66,7 +66,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({ status: "forbidden" }, 403);
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);
@@ -84,13 +84,14 @@ export async function POST(request: Request) {
   } catch {
     return json({ status: "invalid_request" }, 400);
   }
-  const { title, startsAt, endsAt, timezone, attendeeUsernames } = input;
+  const { title, startsAt, endsAt, allDay, timezone, attendeeUsernames } = input;
   const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/u;
   if (typeof title !== "string" || !title.trim() || title.length > 200 ||
       typeof startsAt !== "string" || !datePattern.test(startsAt) ||
       typeof endsAt !== "string" || !datePattern.test(endsAt) ||
       !Number.isFinite(Date.parse(startsAt)) || !Number.isFinite(Date.parse(endsAt)) ||
       Date.parse(endsAt) <= Date.parse(startsAt) || Date.parse(endsAt) - Date.parse(startsAt) > 366 * 86_400_000 ||
+      (allDay !== undefined && typeof allDay !== "boolean") ||
       typeof timezone !== "string" || !timezone || timezone.length > 64 || /\s/u.test(timezone) ||
       (attendeeUsernames !== undefined && (!Array.isArray(attendeeUsernames) || attendeeUsernames.length > 100 ||
         !attendeeUsernames.every((address) => typeof address === "string" && address.length > 0 && address.length <= 320) ||
@@ -98,7 +99,7 @@ export async function POST(request: Request) {
     return json({ status: "invalid_request" }, 400);
   }
   try {
-    return json({ event: await createLiveEvent(token, { title: title.trim(), startsAt, endsAt, timezone,
+    return json({ event: await createLiveEvent(token, { title: title.trim(), startsAt, endsAt, allDay: allDay as boolean | undefined, timezone,
       attendeeUsernames: attendeeUsernames as string[] | undefined }) }, 201);
   } catch (error) {
     const status = error instanceof CalendarServiceError || error instanceof MailServiceError ? error.status : "retryable";

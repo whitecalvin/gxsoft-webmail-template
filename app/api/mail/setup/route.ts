@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
 import { initialSetupStatus, queueInitialSetup, validateInitialSetup, type InitialSetupInput } from "@/lib/tastemail/initial-setup";
-import { mailDataMode } from "@/lib/tastemail/server";
 
 export const runtime = "nodejs";
 const headers = { "Cache-Control": "no-store" };
 const json = (data: object, status = 200) => NextResponse.json(data, { status, headers });
 
 export async function GET() {
-  if (mailDataMode() !== "live") return json({ status: "disabled" }, 404);
+
   return json({ status: await initialSetupStatus() });
 }
 
 export async function POST(request: Request) {
-  if (mailDataMode() !== "live") return json({ status: "disabled" }, 404);
+
   const origin = request.headers.get("origin");
   const host = request.headers.get("host") ?? new URL(request.url).host;
   const protocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? new URL(request.url).protocol.slice(0, -1);

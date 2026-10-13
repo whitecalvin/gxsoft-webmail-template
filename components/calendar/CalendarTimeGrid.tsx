@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { CALENDAR_HOURS } from "@/lib/mock-calendar";
+import { CALENDAR_HOURS } from "@/lib/calendar-grid";
 import { toDateKey } from "@/lib/date-utils";
 import type { CalendarEvent } from "@/types/calendar";
 
@@ -14,11 +14,13 @@ const GRID_START_HOUR = 9;
 export function CalendarTimeGrid({
   days,
   events,
+  allDayEvents = [],
   today,
   onSelectEvent,
 }: {
   days: Date[];
   events: CalendarEvent[];
+  allDayEvents?: CalendarEvent[];
   today: Date;
   onSelectEvent?: (event: CalendarEvent) => void;
 }) {
@@ -62,6 +64,21 @@ export function CalendarTimeGrid({
           );
         })}
       </div>
+
+      {allDayEvents.some((event) => days.some((day) => event.date === toDateKey(day))) ? (
+        <div className="grid shrink-0 border-b border-(--border-app)" style={{ gridTemplateColumns: `${gutterWidth}px repeat(${days.length}, 1fr)` }}>
+          <span className="px-1 py-2 text-center text-[10px] text-(--text-muted)">{t("allDay")}</span>
+          {days.map((day) => (
+            <div key={toDateKey(day)} className="min-w-0 space-y-1 border-l border-(--border-app) p-1">
+              {allDayEvents.filter((event) => event.date === toDateKey(day)).map((event) => (
+                <button key={event.id} type="button" onClick={() => onSelectEvent?.(event)}
+                  className="block w-full truncate rounded-lg px-1.5 py-1 text-left text-[11px] font-semibold text-white"
+                  style={{ backgroundColor: event.color }} title={event.title}>{event.title}</button>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       <div className="relative flex-1 overflow-y-auto">
         <div

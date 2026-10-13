@@ -26,6 +26,7 @@ export type LiveCalendarInput = {
   title: string;
   startsAt: string;
   endsAt: string;
+  allDay?: boolean;
   timezone: string;
   attendeeUsernames?: string[];
 };
@@ -92,7 +93,7 @@ export async function createLiveEvent(token: string, input: LiveCalendarInput): 
       ...input,
       description: "",
       location: "",
-      allDay: false,
+      allDay: input.allDay ?? false,
       attendeeUsernames: input.attendeeUsernames ?? [],
     }),
   });
@@ -100,7 +101,7 @@ export async function createLiveEvent(token: string, input: LiveCalendarInput): 
   return parseEvent(await response.json());
 }
 
-async function assertCurrentEventMutation(token: string, id: string, expectedRevision: number, currentStartsAt: string, requireSolo: boolean): Promise<void> {
+async function assertCurrentEventMutation(token: string, id: string, expectedRevision: number, currentStartsAt: string): Promise<LiveCalendarEvent> {
   const timestamp = Date.parse(currentStartsAt);
   if (!Number.isFinite(timestamp)) throw new CalendarServiceError("invalid_request");
   const events = await loadLiveEvents(
@@ -111,27 +112,26 @@ async function assertCurrentEventMutation(token: string, id: string, expectedRev
   const event = events.find((item) => item.id === id);
   if (!event) throw new CalendarServiceError("not_found");
   if (event.revision !== expectedRevision) throw new CalendarServiceError("conflict");
-  if (event.status !== "confirmed" || (requireSolo && event.attendeeAddresses.length > 0)) {
-    throw new CalendarServiceError("forbidden");
-  }
+  if (event.status !== "confirmed") throw new CalendarServiceError("forbidden");
+  return event;
 }
 
 export async function updateLiveEvent(
   token: string, id: string, expectedRevision: number, currentStartsAt: string,
   input: LiveCalendarInput & { description: string; location: string; allDay: boolean },
 ): Promise<LiveCalendarEvent> {
-  await assertCurrentEventMutation(token, id, expectedRevision, currentStartsAt, true);
+  const current = await assertCurrentEventMutation(token, id, expectedRevision, currentStartsAt);
   const response = await tastemailRequest(`/api/events/${encodeURIComponent(id)}`, token, {
     method: "PUT",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ...input, expectedRevision, attendeeUsernames: [] }),
+    body: JSON.stringify({ ...input, expectedRevision, attendeeUsernames: current.attendeeAddresses }),
   });
   if (!response.ok) throw new CalendarServiceError(response.status === 400 ? "invalid_request" : response.status === 404 ? "not_found" : response.status === 409 ? "conflict" : serviceStatus(response.status));
   return parseEvent(await response.json());
 }
 
 export async function cancelLiveEvent(token: string, id: string, expectedRevision: number, currentStartsAt: string): Promise<LiveCalendarEvent> {
-  await assertCurrentEventMutation(token, id, expectedRevision, currentStartsAt, false);
+  await assertCurrentEventMutation(token, id, expectedRevision, currentStartsAt);
   const response = await tastemailRequest(`/api/events/${encodeURIComponent(id)}`, token, {
     method: "DELETE",
     headers: { "content-type": "application/json" },

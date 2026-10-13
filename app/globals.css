@@ -1,6 +1,14 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "@fontsource-variable/noto-serif-kr/wght.css";
 @import "@fontsource-variable/nunito/wght.css";
+
+/* 빌드/문서 산출물이 유틸리티 후보로 다시 유입되지 않도록 앱 소스만 스캔한다. */
+@source "./";
+@source "../components";
+@source "../context";
+@source "../lib";
+@source "../i18n";
+@source "../types";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,8 +21,11 @@
      enough contrast against the light workspace and white control labels. */
   --color-primary-ink: color-mix(in srgb, var(--color-primary) 78%, black);
   --color-primary-solid: var(--color-primary-ink);
-  --font-app: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+  --font-app-default: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
     Roboto, sans-serif;
+  --font-app: var(--font-app-default);
+  --font-heading: var(--font-app);
+  --font-code: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
   --radius-app: 0.75rem;
   --density-scale: 1;
 
@@ -89,7 +100,44 @@ html.dark {
   --shadow-dialog: 0 30px 80px -24px rgb(0 0 0 / 85%);
 }
 
+/* Installed packages use the TASTEMAIL semantic token contract. Do not let
+   baseline inline colors override their CSS variables after hydration. */
+html[data-theme-package="1"] {
+  --font-app: var(--tm-font-body, var(--font-app-default));
+  --font-heading: var(--tm-font-display, var(--font-app));
+  --font-code: var(--tm-font-mono, ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace);
+  --color-primary: var(--tm-color-accent, #2563eb);
+  --surface-app: var(--tm-color-surface, var(--package-surface-default, #ffffff));
+  --surface-muted: var(--tm-color-surface-muted, var(--package-muted-default, #f1f5f9));
+  --text-app: var(--tm-color-text-primary, var(--package-text-default, #171717));
+  --text-muted: var(--tm-color-text-secondary, var(--package-secondary-default, #626b78));
+  --border-app: var(--tm-color-border, var(--package-border-default, #e5e7eb));
+  --radius-app: var(--tm-radius-control, 0.75rem);
+  --focus-ring: var(--tm-color-focus, var(--color-primary-ink));
+  --status-success: var(--tm-color-success, #267547);
+  --status-warning: var(--tm-color-warning, #875a17);
+  --status-danger: var(--tm-color-danger, #aa3831);
+  --shadow-panel: var(--tm-shadow-panel, 0 16px 40px -18px rgb(15 23 42 / 35%));
+}
+/* Keep these rules in package mode: built-in presets and local customization
+   retain their existing typography. Sandboxed mail documents are separate. */
+html[data-theme-package="1"] :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading);
+}
+html[data-theme-package="1"] :where(code, pre, kbd, samp) {
+  font-family: var(--font-code);
+}
+html.dark[data-theme-package="1"] {
+  --package-surface-default: #111318;
+  --package-muted-default: #08090c;
+  --package-text-default: #f3f4f6;
+  --package-secondary-default: #9ca3af;
+  --package-border-default: #2a2d34;
+}
+
 @theme inline {
+  --font-sans: var(--font-app);
+  --font-mono: var(--font-code);
   --color-background: var(--surface-app);
   --color-foreground: var(--text-app);
 }
@@ -99,6 +147,32 @@ body {
   color: var(--text-app);
   font-family: var(--font-app);
   font-size: calc(1rem * var(--user-font-scale, 1));
+}
+
+/* One text size across search, forms and settings, independent of local utilities. */
+input:where(:not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], [type="color"], [type="file"], [type="button"], [type="submit"], [type="reset"])),
+textarea {
+  font-size: 0.875rem;
+}
+
+input::placeholder, textarea::placeholder {
+  font-size: inherit;
+}
+
+/* Bordered native fields use the same theme radius as the shared Input shell.
+   Borderless inner inputs and non-text controls retain their own shapes. */
+input.border:where(:not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], [type="color"], [type="file"], [type="button"], [type="submit"], [type="reset"])),
+textarea.border {
+  border-radius: var(--radius-app);
+}
+
+@media (max-width: 767px), (pointer: coarse) {
+  html, body { touch-action: pan-x pan-y; }
+  /* Keep single-line and rich-text editing from changing the mobile viewport. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  textarea, select, [contenteditable="true"] {
+    font-size: max(16px, 1rem);
+  }
 }
 
 html[data-high-contrast="true"] {
@@ -131,6 +205,33 @@ html[data-reduce-motion="true"] *::after {
   }
 }
 
+/* Shared single-line controls keep the same height even when a component has
+   a more specific responsive min-height utility. Icon-only and multiline
+   controls opt out; rows can inherit a different height via this token. */
+:root {
+  --control-height: 2.25rem;
+}
+@media (max-width: 767px), (pointer: coarse) {
+  :root { --control-height: 2.5rem; }
+}
+.app-control {
+  box-sizing: border-box;
+  height: var(--control-height);
+  min-height: var(--control-height);
+  padding-block: 0;
+}
+
+.workspace-page-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  height: 3rem;
+  min-height: 3rem;
+  padding-block: 0;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--color-primary) 24%, transparent);
 }
@@ -145,6 +246,12 @@ input[type="checkbox"]:not(:disabled),
 input[type="radio"]:not(:disabled),
 select:not(:disabled) {
   cursor: pointer;
+}
+
+/* Group headings, mailbox rows and navigation links share one surface shape,
+   including hover, selected and folder-drop states in every sidebar size. */
+.workspace-menu-surface {
+  border-radius: min(var(--radius-app), 0.5rem);
 }
 
 @keyframes workspace-menu-item-in {
@@ -171,6 +278,55 @@ select:not(:disabled) {
 
 .workspace-menu-item-enter {
   animation: workspace-menu-item-in 240ms ease-out both;
+}
+
+/* Keep the grab area generous without painting an 8px-wide color strip. */
+.workspace-resize-handle {
+  background: transparent;
+  outline: none;
+}
+
+@media (min-width: 64rem) {
+  .workspace-mail-list {
+    width: clamp(260px, var(--mail-list-width), max(260px, calc(100% - 320px)));
+  }
+}
+
+.workspace-resize-handle::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--border-app);
+  pointer-events: none;
+  transition: background-color 140ms ease, width 140ms ease;
+}
+
+.workspace-resize-handle:hover::before {
+  width: 2px;
+  background: color-mix(in srgb, var(--color-primary-solid) 65%, var(--border-app));
+}
+
+.workspace-resize-handle[data-resizing="true"]::before {
+  width: 2px;
+  background: var(--color-primary-solid);
+}
+
+.workspace-resize-handle:focus-visible::before {
+  width: 2px;
+  background: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace-resize-handle::before {
+    transition: none;
+  }
+}
+
+html[data-reduce-motion="true"] .workspace-resize-handle::before {
+  transition: none;
 }
 
 html[data-sidebar-position="right"] .workspace-menu-item-enter {

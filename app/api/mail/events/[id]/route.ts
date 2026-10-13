@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { CalendarServiceError, cancelLiveEvent, updateLiveEvent } from "@/lib/tastemail/calendar";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -16,11 +16,11 @@ function json(data: object, status = 200) {
 
 function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
-    const protocol = request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.slice(0, -1);
+    const protocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? new URL(request.url).protocol.slice(0, -1);
     return requested.host === host && requested.protocol === `${protocol}:`;
   } catch {
     return false;
@@ -30,7 +30,7 @@ function sameOrigin(request: Request): boolean {
 async function authorized(request: Request, context: Context) {
   if (!sameOrigin(request)) return { error: json({ status: "forbidden" }, 403) };
   try {
-    if (mailDataMode() !== "live") return { error: json({ status: "mock_only" }, 404) };
+
     assertLiveApiConfigured();
   } catch {
     return { error: json({ status: "configuration_error" }, 503) };

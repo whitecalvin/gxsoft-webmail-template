@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import { importMailRules, exportMailRules } from "../lib/mail-rule-transfer.ts";
+import { simpleMailRuleSource, parseSimpleMailRule, EMPTY_SIMPLE_RULE } from "../lib/simple-mail-rule.ts";
+const source = simpleMailRuleSource({ ...EMPTY_SIMPLE_RULE, action: "move", mailbox: "뉴스/업무", stop: true });
+const original = [{ id: "foreign-id", key: "foreign-key", name: "Synthetic", kind: "filter", source, enabled: true }];
+const exported = exportMailRules(original);
+assert.ok(!exported.includes("foreign-id") && !exported.includes("foreign-key"));
+const imported = importMailRules(exported, 50);
+assert.equal(imported[0].id, null);
+assert.equal(imported[0].enabled, false);
+assert.equal(imported[0].source, source);
+assert.equal(parseSimpleMailRule(imported[0].source).mailbox, "뉴스/업무");
+assert.deepEqual(original[0].enabled, true, "export never mutates current drafts");
+for (const text of ["not json", "{}", JSON.stringify({ format: "tastemail-rules", version: 9, rules: original }), exported.replace('"filter"', '"unknown"'), exported.replace('"enabled": true', '"enabled": "yes"'), exported.replace('"Synthetic"', '""')]) assert.throws(() => importMailRules(text, 50));
+assert.throws(() => importMailRules(exported, 0));
+assert.throws(() => importMailRules("x".repeat(4_000_001), 50));
+assert.equal(importMailRules(exportMailRules([{ ...original[0], kind: "advanced", source: "discard;" }]), 50)[0].source, "discard;");
+console.log("Rule transfer: IDs stripped, disabled imports, lossless Sieve/destinations, count/schema/size checks and advanced preservation passed.");

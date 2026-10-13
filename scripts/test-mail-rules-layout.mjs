@@ -1,0 +1,35 @@
+import assert from "node:assert/strict";
+import { readFileSync, readdirSync } from "node:fs";
+for (const file of readdirSync("messages").filter((name) => name.endsWith(".json"))) {
+  const messages = JSON.parse(readFileSync(`messages/${file}`, "utf8"));
+  assert.equal(messages.settingsSystem.nav.filters, messages.workspaceSidebar.rules, `${file}: menu title`);
+  assert.equal(messages.settingsSystem.sections.filters, messages.workspaceSidebar.rules, `${file}: section title`);
+}
+const source = readFileSync("components/settings/LiveMailRules.tsx", "utf8");
+assert.ok(source.includes('embedded ? "" : "flex-1 overflow-y-auto p-4 sm:p-7"'), "embedded settings do not nest padding/scrollers");
+assert.ok(source.includes("<SettingsPageIntro title={title}"));
+const sidebar = readFileSync("components/settings/MailRuleSidebar.tsx", "utf8");
+assert.ok(sidebar.includes('overflow-y-auto px-3 lg:max-h-[36rem]'));
+assert.ok(sidebar.includes('<Switch on={selected?.enabled'));
+assert.ok(sidebar.includes('data-rule-list-item'), "each rule owns a separate action area");
+assert.match(sidebar, /<\/button>\s*\{renderApplication\?\.\(rule.key\)\}/, "apply action is a sibling, never a nested button");
+assert.match(source, /<MailRuleApplication icon rule=\{saved \?/, "single-rule action uses the saved server rule");
+assert.match(source, /!saved\?\.enabled/, "unsaved and disabled rules cannot apply");
+assert.ok(source.includes('data-rule-manager'));
+assert.ok(source.includes('lg:grid-cols-[18rem_minmax(0,1fr)]'));
+assert.ok(source.includes('<MailRuleSidebar'));
+assert.ok(source.includes('applicationPanel={<MailRuleApplication'), "existing-mail apply belongs to the rule sidebar");
+assert.match(sidebar, /data-rule-application-footer className="sticky bottom-0/, "application panel stays at list bottom");
+assert.match(sidebar, /<li key=\{rule.key\} inert=\{applicationLocked\}/, "editing locks do not disable same-plan recovery controls");
+assert.ok(sidebar.indexOf('data-rule-application-footer') < sidebar.indexOf('</ol>'), "apply panel is inside the rule list");
+assert.ok(!source.includes('data-rule-manager inert='), "application recovery remains interactive during uncertainty");
+assert.ok(source.includes('data-rule-editor inert={applicationLocked}'));
+assert.ok(source.includes('data-rule-editor'));
+assert.ok(!source.includes('type="checkbox"'));
+assert.ok(source.includes('loading={saving}'));
+assert.match(source, /sticky bottom-0[^"\n]*px-4 py-3 sm:px-6/, "save panel keeps responsive horizontal insets around status and actions");
+assert.ok(source.includes('saveUncertain'));
+assert.ok(!source.includes('designer("help")'), "redundant operation and save guide is removed");
+assert.ok(!source.includes('live("revision"'), "internal revision is not shown in the editor");
+assert.ok(source.includes('expectedRevision: data.revision'), "revision remains in optimistic save validation");
+console.log("PASS: all 10 locale titles match; embedded layout, bounded list, custom switch and shared buttons");

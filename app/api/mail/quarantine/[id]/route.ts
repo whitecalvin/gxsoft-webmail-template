@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { loadLiveQuarantineDetail } from "@/lib/tastemail/quarantine";
 import { MailServiceError } from "@/lib/tastemail/mail";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -12,7 +12,7 @@ function json(data: object, status = 200) {
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (mailDataMode() !== "live") return json({ status: "mock_only" }, 404);
+
     assertLiveApiConfigured();
   } catch {
     return json({ status: "configuration_error" }, 503);

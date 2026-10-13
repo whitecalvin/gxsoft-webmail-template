@@ -10,7 +10,8 @@ import { ConfirmDialog } from "@/components/overlay/ConfirmDialog";
 export function SettingsNavigationGuard() {
   const t = useTranslations("settingsSystem.unsaved");
   const router = useRouter();
-  const { isDirty, discard } = useSettings();
+  const { isDirty: draftDirty, busy, uncertain, discard } = useSettings();
+  const isDirty = draftDirty || busy || uncertain;
   const { isDirty: themeDirty, closeCustomizer } = useTheme();
   const [pendingHref, setPendingHref] = useState<string | null>(null);
   const guardedLocation = useRef<{ href: string; state: unknown } | null>(null);
@@ -53,5 +54,5 @@ export function SettingsNavigationGuard() {
   }, [isDirty, themeDirty]);
 
   if (!pendingHref) return null;
-  return <ConfirmDialog tone="warning" title={t("title")} description={t("description")} confirmLabel={t("leave")} cancelLabel={t("stay")} onCancel={() => setPendingHref(null)} onConfirm={() => { const href = pendingHref; discard(); closeCustomizer({ discard: true }); setPendingHref(null); router.push(href); }} />;
+  return <ConfirmDialog tone="warning" title={t("title")} description={t("description")} confirmDisabled={busy || uncertain} confirmLabel={t("leave")} cancelLabel={t("stay")} onCancel={() => setPendingHref(null)} onConfirm={() => { if (busy || uncertain) return; const href = pendingHref; discard(); closeCustomizer({ discard: true }); setPendingHref(null); router.push(href); }} />;
 }

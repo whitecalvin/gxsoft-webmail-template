@@ -1,5 +1,6 @@
 // Shared shapes for the mail feature (inbox, compose, meeting invites).
 export type FolderId =
+  | "all"
   | "inbox"
   | "starred"
   | "drafts"
@@ -34,6 +35,8 @@ export interface MeetingInvite {
 export interface Email {
   id: string;
   folder: FolderId;
+  sizeBytes?: number;
+  mailboxIds?: string[];
   from: { name: string; email: string };
   replyTo?: string;
   to: string[];
@@ -47,6 +50,7 @@ export interface Email {
   body: string[];
   bodyText?: string;
   htmlBody?: string | null;
+  detailLoaded?: boolean;
   blockedExternalImages?: boolean;
   receivedAt: string;
   unread: boolean;
@@ -62,9 +66,10 @@ export interface ComposeDraft {
   bcc?: string;
   subject: string;
   body: string;
+  htmlBody?: string | null;
   inReplyTo?: string[];
   references?: string[];
-  attachments?: Array<{ blobId: string; name: string; type: string; size: number }>;
+  attachments?: Array<{ blobId: string; name: string; type: string; size: number; disposition?: "attachment" | "inline"; cid?: string | null }>;
   replyAll?: boolean;
   previousDraftId?: string;
 }

@@ -1,0 +1,28 @@
+import assert from "node:assert/strict";
+import { parseMailboxIconPreferences, mirrorMailboxIconPreferences, MAILBOX_ICON_COOKIE, accountIconKey } from "../lib/mailbox-icon-preferences.ts";
+
+const key = "gxmail:folder-icon:v1:user%40example.test:folder-id";
+let cookie = "";
+globalThis.document = { get cookie() { return cookie; }, set cookie(value) { cookie = value.split(";")[0]; } };
+globalThis.window = { location: { protocol: "https:" } };
+const decode = () => parseMailboxIconPreferences(cookie.slice(MAILBOX_ICON_COOKIE.length + 1));
+mirrorMailboxIconPreferences({ [key]: "emoji:grinning" });
+assert.equal(decode()[key], "emoji:grinning");
+mirrorMailboxIconPreferences({ [key]: "default" });
+assert.equal(decode()[key], "default", "reset clears SSR choice too");
+const profileKey = accountIconKey(" USER@example.test ");
+mirrorMailboxIconPreferences({ [profileKey]: "emoji:grinning", [accountIconKey("other@example.test")]: "phosphor:acorn" });
+assert.equal(decode()[profileKey], "emoji:grinning");
+assert.equal(decode()[accountIconKey("other@example.test")], "phosphor:acorn");
+mirrorMailboxIconPreferences({ [key]: "emoji:<script>" });
+assert.equal(decode()[key], "default");
+assert.deepEqual(parseMailboxIconPreferences("%invalid"), {});
+assert.deepEqual(parseMailboxIconPreferences(encodeURIComponent('{"__proto__":"bad"}')), {});
+assert.deepEqual(parseMailboxIconPreferences("x".repeat(3001)), {});
+assert.deepEqual(parseMailboxIconPreferences(encodeURIComponent(JSON.stringify([["__proto__", "emoji:grinning"], [key, "unknown"]]))), {});
+for (let i = 0; i < 100; i++) mirrorMailboxIconPreferences({ [`gxmail:folder-icon:v1:user%40example.test:folder-${i}`]: "phosphor:acorn" });
+assert.ok(cookie.length <= MAILBOX_ICON_COOKIE.length + 1 + 3000);
+assert.equal(decode()["gxmail:folder-icon:v1:user%40example.test:folder-99"], "phosphor:acorn");
+delete globalThis.document; delete globalThis.window;
+assert.doesNotThrow(() => mirrorMailboxIconPreferences({ [key]: "emoji:grinning" }));
+console.log("icon preference cookie: migration, reset, validation, bounds and restricted storage passed");

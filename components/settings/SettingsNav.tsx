@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { SETTINGS_NAV_GROUPS, type SettingsNavKey } from "@/lib/mock-settings";
+import { SETTINGS_NAV_GROUPS, type SettingsNavKey } from "@/lib/settings-navigation";
 
 export function SettingsNav({ active }: { active: SettingsNavKey }) {
   const t = useTranslations("settingsSystem");

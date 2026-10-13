@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { loadLiveMailPreferences, PreferencesServiceError, updateLiveMailSignature, type LiveSignatureUpdate } from "@/lib/tastemail/preferences";
-import { assertLiveApiConfigured, mailDataMode } from "@/lib/tastemail/server";
+import { assertLiveApiConfigured } from "@/lib/tastemail/server";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 
 export const runtime = "nodejs";
@@ -11,7 +11,7 @@ function json(data: object, status = 200) {
 
 function sameOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
-  if (origin === null) return true;
+  if (origin === null) return false;
   try {
     const requested = new URL(origin);
     const host = request.headers.get("host") ?? new URL(request.url).host;
@@ -29,7 +29,7 @@ function failure(error: unknown) {
 
 async function tokenOrError() {
   try {
-    if (mailDataMode() !== "live") return { response: json({ status: "mock_only" }, 404) };
+
     assertLiveApiConfigured();
   } catch { return { response: json({ status: "configuration_error" }, 503) }; }
   const token = await tastemailSessionToken();

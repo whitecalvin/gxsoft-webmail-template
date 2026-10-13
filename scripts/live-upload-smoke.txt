@@ -1,0 +1,2 @@
+GXWebMail TASTEMAIL attachment upload smoke test.
+This file contains no account data and should not be sent as mail.

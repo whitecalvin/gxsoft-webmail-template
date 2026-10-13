@@ -52,6 +52,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         "inline-flex shrink-0 items-center justify-center rounded-(--radius-app) font-semibold outline-none transition-[background-color,color,border-color,box-shadow,filter,transform] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-(--focus-ring) focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-45",
         VARIANT_STYLE[variant],
         SIZE_STYLE[size],
+        size !== "icon" && "app-control",
         className,
       )}
       {...props}
