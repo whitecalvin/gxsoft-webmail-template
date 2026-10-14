@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import vm from "node:vm";
 import ts from "typescript";
 import * as contract from "../lib/tastemail/personal-folder-contract.ts";
+import * as visibility from "../lib/mailbox-visibility.ts";
 
 const require = createRequire(import.meta.url);
 function load(file, mocks) {
@@ -51,6 +52,7 @@ function controller({ write = async () => {}, pending = false, uncertain = false
     "@/components/ui/Tooltip": { Tooltip: props => props.children },
     "./PersonalFolderIcon": { kindKey: (_account, key) => key },
     "@/lib/personal-folder-drag": { folderDropChange },
+    "@/lib/mailbox-visibility": visibility,
     "@/context/mailbox-icon-context": { useInitialMailboxIcons: () => kinds, useServerMailboxIcons: () => serverIcons },
     "@/context/toast-context": { useToast: () => ({ success: message => messages.push(["success", message]), error: message => messages.push(["error", message]) }) },
     "./PersonalFolderManager": {}, "./InboxContextMenu": {},

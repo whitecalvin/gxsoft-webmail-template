@@ -11,5 +11,6 @@ export default async function SettingsLayout({ children, params }: { children: R
   const account = session.status === "ready" && validLiveJmapSession(session.session) ? session.session.username.toLowerCase() : "unavailable";
   const ownerId = session.status === "ready" && validLiveJmapSession(session.session) ? session.session.primaryAccounts[MAIL_CAPABILITY] : "";
   const initial = await initialLinkedAccounts(session.status === "ready" ? await tastemailSessionToken() : null);
-  return <LinkedAccountsProvider key={account} ownerId={ownerId} initial={initial}><SettingsDropdownPolicy>{children}</SettingsDropdownPolicy></LinkedAccountsProvider>;
+  // 같은 로그인 이름이 재사용돼도 실제 소유 UUID가 바뀌면 이전 복구 상태를 폐기합니다.
+  return <LinkedAccountsProvider key={`${account}:${ownerId}`} ownerId={ownerId} initial={initial}><SettingsDropdownPolicy>{children}</SettingsDropdownPolicy></LinkedAccountsProvider>;
 }

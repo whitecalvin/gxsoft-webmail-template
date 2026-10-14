@@ -573,6 +573,7 @@
     "next": "次へ"
   },
   "adminManage": {
+    "gmail-oauth": "Gmail OAuth 設定",
     "invalidQuery": "検索条件が正しくありません。フィルター値とページ条件を確認してください。",
     "dkimDomainRequired": "ドメインを入力してフィルターを適用すると、DKIMキーを表示または作成できます。",
     "shared-mailboxes": "共有メールボックス",
@@ -636,7 +637,7 @@
   "linkedAccounts": {"title":"連携アカウント","description":"基本アカウントに追加のメールアカウントを登録します。共有・委任メールボックスとは別です。","add":"アカウント追加","register":"登録","provider":"メールサービス","email":"メールアドレス","refresh":"一覧を再確認","count":"{count} / {limit} アカウント","empty":"追加アカウントは登録されていません。","notAuthenticated":"現在はアドレスの登録のみ対応しています。外部認証・同期は未対応のため、登録してもメールの閲覧や送信はできません。","disconnect":"連携解除","disconnectConfirm":"{email} の登録を解除しますか？外部アカウントの元のメールは削除されません。","tastemail":"TASTEMAIL","naver":"Naver","gmail":"Gmail","pendingAuth":"認証待ち","pendingVerification":"認証確認待ち","reauthRequired":"再認証が必要","not_deployed":"サーバーに連携アカウントAPIがありません。デプロイ状況を確認してください。","invalid_request":"サービスとアドレスを確認してください。Gmailはgmail.com・googlemail.com、Naverはnaver.comのみ対応しています。","not_found":"アカウントが見つかりません。一覧を再確認してください。","conflict":"登録済みのアドレス、または情報が変更されています。一覧を再確認してください。","limit":"追加アカウントは最大10件です。","mutation_uncertain":"処理結果を確認できません。再登録や再解除をせず、一覧を再確認してください。"},
   "linkedAccountConnection": {"connected":"接続済み","temporaryError":"一時的なエラー","frontendPending":"アカウント登録とサーバー接続状態の確認に対応しています。この画面では外部認証・同期・メール表示はまだ連携されていません。追加アカウントからの送信やメールの変更はできません。"},
   "linkedGmailAuth": {"start":"Gmailを認証","confirm":"{email}を接続するためGoogle認証画面に移動します。HTTPSが必要です。外部アカウントの送信やメール変更は未対応です。 Googleは閲覧・送信・削除を含むメールへの完全なアクセス権限を要求します。"},
-  "linkedAccountAuth": {"scope":"Naver・Gmail認証はサーバー対応時に利用できます。GmailにはHTTPSが必要です。メール同期・表示画面は実装中です。","credentials":"Naverアプリパスワード設定","verify":"接続を確認","hint":"NaverのIMAPを有効にして発行したアプリパスワードを入力してください。通常のログインパスワードは入力しないでください。","password":"アプリパスワード","saveOnly":"保存は認証成功を意味しません。保存後に別途接続を確認してください。入力欄やブラウザーのストレージには保存しません。","verifyConfirm":"保存済みの認証情報で{email}のNaver IMAP接続を確認しますか？外部サービスで認証しますがメールの閲覧や変更はしません。","invalidPassword":"アプリパスワードを確認してください。最大1024バイト、制御文字は使用できません。","requestFailed":"リクエストを完了できませんでした。一覧のエラーを確認し、必要に応じて再確認してください。","auth_unavailable":"外部認証が利用できないか状態が変わりました。一覧を再確認してください。","reauth_required":"外部認証が拒否されたか期限切れです。アプリパスワードを再設定してください。","remote_unavailable":"外部メール接続を確認できませんでした。一覧を再確認してください。","configuration_required":"サーバーの認証・暗号化または外部接続設定が必要です。","insecure_connection":"Gmail認証にはHTTPSが必要です。アプリパスワードはHTTPSまたはローカル接続でのみ送信できます。"},
+  "linkedAccountAuth": {"scope":"Naver・Gmail認証はサーバー対応時に利用できます。Gmail認証にはHTTPSが必要です。メールの閲覧・同期は連携アカウントの状態とサーバー権限に応じて利用できます。","credentials":"Naverアプリパスワード設定","verify":"接続を確認","hint":"NaverのIMAPを有効にして発行したアプリパスワードを入力してください。通常のログインパスワードは入力しないでください。","password":"アプリパスワード","saveOnly":"保存は認証成功を意味しません。保存後に別途接続を確認してください。入力欄やブラウザーのストレージには保存しません。","verifyConfirm":"保存済みの認証情報で{email}のNaver IMAP接続を確認しますか？外部サービスで認証しますがメールの閲覧や変更はしません。","invalidPassword":"アプリパスワードを確認してください。最大1024バイト、制御文字は使用できません。","requestFailed":"リクエストを完了できませんでした。一覧のエラーを確認し、必要に応じて再確認してください。","auth_unavailable":"外部認証が利用できないか状態が変わりました。一覧を再確認してください。","reauth_required":"外部認証が拒否されたか期限切れです。アプリパスワードを再設定してください。","remote_unavailable":"外部メール接続を確認できませんでした。一覧を再確認してください。","configuration_required":"サーバーの認証・暗号化または外部接続設定が必要です。","insecure_connection":"Gmail認証にはHTTPSが必要です。アプリパスワードはHTTPSまたはローカル接続でのみ送信できます。"},
   "accountLive": {
     "description": "TASTEMAIL アカウントに登録された差出人アドレスを表示します。",
     "readOnly": "差出人アドレスとエイリアスは読み取り専用です。ここではアカウント情報を変更できません。",

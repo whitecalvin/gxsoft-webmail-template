@@ -2,6 +2,14 @@
 
 ## 최신 검증 마감 — 2026-10-13
 
+연결 계정 전체 로컬 회귀 후속: `test-linked-*.mjs` 20개 파일을 합성 개발/production 환경에서 검사했다. 이전 성공한 계정/영속 Provider 시험은 재사용하고 나머지18개에서23개 성공·7개 실패를 확인했다. 실패는 새 journal/booted state mock 누락, server.ts의 새 순수 TS import를 로드하지 못하는 harness, jobs UI의 공통 확인 창/context/nullable 제어 필드 mock 누락 및 폐기된 직접 /folders·/sync Provider 경로 assertion이었다. 실제 소스의 UUID 엔진 위임 시험으로 변경하고 레거시 BFF/transport 검사는 유지했다. 엔진의 직렬화·응답 유실·GET404·partial·generation·저장 실패 검사는 별도8그룹에서 유지한다. 실패7개만 재개해 모두 통과했다(마지막 sync의 시험 변수 이름 충돌도 해당 파일만 재개).
+
+production 재검증은 앞서 통과한 계정 layout/10언어 시험1개를 입력 불변으로 재사용하고 나머지19개 파일을 NODE_ENV=production으로 실행해38개 검사·실패0·skip0·exit0을 확인했다. 수정7개 시험의 ESLint와 diff 공백 검사도 통과했다. 시험/문서만 바꿨으므로 직전 소유자 경계 앱 production 빌드는 재컴파일하지 않았다. 이 결과는 연결 계정 컴포넌트 전체의 합성 회귀이며 전체 제품·실제 외부 인증·운영 worker 완료는 아니다.
+
+소유자 경계 수정 후 전체 ESLint와 격리 Webpack production 빌드(TypeScript·420페이지·최적화) exit0, diff 공백 검사 exit0을 확인했다. 언어 문자열·스타일 변경은 없어 기존 키 검사 결과를 재사용한다. 새 UUID에 따른 실제 브라우저 remount/운영 인증 검증을 합성 layout 시험으로 완료했다고 확대하지 않는다.
+
+후속 소유자 경계 수정: 설정 layout의 Provider key가 username만 사용해 동일 이름에 다른 기본 계정 UUID가 반환되면 기존 상태를 유지하는 사례를 실제 layout 함수의 합성 시험으로 재현했다. key에 primary owner UUID를 포함해 remount하도록 수정했다. 동일 owner의 언어 이동은 key를 유지하고, 동일 username/다른 owner는 key를 바꾸며 새 initial·ownerId 전달을 검사한다. 이전 계정의 journal을 삭제하거나 다른 계정의 UUID를 조회하지 않는다. 기존 등록/해제 시험의 journal·booted mock 및 오래된 sessionStorage 전면 금지 assertion을 현재 locator 전용 계약에 맞게 갱신했다. 개발·production 환경의 연결 계정 계약/10언어 렌더링과 영속 Provider8그룹은 통과했다. 운영 계정을 생성·삭제하거나 실 세션을 바꾸는 검증은 하지 않았다.
+
 아래 진행 중 표현은 시간순 이력이다. 서버 채팅의 최종 보고와 실제 검증 산출물을 읽기 전용으로 확인했다. 사용자 승인한 새 격리 PostgreSQL에서 0068 포함 68개 마이그레이션, 관련 DB 회귀 Debug4/Release4가 통과했다. 시험 helper 정리 후 TestClippyFinal.json의 exitCode=0을 확인했다. DatabaseStop.json은 stopped=true, fixtureRetained=true, productionChanged=false이며 운영 DB·설정·배포·외부 메일 작업은 없었다. 서버 보고서는 `D:/works/projects/GXSOFT/TASTEDEV/resources/verification/dev-01/tastemail-linked-operation-control-20261013/DATABASE-RESULT.md`다. 기존 0.1.39 앱 빌드를 다른 세션에서 변경된 현재 0.1.40 전체 앱의 빌드 증거로 확대하지 않는다.
 
 프런트 합성 production fixture의 저장된 checkpoint와 현재 BUILD_ID `oH1oNEwxh151IiOCfk5vF`가 일치한다. queueAll/resumePartial/pause/resume/recover 각각1회, operations4, userPaused=false, controlRevision3을 확인했다. 이는 격리 GUI 복구·부분 재개·중지/재개 증거이며 실제 공급자 인증·운영 worker 수용 증거가 아니다. stdout을 회수하지 못한 자동 종료 assertion은 통과로 주장하지 않는다. 최신 desktop GUI와 이전390px mobile 관측은 각 당시 빌드 범위에 한정한다.

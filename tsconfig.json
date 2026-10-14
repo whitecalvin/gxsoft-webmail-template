@@ -80,7 +80,9 @@
     ".next-admin-webpack-validation/types/**/*.ts",
     ".next-admin-webpack-validation/dev/types/**/*.ts",
     ".next-admin-turbo-recovery/types/**/*.ts",
-    ".next-admin-turbo-recovery/dev/types/**/*.ts"
+    ".next-admin-turbo-recovery/dev/types/**/*.ts",
+    ".next-gmail-admin-validation/types/**/*.ts",
+    ".next-gmail-admin-validation/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -573,6 +573,7 @@
     "next": "下一页"
   },
   "adminManage": {
+    "gmail-oauth": "Gmail OAuth 设置",
     "invalidQuery": "查询条件无效。请检查筛选值和分页参数。",
     "dkimDomainRequired": "输入域名并应用筛选条件，即可查看或创建 DKIM 密钥。",
     "shared-mailboxes": "共享邮箱",
@@ -636,7 +637,7 @@
   "linkedAccounts": {"title":"关联账号","description":"在主账号下登记其他邮件账号，与共享或委托邮箱分开管理。","add":"添加账号","register":"登记","provider":"邮件服务","email":"邮件地址","refresh":"重新检查列表","count":"{count} / {limit} 个账号","empty":"尚未登记其他账号。","notAuthenticated":"目前仅支持地址登记，尚不支持外部认证与邮件同步。登记的账号暂时无法读取或发送邮件。","disconnect":"解除关联","disconnectConfirm":"解除 {email} 的登记？不会删除外部账号中的原始邮件。","tastemail":"TASTEMAIL","naver":"Naver","gmail":"Gmail","pendingAuth":"等待认证","pendingVerification":"等待验证","reauthRequired":"需要重新认证","not_deployed":"服务器尚无关联账号API，请检查部署状态。","invalid_request":"请检查服务和地址。Gmail仅支持gmail.com与googlemail.com，Naver仅支持naver.com。","not_found":"找不到账号，请重新检查列表。","conflict":"地址已登记或信息已更改，请重新检查列表。","limit":"最多可登记10个其他账号。","mutation_uncertain":"无法确认处理结果。请重新检查列表，不要重复登记或解除关联。"},
   "linkedAccountConnection": {"connected":"已连接","temporaryError":"临时错误","frontendPending":"支持登记账号和查看服务器连接状态。本页面尚未接入外部认证、同步及邮件查看功能。无法通过附加账号发送或修改邮件。"},
   "linkedGmailAuth": {"start":"授权 Gmail","confirm":"前往 Google 连接 {email}。需要 HTTPS。暂不支持外部账户发信或修改邮件。 Google 请求完整邮件访问权限，包括读取、发送和删除邮件。"},
-  "linkedAccountAuth": {"scope":"服务器支持时可使用 Naver 和 Gmail 授权。Gmail 需要 HTTPS。邮件同步与阅读界面仍在开发中。","credentials":"设置Naver应用密码","verify":"验证连接","hint":"启用Naver IMAP后，输入已生成的应用密码，请勿输入常用登录密码。","password":"应用密码","saveOnly":"保存不代表认证成功，请随后单独验证连接。密码不会保留在输入框或浏览器存储中。","verifyConfirm":"使用已保存的凭据验证{email}的Naver IMAP连接？这会向外部服务认证，但不读取或修改邮件。","invalidPassword":"请检查应用密码：最多1024字节，不允许控制字符。","requestFailed":"请求未完成，请查看列表错误提示，必要时重新检查列表。","auth_unavailable":"外部认证不可用或账号状态已变更，请重新检查列表。","reauth_required":"外部认证被拒绝或已过期，请重新设置应用密码。","remote_unavailable":"无法验证外部邮件连接，请重新检查列表。","configuration_required":"需要配置服务器认证、加密或外部连接。","insecure_connection":"Gmail 认证需要 HTTPS。仅可通过 HTTPS 或本地连接提交应用密码。"},
+  "linkedAccountAuth": {"scope":"Naver 和 Gmail 授权取决于服务器支持。Gmail 授权需要 HTTPS。邮件阅读与同步根据关联账户状态及服务器权限提供。","credentials":"设置Naver应用密码","verify":"验证连接","hint":"启用Naver IMAP后，输入已生成的应用密码，请勿输入常用登录密码。","password":"应用密码","saveOnly":"保存不代表认证成功，请随后单独验证连接。密码不会保留在输入框或浏览器存储中。","verifyConfirm":"使用已保存的凭据验证{email}的Naver IMAP连接？这会向外部服务认证，但不读取或修改邮件。","invalidPassword":"请检查应用密码：最多1024字节，不允许控制字符。","requestFailed":"请求未完成，请查看列表错误提示，必要时重新检查列表。","auth_unavailable":"外部认证不可用或账号状态已变更，请重新检查列表。","reauth_required":"外部认证被拒绝或已过期，请重新设置应用密码。","remote_unavailable":"无法验证外部邮件连接，请重新检查列表。","configuration_required":"需要配置服务器认证、加密或外部连接。","insecure_connection":"Gmail 认证需要 HTTPS。仅可通过 HTTPS 或本地连接提交应用密码。"},
   "accountLive": {
     "description": "显示 TASTEMAIL 帐户中注册的发件人地址。",
     "readOnly": "发件人地址和别名为只读，无法在此修改帐户信息。",

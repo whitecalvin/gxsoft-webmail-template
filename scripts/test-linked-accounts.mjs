@@ -90,8 +90,9 @@ const functionSource = provider.slice(provider.indexOf("  async function refresh
 const js = ts.transpileModule(functionSource, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 let snapshot = { status: "ready", data: empty }, busy = false, uncertain = false, error = null, uiResponse = "network", requests = 0;
 const pending = { current: false }, unresolved = { current: null }, generation = { current: 1 };
+const journal = { current: null }, journalFailed = { current: false }, booted = { current: true };
 function functions() {
-  return new Function("snapshot", "pending", "unresolved", "generation", "setBusy", "setSnapshot", "setUncertain", "setError", "fetch", "requireLinkedAccount", "requireLinkedAccounts", "responseFailure", "failures", `${js}; return {refresh,mutate};`)(snapshot, pending, unresolved, generation,
+  return new Function("snapshot", "pending", "unresolved", "generation", "journal", "journalFailed", "booted", "setBusy", "setSnapshot", "setUncertain", "setError", "fetch", "requireLinkedAccount", "requireLinkedAccounts", "responseFailure", "failures", `${js}; return {refresh,mutate};`)(snapshot, pending, unresolved, generation, journal, journalFailed, booted,
     value => { busy = value; }, value => { snapshot = typeof value === "function" ? value(snapshot) : value; }, value => { uncertain = value; }, value => { error = value; },
     async () => { requests++; if (uiResponse === "network") throw new Error("network"); return uiResponse; }, c.requireLinkedAccount, c.requireLinkedAccounts, (_, body) => body.status,
     ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable", "not_deployed", "invalid_request", "not_found", "conflict", "limit", "mutation_uncertain"]);
@@ -137,6 +138,27 @@ for (const locale of readdirSync("messages").filter(f => f.endsWith(".json"))) {
   }
 }
 const layout = read("app/[locale]/(workspace)/settings/layout.tsx");
-assert.match(layout, /await initialLinkedAccounts/); assert.match(layout, /LinkedAccountsProvider key=\{account\} initial=\{initial\}/);
-assert.doesNotMatch(provider, /localStorage|sessionStorage/);
+assert.match(layout, /await initialLinkedAccounts/);
+const sessionContract = load("lib/tastemail/session-contract.ts");
+let primaryId = id;
+const layoutModule = load("app/[locale]/(workspace)/settings/layout.tsx", {
+  "@/context/linked-accounts-context": { LinkedAccountsProvider: () => null },
+  "@/lib/tastemail/linked-accounts": { initialLinkedAccounts: async () => ({ status: "ready", data: list }) },
+  "@/lib/tastemail/session": { tastemailSessionToken: async () => "synthetic-token" },
+  "@/lib/tastemail/page-session": { livePageSession: async () => ({ status: "ready", session: {
+    username: "same-name@example.test", apiUrl: "/jmap/api", primaryAccounts: { [sessionContract.MAIL_CAPABILITY]: primaryId }, accounts: { [primaryId]: {} },
+  } }) },
+  "@/lib/tastemail/session-contract": sessionContract,
+  "@/components/ui/Dropdown": { SettingsDropdownPolicy: () => null },
+});
+const firstLayout = await layoutModule.default({ children: null, params: Promise.resolve({ locale: "ko" }) });
+const sameLayout = await layoutModule.default({ children: null, params: Promise.resolve({ locale: "en" }) });
+assert.equal(firstLayout.key, sameLayout.key, "same owner must retain pending recovery across locale navigation");
+primaryId = "22222222-2222-4222-8222-222222222222";
+const differentLayout = await layoutModule.default({ children: null, params: Promise.resolve({ locale: "ko" }) });
+assert.notEqual(firstLayout.key, differentLayout.key, "changed primary UUID must remount even when username is reused");
+assert.equal(differentLayout.props.ownerId, primaryId);
+assert.deepEqual(differentLayout.props.initial, { status: "ready", data: list });
+assert.doesNotMatch(provider, /localStorage/);
+assert.match(provider, /readLinkedOperationJournal/);
 console.log("Linked accounts: strict contracts, safe BFF, errors, unknown-write reconciliation, server initialization and ten-locale UI passed (synthetic only).");

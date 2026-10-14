@@ -7,7 +7,7 @@ import { loadAdminInitialState } from "@/lib/tastemail/admin-initial";
 import { tastemailSessionToken } from "@/lib/tastemail/session";
 export default async function AdminSectionPage({ params, searchParams }: { params: Promise<{ section: string }>; searchParams?: Promise<{ domain?: string | string[] }> }) {
   const { section } = await params;
-  if (!isAdminSection(section) || section === "dashboard" || section === "system" || section === "onboarding") notFound();
+  if (!isAdminSection(section) || section === "dashboard" || section === "system" || section === "onboarding" || section === "gmail-oauth") notFound();
   const requested = section === "dkim" ? (await searchParams)?.domain : undefined;
   const initial = await loadAdminInitialState(section, await tastemailSessionToken(), typeof requested === "string" ? requested : undefined);
   if (section === "reports") {

@@ -78,9 +78,10 @@ const source = read("context/linked-accounts-context.tsx"), section = source.sli
 const js = ts.transpileModule(section, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 let snapshot = { status: "ready", data }, busy = false, uncertain = false, error = null, uiResponse = "network", requests = 0;
 const pending = { current: false }, unresolved = { current: null }, generation = { current: 1 };
+const journal = { current: null }, journalFailed = { current: false }, booted = { current: true };
 const failures = ["unauthorized", "forbidden", "rateLimited", "retryable", "unavailable", "not_deployed", "invalid_request", "not_found", "conflict", "limit", "mutation_uncertain", ...auth.LINKED_AUTH_FAILURES];
 function functions() {
-  return new Function("snapshot", "pending", "unresolved", "generation", "setBusy", "setSnapshot", "setUncertain", "setError", "fetch", "requireLinkedAccount", "requireLinkedAccounts", "responseFailure", "failures", "linkedAuthenticationCommand", "linkedAuthBefore", "linkedAuthReceipt", "linkedAuthResolved", `${js}; return {refresh,authenticate,mutate};`)(snapshot, pending, unresolved, generation,
+  return new Function("snapshot", "pending", "unresolved", "generation", "journal", "journalFailed", "booted", "setBusy", "setSnapshot", "setUncertain", "setError", "fetch", "requireLinkedAccount", "requireLinkedAccounts", "responseFailure", "failures", "linkedAuthenticationCommand", "linkedAuthBefore", "linkedAuthReceipt", "linkedAuthResolved", `${js}; return {refresh,authenticate,mutate};`)(snapshot, pending, unresolved, generation, journal, journalFailed, booted,
     v => { busy = v; }, v => { snapshot = typeof v === "function" ? v(snapshot) : v; }, v => { uncertain = v; }, v => { error = v; },
     async () => { requests++; if (uiResponse === "network") throw new Error("network"); return uiResponse; }, accounts.requireLinkedAccount, accounts.requireLinkedAccounts, (_, b) => b.status, failures,
     auth.linkedAuthenticationCommand, auth.linkedAuthBefore, auth.linkedAuthReceipt, auth.linkedAuthResolved);

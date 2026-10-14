@@ -11,7 +11,7 @@ import { serviceStatus, tastemailRequest } from "./server";
 export async function loadAdminInitialState(section: Exclude<AdminSection, "dashboard">, token: string | null, requestedDomain?: string): Promise<AdminInitialState> {
   if (!token) return { section, error: "unauthorized" };
   // 도메인 선택이 필수인 화면은 사용자가 대상 선택 전 조회하지 않는다.
-  if (section === "domain-theme" || section === "system" || section === "onboarding") return { section, error: null };
+  if (section === "domain-theme" || section === "system" || section === "onboarding" || section === "gmail-oauth") return { section, error: null };
   try {
     if (section === "dkim") {
       const response = await tastemailRequest("/api/admin/domains?limit=1000", token);

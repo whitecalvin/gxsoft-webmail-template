@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { createRequire } from "node:module";
 import ts from "typescript";
 const require = createRequire(import.meta.url);
 function load(path, deps = {}) {
   const exports = {}, js = ts.transpileModule(readFileSync(path, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
-  new Function("exports", "require", js)(exports, name => name === "server-only" ? {} : name in deps ? deps[name] : require(name));
+  new Function("exports", "require", js)(exports, name => name === "server-only" ? {} : name in deps ? deps[name] : name.startsWith(".") && existsSync(resolve(dirname(path), `${name}.ts`)) ? load(resolve(dirname(path), `${name}.ts`)) : require(name));
   return exports;
 }
 const accounts = load("lib/linked-accounts.ts"), oauth = load("lib/linked-oauth.ts", { "./linked-accounts": accounts });

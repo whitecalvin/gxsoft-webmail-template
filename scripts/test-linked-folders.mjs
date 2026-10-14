@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { createRequire } from "node:module";
 import ts from "typescript";
 const require = createRequire(import.meta.url), read = p => readFileSync(p, "utf8");
-function load(path, deps = {}) { const exports = {}, js = ts.transpileModule(read(path), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText; new Function("exports", "require", js)(exports, n => n === "server-only" ? {} : n in deps ? deps[n] : require(n)); return exports; }
+function load(path, deps = {}) { const exports = {}, js = ts.transpileModule(read(path), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText; new Function("exports", "require", js)(exports, n => n === "server-only" ? {} : n in deps ? deps[n] : n.startsWith(".") && existsSync(resolve(dirname(path), `${n}.ts`)) ? load(resolve(dirname(path), `${n}.ts`)) : require(n)); return exports; }
 const accounts = load("lib/linked-accounts.ts"), mail = load("lib/linked-mail.ts", { "./linked-accounts": accounts }), folders = load("lib/linked-folders.ts", { "./linked-accounts": accounts, "./linked-mail": mail });
 const id = "11111111-1111-4111-8111-111111111111", before = { id, provider: "gmail", email: "synthetic@gmail.com", revision: 2, credentialGeneration: 1, status: "connected", capabilities: { read: true, sync: true, send: false, mutate: false } };
 const data = { accounts: [before], limit: 10, authenticationAvailable: { gmail: true, naver: true, tastemail: false } };

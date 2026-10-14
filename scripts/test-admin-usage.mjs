@@ -37,5 +37,5 @@ test("ten locales SSR full usage and do not immediately refetch initialized data
     assert.match(denied, /role="alert"/); assert.doesNotMatch(denied, /Synthetic QA|<table/);
   }
   const page = readFileSync(new URL("../app/[locale]/admin/[section]/page.tsx", import.meta.url), "utf8");
-  assert.match(page, /loadAdminInitialState\(section, await tastemailSessionToken\(\)\)/); assert.match(page, /initialUsage=\{initial.management\?\.usage\}/);
+  assert.match(page, /loadAdminInitialState\(section, await tastemailSessionToken\(\), typeof requested === "string" \? requested : undefined\)/); assert.match(page, /initialUsage=\{initial.management\?\.usage\}/);
 });

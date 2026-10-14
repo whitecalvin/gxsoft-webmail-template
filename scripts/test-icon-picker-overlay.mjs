@@ -17,10 +17,11 @@ function render(iconOnly) {
   let refIndex = 0;
   const exports = {};
   new Function("exports", "require", "document", code)(exports, name => {
-    if (name === "react") return { useState: () => [true, value => { closed = value === false; }], useRef: () => ({ current: refs[refIndex++] }), useId: () => "picker", useEffect() {}, useLayoutEffect() {} };
+    if (name === "react") return { createContext: value => value, useContext: value => value, useState: () => [true, value => { closed = value === false; }], useRef: () => ({ current: refs[refIndex++] }), useId: () => "picker", useEffect() {}, useLayoutEffect() {} };
     if (name === "react-dom") return { createPortal: (menu, target) => ({ portal: true, menu, target }) };
     if (name === "./utils") return { cn: (...values) => values.filter(Boolean).join(" ") };
     if (name === "./Dropdown.module.css") return {};
+    if (name === "./Tooltip") return { Tooltip: props => props.children };
     return require(name);
   }, { body: "body" });
   return exports.Dropdown({ value: "folder", options: [{ value: "folder", label: "Folder" }], onChange: value => { changed = value; }, overlay: true, iconOnly });

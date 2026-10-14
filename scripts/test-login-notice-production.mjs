@@ -5,6 +5,10 @@ import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { setTimeout as delay } from "node:timers/promises";
 const browserMode = process.argv.includes("--browser-fixture");
+const buildDir = process.env.GXWEBMAIL_BUILD_DIR ?? ".next-admin-webpack-validation";
+assert.match(buildDir, /^\.next-[a-z0-9-]+$/u, "Use only a project-local isolated build directory");
+const buildId = readFileSync(resolve(buildDir, "BUILD_ID"), "utf8").trim();
+assert.ok(buildId, "An existing successful production build is required");
 assert.ok(!browserMode || process.stdin.isTTY, "Browser fixture requires a terminal with open stdin (tty=true)");
 const listen = server => new Promise(ok => server.listen(0, "127.0.0.1", () => ok(server.address().port)));
 const close = server => new Promise(ok => server.close(ok));
@@ -14,10 +18,10 @@ let app, startup = "";
 try {
   const apiPort = await listen(api);
   const probe = createServer(); const port = await listen(probe); await close(probe);
-  const origin = `http://localhost:${port}`;
-  app = spawn(process.execPath, [resolve("node_modules/next/dist/bin/next"), "start", "-p", String(port)], {
+  const origin = `http://127.0.0.1:${port}`;
+  app = spawn(process.execPath, [resolve("node_modules/next/dist/bin/next"), "start", "-p", String(port), "-H", "127.0.0.1"], {
     stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env, GXWEBMAIL_BUILD_DIR: ".next-admin-turbo-recovery", TASTEMAIL_API_URL: `http://127.0.0.1:${apiPort}` },
+    env: { ...process.env, GXWEBMAIL_BUILD_DIR: buildDir, TASTEMAIL_API_URL: `http://127.0.0.1:${apiPort}` },
   });
   for (const stream of [app.stdout, app.stderr]) stream.on("data", chunk => { startup = (startup + chunk).slice(-1500); });
   let ready = false;
@@ -38,7 +42,7 @@ try {
   }
   const stale = await (await fetch(`${origin}/ko/login`, { headers: { cookie: "gxwebmail_tastemail_session=synthetic-invalid" } })).text();
   assert.ok(stale.includes('<p role="status"'), "upstream 401 also shows notice without query");
-  console.log("Production HTTP: ten translated initial notices, anonymous distinction and invalid-cookie 401 notice passed; isolated loopback upstream only.");
+  console.log(`Production HTTP: ten translated initial notices, anonymous distinction and invalid-cookie 401 notice passed; isolated loopback upstream only (BUILD_ID=${buildId}).`);
   if (browserMode) {
     console.log(`BROWSER_FIXTURE ${origin}/ko/login?reason=session-ended`);
     await new Promise(ok => process.stdin.once("data", ok));

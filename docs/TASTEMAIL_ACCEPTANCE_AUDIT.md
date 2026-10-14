@@ -1,5 +1,7 @@
 # TASTEMAIL 실서버 연동 완료 조건 감사
 
+현재 전체 판정은 [2026-10-13 완료 기준 감사](completion-audit-20261013.md)를 따른다. 새 빌드의 오프라인/HTTP/설정 화면 검수와 이전 작업 GUI·실계정 증거를 분리하며, 운영 배포/DB 적용과 외부·공용 계정 수용은 남아 있다.
+
 최신 마감(2026-10-13): 격리 DB migration0068 포함68개·관련 Debug4/Release4·시험 Clippy 통과와 격리 DB 종료를 산출물로 확인했다. 현재 production 빌드와 저장된 합성 GUI checkpoint가 일치하며 전체 예약·부분 재개·pause·resume·GET 복구 각각1회를 확인했다. 아래 진행 중/횟수 미확인 표현은 이전 단계다. 운영 배포·실제 외부 공급자/worker 수용 및 전체 제품 완료는 입증하지 않는다. [검증 범위와 재사용 한계](linked-job-control-server-request-20261013.md).
 
 ## 2026-10-13 연결 계정 영속 작업 후속

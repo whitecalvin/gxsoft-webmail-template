@@ -6,6 +6,7 @@ import ts from "typescript";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { personalFolderTree } from "../lib/personal-folder-tree.ts";
+import * as visibility from "../lib/mailbox-visibility.ts";
 
 const require = createRequire(import.meta.url);
 const source = readFileSync(new URL("../components/mail/PersonalFolderTree.tsx", import.meta.url), "utf8");
@@ -24,6 +25,7 @@ function render(extra = {}, compact = false, display = { showMailboxCounts: true
     if (name === "@/context/settings-context") return { useSettings: () => ({ saved: { inbox: display } }) };
     if (name === "@/context/mail-context") return { useMail: () => ({ mailboxes: [box], folderChangePending: false, folderChangeUncertain: false }) };
     if (name === "@/lib/personal-folder-tree") return { personalFolderTree };
+    if (name === "@/lib/mailbox-visibility") return visibility;
     if (name === "./PersonalFolderIcon") return { PersonalFolderIcon: () => null, kindKey: (account, id) => `${account}:${id}` };
     if (name === "@/context/mailbox-icon-context") return { useInitialMailboxIcons: () => kind ? ({ [":" + box.id]: kind }) : ({}), useServerMailboxIcons: () => ({ required: false, matched: false }) };
     if (name === "@/context/toast-context") return { useToast: () => ({ success() {}, error() {} }) };

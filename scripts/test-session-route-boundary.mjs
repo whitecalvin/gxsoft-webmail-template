@@ -1,15 +1,19 @@
 // Execute the real route with real NextResponse cookies and synthetic upstreams only.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import ts from "typescript";
 
 const require = createRequire(import.meta.url);
-function load(path, dependencies) {
+function load(path, dependencies = {}) {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
   const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS } }).outputText;
   const compiledModule = { exports: {} };
   new Function("require", "exports", "module", compiled)(name => {
+    if (name.startsWith(".")) {
+      const relative = new URL(`${name}.ts`, new URL(path, import.meta.url));
+      if (!Object.hasOwn(dependencies, name) && existsSync(relative)) return load(relative.href);
+    }
     assert.ok(Object.hasOwn(dependencies, name), `Unexpected import: ${name}`);
     return dependencies[name];
   }, compiledModule.exports, compiledModule);

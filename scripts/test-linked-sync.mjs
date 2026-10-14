@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { createRequire } from "node:module";
 import ts from "typescript";
 const require = createRequire(import.meta.url), read = p => readFileSync(p, "utf8");
-function load(path, deps = {}) { const exports = {}, js = ts.transpileModule(read(path), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText; new Function("exports", "require", js)(exports, n => n === "server-only" ? {} : n in deps ? deps[n] : require(n)); return exports; }
+function load(path, deps = {}) { const exports = {}, js = ts.transpileModule(read(path), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText; new Function("exports", "require", js)(exports, n => n === "server-only" ? {} : n in deps ? deps[n] : n.startsWith(".") && existsSync(resolve(dirname(path), `${n}.ts`)) ? load(resolve(dirname(path), `${n}.ts`)) : require(n)); return exports; }
 const accounts = load("lib/linked-accounts.ts"), mail = load("lib/linked-mail.ts", { "./linked-accounts": accounts });
 const folders = load("lib/linked-folders.ts", { "./linked-accounts": accounts, "./linked-mail": mail });
 const sync = load("lib/linked-sync.ts", { "./linked-folders": folders, "./linked-mail": mail }), auth = load("lib/linked-authentication.ts", { "./linked-accounts": accounts });
@@ -40,21 +41,18 @@ try {
   globalThis.fetch = async (url, init) => { assert.equal(url, `https://synthetic.test/api/user/linked-accounts/${id}/sync`); assert.equal(init.method, "POST"); assert.equal(init.redirect, "error"); assert.equal(init.cache, "no-store"); assert.deepEqual(JSON.parse(init.body), input); return Response.json(receipt); };
   await transport.tastemailLinkedSync(id, "synthetic-token", input); assert.deepEqual(deadlines, [65000]); assert.throws(() => transport.tastemailLinkedSync("bad", "synthetic-token", input));
 } finally { globalThis.fetch = oldFetch; AbortSignal.timeout = oldTimeout; if (oldOrigin === undefined) delete process.env.TASTEMAIL_API_URL; else process.env.TASTEMAIL_API_URL = oldOrigin; }
-// 실제 Provider 함수의 요청 직렬화와 미확정 결과 경계를 실행합니다.
-const source = read("context/linked-accounts-context.tsx"), section = source.slice(source.indexOf("  async function refresh()"), source.indexOf("\n  return <Context.Provider"));
-const js = ts.transpileModule(section, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
-function harness(respond = () => Response.json(expected)) {
-  const state = { snapshot: { status: "ready", data }, busy: false, uncertain: false, error: null, calls: [] }, pending = { current: false }, unresolved = { current: null }, generation = { current: 1 };
-  const deps = { snapshot: state.snapshot, pending, unresolved, generation, setBusy: v => { state.busy = v; }, setError: v => { state.error = v; }, setUncertain: v => { state.uncertain = v; }, setSnapshot: v => { state.snapshot = v; }, fetch: async (...args) => { state.calls.push(args); return respond(); }, failures: ["unauthorized", "forbidden", "conflict", "mutation_uncertain", ...auth.LINKED_AUTH_FAILURES], linkedSyncBefore: sync.linkedSyncBefore, linkedSyncReceipt: sync.linkedSyncReceipt, requireLinkedAccounts: accounts.requireLinkedAccounts, linkedAuthResolved: auth.linkedAuthResolved };
-  return { state, unresolved, generation, ...new Function(...Object.keys(deps), `${js}; return {syncFolder,loadFolders,mutate,refresh};`)(...Object.values(deps)) };
-}
-let h = harness(); assert.deepEqual(await h.syncFolder(id, input.folder), expected); assert.equal(h.state.busy, false); assert.equal(h.state.calls[0][0], `/api/mail/linked-accounts/${id}/sync`); assert.deepEqual(JSON.parse(h.state.calls[0][1].body), input);
-for (const respond of [() => { throw new Error("network"); }, () => Response.json({ ...expected, revision: 3 }), () => Response.json({ status: "conflict" }, { status: 409 })]) {
-  h = harness(respond); assert.equal(await h.syncFolder(id, input.folder), null); assert.equal(h.state.uncertain, true); assert.deepEqual(h.unresolved.current, { kind: "sync", before });
-  await h.syncFolder(id, input.folder); await h.loadFolders(id); await h.mutate({}); assert.equal(h.state.calls.length, 1);
-}
-h = harness(() => Response.json({ status: "conflict", uncertain: false }, { status: 409 })); await h.syncFolder(id, input.folder); assert.equal(h.state.uncertain, false); assert.equal(h.state.error, "conflict");
-let finish; h = harness(() => new Promise(resolve => { finish = resolve; })); const waiting = h.syncFolder(id, input.folder); assert.equal(await h.syncFolder(id, input.folder), null); assert.equal(h.state.calls.length, 1); h.generation.current++; finish(Response.json(expected)); assert.equal(await waiting, null); assert.equal(h.state.error, null);
+// Provider sync now uses durable operations, while legacy BFF/transport checks above remain.
+const source = ts.createSourceFile("provider.tsx", read("context/linked-accounts-context.tsx"), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+let fn;
+function visit(node) { if (ts.isFunctionDeclaration(node) && node.name?.text === "syncFolder") fn = node; ts.forEachChild(node, visit); }
+visit(source); assert.ok(fn);
+const js = ts.transpileModule(fn.getText(source), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
+let operationCalls = 0, operation = { sync: expected };
+const syncFolder = new Function("performOperation", `${js};return syncFolder;`)(async (target, action) => { operationCalls++; assert.equal(target, id); assert.deepEqual(action, { kind: "sync", folder: input.folder }); return operation; });
+assert.deepEqual(await syncFolder(id, input.folder), expected); assert.equal(operationCalls, 1);
+operation = null; assert.equal(await syncFolder(id, input.folder), null);
+operation = { sync: null }; assert.equal(await syncFolder(id, input.folder), null);
+assert.doesNotMatch(fn.getText(source), /fetch\(|\/sync|linkedSyncBefore|linkedSyncReceipt/);
 assert.equal(auth.linkedAuthResolved(data, { kind: "sync", before }), false);
 assert.match(read("app/api/mail/linked-accounts/[id]/sync/route.ts"), /await context.params/);
-console.log("Linked sync: closed batch contract/receipt, fixed 65s transport, safe BFF, scope recheck, known/unknown failures and actual Provider concurrency/generation guards passed (synthetic only).");
+console.log("Linked sync: legacy batch contract/BFF/transport, durable sync delegation and empty-result suppression passed; engine concurrency/generation fencing is covered separately (synthetic only).");

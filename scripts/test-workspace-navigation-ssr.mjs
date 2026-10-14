@@ -69,13 +69,14 @@ new Function("exports", "require", ts.transpileModule(read("components/layout/Wo
   if (name === "@/i18n/navigation") return { usePathname: () => currentPath, useRouter: () => ({}), Link: props => React.createElement("a", props) };
   if (name === "@/context/mail-context") return { useMail: () => ({ activeFolder: selection.folder, activeCustomMailboxId: selection.mailboxId, unreadCounts: Object.fromEntries(FOLDERS.map(item => [item.id, 0])), mailboxes: [], mailboxSummaryStatus: "ready" }) };
   if (name === "@/context/theme-context") return { useTheme: () => ({ draft: { layoutStyle: "classic", sidebarPosition: "left" } }) };
-  if (name === "@/context/settings-context") return { useSettings: () => ({ saved: { inbox: { showMailboxCounts: false, showMailboxStorage: false } } }) };
+  if (name === "@/context/settings-context") return { useSettings: () => ({ saved: { inbox: { showMailboxCounts: false, showMailboxStorage: false, hiddenSystemMailboxes: [] } } }) };
   if (name === "@/context/branding-context") return { useBranding: () => ({ displayName: "Synthetic" }) };
   if (name === "@/context/toast-context") return { useToast: () => ({}) };
   if (name === "@/lib/mail-folders") return { FOLDERS };
   if (name === "@/lib/all-mailbox-storage") return { allMailboxStorage: () => null };
   if (name === "@/lib/tastemail/client-session") return {};
   if (name === "./SidebarMenuGroup") return { SidebarMenuGroup: props => props.children };
+  if (name === "./BrandMark") return { BrandMark: () => null };
   if (name === "@/components/mail/InboxContextMenu") return { InboxContextMenu: props => { renderedMenus.push(props); return props.children; } };
   if (name === "@/components/mail/PersonalFolderTree") return { PersonalFolderTree: props => props.activeId ? React.createElement("button", { "aria-current": "page" }, props.activeId) : null };
   if (name.startsWith("@/components/")) return new Proxy({}, { get: () => () => null });

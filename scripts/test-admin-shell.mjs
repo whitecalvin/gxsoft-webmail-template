@@ -19,7 +19,7 @@ const navigation = compile("lib/admin-navigation.ts", { "./tastemail/admin-manag
 test("every administrator resource has exactly one grouped route", () => {
   const items = navigation.adminMenuGroups.flatMap(group => [...group.items]);
   assert.equal(items.length, new Set(items).size);
-  assert.deepEqual([...items].sort(), ["dashboard", "system", "onboarding", "quarantine", "shared-mailboxes", ...adminResources].sort());
+  assert.deepEqual([...items].sort(), ["dashboard", "system", "onboarding", "gmail-oauth", "quarantine", "shared-mailboxes", ...adminResources].sort());
   for (const section of items) assert.equal(navigation.adminSectionFromPath(navigation.adminSectionHref(section)), section);
   for (const path of ["/admin/unknown", "/admin/users/extra", "/administer", "/mailboxes"]) assert.equal(navigation.adminSectionFromPath(path), null);
 });

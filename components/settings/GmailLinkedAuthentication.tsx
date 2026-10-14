@@ -12,9 +12,11 @@ export function GmailLinkedAuthentication({ account }: { account: LinkedAccount 
   const { snapshot, busy, uncertain, startOAuth } = useLinkedAccounts(), [confirming, setConfirming] = useState(false);
   if (account.provider !== "gmail") return null;
   const supported = snapshot.status === "ready" && snapshot.data.authenticationAvailable !== false && snapshot.data.authenticationAvailable.gmail;
-  const locked = busy || uncertain || !supported || account.status === "connected";
+  const locked = busy || uncertain || !supported;
+  const reconnect = account.status === "connected" || account.status === "reauthRequired";
+  const label = reconnect ? (locale === "ko" ? "Gmail 다시 인증" : "Reconnect Gmail") : t("start");
   return <>
-    <Tooltip content={supported ? t("start") : auth("auth_unavailable")}><span className="inline-flex"><Button size="icon" variant="ghost" disabled={locked} aria-label={`${t("start")}: ${account.email}`} onClick={() => setConfirming(true)}><LogIn size={16} /></Button></span></Tooltip>
+    <div className="min-w-0"><Tooltip content={supported ? label : auth("auth_unavailable")}><span className="inline-flex"><Button size="sm" variant="ghost" disabled={locked} aria-label={`${label}: ${account.email}`} leadingIcon={<LogIn size={16}/>} onClick={() => setConfirming(true)}>{label}</Button></span></Tooltip>{!supported && <p className="max-w-56 text-xs text-(--text-muted)">{locale === "ko" ? "관리자가 Gmail OAuth 설정을 저장·검사한 뒤 목록을 다시 확인하세요." : "Ask an administrator to save/check Gmail OAuth settings, then refresh accounts."}</p>}</div>
     {confirming ? <ConfirmDialog tone="default" title={t("start")} description={t("confirm", { email: account.email })} confirmLabel={t("start")} confirmDisabled={locked} onCancel={() => { if (!busy) setConfirming(false); }} onConfirm={async () => {
       setConfirming(false); await startOAuth(account.id, locale);
     }} /> : null}

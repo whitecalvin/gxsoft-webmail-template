@@ -9,6 +9,10 @@ import ts from 'typescript';
 
 const browserMode = process.argv.includes('--browser-fixture');
 const generalMode = browserMode || process.argv.includes('--general-settings');
+const buildDir = process.env.GXWEBMAIL_BUILD_DIR ?? '.next-admin-webpack-validation';
+assert.match(buildDir, /^\.next-[a-z0-9-]+$/u, 'Use only a project-local isolated build directory');
+const buildId = readFileSync(resolve(buildDir, 'BUILD_ID'), 'utf8').trim();
+assert.ok(buildId, 'An existing successful production build is required');
 function load(file, dependencies = {}) {
   const exports = {};
   const code = ts.transpileModule(readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
@@ -48,6 +52,9 @@ const api = createServer(async (request, response) => {
   const token = request.headers.authorization?.replace(/^Bearer /u, '');
   const account = accounts[token];
   if (!account) { response.writeHead(401); response.end('{}'); return; }
+  if (browserMode && request.url === '/api/auth/session' && request.method === 'DELETE') {
+    response.writeHead(204); response.end(); return;
+  }
   if (generalMode && request.url === '/api/user/general-settings') {
     if (settingsFailure) { response.writeHead(settingsFailure); response.end('{}'); return; }
     const current = settingsSnapshots.get(token);
@@ -76,11 +83,18 @@ const api = createServer(async (request, response) => {
     return;
   }
   if (request.url === '/jmap/api' && request.method === 'POST') {
-    response.end(JSON.stringify({ methodResponses: [
-      ['Mailbox/get', { accountId: account.id, list: [] }, 'mailboxes'],
-      ['Email/query', { accountId: account.id, ids: [], position: 0, total: 0 }, 'all-count'],
-      ['Email/query', { accountId: account.id, ids: [], position: 0, total: 0 }, 'unread-count'],
-    ] }));
+    let raw = ''; for await (const chunk of request) raw += chunk.toString();
+    const input = JSON.parse(raw);
+    const methodResponses = input.methodCalls.map(([name, args, tag]) => {
+      if (args.accountId !== account.id) return ['error', { type: 'accountNotFound' }, tag];
+      if (name === 'Mailbox/get') return [name, { accountId: account.id, list: [{
+        id: `${account.id}-inbox`, name: 'Inbox', role: 'inbox', totalEmails: 0, unreadEmails: 0,
+        'x-tastemail-usedBytes': 0, 'x-tastemail-quotaBytes': 1024 ** 3,
+      }] }, tag];
+      if (name === 'Email/query') return [name, { accountId: account.id, ids: [], position: args.position ?? 0, total: 0 }, tag];
+      return ['error', { type: 'unknownMethod' }, tag];
+    });
+    response.end(JSON.stringify({ methodResponses }));
     return;
   }
   // 설정 API 미배포 상태를 의도적으로 재현한다. 실제 메일/DB에 접근하지 않는다.
@@ -88,16 +102,16 @@ const api = createServer(async (request, response) => {
   response.end('{}');
 });
 const listen = server => new Promise(resolveListen => server.listen(0, '127.0.0.1', () => resolveListen(server.address().port)));
-const close = server => new Promise(resolveClose => server.close(resolveClose));
+const close = server => new Promise(resolveClose => { server.close(resolveClose); server.closeAllConnections(); });
 let app;
 let startup = '', lastStatus = null;
 try {
   const apiPort = await listen(api);
   const temporary = createServer(); const webPort = await listen(temporary); await close(temporary);
   const origin = `http://127.0.0.1:${webPort}`;
-  app = spawn(process.execPath, [resolve('node_modules/next/dist/bin/next'), 'start', '-p', String(webPort)], {
+  app = spawn(process.execPath, [resolve('node_modules/next/dist/bin/next'), 'start', '-p', String(webPort), '-H', '127.0.0.1'], {
     cwd: process.cwd(), stdio: ['ignore', 'pipe', 'pipe'],
-    env: { ...process.env, GXWEBMAIL_BUILD_DIR: '.next-general-settings-webpack', TASTEMAIL_API_URL: `http://127.0.0.1:${apiPort}` },
+    env: { ...process.env, GXWEBMAIL_BUILD_DIR: buildDir, TASTEMAIL_API_URL: `http://127.0.0.1:${apiPort}` },
   });
   app.stdout.on('data', chunk => { startup = (startup + chunk.toString()).slice(-2000); });
   app.stderr.on('data', chunk => { startup = (startup + chunk.toString()).slice(-2000); });
@@ -176,7 +190,7 @@ try {
   }
   const anonymous = await fetch(`${origin}/ko/settings/locale`, { redirect: 'manual' });
   assert.equal(anonymous.status, 307); assert.ok(anonymous.headers.get('location')?.endsWith('/ko/login'));
-  console.log('production SSR: 10 locales, one shared session lookup, initial profile emojis, account isolation and independent API authentication passed using loopback fixtures');
+  console.log(`production SSR: 10 locales, one shared session lookup, initial profile emojis, account isolation and independent API authentication passed using loopback fixtures (BUILD_ID=${buildId})`);
   }
 } finally {
   if (app && app.exitCode === null) {

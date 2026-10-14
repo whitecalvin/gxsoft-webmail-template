@@ -573,6 +573,7 @@
     "next": "下一頁"
   },
   "adminManage": {
+    "gmail-oauth": "Gmail OAuth 設定",
     "invalidQuery": "查詢條件無效。請檢查篩選值及分頁參數。",
     "dkimDomainRequired": "輸入網域並套用篩選條件，即可查看或建立 DKIM 金鑰。",
     "shared-mailboxes": "共用信箱",
@@ -636,7 +637,7 @@
   "linkedAccounts": {"title":"連結帳號","description":"在主要帳號下登記其他郵件帳號，與共用或委派信箱分開管理。","add":"新增帳號","register":"登記","provider":"郵件服務","email":"郵件地址","refresh":"重新檢查清單","count":"{count} / {limit} 個帳號","empty":"尚未登記其他帳號。","notAuthenticated":"目前僅支援地址登記，尚不支援外部驗證與郵件同步。登記的帳號暫時無法讀取或傳送郵件。","disconnect":"解除連結","disconnectConfirm":"解除 {email} 的登記？不會刪除外部帳號中的原始郵件。","tastemail":"TASTEMAIL","naver":"Naver","gmail":"Gmail","pendingAuth":"等待驗證","pendingVerification":"等待驗證確認","reauthRequired":"需要重新驗證","not_deployed":"伺服器尚無連結帳號API，請檢查部署狀態。","invalid_request":"請檢查服務和地址。Gmail僅支援gmail.com與googlemail.com，Naver僅支援naver.com。","not_found":"找不到帳號，請重新檢查清單。","conflict":"地址已登記或資訊已變更，請重新檢查清單。","limit":"最多可登記10個其他帳號。","mutation_uncertain":"無法確認處理結果。請重新檢查清單，不要重複登記或解除連結。"},
   "linkedAccountConnection": {"connected":"已連線","temporaryError":"暫時錯誤","frontendPending":"支援登記帳號及查看伺服器連線狀態。本頁面尚未接入外部認證、同步及郵件檢視功能。無法透過附加帳號寄送或修改郵件。"},
   "linkedGmailAuth": {"start":"授權 Gmail","confirm":"前往 Google 連接 {email}。需要 HTTPS。暫不支援外部帳戶寄信或修改郵件。 Google 要求完整郵件存取權限，包括讀取、寄送及刪除郵件。"},
-  "linkedAccountAuth": {"scope":"伺服器支援時可使用 Naver 和 Gmail 授權。Gmail 需要 HTTPS。郵件同步與閱讀介面仍在開發中。","credentials":"設定Naver應用程式密碼","verify":"驗證連線","hint":"啟用Naver IMAP後，輸入已產生的應用程式密碼，請勿輸入一般登入密碼。","password":"應用程式密碼","saveOnly":"儲存不代表認證成功，請隨後另行驗證連線。密碼不會保留在輸入欄位或瀏覽器儲存空間。","verifyConfirm":"使用已儲存的憑證驗證{email}的Naver IMAP連線？這會向外部服務認證，但不讀取或修改郵件。","invalidPassword":"請檢查應用程式密碼：最多1024位元組，不允許控制字元。","requestFailed":"請求未完成，請查看清單錯誤提示，必要時重新檢查清單。","auth_unavailable":"外部認證無法使用或帳號狀態已變更，請重新檢查清單。","reauth_required":"外部認證遭拒或已過期，請重新設定應用程式密碼。","remote_unavailable":"無法驗證外部郵件連線，請重新檢查清單。","configuration_required":"需要設定伺服器認證、加密或外部連線。","insecure_connection":"Gmail 認證需要 HTTPS。僅可透過 HTTPS 或本機連線提交應用程式密碼。"},
+  "linkedAccountAuth": {"scope":"Naver 和 Gmail 授權取決於伺服器支援。Gmail 授權需要 HTTPS。郵件閱讀與同步依關聯帳戶狀態及伺服器權限提供。","credentials":"設定Naver應用程式密碼","verify":"驗證連線","hint":"啟用Naver IMAP後，輸入已產生的應用程式密碼，請勿輸入一般登入密碼。","password":"應用程式密碼","saveOnly":"儲存不代表認證成功，請隨後另行驗證連線。密碼不會保留在輸入欄位或瀏覽器儲存空間。","verifyConfirm":"使用已儲存的憑證驗證{email}的Naver IMAP連線？這會向外部服務認證，但不讀取或修改郵件。","invalidPassword":"請檢查應用程式密碼：最多1024位元組，不允許控制字元。","requestFailed":"請求未完成，請查看清單錯誤提示，必要時重新檢查清單。","auth_unavailable":"外部認證無法使用或帳號狀態已變更，請重新檢查清單。","reauth_required":"外部認證遭拒或已過期，請重新設定應用程式密碼。","remote_unavailable":"無法驗證外部郵件連線，請重新檢查清單。","configuration_required":"需要設定伺服器認證、加密或外部連線。","insecure_connection":"Gmail 認證需要 HTTPS。僅可透過 HTTPS 或本機連線提交應用程式密碼。"},
   "accountLive": {
     "description": "顯示 TASTEMAIL 帳戶中註冊的寄件者地址。",
     "readOnly": "寄件者地址與別名為唯讀，無法在此修改帳戶資料。",

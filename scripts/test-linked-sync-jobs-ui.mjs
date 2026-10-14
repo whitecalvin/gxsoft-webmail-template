@@ -9,11 +9,11 @@ function load(path, deps = {}) { const exports = {}, source = ts.transpileModule
 const accounts = load("lib/linked-accounts.ts"), mail = load("lib/linked-mail.ts", { "./linked-accounts": accounts }), folders = load("lib/linked-folders.ts", { "./linked-accounts": accounts, "./linked-mail": mail });
 const jobs = load("lib/linked-sync-jobs.ts", { "./linked-accounts": accounts, "./linked-folders": folders });
 const session = load("lib/tastemail/client-session-status.ts"), Button = load("components/ui/Button.tsx", { "./utils": load("components/ui/utils.ts") }).Button;
-const id = "11111111-1111-4111-8111-111111111111", account = { id, revision: 2, credentialGeneration: 1 };
-const receipt = { linkedAccountId: id, revision: 2, credentialGeneration: 1, jobs: [{ folder: "A&-B", label: "A&B", status: "paused", attempts: 2, lastError: "reauthRequired" }] };
+const id = "11111111-1111-4111-8111-111111111111", account = { id, revision: 2, credentialGeneration: 1, capabilities: { sync: true } };
+const receipt = { linkedAccountId: id, revision: 2, credentialGeneration: 1, jobs: [{ folder: "A&-B", label: "A&B", status: "paused", attempts: 2, lastError: "reauthRequired", userPaused: null, controlRevision: null }] };
 for (const patch of [{ linkedAccountId: "22222222-2222-4222-8222-222222222222" }, { revision: 3 }, { credentialGeneration: 2 }, { jobs: [{ ...receipt.jobs[0], label: "wrong" }] }]) assert.throws(() => jobs.linkedSyncJobsReceipt({ ...receipt, ...patch }, account));
 const english = JSON.parse(read("messages/en.json"));
-function view(translations = english, react = React) { return load("components/settings/LinkedSyncJobsPanel.tsx", { react, "next-intl": { useTranslations: namespace => (key, args = {}) => translations[namespace][key]?.replace(/\{(\w+)\}/g, (_, k) => args[k]) }, "@/lib/linked-accounts": accounts, "@/lib/linked-sync-jobs": jobs, "@/lib/tastemail/client-session-status": session, "@/components/ui/Button": { Button } }); }
+function view(translations = english, react = React) { return load("components/settings/LinkedSyncJobsPanel.tsx", { react, "next-intl": { useTranslations: namespace => (key, args = {}) => translations[namespace][key]?.replace(/\{(\w+)\}/g, (_, k) => args[k]) }, "@/lib/linked-accounts": accounts, "@/lib/linked-sync-jobs": jobs, "@/lib/tastemail/client-session-status": session, "@/components/ui/Button": { Button }, "@/components/overlay/ConfirmDialog": { ConfirmDialog: () => null }, "@/context/linked-accounts-context": { useLinkedAccounts: () => ({ busy: false, uncertain: false, controlJob() { throw Error("read-only test must not control a job"); } }) } }); }
 const oldFetch = globalThis.fetch; let respond, calls = [];
 globalThis.fetch = async (...args) => { calls.push(args); return respond(); };
 try {

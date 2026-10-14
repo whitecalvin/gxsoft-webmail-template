@@ -21,7 +21,7 @@ const js = ts.transpileModule(section, { compilerOptions: { target: ts.ScriptTar
 function harness({ initial = data, pageOrigin = origin, response = () => Response.json(receipt), assignThrows = false } = {}) {
   const state = { snapshot: { status: "ready", data: initial }, busy: false, uncertain: false, error: null, calls: [], navigations: [] };
   const pending = { current: false }, unresolved = { current: null }, generation = { current: 1 };
-  const deps = { snapshot: state.snapshot, pending, unresolved, generation,
+  const deps = { snapshot: state.snapshot, pending, unresolved, generation, journal: { current: null }, journalFailed: { current: false }, booted: { current: true },
     setBusy: v => { state.busy = v; }, setSnapshot: v => { state.snapshot = typeof v === "function" ? v(state.snapshot) : v; }, setUncertain: v => { state.uncertain = v; }, setError: v => { state.error = v; },
     fetch: async (...args) => { state.calls.push(args); return response(); }, requireLinkedAccount: accounts.requireLinkedAccount, requireLinkedAccounts: accounts.requireLinkedAccounts, responseFailure: (_, b) => b.status,
     failures: ["unauthorized", "forbidden", "invalid_request", "mutation_uncertain", "conflict", ...auth.LINKED_AUTH_FAILURES],
