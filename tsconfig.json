@@ -82,7 +82,9 @@
     ".next-admin-turbo-recovery/types/**/*.ts",
     ".next-admin-turbo-recovery/dev/types/**/*.ts",
     ".next-gmail-admin-validation/types/**/*.ts",
-    ".next-gmail-admin-validation/dev/types/**/*.ts"
+    ".next-gmail-admin-validation/dev/types/**/*.ts",
+    ".next-upgrade-1642-validation/types/**/*.ts",
+    ".next-upgrade-1642-validation/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
